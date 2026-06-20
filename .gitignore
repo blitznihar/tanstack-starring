@@ -40,6 +40,9 @@ coverage/
 .playwright-mcp/
 playwright-report/
 test-results/
+Staar/
+reports/
+
 
 # local generated exports
 comet-profile-*.json
