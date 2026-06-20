@@ -21,6 +21,7 @@ function ContentBrowser() {
   const genRefill = useServerFn(refillPrompt);
   const doUploadContent = useServerFn(uploadContentJson);
   const doLogout = useServerFn(logout);
+  const canImportContent = !!user?.roles.includes("super_admin");
 
   const [tree, setTree] = useState(initialTree);
   const [open, setOpen] = useState<{ bundleId: string; programKey: string; subject: string; title: string } | null>(null);
@@ -94,10 +95,12 @@ function ContentBrowser() {
               <h2 style={{ fontSize: 17, margin: 0 }}>{program.programTitle}</h2>
               <span style={{ color: "var(--a-faint)", fontWeight: 700, fontSize: 12, textTransform: "uppercase", letterSpacing: 0 }}>{program.category}</span>
               <div style={{ flex: 1 }} />
-              <label style={btn(false)}>
-                {uploading === program.programKey ? "Uploading..." : "Upload content"}
-                <input type="file" accept=".json,application/json" onChange={(e) => uploadForProgram(program.programKey, e.target.files?.[0] ?? null)} style={{ display: "none" }} />
-              </label>
+              {canImportContent && (
+                <label style={btn(false)}>
+                  {uploading === program.programKey ? "Uploading..." : "Upload content"}
+                  <input type="file" accept=".json,application/json" onChange={(e) => uploadForProgram(program.programKey, e.target.files?.[0] ?? null)} style={{ display: "none" }} />
+                </label>
+              )}
             </div>
             {uploadMessage && uploading !== program.programKey && (
               <div style={{ color: uploadMessage.startsWith("Imported") ? "var(--a-good)" : "var(--a-bad)", fontWeight: 800, fontSize: 12.5, marginTop: 8 }}>{uploadMessage}</div>
@@ -116,9 +119,11 @@ function ContentBrowser() {
                       <button onClick={() => openBundle({ bundleId: b.bundleId, programKey: program.programKey, subject: b.subject, title: b.title })} style={btn(true)}>
                         {b.viewLabel}
                       </button>
-                      <button onClick={() => showRefill(program.programKey, b.subject)} style={btn(false)} title="Generate offline authoring prompt for low/exhausted pools">
-                        Refill prompt
-                      </button>
+                      {canImportContent && (
+                        <button onClick={() => showRefill(program.programKey, b.subject)} style={btn(false)} title="Generate offline authoring prompt for low/exhausted pools">
+                          Refill prompt
+                        </button>
+                      )}
                     </div>
                   </div>
                 ))}

@@ -73,4 +73,5 @@ export const COLLECTIONS = {
   schedules: "schedules",
   sessions: "sessions",
   scoringJobs: "scoringJobs",
+  notifications: "notifications",
 } as const;

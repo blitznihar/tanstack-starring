@@ -32,6 +32,8 @@ export async function createUser(actor: AuthContext, rawInput: CreateUserInput):
     username: input.username,
     displayName: input.displayName,
     roles: input.roles,
+    studentIds: input.studentIds,
+    parentIds: input.parentIds,
     passwordHash,
     forceChangeOnFirstLogin: input.forceChangeOnFirstLogin,
     active: true,

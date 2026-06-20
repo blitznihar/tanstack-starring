@@ -28,6 +28,7 @@ export function AdminParentShell({ user, active, children, onLogout }: AdminShel
         { to: "/admin/console", label: "Console", key: "console" },
         { to: "/admin/scheduler", label: "Study Plan", key: "scheduler" },
         { to: "/dashboard", label: "Reports", key: "reports" },
+        { to: "/scoring", label: "Scoring", key: "scoring" },
         { to: "/billing", label: "Billing", key: "billing" },
         { to: "/admin/profile", label: "Profile I/O", key: "profiles" },
       ]

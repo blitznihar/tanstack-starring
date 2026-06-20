@@ -1,6 +1,7 @@
-import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
+import { AdminParentShell } from "~/components/AppShell";
 import { scoringQueue, setWrittenScore } from "~/server/rpc/scoring";
 import { me, logout } from "~/server/rpc/session";
 
@@ -24,7 +25,6 @@ function ScoringQueue() {
   const navigate = useNavigate();
   const doSet = useServerFn(setWrittenScore);
   const doLogout = useServerFn(logout);
-  const isAdmin = !!user?.roles.some((r) => r === "admin" || r === "super_admin");
 
   const [rows, setRows] = useState<Row[]>(initial);
 
@@ -34,25 +34,11 @@ function ScoringQueue() {
   }
 
   return (
-    <div className="a-shell">
-      <header style={{ background: "var(--a-surface)", borderBottom: "1px solid var(--a-border)", padding: "14px 22px", display: "flex", alignItems: "center", gap: 14 }}>
-        <div style={{ width: 30, height: 30, borderRadius: 9, background: "var(--s-primary)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#fff" }} />
-        </div>
-        <strong style={{ fontSize: 16 }}>Comet {isAdmin ? "Console" : "Family"}</strong>
-        <nav style={{ display: "flex", gap: 14, marginLeft: 8, fontWeight: 700, fontSize: 13 }}>
-          {isAdmin && <Link to="/admin/content" style={{ color: "var(--a-muted)" }}>Content</Link>}
-          {isAdmin && <Link to="/admin/rewards" style={{ color: "var(--a-muted)" }}>Rewards</Link>}
-          <Link to="/dashboard" style={{ color: "var(--a-muted)" }}>Reports</Link>
-          <span style={{ color: "var(--a-accent)" }}>Scoring</span>
-          {isAdmin && <Link to="/admin/profile" style={{ color: "var(--a-muted)" }}>Profile I/O</Link>}
-          <Link to="/billing" style={{ color: "var(--a-muted)" }}>Billing</Link>
-        </nav>
-        <div style={{ flex: 1 }} />
-        <span style={{ color: "var(--a-muted)", fontWeight: 600, fontSize: 13 }}>{user?.displayName}</span>
-        <button onClick={async () => { await doLogout({}); navigate({ to: "/" }); }} style={{ border: "1px solid var(--a-border)", background: "#fff", fontWeight: 700, fontSize: 13, padding: "7px 12px", borderRadius: 9, cursor: "pointer" }}>Sign out</button>
-      </header>
-
+    <AdminParentShell
+      user={user}
+      active="scoring"
+      onLogout={async () => { await doLogout({}); navigate({ to: "/" }); }}
+    >
       <main style={{ maxWidth: 880, margin: "0 auto", padding: "28px 22px 60px" }}>
         <h1 style={{ fontSize: 22, margin: "0 0 4px" }}>Written-response scoring</h1>
         <p style={{ color: "var(--a-muted)", fontWeight: 600, marginTop: 0 }}>
@@ -67,7 +53,7 @@ function ScoringQueue() {
           </div>
         )}
       </main>
-    </div>
+    </AdminParentShell>
   );
 }
 

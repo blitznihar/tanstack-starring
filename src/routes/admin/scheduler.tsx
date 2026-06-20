@@ -1,18 +1,63 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
+import { useState } from "react";
 import { AdminParentShell } from "~/components/AppShell";
-import { managedPlans } from "~/server/rpc/schedule";
+import { managedPlans, planMarkDay } from "~/server/rpc/schedule";
 import { me, logout } from "~/server/rpc/session";
 
 export const Route = createFileRoute("/admin/scheduler")({
-  loader: async () => ({ user: await me(), schedules: await managedPlans() }),
+  loader: async () => {
+    const user = await me();
+    const isStaff = !!user?.roles.some((r) => r === "admin" || r === "super_admin");
+    return { user, schedules: await managedPlans({ data: { autoSelect: !isStaff } }) };
+  },
   component: SchedulerPage,
 });
 
+type Schedules = Awaited<ReturnType<typeof managedPlans>>;
+type ManagedPlan = Schedules["plans"][number];
+
 function SchedulerPage() {
-  const { user, schedules } = Route.useLoaderData();
+  const { user, schedules: initialSchedules } = Route.useLoaderData();
   const navigate = useNavigate();
   const doLogout = useServerFn(logout);
+  const loadPlans = useServerFn(managedPlans);
+  const markDay = useServerFn(planMarkDay);
+  const [schedules, setSchedules] = useState<Schedules>(initialSchedules);
+  const [query, setQuery] = useState("");
+  const [busy, setBusy] = useState<string | null>(null);
+
+  const filteredStudents = schedules.students.filter((student) => {
+    const q = query.trim().toLowerCase();
+    if (!q) return true;
+    return student.displayName.toLowerCase().includes(q) || student.username.toLowerCase().includes(q);
+  });
+
+  async function selectStudent(studentId: string) {
+    setBusy(`student:${studentId}`);
+    try {
+      setSchedules(await loadPlans({ data: { studentId, autoSelect: true } }));
+    } finally {
+      setBusy(null);
+    }
+  }
+
+  async function setFlexDay(plan: ManagedPlan, index: number, status: "off" | "sick") {
+    setBusy(`${plan.enrollmentId}:${index}:${status}`);
+    try {
+      const updated = await markDay({ data: { enrollmentId: plan.enrollmentId, programKey: plan.programKey, programTitle: plan.programTitle, index, status } });
+      setSchedules((current) => ({
+        ...current,
+        plans: current.plans.map((item) =>
+          item.enrollmentId === plan.enrollmentId
+            ? { ...item, ...updated, studentId: item.studentId, studentName: item.studentName }
+            : item,
+        ),
+      }));
+    } finally {
+      setBusy(null);
+    }
+  }
 
   return (
     <AdminParentShell
@@ -35,8 +80,31 @@ function SchedulerPage() {
           </div>
         </div>
 
+        <section className="a-card" style={{ padding: 18, marginBottom: 16 }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 14, flexWrap: "wrap", marginBottom: 12 }}>
+            <div>
+              <h2 style={{ fontSize: 16, margin: "0 0 2px" }}>Students</h2>
+              <p style={{ color: "var(--a-muted)", fontWeight: 700, fontSize: 12.5, margin: 0 }}>{schedules.students.length} associated student{schedules.students.length === 1 ? "" : "s"}</p>
+            </div>
+            <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search student" style={selectorInput} />
+          </div>
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            {filteredStudents.map((student) => {
+              const active = schedules.selectedStudentId === student.id;
+              return (
+                <button key={student.id} onClick={() => selectStudent(student.id)} disabled={busy === `student:${student.id}`} style={studentButton(active)}>
+                  <span style={{ display: "block", fontWeight: 900 }}>{student.displayName}</span>
+                  <span style={{ display: "block", color: active ? "var(--a-accent)" : "var(--a-muted)", fontWeight: 800, fontSize: 11.5 }}>{busy === `student:${student.id}` ? "Loading..." : active ? "Selected" : `@${student.username}`}</span>
+                </button>
+              );
+            })}
+          </div>
+        </section>
+
         {schedules.plans.length === 0 ? (
-          <section className="a-card" style={{ padding: 28, color: "var(--a-faint)", fontWeight: 700 }}>No active schedules yet.</section>
+          <section className="a-card" style={{ padding: 28, color: "var(--a-faint)", fontWeight: 700 }}>
+            {schedules.students.length === 0 ? "No active schedules yet." : "Select a student to load their study plan."}
+          </section>
         ) : (
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(340px,1fr))", gap: 16 }}>
             {schedules.plans.map((plan) => (
@@ -60,6 +128,12 @@ function SchedulerPage() {
                       <div key={day.index} title={`${day.date} - ${day.title}`} style={dayBox(tone)}>
                         <span style={{ fontWeight: 900, fontSize: 11 }}>{day.index}</span>
                         <span style={{ fontWeight: 800, fontSize: 9 }}>{day.tag}</span>
+                        {day.status === "scheduled" && (
+                          <span style={{ display: "flex", gap: 3, marginTop: 3 }}>
+                            <button onClick={() => setFlexDay(plan, day.index, "off")} disabled={!!busy} style={miniActionButton}>Off</button>
+                            <button onClick={() => setFlexDay(plan, day.index, "sick")} disabled={!!busy} style={miniActionButton}>Sick</button>
+                          </span>
+                        )}
                       </div>
                     );
                   })}
@@ -90,7 +164,7 @@ function dayBox(tone: "done" | "exam" | "soft" | "todo"): React.CSSProperties {
     todo: { bg: "#F1F4F8", color: "var(--a-muted)" },
   }[tone];
   return {
-    minHeight: 48,
+    minHeight: 66,
     borderRadius: 10,
     background: palette.bg,
     color: palette.color,
@@ -101,3 +175,38 @@ function dayBox(tone: "done" | "exam" | "soft" | "todo"): React.CSSProperties {
     gap: 2,
   };
 }
+
+const selectorInput: React.CSSProperties = {
+  width: "min(100%, 280px)",
+  border: "1px solid var(--a-border)",
+  borderRadius: 10,
+  padding: "9px 11px",
+  fontFamily: "inherit",
+  fontWeight: 700,
+  outline: "none",
+};
+
+function studentButton(active: boolean): React.CSSProperties {
+  return {
+    border: active ? "1px solid var(--a-accent)" : "1px solid var(--a-border)",
+    background: active ? "var(--a-accent-soft)" : "#fff",
+    color: "var(--a-ink)",
+    borderRadius: 10,
+    padding: "9px 12px",
+    minWidth: 150,
+    textAlign: "left",
+    cursor: "pointer",
+    fontFamily: "inherit",
+  };
+}
+
+const miniActionButton: React.CSSProperties = {
+  border: "1px solid rgba(0,0,0,.08)",
+  background: "#fff",
+  color: "var(--a-muted)",
+  borderRadius: 5,
+  padding: "2px 4px",
+  fontSize: 8.5,
+  fontWeight: 900,
+  cursor: "pointer",
+};

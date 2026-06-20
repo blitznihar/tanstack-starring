@@ -66,7 +66,7 @@ export const figureSchema = z.object({
 });
 export type Figure = z.infer<typeof figureSchema>;
 
-/** Roles — one account may hold several. */
+/** Roles — accounts are managed as single-role profiles. */
 export const roleSchema = z.enum(["super_admin", "admin", "parent", "student"]);
 export type Role = z.infer<typeof roleSchema>;
 

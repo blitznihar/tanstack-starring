@@ -1,6 +1,6 @@
 /**
  * Create a user from the CLI; prints the generated password ONCE.
- * Run: `bun run scripts/create-user.ts <username> <displayName> <role[,role...]>`
+ * Run: `bun run scripts/create-user.ts <username> <displayName> <role>`
  */
 import { createUser } from "~/server/auth/users.js";
 import { closeDb } from "~/repositories/db.js";
@@ -9,11 +9,15 @@ import type { AuthContext } from "~/server/auth/session.js";
 
 const [username, displayName, rolesArg] = process.argv.slice(2);
 if (!username || !displayName || !rolesArg) {
-  console.error("Usage: bun run scripts/create-user.ts <username> <displayName> <role[,role...]>");
+  console.error("Usage: bun run scripts/create-user.ts <username> <displayName> <role>");
   process.exit(1);
 }
 
 const roles = rolesArg.split(",").map((r) => roleSchema.parse(r.trim())) as Role[];
+if (roles.length !== 1) {
+  console.error("Create failed: user profiles must have exactly one role.");
+  process.exit(1);
+}
 
 const actor: AuthContext = {
   userId: "cli",
@@ -23,7 +27,7 @@ const actor: AuthContext = {
   forceChangeOnFirstLogin: false,
 };
 
-createUser(actor, { username, displayName, roles, forceChangeOnFirstLogin: true })
+createUser(actor, { username, displayName, roles, studentIds: [], parentIds: [], forceChangeOnFirstLogin: true })
   .then((r) => {
     console.log(`Created ${r.user.username} (${r.user.roles.join(", ")})`);
     console.log(`Password (shown once): ${r.generatedPassword}`);

@@ -48,12 +48,21 @@ async function main() {
       username: u.username,
       displayName: u.displayName,
       roles: [...u.roles],
+      studentIds: [],
+      parentIds: [],
       passwordHash: await hashPassword(password),
       forceChangeOnFirstLogin: true,
       active: true,
     });
     created[u.username] = { id: doc._id!, password };
     console.log(`  • ${u.username.padEnd(12)} ${password}`);
+  }
+
+  if (created.maya?.id && created.parent?.id) {
+    await usersRepo.update(created.parent.id, { studentIds: [created.maya.id], parentIds: [] });
+  }
+  if (created.parent?.id && created.admin?.id) {
+    await usersRepo.update(created.admin.id, { parentIds: [created.parent.id], studentIds: [] });
   }
 
   console.log("\nEnrolling Maya (grade3_staar @ 45 days, sat @ 60 days)…");

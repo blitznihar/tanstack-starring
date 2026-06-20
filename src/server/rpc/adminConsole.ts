@@ -11,6 +11,19 @@ import { requireCapability } from "~/server/auth/rbac.js";
 import { listContentByProgram } from "~/server/content/browser.js";
 import { importBundle, type ImportResult } from "~/server/content/import.js";
 import { createUser, resetPassword } from "~/server/auth/users.js";
+import {
+  allowedConsoleRoles,
+  assertCanSeeStudent,
+  canManageUser,
+  isAdmin,
+  isSuperAdmin,
+  publicUserOption,
+  roleFor,
+  userId,
+  visibleParentsFor,
+  visibleStudentsFor,
+  visibleUsersFor,
+} from "~/server/users/associations.js";
 import type { AuthContext } from "~/server/auth/session.js";
 import { requireAuth } from "./context.js";
 
@@ -125,11 +138,101 @@ function normalizeProgramUpload(raw: unknown): { program: Program; bundles: unkn
   return { program, bundles };
 }
 
+function uniqueIds(ids: string[] | undefined): string[] {
+  return [...new Set((ids ?? []).map(String).map((id) => id.trim()).filter(Boolean))];
+}
+
+function assertRoleAllowed(auth: AuthContext, role: z.infer<typeof roleSchema>): void {
+  if (!allowedConsoleRoles(auth).includes(role)) {
+    throw new Error(`This account cannot create or assign the ${role.replace(/_/g, " ")} role.`);
+  }
+}
+
+function assertIdsVisible(ids: string[], visibleIds: Set<string>, label: string): void {
+  const missing = ids.filter((id) => !visibleIds.has(id));
+  if (missing.length) throw new Error(`One or more selected ${label} are not associated with this account.`);
+}
+
+async function normalizeAssociations(
+  auth: AuthContext,
+  role: z.infer<typeof roleSchema>,
+  input: { studentIds?: string[]; parentIds?: string[]; adminIds?: string[] },
+): Promise<{ studentIds: string[]; parentIds: string[]; adminIds: string[]; linkParentIds: string[] }> {
+  const [visibleStudents, visibleParents] = await Promise.all([visibleStudentsFor(auth), visibleParentsFor(auth)]);
+  const visibleStudentIds = new Set(visibleStudents.map(userId));
+  const visibleParentIds = new Set(visibleParents.map(userId));
+  const studentIds = uniqueIds(input.studentIds);
+  const parentIds = uniqueIds(input.parentIds);
+  const adminIds = uniqueIds(input.adminIds);
+
+  if (role === "parent") {
+    if (studentIds.length === 0 && visibleStudents.length > 0) throw new Error("A parent must be associated with at least one student.");
+    assertIdsVisible(studentIds, visibleStudentIds, "students");
+    return { studentIds, parentIds: [], adminIds, linkParentIds: [] };
+  }
+
+  if (role === "admin") {
+    assertIdsVisible(parentIds, visibleParentIds, "parents");
+    return { studentIds: [], parentIds, adminIds: [], linkParentIds: [] };
+  }
+
+  if (role === "student") {
+    if (parentIds.length === 0 && visibleParents.length > 0) throw new Error("A student must be associated with at least one parent.");
+    assertIdsVisible(parentIds, visibleParentIds, "parents");
+    return { studentIds: [], parentIds: [], adminIds: [], linkParentIds: parentIds };
+  }
+
+  return { studentIds: [], parentIds: [], adminIds: [], linkParentIds: [] };
+}
+
+async function linkStudentToParents(studentId: string, parentIds: string[]): Promise<void> {
+  await Promise.all(
+    parentIds.map(async (parentId) => {
+      const parent = await usersRepo.findById(parentId);
+      if (!parent) return;
+      await usersRepo.update(parentId, { studentIds: [...new Set([...(parent.studentIds ?? []), studentId])] });
+    }),
+  );
+}
+
+async function linkParentToAdmin(adminId: string, parentId: string): Promise<void> {
+  const admin = await usersRepo.findById(adminId);
+  if (!admin) return;
+  await usersRepo.update(adminId, { parentIds: [...new Set([...(admin.parentIds ?? []), parentId])] });
+}
+
+async function setParentAdmins(parentId: string, adminIds: string[]): Promise<void> {
+  const users = await usersRepo.list();
+  const admins = users.filter((user) => user.roles.includes("admin") && user._id);
+  const selected = new Set(adminIds);
+  const validAdminIds = new Set(admins.map(userId));
+  assertIdsVisible(adminIds, validAdminIds, "admins");
+  await Promise.all(
+    admins.map(async (admin) => {
+      const adminId = userId(admin);
+      const current = new Set(admin.parentIds ?? []);
+      const shouldHave = selected.has(adminId);
+      if (shouldHave) current.add(parentId);
+      else current.delete(parentId);
+      await usersRepo.update(adminId, { parentIds: [...current] });
+    }),
+  );
+}
+
+async function linkStudentToAdmin(adminId: string, studentId: string): Promise<void> {
+  const admin = await usersRepo.findById(adminId);
+  if (!admin) return;
+  await usersRepo.update(adminId, { studentIds: [...new Set([...(admin.studentIds ?? []), studentId])] });
+}
+
 async function buildConsoleSnapshot(auth: AuthContext) {
   requireCapability(auth.roles, "reports.viewAll");
 
-  const [users, programs, content] = await Promise.all([
-    usersRepo.list(),
+  const allUsers = await usersRepo.list();
+  const [users, visibleStudents, visibleParents, programs, content] = await Promise.all([
+    visibleUsersFor(auth, allUsers),
+    visibleStudentsFor(auth, allUsers),
+    visibleParentsFor(auth, allUsers),
     programsRepo.list(),
     listContentByProgram(auth),
   ]);
@@ -150,18 +253,54 @@ async function buildConsoleSnapshot(auth: AuthContext) {
   }
 
   const contentByProgram = new Map(content.map((c) => [c.programKey, c]));
+  const adminOptions = allUsers.filter((user) => user.active && user.roles.includes("admin")).map(publicUserOption);
+  const adminIdsByParent = new Map<string, string[]>();
+  for (const admin of allUsers.filter((user) => user.roles.includes("admin"))) {
+    const adminId = userId(admin);
+    for (const parentId of admin.parentIds ?? []) {
+      adminIdsByParent.set(parentId, [...(adminIdsByParent.get(parentId) ?? []), adminId]);
+    }
+  }
+  const parentIdsByStudent = new Map<string, string[]>();
+  for (const parent of allUsers.filter((user) => user.roles.includes("parent"))) {
+    const parentId = userId(parent);
+    for (const studentId of parent.studentIds ?? []) {
+      parentIdsByStudent.set(studentId, [...(parentIdsByStudent.get(studentId) ?? []), parentId]);
+    }
+  }
 
   return {
-    users: users.map((u) => {
+    viewer: {
+      userId: auth.userId,
+      roles: auth.roles,
+      isAdmin: isAdmin(auth),
+      isSuperAdmin: isSuperAdmin(auth),
+      allowedRoles: allowedConsoleRoles(auth),
+      canManagePrograms: isSuperAdmin(auth),
+      canManageContent: isSuperAdmin(auth),
+    },
+    associationOptions: {
+      students: visibleStudents.map(publicUserOption),
+      parents: visibleParents.map(publicUserOption),
+      admins: isSuperAdmin(auth) ? adminOptions : [],
+    },
+    users: await Promise.all(users.map(async (u) => {
       const id = u._id ? String(u._id) : u.username;
+      const manageable = await canManageUser(auth, u);
       return {
         id,
         username: u.username,
         displayName: u.displayName,
         roles: u.roles,
+        primaryRole: roleFor(u.roles),
+        studentIds: u.studentIds ?? [],
+        parentIds: u.roles.includes("student") ? parentIdsByStudent.get(id) ?? [] : u.parentIds ?? [],
+        adminIds: u.roles.includes("parent") ? adminIdsByParent.get(id) ?? [] : [],
         active: u.active,
         forceChangeOnFirstLogin: u.forceChangeOnFirstLogin,
         createdAt: toIso(u.createdAt),
+        canManage: manageable,
+        canDelete: manageable && auth.userId !== id,
         enrollments: (enrollmentsByStudent.get(id) ?? []).map((e) => ({
           id: e._id ? String(e._id) : `${id}:${e.programKey}`,
           programKey: e.programKey,
@@ -170,7 +309,7 @@ async function buildConsoleSnapshot(auth: AuthContext) {
           targetDays: e.targetDays,
         })),
       };
-    }),
+    })),
     programs: programs.map((p) => {
       const programContent = contentByProgram.get(p.key);
       const bundles = programContent?.bundles ?? [];
@@ -199,11 +338,14 @@ async function snapshotForCurrentUser() {
 
 export const consoleSnapshot = createServerFn({ method: "GET" }).handler(snapshotForCurrentUser);
 
-const userRolesInput = z.array(roleSchema).min(1);
+const userRolesInput = z.array(roleSchema).length(1);
 const createConsoleUserInput = z.object({
   username: z.string().min(3).max(64),
   displayName: z.string().min(1),
   roles: userRolesInput,
+  studentIds: z.array(z.string()).default([]),
+  parentIds: z.array(z.string()).default([]),
+  adminIds: z.array(z.string()).default([]),
   forceChangeOnFirstLogin: z.boolean().default(true),
 });
 
@@ -211,7 +353,24 @@ export const createConsoleUser = createServerFn({ method: "POST" })
   .validator((d: unknown) => createConsoleUserInput.parse(d))
   .handler(async ({ data }) => {
     const auth = await requireAuth();
-    const created = await createUser(auth, data);
+    const role = data.roles[0]!;
+    assertRoleAllowed(auth, role);
+    const associations = await normalizeAssociations(auth, role, data);
+    const created = await createUser(auth, {
+      username: data.username.trim(),
+      displayName: data.displayName.trim(),
+      roles: [role],
+      studentIds: associations.studentIds,
+      parentIds: associations.parentIds,
+      forceChangeOnFirstLogin: data.forceChangeOnFirstLogin,
+    });
+    const createdId = created.user._id ? String(created.user._id) : created.user.username;
+    if (role === "student") {
+      await linkStudentToParents(createdId, associations.linkParentIds);
+      if (isAdmin(auth) && !isSuperAdmin(auth) && associations.linkParentIds.length === 0) await linkStudentToAdmin(auth.userId, createdId);
+    }
+    if (role === "parent" && isAdmin(auth) && !isSuperAdmin(auth)) await linkParentToAdmin(auth.userId, createdId);
+    if (role === "parent" && isSuperAdmin(auth)) await setParentAdmins(createdId, associations.adminIds);
     return { snapshot: await buildConsoleSnapshot(auth), generatedPassword: created.generatedPassword };
   });
 
@@ -220,6 +379,9 @@ const updateConsoleUserInput = z.object({
   username: z.string().min(3).max(64),
   displayName: z.string().min(1),
   roles: userRolesInput,
+  studentIds: z.array(z.string()).default([]),
+  parentIds: z.array(z.string()).default([]),
+  adminIds: z.array(z.string()).default([]),
   active: z.boolean(),
   forceChangeOnFirstLogin: z.boolean().optional(),
 });
@@ -231,6 +393,10 @@ export const updateConsoleUser = createServerFn({ method: "POST" })
     requireCapability(auth.roles, "users.manage");
     const existing = await usersRepo.findById(data.id);
     if (!existing) throw new Error("User not found");
+    if (!(await canManageUser(auth, existing))) throw new Error("Forbidden: user is not associated with this account.");
+    const role = data.roles[0]!;
+    assertRoleAllowed(auth, role);
+    const associations = await normalizeAssociations(auth, role, data);
     const matchingUsername = await usersRepo.findByUsername(data.username);
     if (matchingUsername?._id && String(matchingUsername._id) !== data.id) {
       throw new Error(`Username already exists: ${data.username}`);
@@ -238,10 +404,18 @@ export const updateConsoleUser = createServerFn({ method: "POST" })
     await usersRepo.update(data.id, {
       username: data.username.trim(),
       displayName: data.displayName.trim(),
-      roles: data.roles,
+      roles: [role],
+      studentIds: associations.studentIds,
+      parentIds: associations.parentIds,
       active: auth.userId === data.id ? true : data.active,
       ...(data.forceChangeOnFirstLogin == null ? {} : { forceChangeOnFirstLogin: data.forceChangeOnFirstLogin }),
     });
+    if (role === "student") {
+      await linkStudentToParents(data.id, associations.linkParentIds);
+      if (isAdmin(auth) && !isSuperAdmin(auth) && associations.linkParentIds.length === 0) await linkStudentToAdmin(auth.userId, data.id);
+    }
+    if (role === "parent" && isAdmin(auth) && !isSuperAdmin(auth)) await linkParentToAdmin(auth.userId, data.id);
+    if (role === "parent" && isSuperAdmin(auth)) await setParentAdmins(data.id, associations.adminIds);
     return buildConsoleSnapshot(auth);
   });
 
@@ -251,6 +425,9 @@ export const deleteConsoleUser = createServerFn({ method: "POST" })
     const auth = await requireAuth();
     requireCapability(auth.roles, "users.manage");
     if (auth.userId === data.id) throw new Error("You cannot remove the signed-in user.");
+    const existing = await usersRepo.findById(data.id);
+    if (!existing) throw new Error("User not found");
+    if (!(await canManageUser(auth, existing))) throw new Error("Forbidden: user is not associated with this account.");
     await usersRepo.delete(data.id);
     return buildConsoleSnapshot(auth);
   });
@@ -259,6 +436,10 @@ export const resetConsoleUserPassword = createServerFn({ method: "POST" })
   .validator((d: unknown) => z.object({ id: z.string().min(1) }).parse(d))
   .handler(async ({ data }) => {
     const auth = await requireAuth();
+    requireCapability(auth.roles, "users.manage");
+    const existing = await usersRepo.findById(data.id);
+    if (!existing) throw new Error("User not found");
+    if (!(await canManageUser(auth, existing))) throw new Error("Forbidden: user is not associated with this account.");
     const generatedPassword = await resetPassword(auth, data.id, true);
     return { snapshot: await buildConsoleSnapshot(auth), generatedPassword };
   });
@@ -342,6 +523,7 @@ export const setStudentProgram = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const auth = await requireAuth();
     requireCapability(auth.roles, "reports.viewAll");
+    await assertCanSeeStudent(auth, data.studentId);
     const program = await programsRepo.findByKey(data.programKey);
     if (!program) throw new Error(`Unknown program: ${data.programKey}`);
     const existing = await enrollmentsRepo.find(data.studentId, data.programKey);

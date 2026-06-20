@@ -22,8 +22,11 @@ describe("RBAC capabilities", () => {
     expect(can(["super_admin"], "users.manage")).toBe(true);
   });
   it("admin can configure rewards and robux rules but not pricing", () => {
+    expect(can(["admin"], "users.manage")).toBe(true);
     expect(can(["admin"], "rewards.configure")).toBe(true);
     expect(can(["admin"], "robuxRules.configure")).toBe(true);
+    expect(can(["admin"], "content.import")).toBe(false);
+    expect(can(["admin"], "content.browse")).toBe(true);
     expect(can(["admin"], "pricing.manage")).toBe(false);
   });
   it("parent is read-only oversight + payments", () => {

@@ -55,7 +55,7 @@ type Billing = Awaited<ReturnType<typeof billingOverview>>;
 type Preview = Awaited<ReturnType<typeof previewImportFn>>;
 type ProgramStatus = Snapshot["programs"][number]["status"];
 type ProgramPromptDraft = { programTitle: string; category?: string; subjects: string[]; targetDays: number; itemsPerSubject?: number };
-type UserDraft = { username: string; displayName: string; roles: Role[]; forceChangeOnFirstLogin: boolean };
+type UserDraft = { username: string; displayName: string; roles: Role[]; studentIds: string[]; parentIds: string[]; adminIds: string[]; forceChangeOnFirstLogin: boolean };
 type UserUpdateDraft = UserDraft & { id: string; active: boolean };
 type ProgramUploadResult = { programKey: string; programTitle: string; bundleCount: number; itemCount: number };
 
@@ -260,22 +260,39 @@ function UsersTab({
   onSetStudentProgram: (studentId: string, programKey: string, active: boolean) => Promise<void>;
 }) {
   const students = snapshot.users.filter((u) => u.roles.includes("student"));
-  const [draft, setDraft] = useState<UserDraft>({ username: "", displayName: "", roles: ["student"], forceChangeOnFirstLogin: true });
+  const defaultRole = snapshot.viewer.allowedRoles.includes("student") ? "student" : snapshot.viewer.allowedRoles[0] ?? "student";
+  const [draft, setDraft] = useState<UserDraft>({
+    username: "",
+    displayName: "",
+    roles: [defaultRole],
+    studentIds: [],
+    parentIds: [],
+    adminIds: [],
+    forceChangeOnFirstLogin: true,
+  });
   const [editing, setEditing] = useState<UserUpdateDraft | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [busy, setBusy] = useState<string | null>(null);
 
-  function withRole(current: Role[], role: Role, enabled: boolean): Role[] {
-    const next = enabled ? [...new Set([...current, role])] : current.filter((item) => item !== role);
-    return next.length ? next : current;
+  function resetDraft() {
+    setDraft({ username: "", displayName: "", roles: [defaultRole], studentIds: [], parentIds: [], adminIds: [], forceChangeOnFirstLogin: true });
+  }
+
+  function selectDraftRole(role: Role) {
+    setDraft({ ...draft, roles: [role], studentIds: [], parentIds: [], adminIds: [] });
+  }
+
+  function selectEditingRole(role: Role) {
+    if (!editing) return;
+    setEditing({ ...editing, roles: [role], studentIds: [], parentIds: [], adminIds: [] });
   }
 
   async function create() {
-    if (!draft.username.trim() || !draft.displayName.trim()) return;
+    if (!draft.username.trim() || !draft.displayName.trim() || !userDraftValid(snapshot, draft)) return;
     setBusy("create");
     try {
       const password = await onCreateUser(draft);
-      setDraft({ username: "", displayName: "", roles: ["student"], forceChangeOnFirstLogin: true });
+      resetDraft();
       setMessage(`Created ${draft.displayName}. Temporary password: ${password}`);
     } catch (e) {
       setMessage(e instanceof Error ? e.message : String(e));
@@ -285,7 +302,7 @@ function UsersTab({
   }
 
   async function saveEdit() {
-    if (!editing) return;
+    if (!editing || !userDraftValid(snapshot, editing)) return;
     setBusy(editing.id);
     try {
       await onUpdateUser(editing);
@@ -301,7 +318,17 @@ function UsersTab({
   async function updateActive(user: Snapshot["users"][number], active: boolean) {
     setBusy(user.id);
     try {
-      await onUpdateUser({ id: user.id, username: user.username, displayName: user.displayName, roles: user.roles, active, forceChangeOnFirstLogin: user.forceChangeOnFirstLogin });
+      await onUpdateUser({
+        id: user.id,
+        username: user.username,
+        displayName: user.displayName,
+        roles: user.roles,
+        studentIds: user.studentIds,
+        parentIds: user.parentIds,
+        adminIds: user.adminIds,
+        active,
+        forceChangeOnFirstLogin: user.forceChangeOnFirstLogin,
+      });
       setMessage(`${user.displayName} is ${active ? "enabled" : "disabled"}.`);
     } catch (e) {
       setMessage(e instanceof Error ? e.message : String(e));
@@ -338,7 +365,7 @@ function UsersTab({
   return (
     <div style={{ display: "grid", gap: 16 }}>
       <section className="a-card" style={{ padding: 20 }}>
-        <SectionTitle title="Add user" note="Create a profile for any role. Password is generated once." />
+        <SectionTitle title="Add user" note="Create one role per profile. Password is generated once." />
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(170px,1fr))", gap: 10 }}>
           <input value={draft.displayName} onChange={(e) => setDraft({ ...draft, displayName: e.target.value })} placeholder="Display name" style={inputStyle} />
           <input value={draft.username} onChange={(e) => setDraft({ ...draft, username: e.target.value })} placeholder="Username" style={inputStyle} />
@@ -347,8 +374,9 @@ function UsersTab({
             Require password change
           </label>
         </div>
-        <RolePicker roles={draft.roles} onChange={(role, enabled) => setDraft({ ...draft, roles: withRole(draft.roles, role, enabled) })} />
-        <button onClick={create} disabled={busy === "create" || !draft.username.trim() || !draft.displayName.trim()} style={primaryButton}>{busy === "create" ? "Creating..." : "Add user"}</button>
+        <RolePicker roles={draft.roles} allowedRoles={snapshot.viewer.allowedRoles} onChange={selectDraftRole} />
+        <UserAssociationFields snapshot={snapshot} draft={draft} onChange={(patch) => setDraft({ ...draft, ...patch })} />
+        <button onClick={create} disabled={busy === "create" || !draft.username.trim() || !draft.displayName.trim() || !userDraftValid(snapshot, draft)} style={primaryButton}>{busy === "create" ? "Creating..." : "Add user"}</button>
         {message && <div style={{ marginTop: 12, color: message.includes("Temporary password") || message.startsWith("Saved") || message.startsWith("Created") || message.startsWith("Removed") ? "var(--a-good)" : "var(--a-bad)", fontWeight: 900, fontSize: 13 }}>{message}</div>}
       </section>
 
@@ -361,13 +389,24 @@ function UsersTab({
                 <span style={{ display: "block", fontWeight: 900 }}>{u.displayName}</span>
                 <span style={{ display: "block", color: "var(--a-muted)", fontWeight: 700, fontSize: 12 }}>@{u.username}</span>
               </span>
-              <span style={{ color: "var(--a-muted)" }}>{u.roles.join(", ")}</span>
+              <span style={{ color: "var(--a-muted)" }}>
+                {u.roles.join(", ")}
+                {u.studentIds.length > 0 ? ` · ${u.studentIds.length} student${u.studentIds.length === 1 ? "" : "s"}` : ""}
+                {u.parentIds.length > 0 ? ` · ${u.parentIds.length} parent${u.parentIds.length === 1 ? "" : "s"}` : ""}
+                {u.adminIds.length > 0 ? ` · ${u.adminIds.length} admin${u.adminIds.length === 1 ? "" : "s"}` : u.roles.includes("parent") ? " · Super Admin" : ""}
+              </span>
               <span className="pill" style={{ width: "fit-content", background: u.active ? "var(--a-good-soft)" : "var(--a-bad-soft)", color: u.active ? "var(--a-good)" : "var(--a-bad)" }}>{u.active ? "Active" : "Inactive"}</span>
               <span style={{ display: "flex", gap: 6, flexWrap: "wrap", justifyContent: "flex-end" }}>
-                <button onClick={() => setEditing({ id: u.id, username: u.username, displayName: u.displayName, roles: u.roles, active: u.active, forceChangeOnFirstLogin: u.forceChangeOnFirstLogin })} style={tinyButton}>Edit</button>
-                <button onClick={() => updateActive(u, !u.active)} disabled={busy === u.id} style={tinyButton}>{u.active ? "Disable" : "Enable"}</button>
-                <button onClick={() => resetPasswordFor(u)} disabled={busy === `reset:${u.id}`} style={tinyButton}>Reset</button>
-                <button onClick={() => remove(u)} disabled={busy === `delete:${u.id}`} style={{ ...tinyButton, color: "var(--a-bad)" }}>Remove</button>
+                {u.canManage ? (
+                  <>
+                    <button onClick={() => setEditing({ id: u.id, username: u.username, displayName: u.displayName, roles: u.roles, studentIds: u.studentIds, parentIds: u.parentIds, adminIds: u.adminIds, active: u.active, forceChangeOnFirstLogin: u.forceChangeOnFirstLogin })} style={tinyButton}>Edit</button>
+                    <button onClick={() => updateActive(u, !u.active)} disabled={busy === u.id} style={tinyButton}>{u.active ? "Disable" : "Enable"}</button>
+                    <button onClick={() => resetPasswordFor(u)} disabled={busy === `reset:${u.id}`} style={tinyButton}>Reset</button>
+                    {u.canDelete && <button onClick={() => remove(u)} disabled={busy === `delete:${u.id}`} style={{ ...tinyButton, color: "var(--a-bad)" }}>Remove</button>}
+                  </>
+                ) : (
+                  <span style={{ color: "var(--a-faint)", fontWeight: 900, fontSize: 12 }}>View only</span>
+                )}
               </span>
             </div>
           ))}
@@ -404,7 +443,8 @@ function UsersTab({
             <input value={editing.displayName} onChange={(e) => setEditing({ ...editing, displayName: e.target.value })} style={inputStyle} />
             <input value={editing.username} onChange={(e) => setEditing({ ...editing, username: e.target.value })} style={inputStyle} />
           </div>
-          <RolePicker roles={editing.roles} onChange={(role, enabled) => setEditing({ ...editing, roles: withRole(editing.roles, role, enabled) })} />
+          <RolePicker roles={editing.roles} allowedRoles={snapshot.viewer.allowedRoles} onChange={selectEditingRole} />
+          <UserAssociationFields snapshot={snapshot} draft={editing} onChange={(patch) => setEditing({ ...editing, ...patch })} />
           <label style={checkLabel}>
             <input type="checkbox" checked={editing.active} onChange={(e) => setEditing({ ...editing, active: e.target.checked })} />
             Active
@@ -413,22 +453,132 @@ function UsersTab({
             <input type="checkbox" checked={editing.forceChangeOnFirstLogin} onChange={(e) => setEditing({ ...editing, forceChangeOnFirstLogin: e.target.checked })} />
             Require password change
           </label>
-          <button onClick={saveEdit} disabled={busy === editing.id || !editing.username.trim() || !editing.displayName.trim()} style={primaryButton}>{busy === editing.id ? "Saving..." : "Save user"}</button>
+          <button onClick={saveEdit} disabled={busy === editing.id || !editing.username.trim() || !editing.displayName.trim() || !userDraftValid(snapshot, editing)} style={primaryButton}>{busy === editing.id ? "Saving..." : "Save user"}</button>
         </Modal>
       )}
     </div>
   );
 }
 
-function RolePicker({ roles, onChange }: { roles: Role[]; onChange: (role: Role, enabled: boolean) => void }) {
+function roleFromDraft(draft: Pick<UserDraft, "roles">): Role {
+  return draft.roles[0] ?? "student";
+}
+
+function userDraftValid(snapshot: Snapshot, draft: Pick<UserDraft, "roles" | "studentIds" | "parentIds" | "adminIds">): boolean {
+  const role = roleFromDraft(draft);
+  if (role === "parent") return snapshot.associationOptions.students.length === 0 || draft.studentIds.length > 0;
+  if (role === "student") return snapshot.associationOptions.parents.length === 0 || draft.parentIds.length > 0;
+  return true;
+}
+
+function RolePicker({ roles, allowedRoles, onChange }: { roles: Role[]; allowedRoles: Role[]; onChange: (role: Role) => void }) {
+  const allowed = new Set(allowedRoles);
   return (
     <div style={{ display: "flex", gap: 8, flexWrap: "wrap", margin: "2px 0 12px" }}>
-      {ROLE_CHOICES.map((role) => (
+      {ROLE_CHOICES.filter((role) => allowed.has(role.key)).map((role) => (
         <label key={role.key} style={{ ...checkLabel, margin: 0, background: roles.includes(role.key) ? "var(--a-accent-soft)" : "#fff", borderColor: roles.includes(role.key) ? "var(--a-accent)" : "var(--a-border)" }}>
-          <input type="checkbox" checked={roles.includes(role.key)} onChange={(e) => onChange(role.key, e.target.checked)} />
+          <input type="radio" name="console-role" checked={roles.includes(role.key)} onChange={() => onChange(role.key)} />
           {role.label}
         </label>
       ))}
+    </div>
+  );
+}
+
+function UserAssociationFields({
+  snapshot,
+  draft,
+  onChange,
+}: {
+  snapshot: Snapshot;
+  draft: Pick<UserDraft, "roles" | "studentIds" | "parentIds" | "adminIds">;
+  onChange: (patch: Pick<UserDraft, "studentIds" | "parentIds" | "adminIds">) => void;
+}) {
+  const role = roleFromDraft(draft);
+  if (role === "parent") {
+    return (
+      <>
+        <AssociationPicker
+          title="Associated students"
+          note={snapshot.associationOptions.students.length === 0 ? "No students exist yet; link one after creating it." : "A parent must be linked to at least one student."}
+          options={snapshot.associationOptions.students}
+          selected={draft.studentIds}
+          onToggle={(studentIds) => onChange({ studentIds, parentIds: [], adminIds: draft.adminIds })}
+        />
+        {snapshot.viewer.isSuperAdmin && (
+          <AssociationPicker
+            title="Assigned admin"
+            note="Optional: choose the admin responsible for this parent. With none selected, Super Admin owns the parent."
+            options={snapshot.associationOptions.admins}
+            selected={draft.adminIds}
+            onToggle={(adminIds) => onChange({ studentIds: draft.studentIds, parentIds: [], adminIds })}
+          />
+        )}
+      </>
+    );
+  }
+  if (role === "admin") {
+    return (
+      <AssociationPicker
+        title="Associated parents"
+        note="Optional: assign existing parents now, or assign this admin from a parent later."
+        options={snapshot.associationOptions.parents}
+        selected={draft.parentIds}
+        onToggle={(parentIds) => onChange({ studentIds: [], parentIds, adminIds: [] })}
+      />
+    );
+  }
+  if (role === "student" && snapshot.associationOptions.parents.length > 0) {
+    return (
+      <AssociationPicker
+        title="Parent association"
+        note="Optional: link this student to an existing parent."
+        options={snapshot.associationOptions.parents}
+        selected={draft.parentIds}
+        onToggle={(parentIds) => onChange({ studentIds: [], parentIds, adminIds: [] })}
+      />
+    );
+  }
+  return null;
+}
+
+function AssociationPicker({
+  title,
+  note,
+  options,
+  selected,
+  onToggle,
+}: {
+  title: string;
+  note: string;
+  options: { id: string; displayName: string; username: string }[];
+  selected: string[];
+  onToggle: (ids: string[]) => void;
+}) {
+  const selectedSet = new Set(selected);
+  return (
+    <div style={{ margin: "0 0 12px" }}>
+      <div style={{ fontWeight: 900, fontSize: 12.5, color: "var(--a-muted)", marginBottom: 3 }}>{title}</div>
+      <div style={{ color: "var(--a-faint)", fontWeight: 700, fontSize: 11.5, marginBottom: 8 }}>{note}</div>
+      {options.length === 0 ? (
+        <EmptyNote>No matching profiles are available.</EmptyNote>
+      ) : (
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+          {options.map((option) => {
+            const active = selectedSet.has(option.id);
+            return (
+              <label key={option.id} style={{ ...checkLabel, margin: 0, background: active ? "var(--a-accent-soft)" : "#fff", borderColor: active ? "var(--a-accent)" : "var(--a-border)" }}>
+                <input
+                  type="checkbox"
+                  checked={active}
+                  onChange={() => onToggle(active ? selected.filter((id) => id !== option.id) : [...selected, option.id])}
+                />
+                {option.displayName}
+              </label>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }
@@ -446,6 +596,7 @@ function ProgramsTab({
   onUploadProgram: (json: string) => Promise<ProgramUploadResult>;
   onSetStatus: (programKey: string, status: ProgramStatus) => Promise<void>;
 }) {
+  const canManagePrograms = snapshot.viewer.canManagePrograms;
   const [draft, setDraft] = useState({ title: "", key: "", category: "K-12", subjects: "math", targetDays: 45 });
   const [itemsPerSubject, setItemsPerSubject] = useState(30);
   const [busy, setBusy] = useState(false);
@@ -499,25 +650,31 @@ function ProgramsTab({
 
   return (
     <div style={{ display: "grid", gap: 16 }}>
-      <section className="a-card" style={{ padding: 20 }}>
-        <SectionTitle title="Add program" note="Creates a new setup-status program with a default exam blueprint." />
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(150px,1fr))", gap: 10 }}>
-          <input value={draft.title} onChange={(e) => setDraft({ ...draft, title: e.target.value })} placeholder="Program title" style={inputStyle} />
-          <input value={draft.key} onChange={(e) => setDraft({ ...draft, key: e.target.value })} placeholder="Optional key" style={inputStyle} />
-          <input value={draft.subjects} onChange={(e) => setDraft({ ...draft, subjects: e.target.value })} placeholder="Subjects, comma separated" style={inputStyle} />
-          <input type="number" value={draft.targetDays} onChange={(e) => setDraft({ ...draft, targetDays: Number(e.target.value) })} style={inputStyle} />
-          <input type="number" value={itemsPerSubject} onChange={(e) => setItemsPerSubject(Number(e.target.value))} style={inputStyle} title="Items per subject" />
-        </div>
-        <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-          <button onClick={add} disabled={busy || !draft.title.trim()} style={primaryButton}>{busy ? "Adding..." : "Add program"}</button>
-          <button onClick={generate} disabled={generating || !draft.title.trim()} style={secondaryButton}>{generating ? "Generating..." : "Generate program"}</button>
-          <label style={{ ...secondaryButton, display: "inline-flex", alignItems: "center" }}>
-            Upload program
-            <input type="file" accept=".json,application/json" onChange={(e) => upload(e.target.files?.[0] ?? null)} style={{ display: "none" }} />
-          </label>
-        </div>
-        {uploadMessage && <div style={{ marginTop: 10, color: uploadMessage.startsWith("Uploaded") ? "var(--a-good)" : "var(--a-bad)", fontWeight: 900, fontSize: 13 }}>{uploadMessage}</div>}
-      </section>
+      {canManagePrograms ? (
+        <section className="a-card" style={{ padding: 20 }}>
+          <SectionTitle title="Add program" note="Creates a new setup-status program with a default exam blueprint." />
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(150px,1fr))", gap: 10 }}>
+            <input value={draft.title} onChange={(e) => setDraft({ ...draft, title: e.target.value })} placeholder="Program title" style={inputStyle} />
+            <input value={draft.key} onChange={(e) => setDraft({ ...draft, key: e.target.value })} placeholder="Optional key" style={inputStyle} />
+            <input value={draft.subjects} onChange={(e) => setDraft({ ...draft, subjects: e.target.value })} placeholder="Subjects, comma separated" style={inputStyle} />
+            <input type="number" value={draft.targetDays} onChange={(e) => setDraft({ ...draft, targetDays: Number(e.target.value) })} style={inputStyle} />
+            <input type="number" value={itemsPerSubject} onChange={(e) => setItemsPerSubject(Number(e.target.value))} style={inputStyle} title="Items per subject" />
+          </div>
+          <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+            <button onClick={add} disabled={busy || !draft.title.trim()} style={primaryButton}>{busy ? "Adding..." : "Add program"}</button>
+            <button onClick={generate} disabled={generating || !draft.title.trim()} style={secondaryButton}>{generating ? "Generating..." : "Generate program"}</button>
+            <label style={{ ...secondaryButton, display: "inline-flex", alignItems: "center" }}>
+              Upload program
+              <input type="file" accept=".json,application/json" onChange={(e) => upload(e.target.files?.[0] ?? null)} style={{ display: "none" }} />
+            </label>
+          </div>
+          {uploadMessage && <div style={{ marginTop: 10, color: uploadMessage.startsWith("Uploaded") ? "var(--a-good)" : "var(--a-bad)", fontWeight: 900, fontSize: 13 }}>{uploadMessage}</div>}
+        </section>
+      ) : (
+        <section className="a-card" style={{ padding: 18 }}>
+          <SectionTitle title="Programs" note="Admin accounts can view programs and statuses. Program changes are reserved for Super Admin." />
+        </section>
+      )}
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: 14 }}>
         {snapshot.programs.map((p) => (
@@ -532,12 +689,14 @@ function ProgramsTab({
               <Mini label="Bundles" value={p.bundleCount} />
               <Mini label="Items" value={p.itemCount} />
             </div>
-            <div style={{ display: "flex", gap: 8 }}>
-              <button onClick={() => onSetStatus(p.key, p.status === "archived" ? "live" : "archived")} style={p.status === "archived" ? primaryButton : secondaryButton}>
-                {p.status === "archived" ? "Restore program" : "Remove program"}
-              </button>
-              {p.status !== "live" && p.status !== "archived" && <button onClick={() => onSetStatus(p.key, "live")} style={secondaryButton}>Set live</button>}
-            </div>
+            {canManagePrograms && (
+              <div style={{ display: "flex", gap: 8 }}>
+                <button onClick={() => onSetStatus(p.key, p.status === "archived" ? "live" : "archived")} style={p.status === "archived" ? primaryButton : secondaryButton}>
+                  {p.status === "archived" ? "Restore program" : "Remove program"}
+                </button>
+                {p.status !== "live" && p.status !== "archived" && <button onClick={() => onSetStatus(p.key, "live")} style={secondaryButton}>Set live</button>}
+              </div>
+            )}
           </section>
         ))}
       </div>

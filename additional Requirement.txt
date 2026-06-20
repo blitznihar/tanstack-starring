@@ -1,0 +1,171 @@
+1. this Starts with Grade 3 but not only for Grade 3 it might be for all grades. It starts from Grade 3 
+2. Apart from "import bundle" in "Admin console" Super admin should be able to view what are the 48 items within Grade 3 Math. 
+3. Ability to Add exams, more example problems for specific topics not have to repeat the same problem more than once. It should let super admin know if the problem are exhausted for a specific type or chapters so super admin can upload fresh set of problem to solve
+4. For Students Practice it should let the student practice and not just show what is the right answer but explain why the answer is wrong and why the answer is right
+5. There should be atleast 30 Problem to practice 
+6. Post Exam also it should provide the feedback for the wrong answers and right way to solve it
+7. Super admin Should have ability to increase and reduce the time and number of practice questions per concept
+8. There should be negative robux for the wrong answer in exam
+
+
+1. Pool(s) exhausted and 2 running low is good. There should be a button to collectively give me list of what all pools needed and what type of problem in form of.a prompt that I can just copy and paste to generate the required problem in expected format
+2. There should be just one upload button instead of having it for individual items
+3. the exams should be progressive: after first topic is over it should generate exam for only first topic. but once the second topic is over it should have problems to solve from previously finished topics
+4. Each Exam should have 50% of time and problem on Staar Exam for Math  and 50% time and problems of Staar exam for RLA for 3rd Grade. There should be a break of 5 mins in between Math and RLA
+5. Exam should be configurable from 
+a. Time: 30min, 40, 50, 60, 70, 70, 90, all the way to 3 hours
+b. % Split of Math  and RLA and should be able to do pure Math or Pure RLA exam
+c. Should have ability to schedule out of cycle Exams
+6. Scheduler should have ability to select Off day and Sick Day and Adjust the Schedule accordingly by increasing the work for next day up to 25% and increase the days only if increasing the work isnt helping fit the schedule
+
+Should have ability to add more Grades, or should be able to add other contents like SAT, GRE, or any XYZ exams as needed and should be able to have seperate schedule for the same student for example Grade 3 complete syllabus in 45 days and also add SAT prep for 60 days
+
+1. Same way Exams are program and student specific
+2. Model Score Should be also over all and program specific
+3. Redemptions should be configurable: I might promise Meta quest if you finish 3rd Grade Program in 45 days, or a Laptop if you finish GRE in 60 days for a specific student but promise something different for some other program. Also it might be  a vacation to Chicago if a student reaches 20 streak or 30 days streak for a specific program. Sick days should not be counted as a streak
+4. Both Admin and Super Admin Should be able to configure Redemptions
+5. Student should be able to do next day work today itself or as many days work on a single day for any program.
+
+
+1. Apart from Add Program it should have Generate prompt for New Problem Button which should be able to generate the prompt required to generate a new program
+2. Super admin must be able to decide the price and subscription models 
+3. Admin should be able to subscribe and make payments
+4. Parents should be able to make payments using credit card
+5. Super admin should be able to decide how many days and what programs can be used during demo period including unlimited
+The prototype is more towards STAAR Math. Also add STAAR RLA and SAT to get the actual feel
+1. SAT in content is missing in Super Admin Console is missing 
+2. I see "View 48 items" for "Grade 3 Math" but not for "
+Grade 3 Reading / Language Arts" or "
+Grade 3 Spanish Math (beta)"
+
+1. "Grade 3" and "SAT" are programs so "SAT" should not be under "Grade 3" in "content" section under "super admin" login
+2. I still see only 3 things to finish today in "Student" login which only has Math. it should have minimum 1 Math Lesson and Practice, 1 English Lesson and Practice
+3. I dont see any Practice Questions and Exam mins for "Grade 3 Reading / Language Arts" Add few examples to get the feel
+
+add all types of RLA questions in this prototype not just the objective type but also other variants
+
+
+Attached are the types of questions: 
+- Select TWO correct answers.
+- Select only ONE correct answer. 
+- record your answer in the box provided.
+- Drop Down types 
+Any other type
+
+
+1. I got the feedback that during practice question solving after solving each problem the robux doesnt increase 
+2. For each session "Ready for the real thing? Pick a full test in the exam tester." it should show how many robux the student will earn
+3. It should show redeem 1000 Roblux robux at 1000 Robux also as option
+4. Student Login Doesnt Show Reward rules
+5. Super Admin Should be able to rules for Robux apart from Reward Rules
+Now I'll implement. First add the Robux earning rules and tracking to state:
+
+Task 3 — add the 1,000-Robux redemption option:
+
+Task 1 — award Robux on each correct practice answer. Update the onCheck handler and add an earned indicator:
+
+Now wire exam scoring to the configurable rules. Update submitExam:
+
+Task 2 — show Robux earnable on each exam picker. Update examPickers:
+
+Now update the picker template to show the Robux line:
+
+Now task 4 — show reward rules in the student view. Let me look at the wallet screen:
+
+I'll add a "Big goals & rewards" panel to the wallet. Insert it after the earn-history grid:
+
+Now add the studentRewardGoals render value. Let me find the student data section:
+
+Now task 5 — Super Admin configurable Robux earning rules. Let me view the Redemptions tab:
+
+Add a Robux earning rules config card at the top of the Redemptions tab:
+
+Let me verify everything. Reload and test the practice Robux award first.
+
+Task 1 works — Robux went 640 → 650 with "+10 Robux" feedback. Let me scroll to the exam picker to check task 2:
+
+Task 2 works. Now check tasks 3 & 4 — wallet reward goals + 1000-Robux redemption:
+
+Task 4 works. Now the redeem modal (task 3):
+
+Task 3 works — "Roblox: 1,000 Robux · 1000 Robux" option present. Now task 5 — Super Admin Robux earning rules:
+
+All five work. Let me grab a screenshot of the new earning-rules card to confirm layout, then finalize.
+
+All five items are implemented and verified. Let me finalize.
+
+✓
+Practice: award robux on each correct answer
+✓
+Exam picker: show robux earnable per test
+✓
+Add 1000-robux redemption option
+✓
+Student view: show reward rules
+✓
+Super Admin: configurable Robux earning rules
+All five fixed and verified:
+
+Practice now awards Robux — each correct answer adds Robux instantly (wallet updates 640→650) with a "+10 Robux" badge in the feedback. No double-awarding on re-check.
+Exam picker shows earnings — each test card shows "Earn up to N Robux" (Math 140, Reading 180, SAT 160), computed from item count × the earning rule.
+1,000-Robux redemption — added "Roblox: 1,000 Robux" as a 1,000-cost redeem option.
+Student sees reward rules — new "🎯 Big goals & rewards" panel on the wallet shows each promised prize with its goal and progress bar.
+Super Admin Robux rules — new "Robux earning rules" card in Redemptions with steppers for per-correct-practice, per-correct-exam, wrong-answer penalty, and per-lesson — and these values now drive all earning across the app.
+Edited STAAR Practice Platform.dc.html
+pasted-1781847008834-0.png
+Got Few Errors during Staar RLA 
+
+also in addition
+Pasted text (1 lines)
+The error is a real crash. Let me fix it first — textCharLabel/textVal call .trim() on the current answer even when it's an array (multiselect) or object (multipart), not a string.
+
+Crash fixed. Now let me add the STAAR Math visuals and question types from your notes (bar graph, griddable number-entry, hot-spot, drag-and-drop). First, the bar-graph and griddable templates. Let me insert after the array figure:
+
+Now add the render logic for bar graph + griddable. Let me view the figArray render area:
+
+Now wire scoring, labels, and answer-text for the griddable type:
+
+Now add the new STAAR Math items (bar graph, griddable, hot-spot, drag-and-drop). Let me view the current math set tail:
+
+Update the Math skills breakdown and picker description:
+
+Now let me verify — reload, run the Math exam, and check the new types render plus no crash on RLA multiselect.
+
+Bar graph renders. Now the griddable (Q9):
+
+Griddable with number pad renders. Let me test typing into it (enter 92) and confirm the boxes fill:
+
+Griddable works. Now confirm the RLA crash is fixed — launch Reading and step through the multiselect/multipart questions:
+
+Navigation got stuck in the math exam (no Exit button there). Let me reload fresh and go straight to the Reading exam to confirm the fix.
+
+Now Reading (9 items). Let me step through all questions including multiselect (Q7) and multipart, then check for the crash:
+
+The crash is fixed (stepped through all 9 Reading items including multiselect and multipart with no error — only the benign placeholder warning remains). The new Math types all render.
+
+Done. Two things addressed:
+
+Fixed the crash ((ans || "").trim is not a function) — the written-response word counter was calling .trim() on every question's answer, which broke on multiselect (array) and two-part (object) answers. It now safely coerces to a string. Verified by stepping through all 9 Reading items with no error.
+
+Added the full STAAR Math question-type range from your notes — the Math test is now 11 items covering all five formats plus graph visuals:
+
+Multiple choice & multiselect (already present)
+Bar graph / data — a rendered bar chart ("Favorite Sport") with a read-the-graph question
+Griddable / equation editor — answer boxes with a tap number pad ("…Record your answer")
+Hot spot — click a point on a number line
+Drag-and-drop — order fractions least to greatest
+Each shows its STAAR-style instruction label and is scored correctly (the griddable checks the typed number). The Math picker now reads "11 items · bar graph, griddable entry, hot-spot & drag-and-drop."
+
+
+1. I got the feedback that during practice question solving after solving each problem the robux doesnt increase 
+2. For each session "Ready for the real thing? Pick a full test in the exam tester." it should show how many robux the student will earn
+3. It should show redeem 1000 Roblux robux at 1000 Robux also as option
+4. Student Login Doesnt Show Reward rules
+5. Super Admin Should be able to rules for Robux apart from Reward Rules
+
+Does it show graphs and visual elements?Yes, heavily. Third graders are expected to read and interpret data using multiple visual formats. Common visuals on the test include:Bar Graphs & Pictographs: Counting and comparing items (e.g., favorite sports or drinks ordered).Dot Plots & Number Lines: Identifying fractions, measuring lengths, or tracking frequencies.Geometric Shapes: Grids showing the perimeter and area of rectangles or composite shapes.Base-10 Blocks / Fraction Strips: Shaded visual grids representing place value or equivalent fractions.📑 The 5 Question Types on STAAR MathUnder the testing framework, approximately 75% of the math test consists of multiple-choice questions, while the remaining 25% uses interactive online question styles.1. Multiple Choice (Single Choice)The classic format. The student reads a problem and clicks one correct answer out of four options (A, B, C, or D).Example: "A farmer sold 15 small pumpkins. The number of large pumpkins sold is represented by \(3 \times 15\). Which statement is true?"2. Multiselect (Multiple Choice with more than one answer)The student must choose two or three correct answers from a checkbox list. The question explicitly states how many answers to choose.Example: "Nia drew a group of shapes on a grid. Which two shapes are included in Nia's group? Select TWO correct answers."3. Equation Editor / Text Entry (Griddable)Instead of picking from options, a small calculator-style number pad pops up on the screen. The student must type the final numeric answer directly into boxes.Example: "Pat buys 4 bags of party favors. She puts 23 stickers in each bag. How many stickers does Pat need to buy altogether? Record your answer in the space provided."4. Hot SpotA graph, a map, or a set of shapes appears on the screen. The question asks the student to click directly on a specific part of the graphic (like clicking on a specific point on a number line or selecting the correct shape from a diagram).5. Drag-and-Drop / Inline ChoiceStudents use their mouse or touch screen to move numbers, symbols, or labels into blank spaces inside an equation or a table. Alternatively, they may click a drop-down menu inside a math sentence to choose the correct greater than (\(>\)), less than (\(<\)), or equal to (\(=\)) sign.🧰 Digital Tools on the Math TestWhen taking the math portion online, students will have access to unique digital tools directly on their testing screen:Digital Ruler: A movable ruler tool to measure items displayed on the screen.Graph Paper Overlay: A grid tool they can turn on to help them align figures or sketch out work.Scratchpad: A digital drawing tool allowing them to write out mathematical steps with a mouse or stylus.Would you like me to show you a mock visual problem (like an area grid or fraction number line) so your child can practice reading it, or would you like a list of core math formulas they need to know for 3rd grade?
+
+
+Would like to use local mongodb on docker until the design is fully functional then migrate to MongoDB Atlas 
+Will start to host the API(BUN) and UI(React) in local docker desktop
+Also the UI can be electron based so that it can run on MacOS desktop application with API running on the docker desktop within home network

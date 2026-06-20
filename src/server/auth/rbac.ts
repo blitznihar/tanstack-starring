@@ -2,15 +2,15 @@ import type { Role } from "~/schemas/common.js";
 
 /**
  * Capability-based RBAC (§3). Capabilities are enforced server-side in every
- * server function. One account may hold multiple roles; a capability is granted
- * if ANY held role grants it.
+ * server function. Accounts are single-role in normal use; the array shape is
+ * retained for older data and migration safety.
  */
 export type Capability =
   // super_admin only
   | "pricing.manage"
   | "demo.configure"
-  | "users.manage"
   // admin + super_admin
+  | "users.manage"
   | "content.import"
   | "content.browse"
   | "exam.build"
@@ -51,7 +51,7 @@ const ROLE_CAPS: Record<Role, Capability[]> = {
     "reports.viewAll",
   ],
   admin: [
-    "content.import",
+    "users.manage",
     "content.browse",
     "exam.build",
     "concept.configure",

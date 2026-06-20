@@ -38,7 +38,10 @@ export const usersRepo = {
     return doc;
   },
 
-  async update(id: string, patch: Partial<Pick<User, "username" | "displayName" | "roles" | "active" | "forceChangeOnFirstLogin">>): Promise<void> {
+  async update(
+    id: string,
+    patch: Partial<Pick<User, "username" | "displayName" | "roles" | "studentIds" | "parentIds" | "active" | "forceChangeOnFirstLogin">>,
+  ): Promise<void> {
     await (await col()).updateOne({ _id: id }, { $set: { ...patch, updatedAt: new Date() } });
   },
 

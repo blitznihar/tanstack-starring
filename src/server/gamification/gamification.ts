@@ -14,6 +14,8 @@ import { toIso } from "~/lib/dates.js";
 import { masterySummary } from "~/server/mastery/mastery.js";
 import { getOrCreateSchedule } from "~/server/scheduler/scheduler.js";
 import { requireCapability } from "~/server/auth/rbac.js";
+import { queueStudentAndParentEmails } from "~/server/notifications/email.js";
+import { visibleStudentsFor, userId } from "~/server/users/associations.js";
 import type { AuthContext } from "~/server/auth/session.js";
 
 function assertOwner(actor: AuthContext, enrollment: { studentId: string } | null): void {
@@ -55,7 +57,7 @@ export async function walletView(actor: AuthContext, enrollmentId: string) {
 export async function requestRedemption(actor: AuthContext, enrollmentId: string, item: string, amount: number) {
   const enrollment = await enrollmentsRepo.findById(enrollmentId);
   assertOwner(actor, enrollment);
-  return redemptionsRepo.insert({
+  const redemption = await redemptionsRepo.insert({
     enrollmentId,
     item,
     amountRequested: amount,
@@ -63,6 +65,12 @@ export async function requestRedemption(actor: AuthContext, enrollmentId: string
     status: "requested",
     history: [{ at: new Date(), action: "requested", amount, by: actor.userId }],
   });
+  await queueStudentAndParentEmails(enrollment!.studentId, {
+    kind: "redemption_requested",
+    subject: "Redemption request received",
+    body: `We received the request for ${item}. The admin team is reviewing it and will cash the Robux into the account once approved.`,
+  });
+  return redemption;
 }
 
 export async function approveRedemption(actor: AuthContext, id: string) {
@@ -70,6 +78,14 @@ export async function approveRedemption(actor: AuthContext, id: string) {
   const r = await redemptionsRepo.findById(id);
   if (!r) throw new Error("Redemption not found");
   await redemptionsRepo.update(id, { status: "approved", history: [...r.history, { at: new Date(), action: "approved", by: actor.userId }] });
+  const enrollment = await enrollmentsRepo.findById(r.enrollmentId);
+  if (enrollment) {
+    await queueStudentAndParentEmails(enrollment.studentId, {
+      kind: "redemption_approved",
+      subject: "Redemption approved",
+      body: `The request for ${r.item} has been approved. The admin team is working on fulfillment.`,
+    });
+  }
 }
 
 /** Mark fulfilled (supports partial). Books a negative ledger entry = the reset. */
@@ -94,9 +110,11 @@ export async function fulfillRedemption(actor: AuthContext, id: string, fulfillN
 export async function listPendingRedemptions(actor: AuthContext) {
   requireCapability(actor.roles, "redemption.fulfill");
   const docs = await redemptionsRepo.listAll(["requested", "approved"]);
+  const visibleStudentIds = new Set((await visibleStudentsFor(actor)).map(userId));
   const out = [];
   for (const r of docs) {
     const [wallet, enrollment] = await Promise.all([walletFor(r.enrollmentId), enrollmentsRepo.findById(r.enrollmentId)]);
+    if (enrollment && !visibleStudentIds.has(enrollment.studentId)) continue;
     const [student, program] = await Promise.all([
       enrollment ? usersRepo.findById(String(enrollment.studentId)) : null,
       enrollment ? programsRepo.findByKey(enrollment.programKey) : null,
@@ -173,7 +191,28 @@ export async function listRewardRules(actor: AuthContext): Promise<RewardRule[]>
 }
 export async function upsertRewardRule(actor: AuthContext, rule: Omit<RewardRule, "id"> & { id?: string }) {
   requireCapability(actor.roles, "rewards.configure");
-  return rewardRulesRepo.upsert(rule);
+  const saved = await rewardRulesRepo.upsert(rule);
+  const visibleStudents = await visibleStudentsFor(actor);
+  const targetStudentIds = new Set<string>();
+  if (rule.studentId) {
+    if (visibleStudents.some((student) => userId(student) === rule.studentId)) targetStudentIds.add(rule.studentId);
+  } else {
+    for (const student of visibleStudents) {
+      const id = userId(student);
+      const enrollments = await enrollmentsRepo.listForStudent(id);
+      if (enrollments.some((enrollment) => enrollment.programKey === rule.programKey && enrollment.status === "active")) targetStudentIds.add(id);
+    }
+  }
+  await Promise.all(
+    [...targetStudentIds].map((studentId) =>
+      queueStudentAndParentEmails(studentId, {
+        kind: "reward_rule_created",
+        subject: "New reward rule added",
+        body: `A new reward rule is available: ${rule.prize} for ${rule.kind.replace(/_/g, " ")} ${rule.threshold}.`,
+      }),
+    ),
+  );
+  return saved;
 }
 
 function publicRewardRule(rule: RewardRule): RewardRule {

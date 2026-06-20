@@ -6,15 +6,23 @@ import { me, logout } from "~/server/rpc/session";
 import { childOverview } from "~/server/rpc/reporting";
 
 export const Route = createFileRoute("/dashboard")({
-  loader: async () => ({ user: await me(), overview: await childOverview({ data: {} }) }),
+  loader: async () => {
+    const user = await me();
+    const isStaff = !!user?.roles.some((r) => r === "admin" || r === "super_admin");
+    return { user, overview: await childOverview({ data: { autoSelect: !isStaff } }) };
+  },
   component: Dashboard,
 });
 
 function Dashboard() {
-  const { user, overview } = Route.useLoaderData();
+  const { user, overview: initialOverview } = Route.useLoaderData();
   const navigate = useNavigate();
   const doLogout = useServerFn(logout);
+  const loadOverview = useServerFn(childOverview);
   const isAdmin = !!user?.roles.some((r) => r === "admin" || r === "super_admin");
+  const [overview, setOverview] = useState(initialOverview);
+  const [studentQuery, setStudentQuery] = useState("");
+  const [loadingStudent, setLoadingStudent] = useState<string | null>(null);
   const [range, setRange] = useState<"day" | "week" | "month">("week");
 
   const reports = overview.available ? overview.perProgram : [];
@@ -25,6 +33,20 @@ function Dashboard() {
   const robuxHistory = reports.flatMap((p) => p.robuxHistory).slice(0, 5);
   const needsTotal = heatmap.filter((h) => h.state === "partial" || h.state === "not_mastered").length;
   const masteredTotal = overview.available ? overview.overall.topicsCompleted : 0;
+  const filteredStudents = overview.students.filter((student) => {
+    const q = studentQuery.trim().toLowerCase();
+    if (!q) return true;
+    return student.displayName.toLowerCase().includes(q) || student.username.toLowerCase().includes(q);
+  });
+
+  async function selectStudent(studentId: string) {
+    setLoadingStudent(studentId);
+    try {
+      setOverview(await loadOverview({ data: { studentId, autoSelect: true } }));
+    } finally {
+      setLoadingStudent(null);
+    }
+  }
 
   return (
     <AdminParentShell
@@ -33,8 +55,21 @@ function Dashboard() {
       onLogout={async () => { await doLogout({}); navigate({ to: "/" }); }}
     >
       <main style={{ maxWidth: 1200, margin: "0 auto", padding: "28px 26px 60px" }}>
+        <StudentSelector
+          students={filteredStudents}
+          allCount={overview.students.length}
+          query={studentQuery}
+          selectedId={overview.available ? overview.studentId : ""}
+          loadingId={loadingStudent}
+          summaries={overview.studentSummaries}
+          onQuery={setStudentQuery}
+          onSelect={selectStudent}
+        />
+
         {!overview.available ? (
-          <p style={{ color: "var(--a-muted)", fontWeight: 600 }}>No student data yet.</p>
+          <section className="a-card" style={{ padding: 28, color: "var(--a-muted)", fontWeight: 700 }}>
+            {overview.students.length === 0 ? "No student data yet." : "Search and select a student to load progress."}
+          </section>
         ) : (
           <>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 22, flexWrap: "wrap", gap: 12 }}>
@@ -162,6 +197,68 @@ function Dashboard() {
   );
 }
 
+function StudentSelector({
+  students,
+  allCount,
+  query,
+  selectedId,
+  loadingId,
+  summaries,
+  onQuery,
+  onSelect,
+}: {
+  students: { id: string; displayName: string; username: string }[];
+  allCount: number;
+  query: string;
+  selectedId: string;
+  loadingId: string | null;
+  summaries: { id: string; displayName: string; topicsCompleted: number; topicsTotal: number; availableRobux: number; programCount: number }[];
+  onQuery: (value: string) => void;
+  onSelect: (studentId: string) => Promise<void>;
+}) {
+  if (allCount === 0 || (selectedId && allCount <= 1 && summaries.length <= 1)) return null;
+  const summaryById = new Map(summaries.map((summary) => [summary.id, summary]));
+  return (
+    <section className="a-card" style={{ padding: 18, marginBottom: 16 }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 14, flexWrap: "wrap", marginBottom: 12 }}>
+        <SectionLabel title="Students" note={`${allCount} associated student${allCount === 1 ? "" : "s"}`} />
+        <input value={query} onChange={(e) => onQuery(e.target.value)} placeholder="Search student" style={{ ...selectorInput, maxWidth: 280 }} />
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(210px,1fr))", gap: 10 }}>
+        {students.map((student) => {
+          const summary = summaryById.get(student.id);
+          const active = selectedId === student.id;
+          return (
+            <button key={student.id} onClick={() => onSelect(student.id)} disabled={loadingId === student.id} style={studentCardButton(active)}>
+              <span style={{ display: "block", fontWeight: 900, fontSize: 14 }}>{student.displayName}</span>
+              <span style={{ display: "block", color: "var(--a-muted)", fontWeight: 800, fontSize: 11.5 }}>@{student.username}</span>
+              {summary && (
+                <span style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 10, color: "var(--a-muted)", fontWeight: 800, fontSize: 11.5 }}>
+                  <span>{summary.topicsCompleted}/{summary.topicsTotal} skills</span>
+                  <span>{summary.availableRobux} Robux</span>
+                  <span>{summary.programCount} program{summary.programCount === 1 ? "" : "s"}</span>
+                </span>
+              )}
+              <span style={{ display: "block", marginTop: 10, color: active ? "var(--a-accent)" : "var(--a-faint)", fontWeight: 900, fontSize: 12 }}>
+                {loadingId === student.id ? "Loading..." : active ? "Selected" : "View progress"}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+function SectionLabel({ title, note }: { title: string; note: string }) {
+  return (
+    <div>
+      <h2 style={{ fontSize: 16, margin: "0 0 2px" }}>{title}</h2>
+      <p style={{ color: "var(--a-muted)", fontWeight: 700, fontSize: 12.5, margin: 0 }}>{note}</p>
+    </div>
+  );
+}
+
 function Metric({ label, value, sub, color = "var(--a-ink)" }: { label: string; value: string; sub?: string; color?: string }) {
   return (
     <div className="a-card" style={{ padding: 18 }}>
@@ -199,4 +296,26 @@ function TopicBox({ value, label, good = false }: { value: number; label: string
       <div style={{ fontWeight: 700, fontSize: 12, color: good ? "#0E7A55" : "var(--a-muted)" }}>{label}</div>
     </div>
   );
+}
+
+const selectorInput: React.CSSProperties = {
+  width: "100%",
+  border: "1px solid var(--a-border)",
+  borderRadius: 10,
+  padding: "9px 11px",
+  fontFamily: "inherit",
+  fontWeight: 700,
+  outline: "none",
+};
+
+function studentCardButton(active: boolean): React.CSSProperties {
+  return {
+    textAlign: "left",
+    border: active ? "1px solid var(--a-accent)" : "1px solid var(--a-border2)",
+    background: active ? "var(--a-accent-soft)" : "#fff",
+    borderRadius: 10,
+    padding: 13,
+    cursor: "pointer",
+    fontFamily: "inherit",
+  };
 }

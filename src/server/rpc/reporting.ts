@@ -1,24 +1,60 @@
 import { createServerFn } from "@tanstack/react-start";
-import { usersRepo } from "~/repositories/users.js";
 import { studentOverview } from "~/server/reporting/reporting.js";
+import { assertCanSeeStudent, publicUserOption, userId, visibleStudentsFor } from "~/server/users/associations.js";
 import { requireAuth } from "./context.js";
+
+async function summariesForStudents(
+  auth: Awaited<ReturnType<typeof requireAuth>>,
+  students: Awaited<ReturnType<typeof visibleStudentsFor>>,
+  selectedStudentId?: string,
+  selectedOverview?: Awaited<ReturnType<typeof studentOverview>>,
+) {
+  return Promise.all(
+    students.map(async (entry) => {
+      const id = userId(entry);
+      const summary = id === selectedStudentId && selectedOverview ? selectedOverview : await studentOverview(auth, id);
+      return {
+        id,
+        displayName: entry.displayName,
+        topicsCompleted: summary.overall.topicsCompleted,
+        topicsTotal: summary.overall.topicsTotal,
+        availableRobux: summary.overall.availableRobux,
+        programCount: summary.perProgram.length,
+      };
+    }),
+  );
+}
 
 /**
  * Parent/admin oversight: progress per program + overall rollup for a student.
- * For the demo there is one student (Maya); a real deployment would pass a childId.
  */
 export const childOverview = createServerFn({ method: "GET" })
-  .validator((d?: { studentId?: string }) => ({ studentId: d?.studentId }))
+  .validator((d?: { studentId?: string; autoSelect?: boolean }) => ({
+    studentId: d?.studentId,
+    autoSelect: d?.autoSelect ?? true,
+  }))
   .handler(async ({ data }) => {
     const auth = await requireAuth();
-    let studentId = data.studentId;
+    const students = await visibleStudentsFor(auth);
+    const selector = students.map(publicUserOption);
+    const studentId = data.studentId || (data.autoSelect && students[0] ? userId(students[0]) : "");
     if (!studentId) {
-      const student = await usersRepo.findByRole("student");
-      if (!student?._id) return { available: false as const };
-      studentId = student._id;
-      const overview = await studentOverview(auth, studentId);
-      return { available: true as const, studentName: student.displayName, ...overview };
+      return {
+        available: false as const,
+        students: selector,
+        studentSummaries: await summariesForStudents(auth, students),
+      };
     }
+    await assertCanSeeStudent(auth, studentId);
+    const student = students.find((entry) => userId(entry) === studentId);
     const overview = await studentOverview(auth, studentId);
-    return { available: true as const, studentName: "", ...overview };
+    const studentSummaries = await summariesForStudents(auth, students, studentId, overview);
+    return {
+      available: true as const,
+      students: selector,
+      studentSummaries,
+      studentId,
+      studentName: student?.displayName ?? "Student",
+      ...overview,
+    };
   });
