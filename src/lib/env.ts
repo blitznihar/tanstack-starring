@@ -52,6 +52,21 @@ export const env = {
   get apiBaseUrl() {
     return str("API_BASE_URL", "http://localhost:3000");
   },
+  get email() {
+    const host = str("SMTP_HOST", "");
+    const user = str("SMTP_USER", "");
+    const pass = str("SMTP_PASS", "");
+    const from = str("EMAIL_FROM", user ? `Comet Academy <${user}>` : "Comet Academy <no-reply@example.com>");
+    return {
+      enabled: host.trim() !== "" && from.trim() !== "",
+      from,
+      host,
+      port: num("SMTP_PORT", 587),
+      secure: bool("SMTP_SECURE", false),
+      user,
+      pass,
+    };
+  },
   get stripe() {
     const secretKey = str("STRIPE_SECRET_KEY", "sk_test_placeholder");
     const publishableKey = str("STRIPE_PUBLISHABLE_KEY", "pk_test_placeholder");

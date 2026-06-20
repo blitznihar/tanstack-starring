@@ -17,7 +17,9 @@ export type NotificationDoc = {
   kind: NotificationKind;
   subject: string;
   body: string;
-  status: "queued" | "sent";
+  status: "queued" | "sent" | "failed";
+  sentAt?: Date;
+  lastError?: string;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -45,5 +47,18 @@ export const notificationsRepo = {
 
   async listForUser(userId: string): Promise<NotificationDoc[]> {
     return (await col()).find({ userId }).sort({ createdAt: -1 }).toArray();
+  },
+
+  async listQueued(limit = 50): Promise<NotificationDoc[]> {
+    return (await col()).find({ status: "queued" }).sort({ createdAt: 1 }).limit(limit).toArray();
+  },
+
+  async markSent(id: string): Promise<void> {
+    const now = new Date();
+    await (await col()).updateOne({ _id: id }, { $set: { status: "sent", sentAt: now, updatedAt: now }, $unset: { lastError: "" } });
+  },
+
+  async markFailed(id: string, error: string): Promise<void> {
+    await (await col()).updateOne({ _id: id }, { $set: { status: "failed", lastError: error.slice(0, 1000), updatedAt: new Date() } });
   },
 };

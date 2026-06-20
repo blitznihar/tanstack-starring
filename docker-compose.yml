@@ -3,6 +3,7 @@
 services:
   mongo:
     image: mongo:7
+    profiles: ["local-mongo"]
     restart: unless-stopped
     ports:
       - "27017:27017"
@@ -14,10 +15,9 @@ services:
       context: .
       dockerfile: Dockerfile
     restart: unless-stopped
-    depends_on:
-      - mongo
     ports:
       - "3000:3000"
+      - "5174:3000"
     environment:
       # Uses Atlas when MONGODB_URI is set in .env; falls back to the local Mongo container.
       MONGODB_URI: ${MONGODB_URI:-mongodb://mongo:27017/comet}
@@ -31,6 +31,12 @@ services:
       EXAM_ROBUX_SHARE: ${EXAM_ROBUX_SHARE:-0.5}
       EXAM_WRONG_PENALTY: ${EXAM_WRONG_PENALTY:-10}
       EXAM_AWARD_FLOOR: ${EXAM_AWARD_FLOOR:-0}
+      EMAIL_FROM: ${EMAIL_FROM:-Comet Academy <no-reply@example.com>}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_SECURE: ${SMTP_SECURE:-false}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASS: ${SMTP_PASS:-}
       STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:-sk_test_...}
       STRIPE_PUBLISHABLE_KEY: ${STRIPE_PUBLISHABLE_KEY:-pk_test_...}
       STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET:-whsec_...}

@@ -1,5 +1,5 @@
-# Comet API/UI container (§16 packaging). Built by `docker compose up` alongside
-# MongoDB. Multi-stage: install + build with Bun, then run the Nitro server output.
+# Comet API/UI container (§16 packaging). Built by `docker compose up`.
+# Multi-stage: install + build with Bun, then run the built TanStack handler.
 FROM oven/bun:1 AS build
 WORKDIR /app
 COPY package.json bun.lock ./
@@ -10,8 +10,9 @@ RUN bun run build
 FROM oven/bun:1
 WORKDIR /app
 ENV NODE_ENV=production
-# The built server is self-contained under .output (TanStack Start / Nitro).
-COPY --from=build /app/.output ./.output
+COPY --from=build /app/package.json /app/bun.lock ./
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/dist ./dist
+COPY --from=build /app/scripts/serve-dist.mjs ./scripts/serve-dist.mjs
 EXPOSE 3000
-# Run the server entry with Bun (no separate Node needed in the runtime image).
-CMD ["bun", ".output/server/index.mjs"]
+CMD ["bun", "scripts/serve-dist.mjs"]
