@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, redirect, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import { myPracticeSet, submitPractice } from "~/server/rpc/practice";
@@ -6,7 +6,15 @@ import { startExam } from "~/server/rpc/exam";
 import { logout } from "~/server/rpc/session";
 
 export const Route = createFileRoute("/practice")({
-  loader: () => myPracticeSet({ data: {} }),
+  validateSearch: (s: Record<string, unknown>): { subject?: string; lesson?: number } => ({
+    subject: typeof s.subject === "string" ? s.subject : undefined,
+    lesson: s.lesson === "1" || s.lesson === 1 ? 1 : undefined,
+  }),
+  loaderDeps: ({ search }) => ({ subject: search.subject ?? "math", lesson: search.lesson }),
+  loader: ({ deps }) => {
+    if (deps.lesson !== 1) throw redirect({ to: "/lesson", search: { subject: deps.subject } });
+    return myPracticeSet({ data: { subject: deps.subject } });
+  },
   component: PracticePage,
 });
 
@@ -29,14 +37,14 @@ function hasValue(v: AnswerValue | undefined): boolean {
 
 function PracticePage() {
   const initial = Route.useLoaderData();
+  const search = Route.useSearch();
   const navigate = useNavigate();
   const doSubmit = useServerFn(submitPractice);
   const doStartExam = useServerFn(startExam);
   const doLogout = useServerFn(logout);
-  const loadSet = useServerFn(myPracticeSet);
 
   const [data, setData] = useState<Data>(initial);
-  const [subject, setSubject] = useState("math");
+  const [subject, setSubject] = useState(search.subject ?? "math");
   const [launching, setLaunching] = useState<string | null>(null);
   const [selected, setSelected] = useState<Record<string, AnswerValue>>({});
   const [feedback, setFeedback] = useState<Record<string, Feedback>>({});
@@ -46,12 +54,7 @@ function PracticePage() {
 
   async function switchSubject(s: string) {
     if (s === subject) return;
-    setSubject(s);
-    setSelected({});
-    setFeedback({});
-    const d = await loadSet({ data: { subject: s } });
-    setData(d);
-    if (d.available) setWallet(d.wallet.available);
+    await navigate({ to: "/lesson", search: { subject: s } });
   }
 
   async function launchExam(label: string, opts: { kind: "progressive" | "mock"; splitPct?: Record<string, number>; totalItems: number; durationSeconds: number }) {
@@ -142,6 +145,7 @@ function PracticePage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
               {data.set.questions.map((q) => (
                 <QuestionCard key={q.itemId} q={q} fb={feedback[q.itemId]} value={selected[q.itemId]}
+                  subject={subject}
                   pending={pending === q.itemId}
                   onChange={(v) => setSelected((s) => ({ ...s, [q.itemId]: v }))}
                   onCheck={() => check(q.itemId, data.enrollmentId)} />
@@ -156,10 +160,11 @@ function PracticePage() {
   );
 }
 
-function QuestionCard({ q, fb, value, pending, onChange, onCheck }: {
+function QuestionCard({ q, fb, value, subject, pending, onChange, onCheck }: {
   q: Question;
   fb: Feedback | undefined;
   value: AnswerValue | undefined;
+  subject: string;
   pending: boolean;
   onChange: (v: AnswerValue) => void;
   onCheck: () => void;
@@ -198,6 +203,11 @@ function QuestionCard({ q, fb, value, pending, onChange, onCheck }: {
               <Why icon="✕" iconBg="var(--s-accent-soft)" iconColor="#C2491F" label={fb.whyWrongLabel} text={fb.whyWrong} labelColor="#C2491F" />
             )}
             <Why icon="✓" iconBg="var(--s-success-soft)" iconColor="#0E7A55" label={fb.whyRightLabel} text={fb.whyRight} labelColor="#0E7A55" />
+            {!fb.correct && (
+              <Link to="/lesson" search={{ subject }} style={lessonReturnLink}>
+                Do you want to go back to lesson?
+              </Link>
+            )}
           </div>
         </div>
       )}
@@ -319,6 +329,18 @@ function optStyle(key: string, sel: string[], checked: boolean, fb: Feedback | u
   }
   return { background: "var(--s-surface)", border: "2px solid #ECE7F4", color: "var(--s-ink)" };
 }
+
+const lessonReturnLink: React.CSSProperties = {
+  display: "inline-flex",
+  width: "fit-content",
+  alignItems: "center",
+  background: "var(--s-primary-soft)",
+  color: "var(--s-primary-ink)",
+  borderRadius: 12,
+  padding: "10px 13px",
+  fontWeight: 900,
+  fontSize: 13.5,
+};
 
 function Shell({ children, wallet, pop, onSignOut }: { children: React.ReactNode; wallet: number; pop?: number | null; onSignOut: () => void }) {
   return (

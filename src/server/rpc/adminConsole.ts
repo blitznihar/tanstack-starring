@@ -323,6 +323,8 @@ async function buildConsoleSnapshot(auth: AuthContext) {
         enrolledCount: activeByProgram.get(p.key) ?? 0,
         bundleCount: bundles.length,
         itemCount: bundles.reduce((sum, b) => sum + b.itemCount, 0),
+        lessonCount: programContent?.lessonCount ?? 0,
+        lessons: programContent?.lessons ?? [],
         bundles: bundles.map((b) => ({ ...b, bundleId: String(b.bundleId) })),
         examBlueprint: p.examBlueprint,
       };

@@ -1,6 +1,7 @@
 import { contentRepo } from "~/repositories/content.js";
 import { programsRepo } from "~/repositories/programs.js";
 import { itemUsageRepo } from "~/repositories/itemUsage.js";
+import { lessonsRepo } from "~/repositories/lessons.js";
 import { requireCapability } from "~/server/auth/rbac.js";
 import type { AuthContext } from "~/server/auth/session.js";
 import type { Item, ItemType } from "~/schemas/item.js";
@@ -23,17 +24,28 @@ export type BundleListing = {
   viewLabel: string; // "View 48 items"
 };
 
+export type LessonListing = {
+  lessonId: string;
+  subject: string;
+  standardCode: string;
+  version: number;
+  status: string;
+  title: string;
+};
+
 export type ProgramContent = {
   programKey: string;
   programTitle: string;
   category: string;
   bundles: BundleListing[];
+  lessons: LessonListing[];
+  lessonCount: number;
 };
 
 /** Top-level: programs, each with its bundles. SAT is its own program (not nested). */
 export async function listContentByProgram(actor: AuthContext): Promise<ProgramContent[]> {
   requireCapability(actor.roles, "content.browse");
-  const [programs, bundles] = await Promise.all([programsRepo.list(), contentRepo.listBundles()]);
+  const [programs, bundles, lessons] = await Promise.all([programsRepo.list(), contentRepo.listBundles(), lessonsRepo.list()]);
   return programs.map((program) => ({
     programKey: program.key,
     programTitle: program.title,
@@ -49,6 +61,17 @@ export async function listContentByProgram(actor: AuthContext): Promise<ProgramC
         itemCount: b.itemCount,
         viewLabel: `View ${b.itemCount} items`,
       })),
+    lessons: lessons
+      .filter((lesson) => lesson.programKey === program.key)
+      .map((lesson) => ({
+        lessonId: String(lesson._id),
+        subject: lesson.subject,
+        standardCode: lesson.standardCode,
+        version: lesson.version,
+        status: lesson.status,
+        title: lesson.title,
+      })),
+    lessonCount: lessons.filter((lesson) => lesson.programKey === program.key && lesson.status !== "archived").length,
   }));
 }
 

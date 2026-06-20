@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { buildRefillPrompt, buildNewProgramPrompt } from "~/domain/promptgen/promptgen.js";
+import { buildLessonPrompt, buildRefillPrompt, buildNewProgramPrompt } from "~/domain/promptgen/promptgen.js";
 
 describe("buildRefillPrompt — Appendix A format", () => {
   const prompt = buildRefillPrompt({
@@ -53,5 +53,31 @@ describe("buildNewProgramPrompt", () => {
     expect(prompt).toContain("• verbal — author ~40 items");
     expect(prompt).toContain("• quant — author ~40 items");
     expect(prompt).toContain("standardCodes: string[]");
+  });
+});
+
+describe("buildLessonPrompt", () => {
+  const prompt = buildLessonPrompt({
+    programTitle: "Grade 3 Texas STAAR",
+    subject: "rla",
+    standards: [
+      { code: "3.6G", description: "Evaluate details read to determine key ideas" },
+    ],
+    existingLessonTitles: ["Old Evidence Lesson"],
+    exampleStems: ["Which sentence supports the key idea?"],
+  });
+
+  it("frames lesson JSON with rich blocks and concept checks", () => {
+    expect(prompt).toContain("student-facing lessons");
+    expect(prompt).toContain('"lessons"');
+    expect(prompt).toContain('"kind": "html"');
+    expect(prompt).toContain('"kind": "svg"');
+    expect(prompt).toContain("PracticeExamples are lesson-only concept checks");
+  });
+
+  it("includes standards, existing lessons, and sample stems", () => {
+    expect(prompt).toContain("3.6G: Evaluate details read to determine key ideas");
+    expect(prompt).toContain("- Old Evidence Lesson");
+    expect(prompt).toContain("- Which sentence supports the key idea?");
   });
 });

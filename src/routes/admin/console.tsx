@@ -684,9 +684,10 @@ function ProgramsTab({
               <span className="pill" style={{ background: p.status === "live" ? "var(--a-good-soft)" : "var(--a-warn-soft)", color: p.status === "live" ? "var(--a-good)" : "var(--a-warn)" }}>{p.status}</span>
             </div>
             <p style={{ margin: "0 0 14px", color: "var(--a-muted)", fontWeight: 600, fontSize: 13 }}>{p.category} · {p.subjects.join(" + ")} · {p.targetDays} day plan</p>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 9, marginBottom: 14 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 9, marginBottom: 14 }}>
               <Mini label="Students" value={p.enrolledCount} />
               <Mini label="Bundles" value={p.bundleCount} />
+              <Mini label="Lessons" value={p.lessonCount} />
               <Mini label="Items" value={p.itemCount} />
             </div>
             {canManagePrograms && (
@@ -743,6 +744,15 @@ function ContentTab({ snapshot }: { snapshot: Snapshot }) {
         {snapshot.programs.map((p) => (
           <div key={p.key} style={{ border: "1px solid var(--a-border2)", borderRadius: 12, padding: 14 }}>
             <div style={{ fontWeight: 900, marginBottom: 8 }}>{p.title}</div>
+            {p.lessonCount > 0 && (
+              <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 10 }}>
+                {p.lessons.filter((lesson) => lesson.status !== "archived").slice(0, 4).map((lesson) => (
+                  <span key={lesson.lessonId} className="pill" style={{ background: "var(--a-good-soft)", color: "var(--a-good)" }}>
+                    {lesson.subject} {lesson.standardCode}
+                  </span>
+                ))}
+              </div>
+            )}
             {p.bundles.length === 0 ? (
               <div style={{ color: "var(--a-faint)", fontWeight: 700, fontSize: 13 }}>No content imported yet.</div>
             ) : (

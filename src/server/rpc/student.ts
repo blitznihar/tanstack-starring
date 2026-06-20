@@ -95,6 +95,7 @@ export const studentHome = createServerFn({ method: "GET" }).handler(async () =>
         return {
           id: task.id,
           kind: task.kind,
+          subjectKey: task.subject ?? "",
           subject: task.subject ? titleCase(task.subject) : "Exam",
           topic: task.topic ?? "",
           title: task.kind === "exam" ? task.title : label,

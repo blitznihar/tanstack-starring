@@ -5,11 +5,13 @@ import { requireCapability } from "~/server/auth/rbac.js";
 import {
   buildRefillPrompt,
   buildNewProgramPrompt,
+  buildLessonPrompt,
   type RefillPoolDeficit,
   type NewProgramPromptInput,
 } from "~/domain/promptgen/promptgen.js";
 import { groupIntoPools, lowOrExhaustedPools, DEFAULT_THRESHOLDS, type PoolThresholds } from "~/domain/pools/pools.js";
 import { richToText } from "~/lib/richText.js";
+import { lessonsRepo } from "~/repositories/lessons.js";
 import type { AuthContext } from "~/server/auth/session.js";
 
 /**
@@ -71,4 +73,33 @@ export async function generateNewProgramPrompt(
 ): Promise<string> {
   requireCapability(actor.roles, "content.import");
   return buildNewProgramPrompt(input);
+}
+
+export async function generateLessonPrompt(
+  actor: AuthContext,
+  programKey: string,
+  opts?: { subject?: string },
+): Promise<string> {
+  requireCapability(actor.roles, "content.import");
+  const program = await programsRepo.findByKey(programKey);
+  if (!program) throw new Error(`Unknown program: ${programKey}`);
+  const subject = opts?.subject ?? program.subjects[0] ?? "math";
+  const [standards, lessons, items] = await Promise.all([
+    contentRepo.listStandards(programKey, subject),
+    lessonsRepo.list(programKey),
+    contentRepo.listItems({ programKey, subject }),
+  ]);
+  return buildLessonPrompt({
+    programTitle: program.title,
+    subject,
+    standards: standards.map((standard) => ({
+      code: standard.code,
+      description: standard.description,
+      reportingCategory: standard.reportingCategory,
+    })),
+    existingLessonTitles: lessons
+      .filter((lesson) => lesson.subject === subject && lesson.status !== "archived")
+      .map((lesson) => lesson.title),
+    exampleStems: items.map((item) => richToText(item.prompt)).filter(Boolean),
+  });
 }

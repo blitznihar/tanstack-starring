@@ -110,3 +110,90 @@ Aim for a mix of item types and difficulties per topic, with at least ${perSubje
 items per subject so students never repeat questions.
 `;
 }
+
+const LESSON_SCHEMA_TEXT = `{
+  "lessons": [
+    {
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "standardCode": "3.3B",
+      "version": 1,
+      "status": "available",
+      "title": "Fractions on a Number Line",
+      "intro": "A short student-friendly lesson introduction.",
+      "reportingCategory": "Number and operations",
+      "visualKind": "number_line | fraction_bars | place_value | array | text_evidence | steps",
+      "vocabulary": [
+        { "term": "Numerator", "meaning": "top number" }
+      ],
+      "body": [
+        { "kind": "heading", "level": 2, "text": "What to notice" },
+        { "kind": "paragraph", "text": "Plain text paragraph." },
+        { "kind": "html", "html": "<p><strong>Formatted</strong> HTML is allowed. No scripts.</p>" },
+        { "kind": "svg", "alt": "A simple model", "svg": "<svg viewBox='0 0 200 80' role='img'>...</svg>" },
+        { "kind": "list", "ordered": false, "items": ["Step one", "Step two"] },
+        { "kind": "callout", "tone": "info", "title": "Remember", "text": "A short tip." }
+      ],
+      "practiceExamples": [
+        {
+          "id": "ex1",
+          "prompt": ["A lesson-only concept check question."],
+          "options": [
+            { "key": "A", "text": "Choice A" },
+            { "key": "B", "text": "Choice B", "correct": true, "rationale": "This matches the lesson." }
+          ],
+          "answer": ["B. Choice B"],
+          "explanation": ["Explain the thinking in one or two student-friendly sentences."]
+        }
+      ]
+    }
+  ]
+}`;
+
+export type LessonPromptInput = {
+  programTitle: string;
+  subject: string;
+  standards: { code: string; description: string; reportingCategory?: string }[];
+  existingLessonTitles?: string[];
+  exampleStems?: string[];
+};
+
+export function buildLessonPrompt(input: LessonPromptInput): string {
+  const standards = input.standards.length
+    ? input.standards
+        .map((standard) => `- ${standard.code}: ${standard.description}${standard.reportingCategory ? ` (${standard.reportingCategory})` : ""}`)
+        .join("\n")
+    : "- No standards were found. Author one lesson for the requested subject and include a clear standardCode.";
+  const existingTitles = input.existingLessonTitles?.length
+    ? input.existingLessonTitles.map((title) => `- ${title}`).join("\n")
+    : "(none on record)";
+  const stems = input.exampleStems?.length
+    ? input.exampleStems.slice(0, 12).map((stem) => `- ${stem}`).join("\n")
+    : "(none supplied)";
+
+  return `You are a curriculum writer creating student-facing lessons for "${input.programTitle}".
+Write concise lessons for the ${input.subject} subject before students start practice.
+
+OUTPUT FORMAT: valid JSON matching this lesson upload shape:
+
+${LESSON_SCHEMA_TEXT}
+
+Author one lesson per standard listed below. Use grade-appropriate language, headings,
+short paragraphs, and visual support. HTML blocks may include tags like <strong>,
+<em>, <table>, and <span>. SVG blocks may include inline SVG diagrams. Do not include
+scripts, event handlers, external assets, or CSS that depends on a remote file.
+
+PracticeExamples are lesson-only concept checks. They are stored with the lesson, hidden
+behind a "Show answer" control, and must not be authored as actual practice-bank Items.
+Include 2 to 4 practiceExamples per lesson with clear answers and explanations.
+
+STANDARDS:
+${standards}
+
+EXISTING LESSON TITLES TO AVOID DUPLICATING:
+${existingTitles}
+
+OPTIONAL EXISTING PRACTICE STEMS FOR STYLE MATCHING ONLY:
+${stems}
+`;
+}

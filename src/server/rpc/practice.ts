@@ -7,7 +7,7 @@ import { isProgramUnlocked, assertProgramUnlocked } from "~/server/billing/billi
 import { requireAuth } from "./context.js";
 
 /** Resolve the signed-in student's active enrollment that offers `subject`. */
-async function resolveEnrollment(studentId: string, subject: string) {
+export async function resolvePracticeEnrollment(studentId: string, subject: string) {
   const enrollments = await enrollmentsRepo.listForStudent(studentId);
   for (const e of enrollments) {
     if (e.status !== "active") continue;
@@ -22,7 +22,7 @@ export const myPracticeSet = createServerFn({ method: "GET" })
   .validator((d?: { subject?: string }) => ({ subject: d?.subject ?? "math" }))
   .handler(async ({ data }) => {
     const auth = await requireAuth();
-    const enrollment = await resolveEnrollment(auth.userId, data.subject);
+    const enrollment = await resolvePracticeEnrollment(auth.userId, data.subject);
     // Gate by subscription/demo entitlement (§12): a locked program serves no content.
     if (!enrollment?._id || !(await isProgramUnlocked(enrollment.programKey))) {
       return { available: false as const, displayName: auth.displayName };

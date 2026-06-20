@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
-import { contentTree, bundleDetail, refillPrompt, uploadContentJson } from "~/server/rpc/content";
+import { contentTree, bundleDetail, lessonPrompt, refillPrompt, uploadContentJson, uploadLessonJson } from "~/server/rpc/content";
 import { me, logout } from "~/server/rpc/session";
 
 export const Route = createFileRoute("/admin/content")({
@@ -19,7 +19,9 @@ function ContentBrowser() {
   const navigate = useNavigate();
   const loadDetail = useServerFn(bundleDetail);
   const genRefill = useServerFn(refillPrompt);
+  const genLessonPrompt = useServerFn(lessonPrompt);
   const doUploadContent = useServerFn(uploadContentJson);
+  const doUploadLesson = useServerFn(uploadLessonJson);
   const doLogout = useServerFn(logout);
   const canImportContent = !!user?.roles.includes("super_admin");
 
@@ -28,6 +30,7 @@ function ContentBrowser() {
   const [detail, setDetail] = useState<Detail | null>(null);
   const [loading, setLoading] = useState(false);
   const [prompt, setPrompt] = useState<string | null>(null);
+  const [promptTitle, setPromptTitle] = useState("Authoring prompt");
   const [uploading, setUploading] = useState<string | null>(null);
   const [uploadMessage, setUploadMessage] = useState<string | null>(null);
 
@@ -40,8 +43,15 @@ function ContentBrowser() {
   }
 
   async function showRefill(programKey: string, subject: string) {
+    setPromptTitle("Refill authoring prompt (paste into any LLM offline)");
     setPrompt("Generating…");
     setPrompt(await genRefill({ data: { programKey, subjects: [subject] } }));
+  }
+
+  async function showLessonPrompt(programKey: string, subject: string) {
+    setPromptTitle("Lesson authoring prompt (paste into any LLM offline)");
+    setPrompt("Generating…");
+    setPrompt(await genLessonPrompt({ data: { programKey, subject } }));
   }
 
   async function uploadForProgram(programKey: string, file: File | null) {
@@ -53,6 +63,21 @@ function ContentBrowser() {
       setTree(result.tree);
       const items = result.results.reduce((sum, row) => sum + row.itemCount, 0);
       setUploadMessage(`Imported ${result.results.length} bundle(s) and ${items} item(s).`);
+    } catch (e) {
+      setUploadMessage(e instanceof Error ? e.message : String(e));
+    } finally {
+      setUploading(null);
+    }
+  }
+
+  async function uploadLessonsForProgram(programKey: string, file: File | null) {
+    if (!file) return;
+    setUploading(`${programKey}:lessons`);
+    setUploadMessage(null);
+    try {
+      const result = await doUploadLesson({ data: { programKey, json: await file.text() } });
+      setTree(result.tree);
+      setUploadMessage(`Imported ${result.result.lessonCount} lesson(s) for ${result.result.subjects.join(", ")}.`);
     } catch (e) {
       setUploadMessage(e instanceof Error ? e.message : String(e));
     } finally {
@@ -96,12 +121,23 @@ function ContentBrowser() {
               <span style={{ color: "var(--a-faint)", fontWeight: 700, fontSize: 12, textTransform: "uppercase", letterSpacing: 0 }}>{program.category}</span>
               <div style={{ flex: 1 }} />
               {canImportContent && (
-                <label style={btn(false)}>
-                  {uploading === program.programKey ? "Uploading..." : "Upload content"}
-                  <input type="file" accept=".json,application/json" onChange={(e) => uploadForProgram(program.programKey, e.target.files?.[0] ?? null)} style={{ display: "none" }} />
-                </label>
+                <>
+                  <label style={btn(false)}>
+                    {uploading === program.programKey ? "Uploading..." : "Upload content"}
+                    <input type="file" accept=".json,application/json" onChange={(e) => uploadForProgram(program.programKey, e.target.files?.[0] ?? null)} style={{ display: "none" }} />
+                  </label>
+                  <label style={btn(false)}>
+                    {uploading === `${program.programKey}:lessons` ? "Uploading..." : "Upload lessons"}
+                    <input type="file" accept=".json,application/json" onChange={(e) => uploadLessonsForProgram(program.programKey, e.target.files?.[0] ?? null)} style={{ display: "none" }} />
+                  </label>
+                </>
               )}
             </div>
+            {program.lessonCount > 0 && (
+              <div style={{ color: "var(--a-muted)", fontWeight: 800, fontSize: 12.5, marginTop: 8 }}>
+                {program.lessonCount} authored lesson{program.lessonCount === 1 ? "" : "s"} uploaded
+              </div>
+            )}
             {uploadMessage && uploading !== program.programKey && (
               <div style={{ color: uploadMessage.startsWith("Imported") ? "var(--a-good)" : "var(--a-bad)", fontWeight: 800, fontSize: 12.5, marginTop: 8 }}>{uploadMessage}</div>
             )}
@@ -120,11 +156,28 @@ function ContentBrowser() {
                         {b.viewLabel}
                       </button>
                       {canImportContent && (
-                        <button onClick={() => showRefill(program.programKey, b.subject)} style={btn(false)} title="Generate offline authoring prompt for low/exhausted pools">
-                          Refill prompt
-                        </button>
+                        <>
+                          <button onClick={() => showRefill(program.programKey, b.subject)} style={btn(false)} title="Generate offline authoring prompt for low/exhausted pools">
+                            Refill prompt
+                          </button>
+                          <button onClick={() => showLessonPrompt(program.programKey, b.subject)} style={btn(false)} title="Generate offline lesson authoring prompt">
+                            Lesson prompt
+                          </button>
+                        </>
                       )}
                     </div>
+                    {program.lessons.filter((lesson) => lesson.subject === b.subject && lesson.status !== "archived").length > 0 && (
+                      <div style={{ marginTop: 10, display: "flex", gap: 6, flexWrap: "wrap" }}>
+                        {program.lessons
+                          .filter((lesson) => lesson.subject === b.subject && lesson.status !== "archived")
+                          .slice(0, 3)
+                          .map((lesson) => (
+                            <span key={lesson.lessonId} className="pill" style={{ background: "var(--a-good-soft)", color: "var(--a-good)" }}>
+                              {lesson.standardCode} lesson
+                            </span>
+                          ))}
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
@@ -177,7 +230,7 @@ function ContentBrowser() {
 
       {/* refill prompt modal */}
       {prompt !== null && (
-        <Modal onClose={() => setPrompt(null)} title="Refill authoring prompt (paste into any LLM offline)">
+        <Modal onClose={() => setPrompt(null)} title={promptTitle}>
           <textarea readOnly value={prompt} style={{ width: "100%", height: 380, fontFamily: "ui-monospace, monospace", fontSize: 12.5, border: "1px solid var(--a-border)", borderRadius: 10, padding: 12, resize: "vertical" }} />
           <button onClick={() => navigator.clipboard?.writeText(prompt)} style={{ ...btn(true), marginTop: 10 }}>Copy</button>
         </Modal>

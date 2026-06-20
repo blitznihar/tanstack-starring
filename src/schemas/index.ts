@@ -2,6 +2,7 @@ export * from "./common.js";
 export * from "./item.js";
 export * from "./passage.js";
 export * from "./contentBundle.js";
+export * from "./lesson.js";
 export * from "./program.js";
 export * from "./enrollment.js";
 export * from "./user.js";

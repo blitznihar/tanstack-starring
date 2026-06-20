@@ -125,6 +125,7 @@ function ProgramCard({ program, active }: { program: ProgramView; active: boolea
 
 function TodayPanel({ program }: { program: ProgramView }) {
   const tasks = program.todayTasks.slice(0, 5);
+  const lessonSubject = tasks.find((task) => task.kind !== "exam" && task.subjectKey)?.subjectKey ?? program.subjects[0] ?? "math";
   return (
     <section style={{ position: "relative", overflow: "hidden", background: "linear-gradient(135deg,#6C4CE0,#7F61EC)", borderRadius: 28, padding: 28, color: "#fff", boxShadow: "0 18px 38px rgba(108,76,224,.22)", marginBottom: 18 }}>
       <div style={{ position: "absolute", width: 148, height: 148, borderRadius: "50%", right: -28, top: -36, background: "rgba(255,255,255,.14)" }} />
@@ -134,7 +135,7 @@ function TodayPanel({ program }: { program: ProgramView }) {
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(160px,1fr))", gap: 12, position: "relative" }}>
         {tasks.length === 0 ? <TaskCard title="All caught up" meta={program.title} kind="practice" /> : tasks.map((task) => <TaskCard key={task.id} title={task.title} meta={`${task.subject} · ${task.meta}`} kind={task.kind} />)}
       </div>
-      <Link to="/practice" style={{ display: "inline-flex", marginTop: 22, background: "#fff", color: "var(--s-primary-ink)", borderRadius: 16, padding: "16px 25px", fontWeight: 900, fontSize: 15 }}>
+      <Link to="/lesson" search={{ subject: lessonSubject }} style={{ display: "inline-flex", marginTop: 22, background: "#fff", color: "var(--s-primary-ink)", borderRadius: 16, padding: "16px 25px", fontWeight: 900, fontSize: 15 }}>
         Start today's work
       </Link>
     </section>

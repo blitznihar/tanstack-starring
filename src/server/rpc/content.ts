@@ -2,8 +2,9 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { listContentByProgram, viewBundleItems } from "~/server/content/browser.js";
 import { importBundle } from "~/server/content/import.js";
+import { importLessons } from "~/server/content/lessonImport.js";
 import { poolStatuses } from "~/server/pools/pools.js";
-import { generateNewProgramPrompt, generateRefillPrompt } from "~/server/content/promptgen.js";
+import { generateLessonPrompt, generateNewProgramPrompt, generateRefillPrompt } from "~/server/content/promptgen.js";
 import { requireAuth } from "./context.js";
 import { richToText } from "~/lib/richText.js";
 
@@ -58,6 +59,16 @@ export const uploadContentJson = createServerFn({ method: "POST" })
     return { tree: await listContentByProgram(auth), results };
   });
 
+/** Upload one or more authored lessons for a specific program from JSON. */
+export const uploadLessonJson = createServerFn({ method: "POST" })
+  .validator((d: unknown) => z.object({ programKey: z.string().min(1), json: z.string().min(2) }).parse(d))
+  .handler(async ({ data }) => {
+    const auth = await requireAuth();
+    const parsed = JSON.parse(data.json) as unknown;
+    const result = await importLessons(auth, data.programKey, parsed);
+    return { tree: await listContentByProgram(auth), result };
+  });
+
 /** Items in a bundle (with usage counts) plus this (program,subject)'s pool status. */
 export const bundleDetail = createServerFn({ method: "GET" })
   .validator((d: { bundleId: string; programKey: string; subject: string }) => d)
@@ -87,6 +98,14 @@ export const refillPrompt = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const auth = await requireAuth();
     return generateRefillPrompt(auth, data.programKey, data.subjects ? { subjects: data.subjects } : undefined);
+  });
+
+/** Generate the offline lesson authoring prompt for a program/subject. */
+export const lessonPrompt = createServerFn({ method: "POST" })
+  .validator((d: { programKey: string; subject?: string }) => d)
+  .handler(async ({ data }) => {
+    const auth = await requireAuth();
+    return generateLessonPrompt(auth, data.programKey, data.subject ? { subject: data.subject } : undefined);
   });
 
 const newProgramPromptInput = z.object({
