@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { listContentByProgram, viewBundleItems } from "~/server/content/browser.js";
+import { lessonPracticePreview, listContentByProgram, viewBundleItems, viewLessons } from "~/server/content/browser.js";
 import { importBundle } from "~/server/content/import.js";
 import { importLessons } from "~/server/content/lessonImport.js";
 import { poolStatuses } from "~/server/pools/pools.js";
@@ -44,6 +44,19 @@ function extractContentBundles(programKey: string, raw: unknown): unknown[] {
       title: obj.title ?? payload.title ?? `Uploaded Content ${index + 1}`,
     };
   });
+}
+
+function stripMarkup(value: string): string {
+  return value.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+}
+
+function lessonBlockPreview(block: Awaited<ReturnType<typeof viewLessons>>[number]["body"][number]) {
+  if (block.kind === "heading") return { kind: block.kind, label: `Heading ${block.level}`, text: block.text };
+  if (block.kind === "paragraph") return { kind: block.kind, label: "Paragraph", text: block.text ?? stripMarkup(block.html ?? "") };
+  if (block.kind === "html") return { kind: block.kind, label: "HTML", text: stripMarkup(block.html) || block.html };
+  if (block.kind === "svg") return { kind: block.kind, label: "SVG", text: block.caption ?? block.alt };
+  if (block.kind === "list") return { kind: block.kind, label: block.ordered ? "Numbered list" : "List", text: block.items.join(" | ") };
+  return { kind: block.kind, label: `Callout · ${block.tone}`, text: [block.title, block.text].filter(Boolean).join(" - ") };
 }
 
 /** Upload one or more content bundles for a specific program from JSON. */
@@ -90,6 +103,29 @@ export const bundleDetail = createServerFn({ method: "GET" })
       explanation: richToText(i.explanation),
     }));
     return { items: view, pools };
+  });
+
+/** Authored lessons for a program/subject. */
+export const lessonsDetail = createServerFn({ method: "GET" })
+  .validator((d: { programKey: string; subject?: string }) => ({ programKey: String(d.programKey), subject: d.subject ? String(d.subject) : undefined }))
+  .handler(async ({ data }) => {
+    const auth = await requireAuth();
+    const lessons = await viewLessons(auth, data.programKey, data.subject);
+    return {
+      lessons: lessons.map((lesson) => ({
+        _id: lesson._id,
+        title: lesson.title,
+        subject: lesson.subject,
+        standardCode: lesson.standardCode,
+        version: lesson.version,
+        status: lesson.status,
+        reportingCategory: lesson.reportingCategory ?? "",
+        intro: lesson.intro ?? "",
+        vocabulary: lesson.vocabulary,
+        body: lesson.body.map(lessonBlockPreview),
+        practiceExamples: lessonPracticePreview(lesson),
+      })),
+    };
   });
 
 /** Generate the offline refill authoring prompt for a program's deficit pools. */

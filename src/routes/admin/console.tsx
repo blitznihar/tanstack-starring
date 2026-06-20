@@ -9,12 +9,13 @@ import {
   createConsoleUser,
   deleteConsoleUser,
   resetConsoleUserPassword,
+  setConsoleUserPassword,
   setProgramStatus,
   setStudentProgram,
   updateConsoleUser,
   uploadProgramJson,
 } from "~/server/rpc/adminConsole";
-import { bundleDetail, newProgramPrompt } from "~/server/rpc/content";
+import { bundleDetail, lessonsDetail, newProgramPrompt } from "~/server/rpc/content";
 import { exportProfileFn, importProfileFn, previewImportFn } from "~/server/rpc/profile";
 import {
   adminApprove,
@@ -47,6 +48,7 @@ export const Route = createFileRoute("/admin/console")({
 type TabKey = "users" | "programs" | "content" | "exams" | "scoring" | "redemptions" | "billing" | "profiles";
 type Snapshot = Awaited<ReturnType<typeof consoleSnapshot>>;
 type BundleDetail = Awaited<ReturnType<typeof bundleDetail>>;
+type LessonDetail = Awaited<ReturnType<typeof lessonsDetail>>;
 type Rules = Awaited<ReturnType<typeof robuxRules>>;
 type Rewards = Awaited<ReturnType<typeof rewardRulesList>>;
 type Redemptions = Awaited<ReturnType<typeof adminRedemptions>>;
@@ -55,7 +57,7 @@ type Billing = Awaited<ReturnType<typeof billingOverview>>;
 type Preview = Awaited<ReturnType<typeof previewImportFn>>;
 type ProgramStatus = Snapshot["programs"][number]["status"];
 type ProgramPromptDraft = { programTitle: string; category?: string; subjects: string[]; targetDays: number; itemsPerSubject?: number };
-type UserDraft = { username: string; displayName: string; roles: Role[]; studentIds: string[]; parentIds: string[]; adminIds: string[]; forceChangeOnFirstLogin: boolean };
+type UserDraft = { username: string; displayName: string; email: string; roles: Role[]; studentIds: string[]; parentIds: string[]; adminIds: string[]; forceChangeOnFirstLogin: boolean };
 type UserUpdateDraft = UserDraft & { id: string; active: boolean };
 type ProgramUploadResult = { programKey: string; programTitle: string; bundleCount: number; itemCount: number };
 
@@ -92,6 +94,7 @@ function ConsolePage() {
   const doUpdateUser = useServerFn(updateConsoleUser);
   const doDeleteUser = useServerFn(deleteConsoleUser);
   const doResetPassword = useServerFn(resetConsoleUserPassword);
+  const doSetPassword = useServerFn(setConsoleUserPassword);
   const doAddProgram = useServerFn(addProgram);
   const doUploadProgram = useServerFn(uploadProgramJson);
   const doSetProgramStatus = useServerFn(setProgramStatus);
@@ -184,6 +187,9 @@ function ConsolePage() {
               setSnapshot(result.snapshot);
               return result.generatedPassword;
             }}
+            onSetPassword={async (id, password, forceChangeOnFirstLogin) => {
+              setSnapshot(await doSetPassword({ data: { id, password, forceChangeOnFirstLogin } }));
+            }}
             onSetStudentProgram={async (studentId, programKey, active) => {
               setSnapshot(await doSetStudentProgram({ data: { studentId, programKey, active } }));
             }}
@@ -250,6 +256,7 @@ function UsersTab({
   onUpdateUser,
   onDeleteUser,
   onResetPassword,
+  onSetPassword,
   onSetStudentProgram,
 }: {
   snapshot: Snapshot;
@@ -257,6 +264,7 @@ function UsersTab({
   onUpdateUser: (draft: UserUpdateDraft) => Promise<void>;
   onDeleteUser: (id: string) => Promise<void>;
   onResetPassword: (id: string) => Promise<string>;
+  onSetPassword: (id: string, password: string, forceChangeOnFirstLogin: boolean) => Promise<void>;
   onSetStudentProgram: (studentId: string, programKey: string, active: boolean) => Promise<void>;
 }) {
   const students = snapshot.users.filter((u) => u.roles.includes("student"));
@@ -264,6 +272,7 @@ function UsersTab({
   const [draft, setDraft] = useState<UserDraft>({
     username: "",
     displayName: "",
+    email: "blitznihar@gmail.com",
     roles: [defaultRole],
     studentIds: [],
     parentIds: [],
@@ -271,11 +280,13 @@ function UsersTab({
     forceChangeOnFirstLogin: true,
   });
   const [editing, setEditing] = useState<UserUpdateDraft | null>(null);
+  const [passwordTarget, setPasswordTarget] = useState<Snapshot["users"][number] | null>(null);
+  const [passwordDraft, setPasswordDraft] = useState({ password: "Password@1234", forceChangeOnFirstLogin: true });
   const [message, setMessage] = useState<string | null>(null);
   const [busy, setBusy] = useState<string | null>(null);
 
   function resetDraft() {
-    setDraft({ username: "", displayName: "", roles: [defaultRole], studentIds: [], parentIds: [], adminIds: [], forceChangeOnFirstLogin: true });
+    setDraft({ username: "", displayName: "", email: "blitznihar@gmail.com", roles: [defaultRole], studentIds: [], parentIds: [], adminIds: [], forceChangeOnFirstLogin: true });
   }
 
   function selectDraftRole(role: Role) {
@@ -322,6 +333,7 @@ function UsersTab({
         id: user.id,
         username: user.username,
         displayName: user.displayName,
+        email: user.email,
         roles: user.roles,
         studentIds: user.studentIds,
         parentIds: user.parentIds,
@@ -349,6 +361,21 @@ function UsersTab({
     }
   }
 
+  async function saveManagedPassword() {
+    if (!passwordTarget || passwordDraft.password.length < 8) return;
+    setBusy(`password:${passwordTarget.id}`);
+    try {
+      await onSetPassword(passwordTarget.id, passwordDraft.password, passwordDraft.forceChangeOnFirstLogin);
+      setMessage(`Password updated for ${passwordTarget.displayName}.`);
+      setPasswordTarget(null);
+      setPasswordDraft({ password: "Password@1234", forceChangeOnFirstLogin: true });
+    } catch (e) {
+      setMessage(e instanceof Error ? e.message : String(e));
+    } finally {
+      setBusy(null);
+    }
+  }
+
   async function remove(user: Snapshot["users"][number]) {
     if (!window.confirm(`Remove ${user.displayName}?`)) return;
     setBusy(`delete:${user.id}`);
@@ -365,10 +392,11 @@ function UsersTab({
   return (
     <div style={{ display: "grid", gap: 16 }}>
       <section className="a-card" style={{ padding: 20 }}>
-        <SectionTitle title="Add user" note="Create one role per profile. Password is generated once." />
+        <SectionTitle title="Add user" note="Create one role per profile. Starter password is Password@1234." />
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(170px,1fr))", gap: 10 }}>
           <input value={draft.displayName} onChange={(e) => setDraft({ ...draft, displayName: e.target.value })} placeholder="Display name" style={inputStyle} />
           <input value={draft.username} onChange={(e) => setDraft({ ...draft, username: e.target.value })} placeholder="Username" style={inputStyle} />
+          <input value={draft.email} onChange={(e) => setDraft({ ...draft, email: e.target.value })} placeholder="Email address" type="email" style={inputStyle} />
           <label style={checkLabel}>
             <input type="checkbox" checked={draft.forceChangeOnFirstLogin} onChange={(e) => setDraft({ ...draft, forceChangeOnFirstLogin: e.target.checked })} />
             Require password change
@@ -376,7 +404,7 @@ function UsersTab({
         </div>
         <RolePicker roles={draft.roles} allowedRoles={snapshot.viewer.allowedRoles} onChange={selectDraftRole} />
         <UserAssociationFields snapshot={snapshot} draft={draft} onChange={(patch) => setDraft({ ...draft, ...patch })} />
-        <button onClick={create} disabled={busy === "create" || !draft.username.trim() || !draft.displayName.trim() || !userDraftValid(snapshot, draft)} style={primaryButton}>{busy === "create" ? "Creating..." : "Add user"}</button>
+        <button onClick={create} disabled={busy === "create" || !draft.username.trim() || !draft.displayName.trim() || !draft.email.includes("@") || !userDraftValid(snapshot, draft)} style={primaryButton}>{busy === "create" ? "Creating..." : "Add user"}</button>
         {message && <div style={{ marginTop: 12, color: message.includes("Temporary password") || message.startsWith("Saved") || message.startsWith("Created") || message.startsWith("Removed") ? "var(--a-good)" : "var(--a-bad)", fontWeight: 900, fontSize: 13 }}>{message}</div>}
       </section>
 
@@ -388,6 +416,7 @@ function UsersTab({
               <span>
                 <span style={{ display: "block", fontWeight: 900 }}>{u.displayName}</span>
                 <span style={{ display: "block", color: "var(--a-muted)", fontWeight: 700, fontSize: 12 }}>@{u.username}</span>
+                <span style={{ display: "block", color: u.emailConfirmed ? "var(--a-good)" : "var(--a-faint)", fontWeight: 700, fontSize: 11.5 }}>{u.email} · {u.emailConfirmed ? "confirmed" : "unconfirmed"}</span>
               </span>
               <span style={{ color: "var(--a-muted)" }}>
                 {u.roles.join(", ")}
@@ -399,9 +428,10 @@ function UsersTab({
               <span style={{ display: "flex", gap: 6, flexWrap: "wrap", justifyContent: "flex-end" }}>
                 {u.canManage ? (
                   <>
-                    <button onClick={() => setEditing({ id: u.id, username: u.username, displayName: u.displayName, roles: u.roles, studentIds: u.studentIds, parentIds: u.parentIds, adminIds: u.adminIds, active: u.active, forceChangeOnFirstLogin: u.forceChangeOnFirstLogin })} style={tinyButton}>Edit</button>
+                    <button onClick={() => setEditing({ id: u.id, username: u.username, displayName: u.displayName, email: u.email, roles: u.roles, studentIds: u.studentIds, parentIds: u.parentIds, adminIds: u.adminIds, active: u.active, forceChangeOnFirstLogin: u.forceChangeOnFirstLogin })} style={tinyButton}>Edit</button>
                     <button onClick={() => updateActive(u, !u.active)} disabled={busy === u.id} style={tinyButton}>{u.active ? "Disable" : "Enable"}</button>
                     <button onClick={() => resetPasswordFor(u)} disabled={busy === `reset:${u.id}`} style={tinyButton}>Reset</button>
+                    <button onClick={() => { setPasswordTarget(u); setPasswordDraft({ password: "Password@1234", forceChangeOnFirstLogin: true }); }} disabled={busy === `password:${u.id}`} style={tinyButton}>Password</button>
                     {u.canDelete && <button onClick={() => remove(u)} disabled={busy === `delete:${u.id}`} style={{ ...tinyButton, color: "var(--a-bad)" }}>Remove</button>}
                   </>
                 ) : (
@@ -442,6 +472,7 @@ function UsersTab({
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
             <input value={editing.displayName} onChange={(e) => setEditing({ ...editing, displayName: e.target.value })} style={inputStyle} />
             <input value={editing.username} onChange={(e) => setEditing({ ...editing, username: e.target.value })} style={inputStyle} />
+            <input value={editing.email} onChange={(e) => setEditing({ ...editing, email: e.target.value })} type="email" style={inputStyle} />
           </div>
           <RolePicker roles={editing.roles} allowedRoles={snapshot.viewer.allowedRoles} onChange={selectEditingRole} />
           <UserAssociationFields snapshot={snapshot} draft={editing} onChange={(patch) => setEditing({ ...editing, ...patch })} />
@@ -453,7 +484,32 @@ function UsersTab({
             <input type="checkbox" checked={editing.forceChangeOnFirstLogin} onChange={(e) => setEditing({ ...editing, forceChangeOnFirstLogin: e.target.checked })} />
             Require password change
           </label>
-          <button onClick={saveEdit} disabled={busy === editing.id || !editing.username.trim() || !editing.displayName.trim() || !userDraftValid(snapshot, editing)} style={primaryButton}>{busy === editing.id ? "Saving..." : "Save user"}</button>
+          <button onClick={saveEdit} disabled={busy === editing.id || !editing.username.trim() || !editing.displayName.trim() || !editing.email.includes("@") || !userDraftValid(snapshot, editing)} style={primaryButton}>{busy === editing.id ? "Saving..." : "Save user"}</button>
+        </Modal>
+      )}
+
+      {passwordTarget && (
+        <Modal title={`Change password for ${passwordTarget.displayName}`} onClose={() => setPasswordTarget(null)}>
+          <div style={{ display: "grid", gap: 10 }}>
+            <input
+              value={passwordDraft.password}
+              onChange={(e) => setPasswordDraft({ ...passwordDraft, password: e.target.value })}
+              type="text"
+              placeholder="New password"
+              style={inputStyle}
+            />
+            <label style={checkLabel}>
+              <input
+                type="checkbox"
+                checked={passwordDraft.forceChangeOnFirstLogin}
+                onChange={(e) => setPasswordDraft({ ...passwordDraft, forceChangeOnFirstLogin: e.target.checked })}
+              />
+              Require password change on next login
+            </label>
+            <button onClick={saveManagedPassword} disabled={busy === `password:${passwordTarget.id}` || passwordDraft.password.length < 8} style={primaryButton}>
+              {busy === `password:${passwordTarget.id}` ? "Saving..." : "Save password"}
+            </button>
+          </div>
         </Modal>
       )}
     </div>
@@ -722,9 +778,13 @@ function ProgramsTab({
 
 function ContentTab({ snapshot }: { snapshot: Snapshot }) {
   const loadDetail = useServerFn(bundleDetail);
+  const loadLessons = useServerFn(lessonsDetail);
   const [open, setOpen] = useState<{ title: string; programKey: string; subject: string; bundleId: string } | null>(null);
   const [detail, setDetail] = useState<BundleDetail | null>(null);
   const [loading, setLoading] = useState(false);
+  const [openLessons, setOpenLessons] = useState<{ title: string; programKey: string; subject?: string } | null>(null);
+  const [lessonDetail, setLessonDetail] = useState<LessonDetail | null>(null);
+  const [loadingLessons, setLoadingLessons] = useState(false);
 
   async function viewBundle(bundle: { title: string; bundleId: string; programKey: string; subject: string }) {
     setOpen(bundle);
@@ -737,6 +797,17 @@ function ContentTab({ snapshot }: { snapshot: Snapshot }) {
     }
   }
 
+  async function viewLessons(input: { title: string; programKey: string; subject?: string }) {
+    setOpenLessons(input);
+    setLessonDetail(null);
+    setLoadingLessons(true);
+    try {
+      setLessonDetail(await loadLessons({ data: { programKey: input.programKey, subject: input.subject } }));
+    } finally {
+      setLoadingLessons(false);
+    }
+  }
+
   return (
     <section className="a-card" style={{ padding: 20 }}>
       <SectionTitle title="Content browser" note="Programs stay top-level; bundle item counts open in place." action={<Link to="/admin/content" style={secondaryLink}>Open detailed browser</Link>} />
@@ -745,12 +816,15 @@ function ContentTab({ snapshot }: { snapshot: Snapshot }) {
           <div key={p.key} style={{ border: "1px solid var(--a-border2)", borderRadius: 12, padding: 14 }}>
             <div style={{ fontWeight: 900, marginBottom: 8 }}>{p.title}</div>
             {p.lessonCount > 0 && (
-              <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 10 }}>
+              <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 10, alignItems: "center" }}>
                 {p.lessons.filter((lesson) => lesson.status !== "archived").slice(0, 4).map((lesson) => (
                   <span key={lesson.lessonId} className="pill" style={{ background: "var(--a-good-soft)", color: "var(--a-good)" }}>
                     {lesson.subject} {lesson.standardCode}
                   </span>
                 ))}
+                <button onClick={() => viewLessons({ programKey: p.key, title: `${p.title} lessons` })} style={inlineButton}>
+                  View {p.lessonCount} lesson{p.lessonCount === 1 ? "" : "s"}
+                </button>
               </div>
             )}
             {p.bundles.length === 0 ? (
@@ -760,7 +834,14 @@ function ContentTab({ snapshot }: { snapshot: Snapshot }) {
                 {p.bundles.map((b) => (
                   <div key={b.bundleId} style={{ display: "flex", justifyContent: "space-between", gap: 10, alignItems: "center", fontWeight: 700, fontSize: 13 }}>
                     <span>{b.title}</span>
-                    <button onClick={() => viewBundle({ bundleId: b.bundleId, programKey: p.key, subject: b.subject, title: b.title })} style={inlineButton}>{b.viewLabel}</button>
+                    <span style={{ display: "inline-flex", gap: 10, alignItems: "center", flexWrap: "wrap", justifyContent: "flex-end" }}>
+                      <button onClick={() => viewBundle({ bundleId: b.bundleId, programKey: p.key, subject: b.subject, title: b.title })} style={inlineButton}>{b.viewLabel}</button>
+                      {p.lessons.filter((lesson) => lesson.subject === b.subject && lesson.status !== "archived").length > 0 && (
+                        <button onClick={() => viewLessons({ programKey: p.key, subject: b.subject, title: `${p.title} ${b.subject} lessons` })} style={inlineButton}>
+                          View {p.lessons.filter((lesson) => lesson.subject === b.subject && lesson.status !== "archived").length} lesson{p.lessons.filter((lesson) => lesson.subject === b.subject && lesson.status !== "archived").length === 1 ? "" : "s"}
+                        </button>
+                      )}
+                    </span>
                   </div>
                 ))}
               </div>
@@ -797,7 +878,45 @@ function ContentTab({ snapshot }: { snapshot: Snapshot }) {
           )}
         </Modal>
       )}
+
+      {openLessons && (
+        <Modal title={openLessons.title} onClose={() => setOpenLessons(null)}>
+          {loadingLessons || !lessonDetail ? (
+            <EmptyNote>Loading lessons...</EmptyNote>
+          ) : lessonDetail.lessons.length === 0 ? (
+            <EmptyNote>No authored lessons uploaded yet.</EmptyNote>
+          ) : (
+            <ConsoleLessonList lessons={lessonDetail.lessons} />
+          )}
+        </Modal>
+      )}
     </section>
+  );
+}
+
+function ConsoleLessonList({ lessons }: { lessons: LessonDetail["lessons"] }) {
+  return (
+    <div style={{ display: "grid", gap: 12 }}>
+      {lessons.map((lesson) => (
+        <div key={lesson._id} style={{ border: "1px solid var(--a-border2)", borderRadius: 10, padding: 12 }}>
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 7 }}>
+            <span className="pill" style={{ background: "var(--a-accent-soft)", color: "var(--a-accent)" }}>{lesson.subject} · {lesson.standardCode}</span>
+            <span style={{ color: "var(--a-faint)", fontWeight: 800, fontSize: 11 }}>v{lesson.version} · {lesson.status}</span>
+          </div>
+          <div style={{ fontWeight: 900, fontSize: 15, marginBottom: 5 }}>{lesson.title}</div>
+          {lesson.intro && <div style={{ color: "var(--a-muted)", fontWeight: 700, fontSize: 13, lineHeight: 1.45, marginBottom: 8 }}>{lesson.intro}</div>}
+          {lesson.body.slice(0, 5).map((block, index) => (
+            <div key={`${block.kind}:${index}`} style={{ background: "#F7F8FB", borderRadius: 9, padding: "8px 10px", marginTop: 6 }}>
+              <div style={{ color: "var(--a-faint)", fontWeight: 900, fontSize: 10.5, textTransform: "uppercase" }}>{block.label}</div>
+              <div style={{ color: "var(--a-ink)", fontWeight: 700, fontSize: 12.5 }}>{block.text || "(empty block)"}</div>
+            </div>
+          ))}
+          <div style={{ color: "var(--a-muted)", fontWeight: 800, fontSize: 12, marginTop: 8 }}>
+            {lesson.practiceExamples.length} lesson example{lesson.practiceExamples.length === 1 ? "" : "s"}
+          </div>
+        </div>
+      ))}
+    </div>
   );
 }
 

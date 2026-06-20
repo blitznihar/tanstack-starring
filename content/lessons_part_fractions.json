@@ -1,0 +1,609 @@
+[
+  {
+    "programKey": "grade3_staar",
+    "subject": "math",
+    "standardCode": "3.3A",
+    "version": 1,
+    "status": "available",
+    "title": "Showing Fractions with Shapes, Strips, and Number Lines",
+    "intro": "A fraction is a way to name equal parts of one whole. In this lesson you will show fractions like halves, fourths, and eighths using shapes, strips, and number lines.",
+    "reportingCategory": "Fractions",
+    "visualKind": "fraction_bars",
+    "vocabulary": [
+      { "term": "fraction", "meaning": "A number that names equal parts of a whole." },
+      { "term": "numerator", "meaning": "The top number. It tells how many equal parts you have." },
+      { "term": "denominator", "meaning": "The bottom number. It tells how many equal parts the whole is split into." },
+      { "term": "partition", "meaning": "To split a whole into equal parts." },
+      { "term": "area model", "meaning": "A shape split into equal parts to show a fraction." },
+      { "term": "strip diagram", "meaning": "A long bar split into equal parts to show a fraction." }
+    ],
+    "body": [
+      { "kind": "heading", "level": 2, "text": "What Is a Fraction?" },
+      { "kind": "paragraph", "text": "A fraction shows equal parts of one whole. The bottom number tells how many equal parts there are in all. The top number tells how many of those parts you are talking about." },
+      { "kind": "html", "html": "<p>In <strong>3/4</strong>, the <strong>4</strong> means the whole is split into 4 equal parts. The <strong>3</strong> means we have 3 of those parts.</p>" },
+      { "kind": "heading", "level": 2, "text": "Area Models" },
+      { "kind": "paragraph", "text": "An area model is a shape split into equal parts. Here is one whole split into 4 equal parts. Three parts are shaded, so this shows 3/4." },
+      { "kind": "svg", "alt": "A rectangle split into four equal parts with three parts shaded to show three fourths.", "svg": "<svg viewBox='0 0 320 90' role='img' xmlns='http://www.w3.org/2000/svg'><rect x='10' y='10' width='70' height='70' fill='#4f86c6' stroke='#1f3b66'/><rect x='80' y='10' width='70' height='70' fill='#4f86c6' stroke='#1f3b66'/><rect x='150' y='10' width='70' height='70' fill='#4f86c6' stroke='#1f3b66'/><rect x='220' y='10' width='70' height='70' fill='#ffffff' stroke='#1f3b66'/></svg>" },
+      { "kind": "heading", "level": 2, "text": "Strip Diagrams" },
+      { "kind": "paragraph", "text": "A strip diagram is a long bar split into equal parts. This strip is split into 8 equal parts. Five parts are shaded, so it shows 5/8." },
+      { "kind": "svg", "alt": "A long bar split into eight equal parts with five parts shaded to show five eighths.", "svg": "<svg viewBox='0 0 330 60' role='img' xmlns='http://www.w3.org/2000/svg'><rect x='5' y='15' width='40' height='30' fill='#6aa84f' stroke='#274e13'/><rect x='45' y='15' width='40' height='30' fill='#6aa84f' stroke='#274e13'/><rect x='85' y='15' width='40' height='30' fill='#6aa84f' stroke='#274e13'/><rect x='125' y='15' width='40' height='30' fill='#6aa84f' stroke='#274e13'/><rect x='165' y='15' width='40' height='30' fill='#6aa84f' stroke='#274e13'/><rect x='205' y='15' width='40' height='30' fill='#ffffff' stroke='#274e13'/><rect x='245' y='15' width='40' height='30' fill='#ffffff' stroke='#274e13'/><rect x='285' y='15' width='40' height='30' fill='#ffffff' stroke='#274e13'/></svg>" },
+      { "kind": "heading", "level": 2, "text": "Number Lines" },
+      { "kind": "paragraph", "text": "You can also show a fraction on a number line. Split the space from 0 to 1 into equal parts. Here the line is split into thirds, and the dot is on 2/3." },
+      { "kind": "svg", "alt": "A number line from 0 to 1 split into thirds with a dot on two thirds.", "svg": "<svg viewBox='0 0 320 70' role='img' xmlns='http://www.w3.org/2000/svg'><line x1='20' y1='40' x2='300' y2='40' stroke='#333' stroke-width='2'/><line x1='20' y1='30' x2='20' y2='50' stroke='#333' stroke-width='2'/><line x1='113' y1='30' x2='113' y2='50' stroke='#333' stroke-width='2'/><line x1='206' y1='30' x2='206' y2='50' stroke='#333' stroke-width='2'/><line x1='300' y1='30' x2='300' y2='50' stroke='#333' stroke-width='2'/><circle cx='206' cy='40' r='7' fill='#cc0000'/><text x='15' y='65' font-size='12'>0</text><text x='296' y='65' font-size='12'>1</text></svg>" },
+      { "kind": "callout", "tone": "info", "title": "Remember", "text": "The parts must be EQUAL. If the parts are not the same size, you cannot name a fair fraction." }
+    ],
+    "practiceExamples": [
+      {
+        "id": "ex1",
+        "prompt": ["A rectangle is split into 4 equal parts. 1 part is shaded. What fraction is shaded?"],
+        "options": [
+          { "key": "A", "text": "4/1" },
+          { "key": "B", "text": "1/4", "correct": true, "rationale": "There are 4 equal parts in all, and 1 part is shaded, so the fraction is 1/4." },
+          { "key": "C", "text": "1/3" },
+          { "key": "D", "text": "3/4" }
+        ],
+        "answer": ["B. 1/4"],
+        "explanation": ["The denominator 4 is the total equal parts. The numerator 1 is the shaded part."]
+      },
+      {
+        "id": "ex2",
+        "prompt": ["On a number line, the space from 0 to 1 is split into 8 equal parts. What is each small step worth?"],
+        "options": [
+          { "key": "A", "text": "1/8", "correct": true, "rationale": "When 0 to 1 is split into 8 equal parts, each step is 1/8." },
+          { "key": "B", "text": "8/1" },
+          { "key": "C", "text": "1/2" },
+          { "key": "D", "text": "8/8" }
+        ],
+        "answer": ["A. 1/8"],
+        "explanation": ["Eight equal parts means each part is one eighth, written 1/8."]
+      },
+      {
+        "id": "ex3",
+        "prompt": ["A strip is split into 6 equal parts and 5 are shaded. What fraction is shaded?"],
+        "options": [
+          { "key": "A", "text": "6/5" },
+          { "key": "B", "text": "1/6" },
+          { "key": "C", "text": "5/6", "correct": true, "rationale": "There are 6 equal parts in all and 5 are shaded, so the fraction is 5/6." },
+          { "key": "D", "text": "5/5" }
+        ],
+        "answer": ["C. 5/6"],
+        "explanation": ["Count the shaded parts (5) for the top and the total parts (6) for the bottom."]
+      }
+    ]
+  },
+  {
+    "programKey": "grade3_staar",
+    "subject": "math",
+    "standardCode": "3.3B",
+    "version": 1,
+    "status": "available",
+    "title": "Finding the Fraction at a Point on a Number Line",
+    "intro": "A point on a number line can name a fraction. In this lesson you will count the equal parts from 0 and name the fraction that lands on a point.",
+    "reportingCategory": "Fractions",
+    "visualKind": "number_line",
+    "vocabulary": [
+      { "term": "number line", "meaning": "A line with numbers placed in order from left to right." },
+      { "term": "partition", "meaning": "To split into equal parts." },
+      { "term": "numerator", "meaning": "The top number that tells how many parts you counted from 0." },
+      { "term": "denominator", "meaning": "The bottom number that tells how many equal parts the whole is split into." },
+      { "term": "whole", "meaning": "The full distance from 0 to 1 on the number line." }
+    ],
+    "body": [
+      { "kind": "heading", "level": 2, "text": "Count the Equal Parts" },
+      { "kind": "paragraph", "text": "When 0 to 1 is split into b equal parts, the bottom number of the fraction is b. To find the top number, count the jumps from 0 to the point." },
+      { "kind": "svg", "alt": "A number line from 0 to 1 split into fourths with a dot on three fourths.", "svg": "<svg viewBox='0 0 340 70' role='img' xmlns='http://www.w3.org/2000/svg'><line x1='20' y1='40' x2='320' y2='40' stroke='#333' stroke-width='2'/><line x1='20' y1='30' x2='20' y2='50' stroke='#333' stroke-width='2'/><line x1='95' y1='30' x2='95' y2='50' stroke='#333' stroke-width='2'/><line x1='170' y1='30' x2='170' y2='50' stroke='#333' stroke-width='2'/><line x1='245' y1='30' x2='245' y2='50' stroke='#333' stroke-width='2'/><line x1='320' y1='30' x2='320' y2='50' stroke='#333' stroke-width='2'/><circle cx='245' cy='40' r='7' fill='#cc0000'/><text x='15' y='65' font-size='12'>0</text><text x='316' y='65' font-size='12'>1</text></svg>" },
+      { "kind": "paragraph", "text": "The line above is split into 4 equal parts, so the bottom number is 4. The dot is 3 jumps from 0, so the top number is 3. The point is 3/4." },
+      { "kind": "heading", "level": 2, "text": "Steps to Name the Point" },
+      { "kind": "list", "ordered": true, "items": ["Count all the equal parts from 0 to 1. That is the denominator.", "Count the jumps from 0 to the point. That is the numerator.", "Write the fraction as numerator over denominator."] },
+      { "kind": "html", "html": "<p>In this line the parts are sixths, so the bottom is <strong>6</strong>. A dot 1 jump from 0 is <strong>1/6</strong>.</p>" },
+      { "kind": "svg", "alt": "A number line from 0 to 1 split into sixths with a dot on one sixth.", "svg": "<svg viewBox='0 0 340 70' role='img' xmlns='http://www.w3.org/2000/svg'><line x1='20' y1='40' x2='320' y2='40' stroke='#333' stroke-width='2'/><line x1='20' y1='30' x2='20' y2='50' stroke='#333' stroke-width='2'/><line x1='70' y1='30' x2='70' y2='50' stroke='#333' stroke-width='2'/><line x1='120' y1='30' x2='120' y2='50' stroke='#333' stroke-width='2'/><line x1='170' y1='30' x2='170' y2='50' stroke='#333' stroke-width='2'/><line x1='220' y1='30' x2='220' y2='50' stroke='#333' stroke-width='2'/><line x1='270' y1='30' x2='270' y2='50' stroke='#333' stroke-width='2'/><line x1='320' y1='30' x2='320' y2='50' stroke='#333' stroke-width='2'/><circle cx='70' cy='40' r='7' fill='#cc0000'/><text x='15' y='65' font-size='12'>0</text><text x='316' y='65' font-size='12'>1</text></svg>" },
+      { "kind": "callout", "tone": "info", "title": "Tip", "text": "Always start counting from 0, not from the first tick after it." }
+    ],
+    "practiceExamples": [
+      {
+        "id": "ex1",
+        "prompt": ["A number line from 0 to 1 is split into 4 equal parts. The dot is on the second tick after 0. What fraction is it?"],
+        "options": [
+          { "key": "A", "text": "1/4" },
+          { "key": "B", "text": "2/4", "correct": true, "rationale": "There are 4 equal parts, so the bottom is 4. The dot is 2 jumps from 0, so the top is 2." },
+          { "key": "C", "text": "4/2" },
+          { "key": "D", "text": "3/4" }
+        ],
+        "answer": ["B. 2/4"],
+        "explanation": ["Count 4 equal parts for the bottom and 2 jumps from 0 for the top."]
+      },
+      {
+        "id": "ex2",
+        "prompt": ["A number line from 0 to 1 is split into 8 equal parts. The dot is 5 jumps from 0. What fraction is it?"],
+        "options": [
+          { "key": "A", "text": "5/8", "correct": true, "rationale": "Eight equal parts give a bottom of 8, and 5 jumps give a top of 5." },
+          { "key": "B", "text": "8/5" },
+          { "key": "C", "text": "5/5" },
+          { "key": "D", "text": "1/8" }
+        ],
+        "answer": ["A. 5/8"],
+        "explanation": ["The denominator is 8 and the numerator is the 5 jumps from 0."]
+      },
+      {
+        "id": "ex3",
+        "prompt": ["A number line from 0 to 1 is split into thirds. The dot is on the very last tick at 1. What fraction names that point?"],
+        "options": [
+          { "key": "A", "text": "1/3" },
+          { "key": "B", "text": "2/3" },
+          { "key": "C", "text": "3/3", "correct": true, "rationale": "Three equal parts give a bottom of 3, and 3 jumps from 0 reach 1, so the point is 3/3." },
+          { "key": "D", "text": "0/3" }
+        ],
+        "answer": ["C. 3/3"],
+        "explanation": ["The point at 1 is all 3 parts, which is 3/3, the same as one whole."]
+      }
+    ]
+  },
+  {
+    "programKey": "grade3_staar",
+    "subject": "math",
+    "standardCode": "3.3C",
+    "version": 1,
+    "status": "available",
+    "title": "Understanding Unit Fractions: One Equal Part",
+    "intro": "A unit fraction is just one equal part of a whole. In this lesson you will learn that 1/b means one part when a whole is split into b equal parts.",
+    "reportingCategory": "Fractions",
+    "visualKind": "fraction_bars",
+    "vocabulary": [
+      { "term": "unit fraction", "meaning": "A fraction with 1 on top, like 1/2, 1/3, or 1/4." },
+      { "term": "numerator", "meaning": "The top number. In a unit fraction it is always 1." },
+      { "term": "denominator", "meaning": "The bottom number that tells how many equal parts the whole has." },
+      { "term": "partition", "meaning": "To split a whole into equal parts." },
+      { "term": "whole", "meaning": "The full shape or amount before it is split." }
+    ],
+    "body": [
+      { "kind": "heading", "level": 2, "text": "What Is a Unit Fraction?" },
+      { "kind": "paragraph", "text": "A unit fraction always has a 1 on top. It names just one of the equal parts. If you split a whole into b equal parts, one part is 1/b." },
+      { "kind": "svg", "alt": "A circle split into three equal parts with one part shaded to show one third.", "svg": "<svg viewBox='0 0 140 140' role='img' xmlns='http://www.w3.org/2000/svg'><circle cx='70' cy='70' r='60' fill='#ffffff' stroke='#1f3b66' stroke-width='2'/><path d='M70 70 L70 10 A60 60 0 0 1 121.96 100 Z' fill='#f6b26b' stroke='#1f3b66' stroke-width='2'/><line x1='70' y1='70' x2='70' y2='10' stroke='#1f3b66' stroke-width='2'/><line x1='70' y1='70' x2='18.04' y2='100' stroke='#1f3b66' stroke-width='2'/></svg>" },
+      { "kind": "paragraph", "text": "The circle above is split into 3 equal parts. One part is shaded. That one part is 1/3, a unit fraction." },
+      { "kind": "heading", "level": 2, "text": "The Bigger the Bottom, the Smaller the Part" },
+      { "kind": "paragraph", "text": "When you split the same whole into more parts, each part gets smaller. So 1/8 is smaller than 1/4, because eighths come from splitting the whole into more pieces." },
+      { "kind": "svg", "alt": "Two equal bars, the top split into fourths and the bottom into eighths, with one part shaded in each.", "svg": "<svg viewBox='0 0 330 110' role='img' xmlns='http://www.w3.org/2000/svg'><rect x='10' y='10' width='75' height='35' fill='#4f86c6' stroke='#1f3b66'/><rect x='85' y='10' width='75' height='35' fill='#ffffff' stroke='#1f3b66'/><rect x='160' y='10' width='75' height='35' fill='#ffffff' stroke='#1f3b66'/><rect x='235' y='10' width='75' height='35' fill='#ffffff' stroke='#1f3b66'/><rect x='10' y='60' width='37.5' height='35' fill='#6aa84f' stroke='#274e13'/><rect x='47.5' y='60' width='37.5' height='35' fill='#ffffff' stroke='#274e13'/><rect x='85' y='60' width='37.5' height='35' fill='#ffffff' stroke='#274e13'/><rect x='122.5' y='60' width='37.5' height='35' fill='#ffffff' stroke='#274e13'/><rect x='160' y='60' width='37.5' height='35' fill='#ffffff' stroke='#274e13'/><rect x='197.5' y='60' width='37.5' height='35' fill='#ffffff' stroke='#274e13'/><rect x='235' y='60' width='37.5' height='35' fill='#ffffff' stroke='#274e13'/><rect x='272.5' y='60' width='37.5' height='35' fill='#ffffff' stroke='#274e13'/></svg>" },
+      { "kind": "callout", "tone": "info", "title": "Big Idea", "text": "A unit fraction is one equal part. More parts means each part is smaller." }
+    ],
+    "practiceExamples": [
+      {
+        "id": "ex1",
+        "prompt": ["A pizza is split into 6 equal slices. You take 1 slice. What unit fraction did you take?"],
+        "options": [
+          { "key": "A", "text": "6/1" },
+          { "key": "B", "text": "1/6", "correct": true, "rationale": "The pizza has 6 equal parts and you took 1 part, so you took 1/6." },
+          { "key": "C", "text": "1/3" },
+          { "key": "D", "text": "6/6" }
+        ],
+        "answer": ["B. 1/6"],
+        "explanation": ["One part out of 6 equal parts is the unit fraction 1/6."]
+      },
+      {
+        "id": "ex2",
+        "prompt": ["Which unit fraction shows the SMALLEST part of the same whole?"],
+        "options": [
+          { "key": "A", "text": "1/2" },
+          { "key": "B", "text": "1/4" },
+          { "key": "C", "text": "1/8", "correct": true, "rationale": "Splitting the same whole into 8 parts makes each part smaller than halves or fourths, so 1/8 is smallest." },
+          { "key": "D", "text": "1/3" }
+        ],
+        "answer": ["C. 1/8"],
+        "explanation": ["The bigger the bottom number, the smaller each equal part."]
+      },
+      {
+        "id": "ex3",
+        "prompt": ["Which fraction is a unit fraction?"],
+        "options": [
+          { "key": "A", "text": "3/4" },
+          { "key": "B", "text": "1/4", "correct": true, "rationale": "A unit fraction has a 1 on top, and 1/4 has a numerator of 1." },
+          { "key": "C", "text": "2/3" },
+          { "key": "D", "text": "5/8" }
+        ],
+        "answer": ["B. 1/4"],
+        "explanation": ["A unit fraction always has 1 as the top number."]
+      }
+    ]
+  },
+  {
+    "programKey": "grade3_staar",
+    "subject": "math",
+    "standardCode": "3.3D",
+    "version": 1,
+    "status": "available",
+    "title": "Building Fractions from Unit Fractions",
+    "intro": "Every fraction can be built by adding unit fractions. In this lesson you will compose and decompose a fraction like 3/4 as a sum of 1/4 parts.",
+    "reportingCategory": "Fractions",
+    "visualKind": "fraction_bars",
+    "vocabulary": [
+      { "term": "unit fraction", "meaning": "A fraction with 1 on top, like 1/4." },
+      { "term": "compose", "meaning": "To put parts together to make a bigger fraction." },
+      { "term": "decompose", "meaning": "To break a fraction into smaller parts." },
+      { "term": "numerator", "meaning": "The top number that counts the equal parts you have." },
+      { "term": "denominator", "meaning": "The bottom number that tells the size of each part." },
+      { "term": "sum", "meaning": "The total when you add numbers together." }
+    ],
+    "body": [
+      { "kind": "heading", "level": 2, "text": "Adding Unit Fractions" },
+      { "kind": "paragraph", "text": "A fraction like 3/4 is made of three 1/4 parts. You can write it as 1/4 + 1/4 + 1/4. This is called composing the fraction." },
+      { "kind": "svg", "alt": "A bar split into four equal fourths with three parts shaded to show one fourth plus one fourth plus one fourth.", "svg": "<svg viewBox='0 0 330 60' role='img' xmlns='http://www.w3.org/2000/svg'><rect x='10' y='15' width='75' height='30' fill='#4f86c6' stroke='#1f3b66'/><rect x='85' y='15' width='75' height='30' fill='#4f86c6' stroke='#1f3b66'/><rect x='160' y='15' width='75' height='30' fill='#4f86c6' stroke='#1f3b66'/><rect x='235' y='15' width='75' height='30' fill='#ffffff' stroke='#1f3b66'/></svg>" },
+      { "kind": "html", "html": "<p><strong>3/4 = 1/4 + 1/4 + 1/4</strong>. Each shaded part is one fourth.</p>" },
+      { "kind": "heading", "level": 2, "text": "Breaking a Fraction Apart" },
+      { "kind": "paragraph", "text": "Decomposing means breaking a fraction into smaller pieces. You can break 5/8 into 1/8 + 1/8 + 1/8 + 1/8 + 1/8, or into 3/8 + 2/8." },
+      { "kind": "svg", "alt": "A bar split into eight equal eighths with five parts shaded.", "svg": "<svg viewBox='0 0 330 60' role='img' xmlns='http://www.w3.org/2000/svg'><rect x='5' y='15' width='40' height='30' fill='#6aa84f' stroke='#274e13'/><rect x='45' y='15' width='40' height='30' fill='#6aa84f' stroke='#274e13'/><rect x='85' y='15' width='40' height='30' fill='#6aa84f' stroke='#274e13'/><rect x='125' y='15' width='40' height='30' fill='#6aa84f' stroke='#274e13'/><rect x='165' y='15' width='40' height='30' fill='#6aa84f' stroke='#274e13'/><rect x='205' y='15' width='40' height='30' fill='#ffffff' stroke='#274e13'/><rect x='245' y='15' width='40' height='30' fill='#ffffff' stroke='#274e13'/><rect x='285' y='15' width='40' height='30' fill='#ffffff' stroke='#274e13'/></svg>" },
+      { "kind": "list", "ordered": false, "items": ["The bottom number stays the same when you add unit fractions.", "Count how many unit fractions you have to find the top number."] },
+      { "kind": "callout", "tone": "info", "title": "Key Idea", "text": "The top number tells you how many unit fractions are added together." }
+    ],
+    "practiceExamples": [
+      {
+        "id": "ex1",
+        "prompt": ["Which sum of unit fractions equals 2/3?"],
+        "options": [
+          { "key": "A", "text": "1/3 + 1/3", "correct": true, "rationale": "Two 1/3 parts add to 2/3, since 1+1 = 2 thirds." },
+          { "key": "B", "text": "1/3 + 1/3 + 1/3" },
+          { "key": "C", "text": "1/2 + 1/2" },
+          { "key": "D", "text": "2/3 + 2/3" }
+        ],
+        "answer": ["A. 1/3 + 1/3"],
+        "explanation": ["2/3 is made of two thirds, so it equals 1/3 + 1/3."]
+      },
+      {
+        "id": "ex2",
+        "prompt": ["How many 1/8 parts make 5/8?"],
+        "options": [
+          { "key": "A", "text": "3" },
+          { "key": "B", "text": "8" },
+          { "key": "C", "text": "5", "correct": true, "rationale": "5/8 is five eighths, so it is made of five 1/8 parts." },
+          { "key": "D", "text": "13" }
+        ],
+        "answer": ["C. 5"],
+        "explanation": ["The top number 5 tells how many 1/8 parts are added together."]
+      },
+      {
+        "id": "ex3",
+        "prompt": ["Which is one correct way to decompose 4/6?"],
+        "options": [
+          { "key": "A", "text": "2/6 + 2/6", "correct": true, "rationale": "2/6 plus 2/6 makes 4/6, since 2+2 = 4 sixths." },
+          { "key": "B", "text": "1/6 + 1/6" },
+          { "key": "C", "text": "4/6 + 4/6" },
+          { "key": "D", "text": "1/2 + 1/4" }
+        ],
+        "answer": ["A. 2/6 + 2/6"],
+        "explanation": ["Both parts use sixths and the tops 2 and 2 add to 4, giving 4/6."]
+      }
+    ]
+  },
+  {
+    "programKey": "grade3_staar",
+    "subject": "math",
+    "standardCode": "3.3E",
+    "version": 1,
+    "status": "available",
+    "title": "Sharing Equally and Naming the Fraction",
+    "intro": "Fractions help us share things fairly. In this lesson you will solve problems about sharing objects equally among people and naming each person's share.",
+    "reportingCategory": "Fractions",
+    "visualKind": "fraction_bars",
+    "vocabulary": [
+      { "term": "share equally", "meaning": "To give everyone the same amount." },
+      { "term": "partition", "meaning": "To split into equal parts." },
+      { "term": "fraction", "meaning": "A number that names equal parts of a whole." },
+      { "term": "numerator", "meaning": "The top number that tells how many parts one person gets." },
+      { "term": "denominator", "meaning": "The bottom number that tells how many equal parts there are." }
+    ],
+    "body": [
+      { "kind": "heading", "level": 2, "text": "Sharing One Whole" },
+      { "kind": "paragraph", "text": "When friends share something fairly, each one gets an equal part. If 1 sandwich is shared by 4 people, split it into 4 equal parts. Each person gets 1/4." },
+      { "kind": "svg", "alt": "One sandwich shown as a bar split into four equal parts for four people.", "svg": "<svg viewBox='0 0 330 60' role='img' xmlns='http://www.w3.org/2000/svg'><rect x='10' y='15' width='75' height='30' fill='#f6b26b' stroke='#7f4f1f'/><rect x='85' y='15' width='75' height='30' fill='#f9cb9c' stroke='#7f4f1f'/><rect x='160' y='15' width='75' height='30' fill='#f6b26b' stroke='#7f4f1f'/><rect x='235' y='15' width='75' height='30' fill='#f9cb9c' stroke='#7f4f1f'/></svg>" },
+      { "kind": "heading", "level": 2, "text": "Sharing More Than One Whole" },
+      { "kind": "paragraph", "text": "Sometimes there is more than one object to share. If 2 sandwiches are shared by 4 people, split each sandwich into 4 equal parts. That makes 8 parts. Each person gets 2 parts, which is 2/4 of one sandwich." },
+      { "kind": "svg", "alt": "Two sandwiches each split into four equal parts to share among four people.", "svg": "<svg viewBox='0 0 330 110' role='img' xmlns='http://www.w3.org/2000/svg'><rect x='10' y='10' width='75' height='30' fill='#f6b26b' stroke='#7f4f1f'/><rect x='85' y='10' width='75' height='30' fill='#f9cb9c' stroke='#7f4f1f'/><rect x='160' y='10' width='75' height='30' fill='#f6b26b' stroke='#7f4f1f'/><rect x='235' y='10' width='75' height='30' fill='#f9cb9c' stroke='#7f4f1f'/><rect x='10' y='60' width='75' height='30' fill='#f6b26b' stroke='#7f4f1f'/><rect x='85' y='60' width='75' height='30' fill='#f9cb9c' stroke='#7f4f1f'/><rect x='160' y='60' width='75' height='30' fill='#f6b26b' stroke='#7f4f1f'/><rect x='235' y='60' width='75' height='30' fill='#f9cb9c' stroke='#7f4f1f'/></svg>" },
+      { "kind": "html", "html": "<p>2 sandwiches shared by 4 people: each person gets <strong>2/4</strong> of a sandwich.</p>" },
+      { "kind": "callout", "tone": "info", "title": "Think About It", "text": "The number of people is usually the denominator, because the whole is split into that many equal parts." }
+    ],
+    "practiceExamples": [
+      {
+        "id": "ex1",
+        "prompt": ["One granola bar is shared equally by 3 friends. What fraction does each friend get?"],
+        "options": [
+          { "key": "A", "text": "3/1" },
+          { "key": "B", "text": "1/3", "correct": true, "rationale": "One bar split into 3 equal parts gives each friend 1/3." },
+          { "key": "C", "text": "1/2" },
+          { "key": "D", "text": "3/3" }
+        ],
+        "answer": ["B. 1/3"],
+        "explanation": ["Split one whole into 3 equal parts, so each share is 1/3."]
+      },
+      {
+        "id": "ex2",
+        "prompt": ["One pan of cornbread is cut into 8 equal pieces and shared by 8 students. How much does each student get?"],
+        "options": [
+          { "key": "A", "text": "1/8", "correct": true, "rationale": "Eight equal pieces shared by 8 students means each gets 1 piece, which is 1/8." },
+          { "key": "B", "text": "8/8" },
+          { "key": "C", "text": "1/4" },
+          { "key": "D", "text": "8/1" }
+        ],
+        "answer": ["A. 1/8"],
+        "explanation": ["Each student gets one of the 8 equal pieces, which is 1/8."]
+      },
+      {
+        "id": "ex3",
+        "prompt": ["Three friends share 3 oranges equally. How many oranges does each friend get?"],
+        "options": [
+          { "key": "A", "text": "1/3 of an orange" },
+          { "key": "B", "text": "1 whole orange", "correct": true, "rationale": "Three oranges shared by 3 friends gives each friend 1 whole orange." },
+          { "key": "C", "text": "3 oranges" },
+          { "key": "D", "text": "2/3 of an orange" }
+        ],
+        "answer": ["B. 1 whole orange"],
+        "explanation": ["With 3 oranges for 3 friends, each friend gets exactly 1 whole orange."]
+      }
+    ]
+  },
+  {
+    "programKey": "grade3_staar",
+    "subject": "math",
+    "standardCode": "3.3F",
+    "version": 1,
+    "status": "available",
+    "title": "Showing Equivalent Fractions with Pictures and Lines",
+    "intro": "Some fractions look different but are equal. In this lesson you will use pictures and number lines to show equivalent fractions like 1/2 and 2/4.",
+    "reportingCategory": "Fractions",
+    "visualKind": "fraction_bars",
+    "vocabulary": [
+      { "term": "equivalent fractions", "meaning": "Two fractions that name the same amount." },
+      { "term": "numerator", "meaning": "The top number of a fraction." },
+      { "term": "denominator", "meaning": "The bottom number of a fraction." },
+      { "term": "partition", "meaning": "To split a whole into equal parts." },
+      { "term": "whole", "meaning": "The full shape or amount that is split into parts." }
+    ],
+    "body": [
+      { "kind": "heading", "level": 2, "text": "Same Amount, Different Names" },
+      { "kind": "paragraph", "text": "Equivalent fractions cover the same amount of the same whole. Look at these two bars. The top shows 1/2 and the bottom shows 2/4. The shaded parts are the same size." },
+      { "kind": "svg", "alt": "Two equal bars, the top showing one half shaded and the bottom showing two fourths shaded, with the same length shaded.", "svg": "<svg viewBox='0 0 330 110' role='img' xmlns='http://www.w3.org/2000/svg'><rect x='10' y='10' width='150' height='35' fill='#4f86c6' stroke='#1f3b66'/><rect x='160' y='10' width='150' height='35' fill='#ffffff' stroke='#1f3b66'/><rect x='10' y='60' width='75' height='35' fill='#6aa84f' stroke='#274e13'/><rect x='85' y='60' width='75' height='35' fill='#6aa84f' stroke='#274e13'/><rect x='160' y='60' width='75' height='35' fill='#ffffff' stroke='#274e13'/><rect x='235' y='60' width='75' height='35' fill='#ffffff' stroke='#274e13'/></svg>" },
+      { "kind": "html", "html": "<p><strong>1/2 = 2/4</strong> because the shaded parts are the same size for the same whole.</p>" },
+      { "kind": "heading", "level": 2, "text": "On a Number Line" },
+      { "kind": "paragraph", "text": "Equivalent fractions land on the same point on a number line. Here 2/4 and 1/2 are at the same spot." },
+      { "kind": "svg", "alt": "A number line from 0 to 1 split into fourths with a dot at two fourths, which is the halfway point.", "svg": "<svg viewBox='0 0 340 70' role='img' xmlns='http://www.w3.org/2000/svg'><line x1='20' y1='40' x2='320' y2='40' stroke='#333' stroke-width='2'/><line x1='20' y1='30' x2='20' y2='50' stroke='#333' stroke-width='2'/><line x1='95' y1='30' x2='95' y2='50' stroke='#333' stroke-width='2'/><line x1='170' y1='30' x2='170' y2='50' stroke='#333' stroke-width='2'/><line x1='245' y1='30' x2='245' y2='50' stroke='#333' stroke-width='2'/><line x1='320' y1='30' x2='320' y2='50' stroke='#333' stroke-width='2'/><circle cx='170' cy='40' r='7' fill='#cc0000'/><text x='15' y='65' font-size='12'>0</text><text x='316' y='65' font-size='12'>1</text></svg>" },
+      { "kind": "callout", "tone": "info", "title": "Remember", "text": "To compare, the wholes must be the SAME size. Then equal shaded amounts mean equivalent fractions." }
+    ],
+    "practiceExamples": [
+      {
+        "id": "ex1",
+        "prompt": ["Which fraction is equivalent to 1/2?"],
+        "options": [
+          { "key": "A", "text": "1/4" },
+          { "key": "B", "text": "3/4" },
+          { "key": "C", "text": "2/4", "correct": true, "rationale": "2/4 covers the same amount as 1/2 of the same whole, so they are equivalent." },
+          { "key": "D", "text": "1/3" }
+        ],
+        "answer": ["C. 2/4"],
+        "explanation": ["Two fourths shade the same length as one half, so 1/2 = 2/4."]
+      },
+      {
+        "id": "ex2",
+        "prompt": ["Which fraction is equivalent to 1/2 using eighths?"],
+        "options": [
+          { "key": "A", "text": "2/8" },
+          { "key": "B", "text": "4/8", "correct": true, "rationale": "4/8 covers half of the whole, the same as 1/2, so they are equivalent." },
+          { "key": "C", "text": "8/8" },
+          { "key": "D", "text": "1/8" }
+        ],
+        "answer": ["B. 4/8"],
+        "explanation": ["Four of the eight equal parts is half the bar, so 4/8 = 1/2."]
+      },
+      {
+        "id": "ex3",
+        "prompt": ["On a number line, which fraction lands on the same point as 2/6?"],
+        "options": [
+          { "key": "A", "text": "1/3", "correct": true, "rationale": "2/6 and 1/3 land on the same point because two sixths cover the same distance as one third." },
+          { "key": "B", "text": "2/3" },
+          { "key": "C", "text": "1/2" },
+          { "key": "D", "text": "1/6" }
+        ],
+        "answer": ["A. 1/3"],
+        "explanation": ["Two sixths equal one third, so they share the same point on the line."]
+      }
+    ]
+  },
+  {
+    "programKey": "grade3_staar",
+    "subject": "math",
+    "standardCode": "3.3G",
+    "version": 1,
+    "status": "available",
+    "title": "Why Two Fractions Are Equivalent",
+    "intro": "Two fractions are equivalent only when they name the same amount. In this lesson you will explain equivalence using number lines and equal-size wholes.",
+    "reportingCategory": "Fractions",
+    "visualKind": "number_line",
+    "vocabulary": [
+      { "term": "equivalent", "meaning": "Naming the same amount or the same point." },
+      { "term": "number line", "meaning": "A line with numbers in order used to show fractions." },
+      { "term": "same whole", "meaning": "Wholes that are the same size, needed to compare fairly." },
+      { "term": "numerator", "meaning": "The top number of a fraction." },
+      { "term": "denominator", "meaning": "The bottom number of a fraction." },
+      { "term": "portion", "meaning": "A part of the whole." }
+    ],
+    "body": [
+      { "kind": "heading", "level": 2, "text": "Same Point Means Equivalent" },
+      { "kind": "paragraph", "text": "Two fractions are equivalent if and only if they land on the same point on a number line. They must use the same whole, from the same 0 to the same 1." },
+      { "kind": "svg", "alt": "Two number lines from 0 to 1, the top in halves with a dot at one half and the bottom in fourths with a dot at two fourths, both at the same spot.", "svg": "<svg viewBox='0 0 340 130' role='img' xmlns='http://www.w3.org/2000/svg'><line x1='20' y1='30' x2='320' y2='30' stroke='#333' stroke-width='2'/><line x1='20' y1='22' x2='20' y2='38' stroke='#333' stroke-width='2'/><line x1='170' y1='22' x2='170' y2='38' stroke='#333' stroke-width='2'/><line x1='320' y1='22' x2='320' y2='38' stroke='#333' stroke-width='2'/><circle cx='170' cy='30' r='6' fill='#cc0000'/><text x='150' y='15' font-size='11'>1/2</text><line x1='20' y1='95' x2='320' y2='95' stroke='#333' stroke-width='2'/><line x1='20' y1='87' x2='20' y2='103' stroke='#333' stroke-width='2'/><line x1='95' y1='87' x2='95' y2='103' stroke='#333' stroke-width='2'/><line x1='170' y1='87' x2='170' y2='103' stroke='#333' stroke-width='2'/><line x1='245' y1='87' x2='245' y2='103' stroke='#333' stroke-width='2'/><line x1='320' y1='87' x2='320' y2='103' stroke='#333' stroke-width='2'/><circle cx='170' cy='95' r='6' fill='#cc0000'/><text x='150' y='120' font-size='11'>2/4</text></svg>" },
+      { "kind": "html", "html": "<p>Both dots are at the same spot, so <strong>1/2 = 2/4</strong>.</p>" },
+      { "kind": "heading", "level": 2, "text": "Same Whole Matters" },
+      { "kind": "paragraph", "text": "You can only call fractions equivalent if the wholes are the same size. Half of a small pizza is not the same amount as half of a big pizza, even though both are 1/2." },
+      { "kind": "list", "ordered": false, "items": ["Equivalent fractions cover the same portion of the SAME size whole.", "On a number line, equivalent fractions are at the same point.", "Different points mean the fractions are NOT equivalent."] },
+      { "kind": "callout", "tone": "info", "title": "Big Idea", "text": "Same point on the line OR same portion of the same whole means the fractions are equivalent." }
+    ],
+    "practiceExamples": [
+      {
+        "id": "ex1",
+        "prompt": ["Two dots are at the exact same point on the same number line. What can you say about the two fractions?"],
+        "options": [
+          { "key": "A", "text": "They are equivalent.", "correct": true, "rationale": "Fractions at the same point on the same number line name the same amount, so they are equivalent." },
+          { "key": "B", "text": "The one with the bigger bottom is larger." },
+          { "key": "C", "text": "They can never be equal." },
+          { "key": "D", "text": "The one with the smaller top is larger." }
+        ],
+        "answer": ["A. They are equivalent."],
+        "explanation": ["Same point on the same line always means the fractions are equivalent."]
+      },
+      {
+        "id": "ex2",
+        "prompt": ["Maria says 1/2 of her small cookie equals 1/2 of Sam's big cookie. Why is she wrong?"],
+        "options": [
+          { "key": "A", "text": "1/2 is never a real fraction." },
+          { "key": "B", "text": "The wholes are different sizes.", "correct": true, "rationale": "To compare fairly the wholes must be the same size, but the cookies are different sizes, so the halves are not equal amounts." },
+          { "key": "C", "text": "You cannot split a cookie in half." },
+          { "key": "D", "text": "1/2 and 1/2 are not the same fraction." }
+        ],
+        "answer": ["B. The wholes are different sizes."],
+        "explanation": ["Fractions only name equal amounts when the wholes are the same size."]
+      },
+      {
+        "id": "ex3",
+        "prompt": ["On the same number line, 1/3 is at one point and 1/2 is at a different point. Are they equivalent?"],
+        "options": [
+          { "key": "A", "text": "Yes, all fractions are equal." },
+          { "key": "B", "text": "No, they are at different points.", "correct": true, "rationale": "Different points on the same number line mean the fractions name different amounts, so they are not equivalent." },
+          { "key": "C", "text": "Yes, because both have a 1 on top." },
+          { "key": "D", "text": "No, because halves do not exist." }
+        ],
+        "answer": ["B. No, they are at different points."],
+        "explanation": ["Different points on the line mean the fractions are not equivalent."]
+      }
+    ]
+  },
+  {
+    "programKey": "grade3_staar",
+    "subject": "math",
+    "standardCode": "3.3H",
+    "version": 1,
+    "status": "available",
+    "title": "Comparing Fractions with Greater Than and Less Than",
+    "intro": "You can compare two fractions to see which is bigger. In this lesson you will compare fractions with the same top number or the same bottom number using <, >, and =.",
+    "reportingCategory": "Fractions",
+    "visualKind": "fraction_bars",
+    "vocabulary": [
+      { "term": "compare", "meaning": "To decide which number is bigger, smaller, or equal." },
+      { "term": "greater than (>)", "meaning": "A symbol that means one number is bigger." },
+      { "term": "less than (<)", "meaning": "A symbol that means one number is smaller." },
+      { "term": "equal to (=)", "meaning": "A symbol that means two numbers are the same." },
+      { "term": "numerator", "meaning": "The top number of a fraction." },
+      { "term": "denominator", "meaning": "The bottom number of a fraction." }
+    ],
+    "body": [
+      { "kind": "heading", "level": 2, "text": "Same Bottom Number" },
+      { "kind": "paragraph", "text": "When the bottom numbers are the same, the pieces are the same size. The fraction with more pieces is bigger. So 3/4 is greater than 1/4." },
+      { "kind": "svg", "alt": "Two equal bars in fourths, the top with three fourths shaded and the bottom with one fourth shaded.", "svg": "<svg viewBox='0 0 330 110' role='img' xmlns='http://www.w3.org/2000/svg'><rect x='10' y='10' width='75' height='35' fill='#4f86c6' stroke='#1f3b66'/><rect x='85' y='10' width='75' height='35' fill='#4f86c6' stroke='#1f3b66'/><rect x='160' y='10' width='75' height='35' fill='#4f86c6' stroke='#1f3b66'/><rect x='235' y='10' width='75' height='35' fill='#ffffff' stroke='#1f3b66'/><rect x='10' y='60' width='75' height='35' fill='#6aa84f' stroke='#274e13'/><rect x='85' y='60' width='75' height='35' fill='#ffffff' stroke='#274e13'/><rect x='160' y='60' width='75' height='35' fill='#ffffff' stroke='#274e13'/><rect x='235' y='60' width='75' height='35' fill='#ffffff' stroke='#274e13'/></svg>" },
+      { "kind": "html", "html": "<p><strong>3/4 &gt; 1/4</strong> because more equal pieces are shaded.</p>" },
+      { "kind": "heading", "level": 2, "text": "Same Top Number" },
+      { "kind": "paragraph", "text": "When the top numbers are the same, look at the pieces. A bigger bottom number means smaller pieces. So 1/3 is greater than 1/6, because thirds are bigger pieces than sixths." },
+      { "kind": "svg", "alt": "Two equal bars, the top split into thirds with one third shaded and the bottom split into sixths with one sixth shaded.", "svg": "<svg viewBox='0 0 330 110' role='img' xmlns='http://www.w3.org/2000/svg'><rect x='10' y='10' width='100' height='35' fill='#4f86c6' stroke='#1f3b66'/><rect x='110' y='10' width='100' height='35' fill='#ffffff' stroke='#1f3b66'/><rect x='210' y='10' width='100' height='35' fill='#ffffff' stroke='#1f3b66'/><rect x='10' y='60' width='50' height='35' fill='#6aa84f' stroke='#274e13'/><rect x='60' y='60' width='50' height='35' fill='#ffffff' stroke='#274e13'/><rect x='110' y='60' width='50' height='35' fill='#ffffff' stroke='#274e13'/><rect x='160' y='60' width='50' height='35' fill='#ffffff' stroke='#274e13'/><rect x='210' y='60' width='50' height='35' fill='#ffffff' stroke='#274e13'/><rect x='260' y='60' width='50' height='35' fill='#ffffff' stroke='#274e13'/></svg>" },
+      { "kind": "callout", "tone": "info", "title": "Two Rules", "text": "Same bottom: more pieces is bigger. Same top: a smaller bottom number means bigger pieces." }
+    ],
+    "practiceExamples": [
+      {
+        "id": "ex1",
+        "prompt": ["Compare: 5/8 and 2/8. Which symbol is correct?"],
+        "options": [
+          { "key": "A", "text": "5/8 < 2/8" },
+          { "key": "B", "text": "5/8 > 2/8", "correct": true, "rationale": "The bottoms match, so the fraction with more eighths is bigger, and 5 eighths is more than 2 eighths." },
+          { "key": "C", "text": "5/8 = 2/8" },
+          { "key": "D", "text": "None of these" }
+        ],
+        "answer": ["B. 5/8 > 2/8"],
+        "explanation": ["Same bottoms, so more pieces wins: 5/8 is greater than 2/8."]
+      },
+      {
+        "id": "ex2",
+        "prompt": ["Compare: 1/2 and 1/4. Which symbol is correct?"],
+        "options": [
+          { "key": "A", "text": "1/2 > 1/4", "correct": true, "rationale": "The tops match, and halves are bigger pieces than fourths, so 1/2 is greater than 1/4." },
+          { "key": "B", "text": "1/2 < 1/4" },
+          { "key": "C", "text": "1/2 = 1/4" },
+          { "key": "D", "text": "Cannot tell" }
+        ],
+        "answer": ["A. 1/2 > 1/4"],
+        "explanation": ["Same tops, so the smaller bottom (2) makes bigger pieces: 1/2 is greater."]
+      },
+      {
+        "id": "ex3",
+        "prompt": ["Compare: 2/6 and 4/6. Which symbol is correct?"],
+        "options": [
+          { "key": "A", "text": "2/6 > 4/6" },
+          { "key": "B", "text": "2/6 = 4/6" },
+          { "key": "C", "text": "2/6 < 4/6", "correct": true, "rationale": "The bottoms match, so the fraction with fewer sixths is smaller, and 2 sixths is less than 4 sixths." },
+          { "key": "D", "text": "Cannot tell" }
+        ],
+        "answer": ["C. 2/6 < 4/6"],
+        "explanation": ["Same bottoms, so fewer pieces is smaller: 2/6 is less than 4/6."]
+      }
+    ]
+  },
+  {
+    "programKey": "grade3_staar",
+    "subject": "math",
+    "standardCode": "3.7A",
+    "version": 1,
+    "status": "available",
+    "title": "Fractions as Distances from Zero",
+    "intro": "A fraction can show how far a point is from 0 on a number line. In this lesson you will measure the distance from zero to name fractions.",
+    "reportingCategory": "Fractions",
+    "visualKind": "number_line",
+    "vocabulary": [
+      { "term": "distance", "meaning": "How far one point is from another." },
+      { "term": "number line", "meaning": "A line with numbers placed in order." },
+      { "term": "zero", "meaning": "The starting point where you begin measuring." },
+      { "term": "numerator", "meaning": "The top number that counts the jumps from 0." },
+      { "term": "denominator", "meaning": "The bottom number that tells the size of each jump." },
+      { "term": "interval", "meaning": "The equal space between two ticks on the line." }
+    ],
+    "body": [
+      { "kind": "heading", "level": 2, "text": "Start at Zero" },
+      { "kind": "paragraph", "text": "On a number line, a fraction shows the distance from 0 to a point. Each equal space between ticks is one unit fraction. Count the spaces from 0 to find the fraction." },
+      { "kind": "svg", "alt": "A number line from 0 to 1 split into eighths with a dot at three eighths, three spaces from zero.", "svg": "<svg viewBox='0 0 340 70' role='img' xmlns='http://www.w3.org/2000/svg'><line x1='20' y1='40' x2='320' y2='40' stroke='#333' stroke-width='2'/><line x1='20' y1='30' x2='20' y2='50' stroke='#333' stroke-width='2'/><line x1='57.5' y1='32' x2='57.5' y2='48' stroke='#333' stroke-width='2'/><line x1='95' y1='32' x2='95' y2='48' stroke='#333' stroke-width='2'/><line x1='132.5' y1='32' x2='132.5' y2='48' stroke='#333' stroke-width='2'/><line x1='170' y1='32' x2='170' y2='48' stroke='#333' stroke-width='2'/><line x1='207.5' y1='32' x2='207.5' y2='48' stroke='#333' stroke-width='2'/><line x1='245' y1='32' x2='245' y2='48' stroke='#333' stroke-width='2'/><line x1='282.5' y1='32' x2='282.5' y2='48' stroke='#333' stroke-width='2'/><line x1='320' y1='30' x2='320' y2='50' stroke='#333' stroke-width='2'/><circle cx='132.5' cy='40' r='7' fill='#cc0000'/><text x='15' y='65' font-size='12'>0</text><text x='316' y='65' font-size='12'>1</text></svg>" },
+      { "kind": "paragraph", "text": "Each space is 1/8. The dot is 3 spaces from 0, so its distance from zero is 3/8." },
+      { "kind": "heading", "level": 2, "text": "Measuring the Distance" },
+      { "kind": "list", "ordered": true, "items": ["Find how many equal spaces fit from 0 to 1. That is the bottom number.", "Count the spaces from 0 to the point. That is the top number.", "The fraction is the distance from 0."] },
+      { "kind": "html", "html": "<p>On this line each space is one third. A dot 2 spaces from 0 is at a distance of <strong>2/3</strong>.</p>" },
+      { "kind": "svg", "alt": "A number line from 0 to 1 split into thirds with a dot at two thirds, two spaces from zero.", "svg": "<svg viewBox='0 0 340 70' role='img' xmlns='http://www.w3.org/2000/svg'><line x1='20' y1='40' x2='320' y2='40' stroke='#333' stroke-width='2'/><line x1='20' y1='30' x2='20' y2='50' stroke='#333' stroke-width='2'/><line x1='120' y1='32' x2='120' y2='48' stroke='#333' stroke-width='2'/><line x1='220' y1='32' x2='220' y2='48' stroke='#333' stroke-width='2'/><line x1='320' y1='30' x2='320' y2='50' stroke='#333' stroke-width='2'/><circle cx='220' cy='40' r='7' fill='#cc0000'/><text x='15' y='65' font-size='12'>0</text><text x='316' y='65' font-size='12'>1</text></svg>" },
+      { "kind": "callout", "tone": "info", "title": "Tip", "text": "Always measure the distance starting from 0, counting each equal space." }
+    ],
+    "practiceExamples": [
+      {
+        "id": "ex1",
+        "prompt": ["On a number line split into fourths, a dot is 1 space from 0. What is its distance from zero?"],
+        "options": [
+          { "key": "A", "text": "1/4", "correct": true, "rationale": "Each space is 1/4 and the dot is 1 space from 0, so the distance from zero is 1/4." },
+          { "key": "B", "text": "4/1" },
+          { "key": "C", "text": "1/2" },
+          { "key": "D", "text": "3/4" }
+        ],
+        "answer": ["A. 1/4"],
+        "explanation": ["One space of size 1/4 from 0 gives a distance of 1/4."]
+      },
+      {
+        "id": "ex2",
+        "prompt": ["On a number line split into sixths, a dot is 5 spaces from 0. What is its distance from zero?"],
+        "options": [
+          { "key": "A", "text": "6/5" },
+          { "key": "B", "text": "5/6", "correct": true, "rationale": "Each space is 1/6 and the dot is 5 spaces from 0, so the distance is 5/6." },
+          { "key": "C", "text": "1/6" },
+          { "key": "D", "text": "5/5" }
+        ],
+        "answer": ["B. 5/6"],
+        "explanation": ["Five spaces of 1/6 each measured from 0 is a distance of 5/6."]
+      },
+      {
+        "id": "ex3",
+        "prompt": ["A dot sits right on 0 on the number line. What is its distance from zero?"],
+        "options": [
+          { "key": "A", "text": "1/2" },
+          { "key": "B", "text": "1/8" },
+          { "key": "C", "text": "0", "correct": true, "rationale": "A point on 0 is no spaces away from 0, so its distance from zero is 0." },
+          { "key": "D", "text": "1" }
+        ],
+        "answer": ["C. 0"],
+        "explanation": ["The dot has not moved from 0, so the distance from zero is 0."]
+      }
+    ]
+  }
+]

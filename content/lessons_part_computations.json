@@ -1,0 +1,705 @@
+[
+  {
+    "programKey": "grade3_staar",
+    "subject": "math",
+    "standardCode": "3.4A",
+    "version": 1,
+    "status": "available",
+    "title": "Adding and Subtracting Within 1,000 With Regrouping",
+    "intro": "Sometimes numbers are too big to add or subtract in your head. In this lesson you will learn smart ways to add and subtract numbers up to 1,000, including how to regroup when a column is too full or too small.",
+    "reportingCategory": "Computations & Algebraic Relationships",
+    "visualKind": "steps",
+    "vocabulary": [
+      { "term": "sum", "meaning": "The answer when you add numbers together." },
+      { "term": "difference", "meaning": "The answer when you subtract one number from another." },
+      { "term": "regroup", "meaning": "To trade 10 ones for 1 ten, or 10 tens for 1 hundred, when adding or subtracting." },
+      { "term": "place value", "meaning": "The value of a digit based on where it sits: ones, tens, or hundreds." },
+      { "term": "algorithm", "meaning": "A step-by-step way to solve a problem the same way every time." }
+    ],
+    "body": [
+      { "kind": "heading", "level": 2, "text": "Line Up the Place Values" },
+      { "kind": "paragraph", "text": "When you add or subtract big numbers, line up the ones under the ones, the tens under the tens, and the hundreds under the hundreds. Then work from right to left." },
+      { "kind": "svg", "alt": "Adding 256 plus 167 stacked, with the ones column adding to 13 and a regrouped 1 above the tens.", "svg": "<svg viewBox='0 0 220 140' role='img' xmlns='http://www.w3.org/2000/svg'><text x='30' y='28' font-size='14' fill='#1f6feb'>1   1</text><text x='40' y='55' font-size='22' fill='#111'>2 5 6</text><text x='22' y='85' font-size='22' fill='#111'>+ 1 6 7</text><line x1='20' y1='95' x2='150' y2='95' stroke='#111' stroke-width='2'/><text x='40' y='122' font-size='22' fill='#1f6feb'>4 2 3</text></svg>" },
+      { "kind": "heading", "level": 2, "text": "Regroup When a Column Is Too Full" },
+      { "kind": "paragraph", "text": "When a column adds up to 10 or more, write the ones digit and carry the extra to the next column. For 256 + 167, the ones make 13, so write 3 and carry 1." },
+      { "kind": "callout", "tone": "info", "title": "Subtraction Tip", "text": "If the top number in a column is too small, borrow 1 from the next column. That 1 becomes 10 in the column you are working on." },
+      { "kind": "html", "html": "<p><strong>Check your work:</strong> add the difference back to the smaller number. If you get the bigger number, you are correct!</p>" }
+    ],
+    "practiceExamples": [
+      {
+        "id": "ex1",
+        "prompt": ["What is 256 + 167?"],
+        "options": [
+          { "key": "A", "text": "313" },
+          { "key": "B", "text": "423", "correct": true, "rationale": "Ones: 6 + 7 = 13, write 3 carry 1. Tens: 1 + 5 + 6 = 12, write 2 carry 1. Hundreds: 1 + 2 + 1 = 4. The sum is 423." },
+          { "key": "C", "text": "413" }
+        ],
+        "answer": ["B. 423"],
+        "explanation": ["Add each column and regroup when needed: 256 + 167 = 423."]
+      },
+      {
+        "id": "ex2",
+        "prompt": ["What is 504 - 268?"],
+        "options": [
+          { "key": "A", "text": "236", "correct": true, "rationale": "Borrow to subtract: 504 - 268 = 236. You can check by adding 236 + 268 = 504." },
+          { "key": "B", "text": "344" },
+          { "key": "C", "text": "246" }
+        ],
+        "answer": ["A. 236"],
+        "explanation": ["Regroup across the zero, then subtract each column: 504 - 268 = 236."]
+      }
+    ]
+  },
+  {
+    "programKey": "grade3_staar",
+    "subject": "math",
+    "standardCode": "3.4B",
+    "version": 1,
+    "status": "available",
+    "title": "Rounding and Compatible Numbers to Estimate Sums and Differences",
+    "intro": "Estimating helps you check if an answer makes sense. In this lesson you will round numbers to the nearest 10 or 100 and use friendly compatible numbers to estimate sums and differences quickly.",
+    "reportingCategory": "Computations & Algebraic Relationships",
+    "visualKind": "number_line",
+    "vocabulary": [
+      { "term": "estimate", "meaning": "A close answer that is not exact but is good enough to be useful." },
+      { "term": "round", "meaning": "To change a number to a nearby ten or hundred that is easier to use." },
+      { "term": "compatible numbers", "meaning": "Friendly numbers that are easy to add or subtract in your head." },
+      { "term": "nearest ten", "meaning": "The closest number that ends in zero, like 30 or 80." },
+      { "term": "nearest hundred", "meaning": "The closest number that ends in two zeros, like 200 or 500." }
+    ],
+    "body": [
+      { "kind": "heading", "level": 2, "text": "Rounding on a Number Line" },
+      { "kind": "paragraph", "text": "To round 47 to the nearest ten, find the two tens it sits between: 40 and 50. Since 47 is past the middle (45), round up to 50." },
+      { "kind": "svg", "alt": "Number line from 40 to 50 with 47 marked closer to 50.", "svg": "<svg viewBox='0 0 320 90' role='img' xmlns='http://www.w3.org/2000/svg'><line x1='20' y1='50' x2='300' y2='50' stroke='#111' stroke-width='2'/><line x1='20' y1='42' x2='20' y2='58' stroke='#111' stroke-width='2'/><line x1='160' y1='42' x2='160' y2='58' stroke='#999' stroke-width='1'/><line x1='300' y1='42' x2='300' y2='58' stroke='#111' stroke-width='2'/><circle cx='244' cy='50' r='6' fill='#1f6feb'/><text x='12' y='75' font-size='13' fill='#111'>40</text><text x='150' y='75' font-size='12' fill='#999'>45</text><text x='292' y='75' font-size='13' fill='#111'>50</text><text x='232' y='34' font-size='13' fill='#1f6feb'>47</text></svg>" },
+      { "kind": "heading", "level": 2, "text": "Estimate the Sum" },
+      { "kind": "paragraph", "text": "To estimate 47 + 32, round each number first. 47 rounds to 50 and 32 rounds to 30. So 50 + 30 = 80 is a good estimate." },
+      { "kind": "callout", "tone": "info", "title": "Halfway Rule", "text": "If a number is exactly halfway, like 45, round up to the higher ten." },
+      { "kind": "list", "ordered": true, "items": ["Round each number.", "Add or subtract the rounded numbers.", "Compare your estimate to the real answer to check if it is reasonable."] }
+    ],
+    "practiceExamples": [
+      {
+        "id": "ex1",
+        "prompt": ["Round 47 + 32 to the nearest ten to estimate the sum."],
+        "options": [
+          { "key": "A", "text": "70" },
+          { "key": "B", "text": "80", "correct": true, "rationale": "47 rounds to 50 and 32 rounds to 30. 50 + 30 = 80." },
+          { "key": "C", "text": "90" }
+        ],
+        "answer": ["B. 80"],
+        "explanation": ["Round both numbers, then add: 50 + 30 = 80."]
+      },
+      {
+        "id": "ex2",
+        "prompt": ["Estimate 612 - 289 by rounding each number to the nearest hundred."],
+        "options": [
+          { "key": "A", "text": "300", "correct": true, "rationale": "612 rounds to 600 and 289 rounds to 300. 600 - 300 = 300." },
+          { "key": "B", "text": "400" },
+          { "key": "C", "text": "200" }
+        ],
+        "answer": ["A. 300"],
+        "explanation": ["Round to the nearest hundred, then subtract: 600 - 300 = 300."]
+      }
+    ]
+  },
+  {
+    "programKey": "grade3_staar",
+    "subject": "math",
+    "standardCode": "3.4D",
+    "version": 1,
+    "status": "available",
+    "title": "Finding Totals in Equal Groups and Arrays",
+    "intro": "When objects are sorted into equal groups or neat rows, you can count them fast. In this lesson you will find the total number of objects in equal groups and in arrays.",
+    "reportingCategory": "Computations & Algebraic Relationships",
+    "visualKind": "array",
+    "vocabulary": [
+      { "term": "equal groups", "meaning": "Groups that all have the same number of objects." },
+      { "term": "array", "meaning": "Objects arranged in equal rows and columns." },
+      { "term": "row", "meaning": "A line of objects that goes left to right." },
+      { "term": "column", "meaning": "A line of objects that goes up and down." },
+      { "term": "total", "meaning": "The whole amount when everything is counted together." }
+    ],
+    "body": [
+      { "kind": "heading", "level": 2, "text": "Counting Equal Groups" },
+      { "kind": "paragraph", "text": "If you have 3 groups and each group has 4 dots, you can add 4 + 4 + 4 = 12. Equal groups make counting fast." },
+      { "kind": "heading", "level": 2, "text": "Counting an Array" },
+      { "kind": "paragraph", "text": "An array has equal rows. Count the rows and the dots in each row. The array below has 3 rows of 4, which is 12 dots." },
+      { "kind": "svg", "alt": "An array with 3 rows and 4 columns of dots, 12 dots in all.", "svg": "<svg viewBox='0 0 200 130' role='img' xmlns='http://www.w3.org/2000/svg'><g fill='#1f6feb'><circle cx='40' cy='30' r='10'/><circle cx='80' cy='30' r='10'/><circle cx='120' cy='30' r='10'/><circle cx='160' cy='30' r='10'/><circle cx='40' cy='70' r='10'/><circle cx='80' cy='70' r='10'/><circle cx='120' cy='70' r='10'/><circle cx='160' cy='70' r='10'/><circle cx='40' cy='110' r='10'/><circle cx='80' cy='110' r='10'/><circle cx='120' cy='110' r='10'/><circle cx='160' cy='110' r='10'/></g></svg>" },
+      { "kind": "callout", "tone": "info", "title": "Rows Times Columns", "text": "Number of rows times number in each row gives the total. Here 3 rows times 4 equals 12." }
+    ],
+    "practiceExamples": [
+      {
+        "id": "ex1",
+        "prompt": ["There are 5 baskets. Each basket holds 3 apples. How many apples are there in all?"],
+        "options": [
+          { "key": "A", "text": "8" },
+          { "key": "B", "text": "15", "correct": true, "rationale": "5 equal groups of 3 is 3 + 3 + 3 + 3 + 3 = 15." },
+          { "key": "C", "text": "12" }
+        ],
+        "answer": ["B. 15"],
+        "explanation": ["Add the equal groups: 5 groups of 3 makes 15."]
+      },
+      {
+        "id": "ex2",
+        "prompt": ["An array has 4 rows with 6 stickers in each row. How many stickers are there?"],
+        "options": [
+          { "key": "A", "text": "24", "correct": true, "rationale": "Rows times columns: 4 rows of 6 is 24 stickers." },
+          { "key": "B", "text": "10" },
+          { "key": "C", "text": "18" }
+        ],
+        "answer": ["A. 24"],
+        "explanation": ["Multiply rows by columns: 4 times 6 equals 24."]
+      }
+    ]
+  },
+  {
+    "programKey": "grade3_staar",
+    "subject": "math",
+    "standardCode": "3.4E",
+    "version": 1,
+    "status": "available",
+    "title": "Showing Multiplication Many Ways",
+    "intro": "Multiplication can be shown in lots of ways. In this lesson you will use repeated addition, equal groups, arrays, area models, and skip counting to show the same multiplication fact.",
+    "reportingCategory": "Computations & Algebraic Relationships",
+    "visualKind": "array",
+    "vocabulary": [
+      { "term": "multiplication", "meaning": "A fast way to add equal groups together." },
+      { "term": "repeated addition", "meaning": "Adding the same number over and over, like 5 + 5 + 5." },
+      { "term": "skip counting", "meaning": "Counting by a number, like 5, 10, 15, 20." },
+      { "term": "area model", "meaning": "A rectangle split into equal squares to show multiplication." },
+      { "term": "factor", "meaning": "A number being multiplied." }
+    ],
+    "body": [
+      { "kind": "heading", "level": 2, "text": "One Fact, Many Pictures" },
+      { "kind": "paragraph", "text": "The fact 3 x 5 means 3 groups of 5. You can show it as repeated addition: 5 + 5 + 5 = 15. You can skip count: 5, 10, 15." },
+      { "kind": "heading", "level": 2, "text": "Area Model" },
+      { "kind": "paragraph", "text": "An area model uses a rectangle. The rectangle below is 3 units tall and 5 units wide, so it has 15 squares." },
+      { "kind": "svg", "alt": "Area model rectangle that is 3 rows tall and 5 columns wide, showing 15 squares.", "svg": "<svg viewBox='0 0 260 170' role='img' xmlns='http://www.w3.org/2000/svg'><g fill='#dbe9ff' stroke='#1f6feb' stroke-width='2'><rect x='20' y='20' width='40' height='40'/><rect x='60' y='20' width='40' height='40'/><rect x='100' y='20' width='40' height='40'/><rect x='140' y='20' width='40' height='40'/><rect x='180' y='20' width='40' height='40'/><rect x='20' y='60' width='40' height='40'/><rect x='60' y='60' width='40' height='40'/><rect x='100' y='60' width='40' height='40'/><rect x='140' y='60' width='40' height='40'/><rect x='180' y='60' width='40' height='40'/><rect x='20' y='100' width='40' height='40'/><rect x='60' y='100' width='40' height='40'/><rect x='100' y='100' width='40' height='40'/><rect x='140' y='100' width='40' height='40'/><rect x='180' y='100' width='40' height='40'/></g><text x='90' y='160' font-size='14' fill='#111'>3 x 5 = 15</text></svg>" },
+      { "kind": "callout", "tone": "info", "title": "Same Answer", "text": "Every way of showing 3 x 5 gives the same total: 15." }
+    ],
+    "practiceExamples": [
+      {
+        "id": "ex1",
+        "prompt": ["Which repeated addition matches 4 x 3?"],
+        "options": [
+          { "key": "A", "text": "3 + 3 + 3 + 3", "correct": true, "rationale": "4 x 3 means 4 groups of 3, which is 3 + 3 + 3 + 3 = 12." },
+          { "key": "B", "text": "4 + 4 + 4 + 4" },
+          { "key": "C", "text": "3 + 4" }
+        ],
+        "answer": ["A. 3 + 3 + 3 + 3"],
+        "explanation": ["4 x 3 is 4 groups of 3, so add three four times: 3 + 3 + 3 + 3."]
+      },
+      {
+        "id": "ex2",
+        "prompt": ["Skip count by 5 three times: 5, 10, ___. What is the total for 3 x 5?"],
+        "options": [
+          { "key": "A", "text": "20" },
+          { "key": "B", "text": "15", "correct": true, "rationale": "Skip counting by 5 three times gives 5, 10, 15. So 3 x 5 = 15." },
+          { "key": "C", "text": "8" }
+        ],
+        "answer": ["B. 15"],
+        "explanation": ["Skip counting by 5 three times lands on 15."]
+      }
+    ]
+  },
+  {
+    "programKey": "grade3_staar",
+    "subject": "math",
+    "standardCode": "3.4F",
+    "version": 1,
+    "status": "available",
+    "title": "Multiplication and Division Fact Families Through 10x10",
+    "intro": "Multiplication and division are related, like family members. In this lesson you will recall facts through 10x10 and use fact families to find related division facts.",
+    "reportingCategory": "Computations & Algebraic Relationships",
+    "visualKind": "array",
+    "vocabulary": [
+      { "term": "fact family", "meaning": "A group of related multiplication and division facts that use the same three numbers." },
+      { "term": "product", "meaning": "The answer to a multiplication problem." },
+      { "term": "quotient", "meaning": "The answer to a division problem." },
+      { "term": "divide", "meaning": "To split a total into equal groups." },
+      { "term": "related fact", "meaning": "A fact that uses the same numbers in a different way." }
+    ],
+    "body": [
+      { "kind": "heading", "level": 2, "text": "What Is a Fact Family?" },
+      { "kind": "paragraph", "text": "The numbers 6, 7, and 42 make a fact family. From them you get four facts: 6 x 7 = 42, 7 x 6 = 42, 42 / 6 = 7, and 42 / 7 = 6." },
+      { "kind": "svg", "alt": "A triangle fact family with 42 at the top and 6 and 7 at the bottom corners.", "svg": "<svg viewBox='0 0 220 160' role='img' xmlns='http://www.w3.org/2000/svg'><polygon points='110,20 30,140 190,140' fill='none' stroke='#1f6feb' stroke-width='2'/><text x='95' y='50' font-size='20' fill='#111'>42</text><text x='40' y='135' font-size='20' fill='#111'>6</text><text x='165' y='135' font-size='20' fill='#111'>7</text></svg>" },
+      { "kind": "heading", "level": 2, "text": "Use One to Find Another" },
+      { "kind": "paragraph", "text": "If you know 6 x 7 = 42, you also know 42 / 7 = 6. Knowing your multiplication facts helps you divide fast." },
+      { "kind": "callout", "tone": "info", "title": "Practice Tip", "text": "Multiplication is commutative, so 6 x 7 and 7 x 6 give the same product." }
+    ],
+    "practiceExamples": [
+      {
+        "id": "ex1",
+        "prompt": ["Which fact belongs to the same family as 8 x 4 = 32?"],
+        "options": [
+          { "key": "A", "text": "32 / 4 = 8", "correct": true, "rationale": "The family uses 8, 4, and 32. So 32 / 4 = 8 is a related fact." },
+          { "key": "B", "text": "8 + 4 = 12" },
+          { "key": "C", "text": "32 / 6 = 5" }
+        ],
+        "answer": ["A. 32 / 4 = 8"],
+        "explanation": ["The fact family of 8, 4, and 32 includes 32 / 4 = 8."]
+      },
+      {
+        "id": "ex2",
+        "prompt": ["If 9 x 3 = 27, what is 27 / 9?"],
+        "options": [
+          { "key": "A", "text": "9" },
+          { "key": "B", "text": "3", "correct": true, "rationale": "27, 9, and 3 are a fact family, so 27 / 9 = 3." },
+          { "key": "C", "text": "6" }
+        ],
+        "answer": ["B. 3"],
+        "explanation": ["Use the related multiplication fact: since 9 x 3 = 27, then 27 / 9 = 3."]
+      }
+    ]
+  },
+  {
+    "programKey": "grade3_staar",
+    "subject": "math",
+    "standardCode": "3.4G",
+    "version": 1,
+    "status": "available",
+    "title": "Multiplying a Two-Digit Number by a One-Digit Number",
+    "intro": "Some multiplication problems use bigger numbers. In this lesson you will multiply a two-digit number by a one-digit number using place value and the standard algorithm.",
+    "reportingCategory": "Computations & Algebraic Relationships",
+    "visualKind": "steps",
+    "vocabulary": [
+      { "term": "product", "meaning": "The answer to a multiplication problem." },
+      { "term": "partial product", "meaning": "A smaller product you find before adding to get the final answer." },
+      { "term": "regroup", "meaning": "To carry a ten or hundred to the next place value." },
+      { "term": "standard algorithm", "meaning": "The step-by-step way to multiply by working from the ones place." },
+      { "term": "tens", "meaning": "The place value worth groups of ten." }
+    ],
+    "body": [
+      { "kind": "heading", "level": 2, "text": "Break the Number Apart" },
+      { "kind": "paragraph", "text": "To multiply 24 x 3, break 24 into 20 + 4. Multiply each part: 20 x 3 = 60 and 4 x 3 = 12. Then add: 60 + 12 = 72." },
+      { "kind": "svg", "alt": "Steps showing 24 times 3 split into 20 times 3 equals 60 and 4 times 3 equals 12, then 60 plus 12 equals 72.", "svg": "<svg viewBox='0 0 300 130' role='img' xmlns='http://www.w3.org/2000/svg'><rect x='10' y='20' width='130' height='40' fill='#dbe9ff' stroke='#1f6feb'/><text x='25' y='45' font-size='15' fill='#111'>20 x 3 = 60</text><rect x='10' y='70' width='130' height='40' fill='#dbe9ff' stroke='#1f6feb'/><text x='30' y='95' font-size='15' fill='#111'>4 x 3 = 12</text><text x='160' y='75' font-size='15' fill='#111'>60 + 12 = 72</text></svg>" },
+      { "kind": "heading", "level": 2, "text": "Standard Algorithm" },
+      { "kind": "paragraph", "text": "Start with the ones: 3 x 4 = 12. Write 2 and carry 1. Then 3 x 2 tens = 6 tens, plus the carried 1 is 7. The answer is 72." },
+      { "kind": "callout", "tone": "info", "title": "Check It", "text": "Estimate first: 24 is close to 25, and 25 x 3 = 75. Since 72 is close to 75, the answer is reasonable." }
+    ],
+    "practiceExamples": [
+      {
+        "id": "ex1",
+        "prompt": ["What is 24 x 3?"],
+        "options": [
+          { "key": "A", "text": "72", "correct": true, "rationale": "20 x 3 = 60 and 4 x 3 = 12, and 60 + 12 = 72." },
+          { "key": "B", "text": "62" },
+          { "key": "C", "text": "27" }
+        ],
+        "answer": ["A. 72"],
+        "explanation": ["Multiply the tens and ones, then add: 60 + 12 = 72."]
+      },
+      {
+        "id": "ex2",
+        "prompt": ["What is 36 x 4?"],
+        "options": [
+          { "key": "A", "text": "124" },
+          { "key": "B", "text": "144", "correct": true, "rationale": "30 x 4 = 120 and 6 x 4 = 24, and 120 + 24 = 144." },
+          { "key": "C", "text": "138" }
+        ],
+        "answer": ["B. 144"],
+        "explanation": ["Break apart 36: 120 + 24 = 144."]
+      }
+    ]
+  },
+  {
+    "programKey": "grade3_staar",
+    "subject": "math",
+    "standardCode": "3.4H",
+    "version": 1,
+    "status": "available",
+    "title": "Division as Fair Sharing Into Equal Groups",
+    "intro": "When you share a total fairly, everyone gets the same amount. In this lesson you will use division to find how many objects go in each group when a total is split equally.",
+    "reportingCategory": "Computations & Algebraic Relationships",
+    "visualKind": "array",
+    "vocabulary": [
+      { "term": "divide", "meaning": "To split a total into equal groups." },
+      { "term": "fair share", "meaning": "When each group gets the same amount." },
+      { "term": "quotient", "meaning": "The answer to a division problem, the amount in each group." },
+      { "term": "dividend", "meaning": "The total number you are sharing." },
+      { "term": "equal groups", "meaning": "Groups that all have the same number of objects." }
+    ],
+    "body": [
+      { "kind": "heading", "level": 2, "text": "Sharing Equally" },
+      { "kind": "paragraph", "text": "If 12 cookies are shared fairly among 3 friends, each friend gets the same number. Pass out one cookie at a time until they are gone. Each friend gets 4." },
+      { "kind": "svg", "alt": "Twelve dots shared into three groups of four dots each.", "svg": "<svg viewBox='0 0 300 110' role='img' xmlns='http://www.w3.org/2000/svg'><g fill='#1f6feb'><circle cx='30' cy='40' r='9'/><circle cx='55' cy='40' r='9'/><circle cx='30' cy='65' r='9'/><circle cx='55' cy='65' r='9'/><circle cx='130' cy='40' r='9'/><circle cx='155' cy='40' r='9'/><circle cx='130' cy='65' r='9'/><circle cx='155' cy='65' r='9'/><circle cx='230' cy='40' r='9'/><circle cx='255' cy='40' r='9'/><circle cx='230' cy='65' r='9'/><circle cx='255' cy='65' r='9'/></g><text x='25' y='95' font-size='12' fill='#111'>Group 1</text><text x='125' y='95' font-size='12' fill='#111'>Group 2</text><text x='225' y='95' font-size='12' fill='#111'>Group 3</text></svg>" },
+      { "kind": "heading", "level": 2, "text": "Write the Division" },
+      { "kind": "paragraph", "text": "Sharing 12 into 3 equal groups is written 12 / 3 = 4. The quotient 4 is how many are in each group." },
+      { "kind": "callout", "tone": "info", "title": "Think Multiplication", "text": "Ask yourself: 3 times what equals 12? Since 3 x 4 = 12, each group gets 4." }
+    ],
+    "practiceExamples": [
+      {
+        "id": "ex1",
+        "prompt": ["Twenty crayons are shared equally among 4 students. How many crayons does each student get?"],
+        "options": [
+          { "key": "A", "text": "5", "correct": true, "rationale": "20 / 4 = 5 because 4 x 5 = 20. Each student gets 5 crayons." },
+          { "key": "B", "text": "4" },
+          { "key": "C", "text": "16" }
+        ],
+        "answer": ["A. 5"],
+        "explanation": ["Share 20 into 4 equal groups: 20 / 4 = 5."]
+      },
+      {
+        "id": "ex2",
+        "prompt": ["Eighteen marbles are split equally into 3 bags. How many marbles are in each bag?"],
+        "options": [
+          { "key": "A", "text": "9" },
+          { "key": "B", "text": "6", "correct": true, "rationale": "18 / 3 = 6 because 3 x 6 = 18. Each bag has 6 marbles." },
+          { "key": "C", "text": "5" }
+        ],
+        "answer": ["B. 6"],
+        "explanation": ["Divide 18 into 3 equal groups: 18 / 3 = 6."]
+      }
+    ]
+  },
+  {
+    "programKey": "grade3_staar",
+    "subject": "math",
+    "standardCode": "3.4J",
+    "version": 1,
+    "status": "available",
+    "title": "Finding Quotients Using Multiplication",
+    "intro": "Multiplication and division undo each other. In this lesson you will use the multiplication facts you already know to find division quotients quickly.",
+    "reportingCategory": "Computations & Algebraic Relationships",
+    "visualKind": "array",
+    "vocabulary": [
+      { "term": "quotient", "meaning": "The answer to a division problem." },
+      { "term": "inverse", "meaning": "An operation that undoes another, like multiplication and division." },
+      { "term": "missing factor", "meaning": "The number you need to find that makes a multiplication fact true." },
+      { "term": "divisor", "meaning": "The number you are dividing by." },
+      { "term": "dividend", "meaning": "The total number being divided." }
+    ],
+    "body": [
+      { "kind": "heading", "level": 2, "text": "Turn Division Into Multiplication" },
+      { "kind": "paragraph", "text": "To solve 35 / 5, ask yourself: 5 times what number equals 35? Since 5 x 7 = 35, the quotient is 7." },
+      { "kind": "svg", "alt": "An array of 5 rows and 7 columns of dots showing that 5 times 7 equals 35.", "svg": "<svg viewBox='0 0 320 180' role='img' xmlns='http://www.w3.org/2000/svg'><g fill='#1f6feb'><circle cx='40' cy='30' r='7'/><circle cx='80' cy='30' r='7'/><circle cx='120' cy='30' r='7'/><circle cx='160' cy='30' r='7'/><circle cx='200' cy='30' r='7'/><circle cx='240' cy='30' r='7'/><circle cx='280' cy='30' r='7'/><circle cx='40' cy='60' r='7'/><circle cx='80' cy='60' r='7'/><circle cx='120' cy='60' r='7'/><circle cx='160' cy='60' r='7'/><circle cx='200' cy='60' r='7'/><circle cx='240' cy='60' r='7'/><circle cx='280' cy='60' r='7'/><circle cx='40' cy='90' r='7'/><circle cx='80' cy='90' r='7'/><circle cx='120' cy='90' r='7'/><circle cx='160' cy='90' r='7'/><circle cx='200' cy='90' r='7'/><circle cx='240' cy='90' r='7'/><circle cx='280' cy='90' r='7'/><circle cx='40' cy='120' r='7'/><circle cx='80' cy='120' r='7'/><circle cx='120' cy='120' r='7'/><circle cx='160' cy='120' r='7'/><circle cx='200' cy='120' r='7'/><circle cx='240' cy='120' r='7'/><circle cx='280' cy='120' r='7'/><circle cx='40' cy='150' r='7'/><circle cx='80' cy='150' r='7'/><circle cx='120' cy='150' r='7'/><circle cx='160' cy='150' r='7'/><circle cx='200' cy='150' r='7'/><circle cx='240' cy='150' r='7'/><circle cx='280' cy='150' r='7'/></g></svg>" },
+      { "kind": "heading", "level": 2, "text": "Why It Works" },
+      { "kind": "paragraph", "text": "The array shows 5 rows of 7, which is 35 dots. So 5 x 7 = 35 and 35 / 5 = 7. The same picture shows both facts." },
+      { "kind": "callout", "tone": "info", "title": "Quick Check", "text": "Multiply your quotient back: 5 x 7 = 35. If it matches the dividend, you are correct." }
+    ],
+    "practiceExamples": [
+      {
+        "id": "ex1",
+        "prompt": ["Use multiplication to find 56 / 8."],
+        "options": [
+          { "key": "A", "text": "6" },
+          { "key": "B", "text": "7", "correct": true, "rationale": "8 x 7 = 56, so 56 / 8 = 7." },
+          { "key": "C", "text": "8" }
+        ],
+        "answer": ["B. 7"],
+        "explanation": ["Think: 8 times what equals 56? Since 8 x 7 = 56, the quotient is 7."]
+      },
+      {
+        "id": "ex2",
+        "prompt": ["What multiplication fact helps you solve 42 / 6?"],
+        "options": [
+          { "key": "A", "text": "6 x 7 = 42", "correct": true, "rationale": "Because 6 x 7 = 42, you know 42 / 6 = 7." },
+          { "key": "B", "text": "6 + 7 = 13" },
+          { "key": "C", "text": "6 x 6 = 36" }
+        ],
+        "answer": ["A. 6 x 7 = 42"],
+        "explanation": ["The related multiplication fact 6 x 7 = 42 gives the quotient 7."]
+      }
+    ]
+  },
+  {
+    "programKey": "grade3_staar",
+    "subject": "math",
+    "standardCode": "3.4K",
+    "version": 1,
+    "status": "available",
+    "title": "Solving One-Step and Two-Step Multiplication and Division Word Problems",
+    "intro": "Word problems tell a story with numbers. In this lesson you will solve one-step and two-step problems within 100 using multiplication and division.",
+    "reportingCategory": "Computations & Algebraic Relationships",
+    "visualKind": "steps",
+    "vocabulary": [
+      { "term": "word problem", "meaning": "A math story you must read and solve." },
+      { "term": "one-step problem", "meaning": "A problem you solve with one operation." },
+      { "term": "two-step problem", "meaning": "A problem that needs two operations to solve." },
+      { "term": "operation", "meaning": "An action like adding, subtracting, multiplying, or dividing." },
+      { "term": "key words", "meaning": "Words in a problem that hint at which operation to use." }
+    ],
+    "body": [
+      { "kind": "heading", "level": 2, "text": "Read, Plan, Solve" },
+      { "kind": "paragraph", "text": "First read the problem carefully. Decide what to do, do the math, and then check that your answer makes sense." },
+      { "kind": "svg", "alt": "Three step boxes labeled Read, Plan, and Solve with arrows between them.", "svg": "<svg viewBox='0 0 320 80' role='img' xmlns='http://www.w3.org/2000/svg'><rect x='10' y='25' width='80' height='35' fill='#dbe9ff' stroke='#1f6feb'/><text x='30' y='48' font-size='14' fill='#111'>Read</text><rect x='120' y='25' width='80' height='35' fill='#dbe9ff' stroke='#1f6feb'/><text x='140' y='48' font-size='14' fill='#111'>Plan</text><rect x='230' y='25' width='80' height='35' fill='#dbe9ff' stroke='#1f6feb'/><text x='250' y='48' font-size='14' fill='#111'>Solve</text><text x='98' y='48' font-size='16' fill='#111'>&#8594;</text><text x='208' y='48' font-size='16' fill='#111'>&#8594;</text></svg>" },
+      { "kind": "heading", "level": 2, "text": "Two-Step Example" },
+      { "kind": "paragraph", "text": "Sam buys 4 packs of pencils. Each pack has 6 pencils. He gives 5 pencils to a friend. Step 1: 4 x 6 = 24. Step 2: 24 - 5 = 19 pencils left." },
+      { "kind": "callout", "tone": "info", "title": "Watch the Steps", "text": "In a two-step problem, the answer to the first step is used in the second step." }
+    ],
+    "practiceExamples": [
+      {
+        "id": "ex1",
+        "prompt": ["A teacher puts 32 books into 4 equal stacks. How many books are in each stack?"],
+        "options": [
+          { "key": "A", "text": "8", "correct": true, "rationale": "32 / 4 = 8 because 4 x 8 = 32. Each stack has 8 books." },
+          { "key": "B", "text": "6" },
+          { "key": "C", "text": "28" }
+        ],
+        "answer": ["A. 8"],
+        "explanation": ["Divide the total by the number of stacks: 32 / 4 = 8."]
+      },
+      {
+        "id": "ex2",
+        "prompt": ["Maria has 5 boxes with 7 crayons each. She loses 3 crayons. How many crayons does she have now?"],
+        "options": [
+          { "key": "A", "text": "35" },
+          { "key": "B", "text": "32", "correct": true, "rationale": "Step 1: 5 x 7 = 35. Step 2: 35 - 3 = 32 crayons." },
+          { "key": "C", "text": "38" }
+        ],
+        "answer": ["B. 32"],
+        "explanation": ["First multiply: 5 x 7 = 35. Then subtract: 35 - 3 = 32."]
+      }
+    ]
+  },
+  {
+    "programKey": "grade3_staar",
+    "subject": "math",
+    "standardCode": "3.5A",
+    "version": 1,
+    "status": "available",
+    "title": "Modeling Addition and Subtraction With Number Lines and Equations",
+    "intro": "You can show a math story with pictures, number lines, and equations. In this lesson you will represent one-step and two-step add and subtract problems using a letter for the unknown.",
+    "reportingCategory": "Computations & Algebraic Relationships",
+    "visualKind": "number_line",
+    "vocabulary": [
+      { "term": "equation", "meaning": "A number sentence with an equal sign showing both sides are equal." },
+      { "term": "unknown", "meaning": "The missing number you are trying to find." },
+      { "term": "variable", "meaning": "A letter that stands for an unknown number." },
+      { "term": "number line", "meaning": "A line with numbers used to add or subtract by jumping." },
+      { "term": "model", "meaning": "A picture or diagram that shows a math problem." }
+    ],
+    "body": [
+      { "kind": "heading", "level": 2, "text": "Use a Letter for the Unknown" },
+      { "kind": "paragraph", "text": "If Jen had some stickers and got 8 more to have 20, write the equation s + 8 = 20. The letter s stands for the number she started with." },
+      { "kind": "heading", "level": 2, "text": "Jump on a Number Line" },
+      { "kind": "paragraph", "text": "Start at 12 and jump forward 8 to land on 20. The number line shows that 12 + 8 = 20, so s = 12." },
+      { "kind": "svg", "alt": "Number line from 12 to 20 with a jump of 8 from 12 to 20.", "svg": "<svg viewBox='0 0 320 90' role='img' xmlns='http://www.w3.org/2000/svg'><line x1='20' y1='60' x2='300' y2='60' stroke='#111' stroke-width='2'/><line x1='40' y1='52' x2='40' y2='68' stroke='#111' stroke-width='2'/><line x1='280' y1='52' x2='280' y2='68' stroke='#111' stroke-width='2'/><path d='M40 50 Q160 10 280 50' fill='none' stroke='#1f6feb' stroke-width='2'/><text x='30' y='82' font-size='13' fill='#111'>12</text><text x='272' y='82' font-size='13' fill='#111'>20</text><text x='145' y='25' font-size='13' fill='#1f6feb'>+8</text></svg>" },
+      { "kind": "callout", "tone": "info", "title": "Two-Step Equations", "text": "Some problems need two steps. You might add first and then subtract to find the unknown." }
+    ],
+    "practiceExamples": [
+      {
+        "id": "ex1",
+        "prompt": ["Jen had some stickers. She got 8 more and now has 20. Which equation finds how many she started with?"],
+        "options": [
+          { "key": "A", "text": "s + 8 = 20", "correct": true, "rationale": "The unknown start s plus the 8 she got equals 20. So s + 8 = 20, and s = 12." },
+          { "key": "B", "text": "s - 8 = 20" },
+          { "key": "C", "text": "8 - s = 20" }
+        ],
+        "answer": ["A. s + 8 = 20"],
+        "explanation": ["The starting amount plus 8 equals 20, written s + 8 = 20."]
+      },
+      {
+        "id": "ex2",
+        "prompt": ["A bus had 15 riders. Some got off and 9 were left. The equation is 15 - r = 9. What is r?"],
+        "options": [
+          { "key": "A", "text": "24" },
+          { "key": "B", "text": "6", "correct": true, "rationale": "15 - 9 = 6, so 6 riders got off. r = 6." },
+          { "key": "C", "text": "9" }
+        ],
+        "answer": ["B. 6"],
+        "explanation": ["Subtract to find the unknown: 15 - 9 = 6, so r = 6."]
+      }
+    ]
+  },
+  {
+    "programKey": "grade3_staar",
+    "subject": "math",
+    "standardCode": "3.5B",
+    "version": 1,
+    "status": "available",
+    "title": "Modeling Multiplication and Division With Arrays and Strip Diagrams",
+    "intro": "Pictures and diagrams help you see number patterns. In this lesson you will represent and solve multiplication and division within 100 using arrays, strip diagrams, and equations.",
+    "reportingCategory": "Patterns",
+    "visualKind": "array",
+    "vocabulary": [
+      { "term": "strip diagram", "meaning": "A long rectangle split into equal parts to show a math problem." },
+      { "term": "array", "meaning": "Objects arranged in equal rows and columns." },
+      { "term": "equation", "meaning": "A number sentence with an equal sign." },
+      { "term": "equal parts", "meaning": "Parts that are all the same size." },
+      { "term": "pattern", "meaning": "Numbers or shapes that repeat in a predictable way." }
+    ],
+    "body": [
+      { "kind": "heading", "level": 2, "text": "Strip Diagrams" },
+      { "kind": "paragraph", "text": "A strip diagram shows the whole split into equal parts. The strip below has 4 parts of 5, so the whole is 20. The equation is 4 x 5 = 20." },
+      { "kind": "svg", "alt": "A strip diagram split into 4 equal parts each labeled 5, with a total of 20.", "svg": "<svg viewBox='0 0 280 90' role='img' xmlns='http://www.w3.org/2000/svg'><g fill='#dbe9ff' stroke='#1f6feb' stroke-width='2'><rect x='20' y='20' width='55' height='40'/><rect x='75' y='20' width='55' height='40'/><rect x='130' y='20' width='55' height='40'/><rect x='185' y='20' width='55' height='40'/></g><text x='42' y='45' font-size='14' fill='#111'>5</text><text x='97' y='45' font-size='14' fill='#111'>5</text><text x='152' y='45' font-size='14' fill='#111'>5</text><text x='207' y='45' font-size='14' fill='#111'>5</text><text x='95' y='80' font-size='13' fill='#111'>Total = 20</text></svg>" },
+      { "kind": "heading", "level": 2, "text": "From Picture to Equation" },
+      { "kind": "paragraph", "text": "The same strip shows division too. Splitting 20 into 4 equal parts gives 5 in each part, so 20 / 4 = 5." },
+      { "kind": "callout", "tone": "info", "title": "One Diagram, Two Facts", "text": "A strip diagram or array can show both a multiplication and a division fact." }
+    ],
+    "practiceExamples": [
+      {
+        "id": "ex1",
+        "prompt": ["A strip diagram is split into 4 equal parts of 5. Which equation does it show?"],
+        "options": [
+          { "key": "A", "text": "4 x 5 = 20", "correct": true, "rationale": "Four equal parts of 5 make 20, so 4 x 5 = 20." },
+          { "key": "B", "text": "4 + 5 = 9" },
+          { "key": "C", "text": "20 - 5 = 15" }
+        ],
+        "answer": ["A. 4 x 5 = 20"],
+        "explanation": ["Four parts of 5 means 4 x 5 = 20."]
+      },
+      {
+        "id": "ex2",
+        "prompt": ["An array has 6 rows and 4 columns. Which equation matches it?"],
+        "options": [
+          { "key": "A", "text": "6 + 4 = 10" },
+          { "key": "B", "text": "6 x 4 = 24", "correct": true, "rationale": "6 rows of 4 makes 24, so 6 x 4 = 24." },
+          { "key": "C", "text": "6 x 4 = 18" }
+        ],
+        "answer": ["B. 6 x 4 = 24"],
+        "explanation": ["Rows times columns: 6 x 4 = 24."]
+      }
+    ]
+  },
+  {
+    "programKey": "grade3_staar",
+    "subject": "math",
+    "standardCode": "3.5C",
+    "version": 1,
+    "status": "available",
+    "title": "Describing Multiplication as Times As Many",
+    "intro": "Multiplication can compare two amounts. In this lesson you will describe a multiplication expression as a comparison, like 3 times as many.",
+    "reportingCategory": "Computations & Algebraic Relationships",
+    "visualKind": "array",
+    "vocabulary": [
+      { "term": "comparison", "meaning": "Looking at how two amounts relate to each other." },
+      { "term": "times as many", "meaning": "A way to say one amount is a number of copies of another." },
+      { "term": "factor", "meaning": "A number being multiplied." },
+      { "term": "expression", "meaning": "A math phrase like 3 x 5 that shows an amount." },
+      { "term": "group", "meaning": "A set of objects counted together." }
+    ],
+    "body": [
+      { "kind": "heading", "level": 2, "text": "What Does Times As Many Mean?" },
+      { "kind": "paragraph", "text": "The expression 3 x 5 can mean 3 times as many as 5. If you have 5 red blocks, then 3 times as many blue blocks is 15 blue blocks." },
+      { "kind": "svg", "alt": "One row of 5 red dots and three rows of 5 blue dots, showing 3 times as many blue as red.", "svg": "<svg viewBox='0 0 280 170' role='img' xmlns='http://www.w3.org/2000/svg'><g fill='#e0533a'><circle cx='30' cy='25' r='8'/><circle cx='60' cy='25' r='8'/><circle cx='90' cy='25' r='8'/><circle cx='120' cy='25' r='8'/><circle cx='150' cy='25' r='8'/></g><text x='180' y='30' font-size='12' fill='#111'>5 red</text><g fill='#1f6feb'><circle cx='30' cy='65' r='8'/><circle cx='60' cy='65' r='8'/><circle cx='90' cy='65' r='8'/><circle cx='120' cy='65' r='8'/><circle cx='150' cy='65' r='8'/><circle cx='30' cy='95' r='8'/><circle cx='60' cy='95' r='8'/><circle cx='90' cy='95' r='8'/><circle cx='120' cy='95' r='8'/><circle cx='150' cy='95' r='8'/><circle cx='30' cy='125' r='8'/><circle cx='60' cy='125' r='8'/><circle cx='90' cy='125' r='8'/><circle cx='120' cy='125' r='8'/><circle cx='150' cy='125' r='8'/></g><text x='180' y='100' font-size='12' fill='#111'>15 blue</text></svg>" },
+      { "kind": "heading", "level": 2, "text": "Say It in Words" },
+      { "kind": "paragraph", "text": "Reading 4 x 6, you can say 4 times as many as 6. That is 4 groups of 6, which equals 24." },
+      { "kind": "callout", "tone": "info", "title": "Compare Carefully", "text": "The first factor tells how many times as many. In 3 x 5, you have 3 times as many as 5." }
+    ],
+    "practiceExamples": [
+      {
+        "id": "ex1",
+        "prompt": ["Which phrase describes 6 x 2?"],
+        "options": [
+          { "key": "A", "text": "6 times as many as 2", "correct": true, "rationale": "The first factor 6 tells how many times as many. So 6 x 2 is 6 times as many as 2." },
+          { "key": "B", "text": "6 more than 2" },
+          { "key": "C", "text": "2 fewer than 6" }
+        ],
+        "answer": ["A. 6 times as many as 2"],
+        "explanation": ["6 x 2 means 6 times as many as 2."]
+      },
+      {
+        "id": "ex2",
+        "prompt": ["Ben has 4 marbles. Lia has 3 times as many. How many marbles does Lia have?"],
+        "options": [
+          { "key": "A", "text": "7" },
+          { "key": "B", "text": "12", "correct": true, "rationale": "3 times as many as 4 is 3 x 4 = 12 marbles." },
+          { "key": "C", "text": "1" }
+        ],
+        "answer": ["B. 12"],
+        "explanation": ["3 times as many as 4 means 3 x 4 = 12."]
+      }
+    ]
+  },
+  {
+    "programKey": "grade3_staar",
+    "subject": "math",
+    "standardCode": "3.5D",
+    "version": 1,
+    "status": "available",
+    "title": "Finding the Unknown Number in Multiplication and Division Equations",
+    "intro": "Sometimes a number in an equation is missing. In this lesson you will find the unknown whole number in multiplication and division equations.",
+    "reportingCategory": "Computations & Algebraic Relationships",
+    "visualKind": "array",
+    "vocabulary": [
+      { "term": "unknown", "meaning": "The missing number you are trying to find." },
+      { "term": "equation", "meaning": "A number sentence with an equal sign." },
+      { "term": "missing factor", "meaning": "A factor you must find to make the equation true." },
+      { "term": "balance", "meaning": "Both sides of an equation must be equal." },
+      { "term": "related fact", "meaning": "A fact that uses the same numbers to help you solve." }
+    ],
+    "body": [
+      { "kind": "heading", "level": 2, "text": "Find the Missing Factor" },
+      { "kind": "paragraph", "text": "In the equation 4 x ? = 28, you need a factor that makes 28. Think: 4 times what equals 28? Since 4 x 7 = 28, the unknown is 7." },
+      { "kind": "svg", "alt": "An array of 4 rows with 7 dots in each row showing 4 times 7 equals 28.", "svg": "<svg viewBox='0 0 320 150' role='img' xmlns='http://www.w3.org/2000/svg'><g fill='#1f6feb'><circle cx='40' cy='30' r='7'/><circle cx='80' cy='30' r='7'/><circle cx='120' cy='30' r='7'/><circle cx='160' cy='30' r='7'/><circle cx='200' cy='30' r='7'/><circle cx='240' cy='30' r='7'/><circle cx='280' cy='30' r='7'/><circle cx='40' cy='60' r='7'/><circle cx='80' cy='60' r='7'/><circle cx='120' cy='60' r='7'/><circle cx='160' cy='60' r='7'/><circle cx='200' cy='60' r='7'/><circle cx='240' cy='60' r='7'/><circle cx='280' cy='60' r='7'/><circle cx='40' cy='90' r='7'/><circle cx='80' cy='90' r='7'/><circle cx='120' cy='90' r='7'/><circle cx='160' cy='90' r='7'/><circle cx='200' cy='90' r='7'/><circle cx='240' cy='90' r='7'/><circle cx='280' cy='90' r='7'/><circle cx='40' cy='120' r='7'/><circle cx='80' cy='120' r='7'/><circle cx='120' cy='120' r='7'/><circle cx='160' cy='120' r='7'/><circle cx='200' cy='120' r='7'/><circle cx='240' cy='120' r='7'/><circle cx='280' cy='120' r='7'/></g></svg>" },
+      { "kind": "heading", "level": 2, "text": "Unknowns in Division" },
+      { "kind": "paragraph", "text": "In 36 / ? = 9, ask what number divides 36 into groups of 9. Since 36 / 4 = 9, the unknown is 4. Use related facts to check." },
+      { "kind": "callout", "tone": "info", "title": "Use Fact Families", "text": "Turn a tricky equation into a fact you already know. Multiplication can help you solve division." }
+    ],
+    "practiceExamples": [
+      {
+        "id": "ex1",
+        "prompt": ["What number makes this true: 4 x ? = 28?"],
+        "options": [
+          { "key": "A", "text": "6" },
+          { "key": "B", "text": "7", "correct": true, "rationale": "4 x 7 = 28, so the missing factor is 7." },
+          { "key": "C", "text": "8" }
+        ],
+        "answer": ["B. 7"],
+        "explanation": ["Find the missing factor: 4 x 7 = 28."]
+      },
+      {
+        "id": "ex2",
+        "prompt": ["What number makes this true: 45 / n = 5?"],
+        "options": [
+          { "key": "A", "text": "9", "correct": true, "rationale": "45 / 9 = 5 because 9 x 5 = 45. So n = 9." },
+          { "key": "B", "text": "8" },
+          { "key": "C", "text": "40" }
+        ],
+        "answer": ["A. 9"],
+        "explanation": ["Use the related fact 9 x 5 = 45, so 45 / 9 = 5 and n = 9."]
+      }
+    ]
+  },
+  {
+    "programKey": "grade3_staar",
+    "subject": "math",
+    "standardCode": "3.5E",
+    "version": 1,
+    "status": "available",
+    "title": "Input-Output Tables and Number Pair Rules",
+    "intro": "Tables can show how numbers are connected by a rule. In this lesson you will represent real-world relationships using number pairs in a table and describe the rule in words.",
+    "reportingCategory": "Computations & Algebraic Relationships",
+    "visualKind": "steps",
+    "vocabulary": [
+      { "term": "input", "meaning": "The number you start with in a table." },
+      { "term": "output", "meaning": "The number you get after using the rule." },
+      { "term": "rule", "meaning": "What you do to the input to get the output." },
+      { "term": "number pair", "meaning": "Two numbers that go together, an input and its output." },
+      { "term": "table", "meaning": "A chart that organizes number pairs in rows or columns." }
+    ],
+    "body": [
+      { "kind": "heading", "level": 2, "text": "What Is the Rule?" },
+      { "kind": "paragraph", "text": "Each bike has 2 wheels. The number of bikes is the input and the number of wheels is the output. The rule is multiply by 2." },
+      { "kind": "html", "html": "<table><tr><th>Bikes (input)</th><th>Wheels (output)</th></tr><tr><td>1</td><td>2</td></tr><tr><td>2</td><td>4</td></tr><tr><td>3</td><td>6</td></tr><tr><td>4</td><td>8</td></tr></table>" },
+      { "kind": "svg", "alt": "A function machine showing input 3 going in and output 6 coming out using the rule times 2.", "svg": "<svg viewBox='0 0 300 110' role='img' xmlns='http://www.w3.org/2000/svg'><rect x='100' y='25' width='100' height='55' fill='#dbe9ff' stroke='#1f6feb' stroke-width='2'/><text x='120' y='58' font-size='14' fill='#111'>x 2</text><text x='40' y='58' font-size='16' fill='#111'>3</text><text x='70' y='58' font-size='16' fill='#111'>&#8594;</text><text x='215' y='58' font-size='16' fill='#111'>&#8594;</text><text x='250' y='58' font-size='16' fill='#111'>6</text></svg>" },
+      { "kind": "heading", "level": 2, "text": "Extend the Table" },
+      { "kind": "paragraph", "text": "Once you know the rule, you can fill in more rows. If 5 bikes is the input, multiply by 2 to get 10 wheels." },
+      { "kind": "callout", "tone": "info", "title": "Find the Rule", "text": "Compare each input to its output. Ask what you do to every input to get its output." }
+    ],
+    "practiceExamples": [
+      {
+        "id": "ex1",
+        "prompt": ["A table shows 1 bike makes 2 wheels, 2 bikes make 4 wheels, 3 bikes make 6 wheels. What is the rule?"],
+        "options": [
+          { "key": "A", "text": "Add 2" },
+          { "key": "B", "text": "Multiply by 2", "correct": true, "rationale": "Each output is the input times 2: 1 x 2 = 2, 2 x 2 = 4, 3 x 2 = 6." },
+          { "key": "C", "text": "Subtract 1" }
+        ],
+        "answer": ["B. Multiply by 2"],
+        "explanation": ["Every input times 2 gives its output, so the rule is multiply by 2."]
+      },
+      {
+        "id": "ex2",
+        "prompt": ["Using the rule multiply by 2, what is the output when the input is 5 bikes?"],
+        "options": [
+          { "key": "A", "text": "10", "correct": true, "rationale": "5 x 2 = 10 wheels, following the rule multiply by 2." },
+          { "key": "B", "text": "7" },
+          { "key": "C", "text": "12" }
+        ],
+        "answer": ["A. 10"],
+        "explanation": ["Apply the rule: 5 x 2 = 10."]
+      }
+    ]
+  }
+]

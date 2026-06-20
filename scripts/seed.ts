@@ -1,5 +1,5 @@
 /**
- * Seed the local database: programs, demo users (passwords printed once),
+ * Seed the local database: programs, demo users,
  * Maya's enrollments, and the Grade 3 Math content bundle.
  * Run: `bun run scripts/seed.ts` (requires MONGODB_URI reachable).
  */
@@ -18,7 +18,7 @@ import { programSchema } from "~/schemas/program.js";
 import { enrollmentsRepo } from "~/repositories/enrollments.js";
 import { usersRepo } from "~/repositories/users.js";
 import { closeDb } from "~/repositories/db.js";
-import { generatePassword, hashPassword } from "~/server/auth/password.js";
+import { DEFAULT_INITIAL_PASSWORD, hashPassword } from "~/server/auth/password.js";
 import { importBundle } from "~/server/content/import.js";
 import { seedPrograms, seedUsers } from "./seedData.js";
 import type { AuthContext } from "~/server/auth/session.js";
@@ -33,7 +33,7 @@ async function main() {
     console.log(`  • ${p.key} (${p.subjects.join(", ")})`);
   }
 
-  console.log("\nSeeding users (passwords shown once):");
+  console.log("\nSeeding users:");
   const created: Record<string, { id: string; password: string }> = {};
   for (const u of seedUsers) {
     const existing = await usersRepo.findByUsername(u.username);
@@ -42,20 +42,21 @@ async function main() {
       created[u.username] = { id: existing._id!, password: "(unchanged)" };
       continue;
     }
-    const password = generatePassword();
     const doc = await usersRepo.insert({
       _id: randomUUID(),
       username: u.username,
       displayName: u.displayName,
+      email: u.email,
+      emailConfirmed: false,
       roles: [...u.roles],
       studentIds: [],
       parentIds: [],
-      passwordHash: await hashPassword(password),
+      passwordHash: await hashPassword(DEFAULT_INITIAL_PASSWORD),
       forceChangeOnFirstLogin: true,
       active: true,
     });
-    created[u.username] = { id: doc._id!, password };
-    console.log(`  • ${u.username.padEnd(12)} ${password}`);
+    created[u.username] = { id: doc._id!, password: DEFAULT_INITIAL_PASSWORD };
+    console.log(`  • ${u.username.padEnd(12)} ${DEFAULT_INITIAL_PASSWORD}`);
   }
 
   if (created.maya?.id && created.parent?.id) {
@@ -87,6 +88,8 @@ async function main() {
     userId: created.superadmin!.id,
     username: "superadmin",
     displayName: "Super Admin",
+    email: "blitznihar@gmail.com",
+    emailConfirmed: true,
     roles: ["super_admin"],
     forceChangeOnFirstLogin: false,
   };

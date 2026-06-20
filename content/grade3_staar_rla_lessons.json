@@ -1,0 +1,485 @@
+{
+  "lessons": [
+    {
+      "programKey": "grade3_staar",
+      "subject": "rla",
+      "standardCode": "3.9D",
+      "version": 1,
+      "status": "available",
+      "title": "Finding the Central Idea in Informational Text",
+      "intro": "Informational text teaches you true facts about the real world. In this lesson you will spot what makes a text informational and find its central idea—the one big point the whole text is about.",
+      "reportingCategory": "Multiple Genres",
+      "visualKind": "text_evidence",
+      "vocabulary": [
+        { "term": "Informational text", "meaning": "Writing that gives true facts about real topics, like animals, places, or how things work." },
+        { "term": "Central idea", "meaning": "The most important point the whole text is trying to tell you." },
+        { "term": "Topic", "meaning": "The one thing the text is mostly about." }
+      ],
+      "body": [
+        { "kind": "heading", "level": 2, "text": "What makes a text informational?" },
+        { "kind": "paragraph", "text": "Informational text gives you real facts. It often has a title and headings, and it may use pictures, captions, bold words, or charts to help explain the topic." },
+        { "kind": "list", "ordered": false, "items": ["It tells true facts, not a made-up story.", "It has a clear topic, like \"honeybees\" or \"volcanoes\".", "It often uses headings, bold words, or pictures with labels."] },
+        { "kind": "heading", "level": 2, "text": "Finding the central idea" },
+        { "kind": "paragraph", "text": "First find the topic by asking, \"What is this mostly about?\" Then ask, \"What is the most important thing the author wants me to know about that topic?\" That answer is the central idea." },
+        { "kind": "callout", "tone": "info", "title": "Remember", "text": "The title and the first sentence often point you toward the central idea." },
+        { "kind": "svg", "alt": "A diagram showing three details supporting one central idea at the top", "svg": "<svg viewBox='0 0 300 140' role='img'><rect x='75' y='8' width='150' height='34' rx='6' fill='#cfe8ff' stroke='#2563eb'/><text x='150' y='30' font-size='12' text-anchor='middle' fill='#1e3a8a'>Central Idea</text><rect x='10' y='95' width='80' height='34' rx='6' fill='#e5e7eb' stroke='#6b7280'/><text x='50' y='116' font-size='10' text-anchor='middle'>Detail</text><rect x='110' y='95' width='80' height='34' rx='6' fill='#e5e7eb' stroke='#6b7280'/><text x='150' y='116' font-size='10' text-anchor='middle'>Detail</text><rect x='210' y='95' width='80' height='34' rx='6' fill='#e5e7eb' stroke='#6b7280'/><text x='250' y='116' font-size='10' text-anchor='middle'>Detail</text><line x1='150' y1='42' x2='50' y2='95' stroke='#6b7280'/><line x1='150' y1='42' x2='150' y2='95' stroke='#6b7280'/><line x1='150' y1='42' x2='250' y2='95' stroke='#6b7280'/></svg>" }
+      ],
+      "practiceExamples": [
+        {
+          "id": "ex1",
+          "prompt": ["A text has the title \"How Bees Make Honey\" with headings, a labeled picture of a hive, and only true facts. What kind of text is this?"],
+          "options": [
+            { "key": "A", "text": "A made-up story about a talking bee" },
+            { "key": "B", "text": "Informational text", "correct": true, "rationale": "It gives true facts and uses headings and a labeled picture, which are features of informational text." },
+            { "key": "C", "text": "A poem" }
+          ],
+          "answer": ["B. Informational text"],
+          "explanation": ["The true facts, title, headings, and labeled picture are all clues that this is informational text."]
+        },
+        {
+          "id": "ex2",
+          "prompt": ["A text explains that bees collect nectar, store it in the hive, and fan it with their wings until it turns into honey. What is the central idea?"],
+          "options": [
+            { "key": "A", "text": "Bees have wings", "rationale": "This is only one small detail, not the big point." },
+            { "key": "B", "text": "Bees follow several steps to make honey", "correct": true, "rationale": "This is the most important point that ties all the details together." },
+            { "key": "C", "text": "Honey tastes sweet" }
+          ],
+          "answer": ["B. Bees follow several steps to make honey"],
+          "explanation": ["All the details describe steps bees take, so the central idea is that bees make honey through several steps."]
+        }
+      ]
+    },
+    {
+      "programKey": "grade3_staar",
+      "subject": "rla",
+      "standardCode": "3.10A",
+      "version": 1,
+      "status": "available",
+      "title": "Author's Purpose and Message",
+      "intro": "Every author writes for a reason. In this lesson you will figure out why an author wrote a text and what message they want you to remember.",
+      "reportingCategory": "Author's Craft",
+      "visualKind": "text_evidence",
+      "vocabulary": [
+        { "term": "Author's purpose", "meaning": "The reason an author writes: to persuade, to inform, or to entertain." },
+        { "term": "Message", "meaning": "The big idea or lesson the author wants you to take away." },
+        { "term": "Persuade", "meaning": "To try to make readers think or do something." }
+      ],
+      "body": [
+        { "kind": "heading", "level": 2, "text": "Why do authors write?" },
+        { "kind": "paragraph", "text": "Authors usually write for one of three reasons. A helpful way to remember them is the letters P, I, and E." },
+        { "kind": "html", "html": "<table><tr><th>Purpose</th><th>What it means</th><th>Clue words</th></tr><tr><td><strong>P</strong>ersuade</td><td>Convince you to agree or act</td><td>should, best, must</td></tr><tr><td><strong>I</strong>nform</td><td>Teach you facts</td><td>facts, steps, because</td></tr><tr><td><strong>E</strong>ntertain</td><td>Tell a fun story</td><td>characters, once, suddenly</td></tr></table>" },
+        { "kind": "heading", "level": 2, "text": "Finding the message" },
+        { "kind": "paragraph", "text": "The message is what the author wants you to feel or learn. Ask yourself, \"What does the author want me to understand after reading this?\"" },
+        { "kind": "callout", "tone": "info", "title": "Tip", "text": "Look at the title and ending. Authors often hint at their message there." }
+      ],
+      "practiceExamples": [
+        {
+          "id": "ex1",
+          "prompt": ["An author writes, \"You should always wear a helmet. It is the best way to keep your head safe.\" What is the author's purpose?"],
+          "options": [
+            { "key": "A", "text": "To entertain with a funny story" },
+            { "key": "B", "text": "To persuade readers to wear a helmet", "correct": true, "rationale": "Words like \"should\" and \"best\" show the author is trying to convince you." },
+            { "key": "C", "text": "To explain how a helmet is made" }
+          ],
+          "answer": ["B. To persuade readers to wear a helmet"],
+          "explanation": ["The words \"should\" and \"best\" are clues that the author wants to convince readers to do something."]
+        },
+        {
+          "id": "ex2",
+          "prompt": ["A story ends with a boy sharing his lunch and feeling happy that he helped a friend. What message is the author sharing?"],
+          "options": [
+            { "key": "A", "text": "Lunch should be eaten quickly" },
+            { "key": "B", "text": "Helping others can make you feel good", "correct": true, "rationale": "The ending shows the boy feeling happy because he helped, which points to the message." },
+            { "key": "C", "text": "Friends never share" }
+          ],
+          "answer": ["B. Helping others can make you feel good"],
+          "explanation": ["The boy feels happy after helping, so the author's message is that helping others feels good."]
+        }
+      ]
+    },
+    {
+      "programKey": "grade3_staar",
+      "subject": "rla",
+      "standardCode": "3.6F",
+      "version": 1,
+      "status": "available",
+      "title": "Making Inferences with Text Evidence",
+      "intro": "Sometimes an author does not tell you everything. You become a reading detective and figure it out. In this lesson you will make inferences and back them up with evidence from the text.",
+      "reportingCategory": "Comprehension",
+      "visualKind": "steps",
+      "vocabulary": [
+        { "term": "Inference", "meaning": "A smart guess you make using text clues plus what you already know." },
+        { "term": "Text evidence", "meaning": "Words or sentences from the text that prove your idea." },
+        { "term": "Clue", "meaning": "A detail the author gives that helps you figure something out." }
+      ],
+      "body": [
+        { "kind": "heading", "level": 2, "text": "What is an inference?" },
+        { "kind": "paragraph", "text": "An inference is a guess that is backed up by proof. The author gives you clues, you mix them with what you already know, and you figure out something the author did not say directly." },
+        { "kind": "heading", "level": 2, "text": "How to make an inference" },
+        { "kind": "list", "ordered": true, "items": ["Find a clue in the text.", "Think about what you already know.", "Put them together to make a guess.", "Point to the words that prove it."] },
+        { "kind": "html", "html": "<p><strong>Clue from text</strong> + <strong>What I know</strong> = <em>My inference</em></p>" },
+        { "kind": "callout", "tone": "info", "title": "Remember", "text": "A good inference always has evidence from the text behind it." }
+      ],
+      "practiceExamples": [
+        {
+          "id": "ex1",
+          "prompt": ["The text says, \"Maria grabbed her umbrella and pulled on her boots before opening the door.\" What can you infer?"],
+          "options": [
+            { "key": "A", "text": "It is sunny and warm outside", "rationale": "Umbrellas and boots are not needed in sunny weather." },
+            { "key": "B", "text": "It is probably raining outside", "correct": true, "rationale": "Grabbing an umbrella and boots are clues that point to rain." },
+            { "key": "C", "text": "Maria is going to bed" }
+          ],
+          "answer": ["B. It is probably raining outside"],
+          "explanation": ["The umbrella and boots are clues. People use them in the rain, so you can infer it is raining."]
+        },
+        {
+          "id": "ex2",
+          "prompt": ["The text says, \"Sam's stomach growled loudly and he kept staring at the clock until lunchtime.\" Which detail is the BEST evidence that Sam is hungry?"],
+          "options": [
+            { "key": "A", "text": "Sam's stomach growled loudly", "correct": true, "rationale": "A growling stomach is a direct clue that a person is hungry." },
+            { "key": "B", "text": "Sam opened the door" },
+            { "key": "C", "text": "Sam wore a red shirt" }
+          ],
+          "answer": ["A. Sam's stomach growled loudly"],
+          "explanation": ["A growling stomach is the strongest clue that Sam is hungry, so it is the best evidence."]
+        }
+      ]
+    },
+    {
+      "programKey": "grade3_staar",
+      "subject": "rla",
+      "standardCode": "3.3B",
+      "version": 1,
+      "status": "available",
+      "title": "Using Context Clues to Find Word Meaning",
+      "intro": "When you meet a word you do not know, you do not always need a dictionary. The other words in the sentence can help you. In this lesson you will use context clues to figure out what a word means.",
+      "reportingCategory": "Vocabulary",
+      "visualKind": "text_evidence",
+      "vocabulary": [
+        { "term": "Context", "meaning": "The other words and sentences around a word." },
+        { "term": "Context clue", "meaning": "A hint in the sentence that helps you guess a word's meaning." },
+        { "term": "Definition clue", "meaning": "When the sentence explains the word right there." }
+      ],
+      "body": [
+        { "kind": "heading", "level": 2, "text": "Words around the word" },
+        { "kind": "paragraph", "text": "When you read a hard word, do not skip it. Read the rest of the sentence and look for clues that tell you what it means." },
+        { "kind": "heading", "level": 2, "text": "Kinds of context clues" },
+        { "kind": "list", "ordered": false, "items": ["Definition: the meaning is given right in the sentence.", "Example: the sentence gives examples of the word.", "Synonym: a word nearby means almost the same thing.", "Antonym: a word nearby means the opposite."] },
+        { "kind": "html", "html": "<p>Example: \"The path was <strong>narrow</strong>, so thin that only one person could walk on it.\" The words <em>\"so thin\"</em> tell you <strong>narrow</strong> means not wide.</p>" },
+        { "kind": "callout", "tone": "info", "title": "Tip", "text": "Try reading the sentence with your guess instead of the hard word. If it makes sense, you found the meaning." }
+      ],
+      "practiceExamples": [
+        {
+          "id": "ex1",
+          "prompt": ["Read the sentence: \"The room was so cluttered, full of toys and clothes everywhere, that we could not find the floor.\" What does cluttered mean?"],
+          "options": [
+            { "key": "A", "text": "Clean and empty", "rationale": "This is the opposite of the clues in the sentence." },
+            { "key": "B", "text": "Messy and full of things", "correct": true, "rationale": "The words \"full of toys and clothes everywhere\" tell you the meaning." },
+            { "key": "C", "text": "Painted blue" }
+          ],
+          "answer": ["B. Messy and full of things"],
+          "explanation": ["The clue \"full of toys and clothes everywhere\" shows that cluttered means messy and full."]
+        },
+        {
+          "id": "ex2",
+          "prompt": ["Read the sentence: \"Unlike his shy sister, Ben was bold and loved to speak in front of the class.\" What does bold mean?"],
+          "options": [
+            { "key": "A", "text": "Brave and confident", "correct": true, "rationale": "The word \"Unlike\" shows bold is the opposite of shy, so it means brave." },
+            { "key": "B", "text": "Quiet and afraid" },
+            { "key": "C", "text": "Tired and sleepy" }
+          ],
+          "answer": ["A. Brave and confident"],
+          "explanation": ["The word \"Unlike\" tells you bold is the opposite of shy, so bold means brave and confident."]
+        }
+      ]
+    },
+    {
+      "programKey": "grade3_staar",
+      "subject": "rla",
+      "standardCode": "3.7C",
+      "version": 1,
+      "status": "available",
+      "title": "Using Text Evidence to Support Your Answer",
+      "intro": "When you answer a question about a text, you need proof. In this lesson you will learn to find and use text evidence so your answers are strong and correct.",
+      "reportingCategory": "Response Skills",
+      "visualKind": "text_evidence",
+      "vocabulary": [
+        { "term": "Text evidence", "meaning": "Exact words or details from the text that prove your answer." },
+        { "term": "Support", "meaning": "To back up your answer with proof from the text." },
+        { "term": "Cite", "meaning": "To point to or quote the part of the text that proves your idea." }
+      ],
+      "body": [
+        { "kind": "heading", "level": 2, "text": "Why use evidence?" },
+        { "kind": "paragraph", "text": "Your answer is only strong if you can prove it. Text evidence shows where in the text you found your answer." },
+        { "kind": "heading", "level": 2, "text": "Steps to use evidence" },
+        { "kind": "list", "ordered": true, "items": ["Read the question carefully.", "Go back into the text to find proof.", "Choose the detail that best matches the question.", "Use that detail in your answer."] },
+        { "kind": "callout", "tone": "info", "title": "Sentence starter", "text": "You can begin your answer with: \"The text says...\" or \"I know this because...\"" }
+      ],
+      "practiceExamples": [
+        {
+          "id": "ex1",
+          "prompt": ["Question: Why was Theo upset? The text says, \"Theo's kite was stuck high in the tree, and he could not reach it.\" Which sentence best supports the answer?"],
+          "options": [
+            { "key": "A", "text": "\"Theo's kite was stuck high in the tree, and he could not reach it.\"", "correct": true, "rationale": "This sentence directly explains why Theo was upset." },
+            { "key": "B", "text": "\"The sky was bright blue.\"", "rationale": "This detail does not explain why Theo was upset." },
+            { "key": "C", "text": "\"Theo had a red bike.\"" }
+          ],
+          "answer": ["A. \"Theo's kite was stuck high in the tree, and he could not reach it.\""],
+          "explanation": ["This sentence is the proof because it tells exactly why Theo felt upset."]
+        },
+        {
+          "id": "ex2",
+          "prompt": ["You answer, \"The dog was scared of the storm.\" Which choice is the BEST way to support your answer with evidence?"],
+          "options": [
+            { "key": "A", "text": "Because dogs are nice animals" },
+            { "key": "B", "text": "The text says, \"The dog hid under the bed when the thunder boomed.\"", "correct": true, "rationale": "It uses an exact detail from the text that proves the dog was scared." },
+            { "key": "C", "text": "I just think so" }
+          ],
+          "answer": ["B. The text says, \"The dog hid under the bed when the thunder boomed.\""],
+          "explanation": ["Good support uses an exact detail from the text. The dog hiding during thunder proves it was scared."]
+        }
+      ]
+    },
+    {
+      "programKey": "grade3_staar",
+      "subject": "rla",
+      "standardCode": "3.7D",
+      "version": 1,
+      "status": "available",
+      "title": "Retell, Paraphrase, and Summarize",
+      "intro": "After you read, you can tell what happened in your own words. In this lesson you will learn three ways to do that: retell, paraphrase, and summarize.",
+      "reportingCategory": "Response Skills",
+      "visualKind": "steps",
+      "vocabulary": [
+        { "term": "Retell", "meaning": "To tell the events of a text in order, in your own words." },
+        { "term": "Paraphrase", "meaning": "To say one part of a text in your own words." },
+        { "term": "Summarize", "meaning": "To tell only the most important parts in a short way." }
+      ],
+      "body": [
+        { "kind": "heading", "level": 2, "text": "Three ways to share a text" },
+        { "kind": "paragraph", "text": "Each way uses your own words, but they are a little different. A retell keeps the order of events. A paraphrase restates one part. A summary keeps only the big ideas." },
+        { "kind": "html", "html": "<table><tr><th>Skill</th><th>What you do</th></tr><tr><td>Retell</td><td>Tell what happened first, next, and last</td></tr><tr><td>Paraphrase</td><td>Restate one part in your own words</td></tr><tr><td>Summarize</td><td>Give only the most important ideas, short and clear</td></tr></table>" },
+        { "kind": "heading", "level": 2, "text": "Steps to summarize" },
+        { "kind": "list", "ordered": true, "items": ["Name the topic or main character.", "Tell the most important thing that happened.", "Leave out small details.", "Keep it short."] },
+        { "kind": "callout", "tone": "info", "title": "Remember", "text": "A summary is short. If you include every detail, it becomes a retell instead." }
+      ],
+      "practiceExamples": [
+        {
+          "id": "ex1",
+          "prompt": ["A long story tells how Nina was nervous on her first day, met a friend at recess, and felt happy by the end. Which is the BEST summary?"],
+          "options": [
+            { "key": "A", "text": "Nina wore a blue backpack and ate a sandwich.", "rationale": "These are small details, not the most important ideas." },
+            { "key": "B", "text": "Nina was nervous on her first day, but she made a friend and felt happy.", "correct": true, "rationale": "It keeps only the most important ideas in a short way." },
+            { "key": "C", "text": "Nina woke up, brushed her teeth, packed her bag, walked to the bus, sat down, looked out the window, and arrived." }
+          ],
+          "answer": ["B. Nina was nervous on her first day, but she made a friend and felt happy."],
+          "explanation": ["A good summary keeps only the big ideas and stays short, which choice B does."]
+        },
+        {
+          "id": "ex2",
+          "prompt": ["The text says, \"The enormous, ancient oak tree towered over the tiny playground.\" Which is the best paraphrase?"],
+          "options": [
+            { "key": "A", "text": "The big, old oak tree stood high above the small playground.", "correct": true, "rationale": "It restates the same idea using different words." },
+            { "key": "B", "text": "The playground had swings and slides.", "rationale": "This adds new ideas that were not in the sentence." },
+            { "key": "C", "text": "The enormous, ancient oak tree towered over the tiny playground.", "rationale": "This copies the words exactly instead of using your own words." }
+          ],
+          "answer": ["A. The big, old oak tree stood high above the small playground."],
+          "explanation": ["A paraphrase keeps the same meaning but uses your own words, like changing \"enormous, ancient\" to \"big, old.\""]
+        }
+      ]
+    },
+    {
+      "programKey": "grade3_staar",
+      "subject": "rla",
+      "standardCode": "3.6G",
+      "version": 1,
+      "status": "available",
+      "title": "Evaluating Details to Find Key Ideas",
+      "intro": "Not every detail is equally important. In this lesson you will learn to sort big, important details from small ones so you can find the key idea of a text.",
+      "reportingCategory": "Comprehension",
+      "visualKind": "text_evidence",
+      "vocabulary": [
+        { "term": "Detail", "meaning": "A small piece of information in a text." },
+        { "term": "Key idea", "meaning": "An important point the details help explain." },
+        { "term": "Evaluate", "meaning": "To decide how important something is." }
+      ],
+      "body": [
+        { "kind": "heading", "level": 2, "text": "Big details and small details" },
+        { "kind": "paragraph", "text": "Some details are important because they help explain the key idea. Other details are interesting but small. A strong reader can tell them apart." },
+        { "kind": "heading", "level": 2, "text": "How to evaluate a detail" },
+        { "kind": "paragraph", "text": "Ask, \"Does this detail help explain the key idea, or is it just extra?\" If the key idea would change without the detail, then the detail is important." },
+        { "kind": "list", "ordered": false, "items": ["Important: helps explain the key idea.", "Less important: a small fact that is nice to know but not needed."] },
+        { "kind": "callout", "tone": "info", "title": "Tip", "text": "A key idea is supported by several important details working together." }
+      ],
+      "practiceExamples": [
+        {
+          "id": "ex1",
+          "prompt": ["A text explains that recycling saves trees, saves energy, and keeps trash out of the ground. Which detail is MOST important to the key idea that recycling helps the Earth?"],
+          "options": [
+            { "key": "A", "text": "Recycling bins are often blue", "rationale": "This is a small detail and does not explain how recycling helps the Earth." },
+            { "key": "B", "text": "Recycling saves trees and energy", "correct": true, "rationale": "This detail directly explains how recycling helps the Earth." },
+            { "key": "C", "text": "Some people recycle on Tuesdays" }
+          ],
+          "answer": ["B. Recycling saves trees and energy"],
+          "explanation": ["This detail explains the key idea that recycling helps the Earth, so it is the most important."]
+        },
+        {
+          "id": "ex2",
+          "prompt": ["The key idea is that penguins stay warm in the cold. Which detail does NOT help explain this key idea?"],
+          "options": [
+            { "key": "A", "text": "Penguins have thick layers of fat", "rationale": "This helps explain how they stay warm." },
+            { "key": "B", "text": "Penguins huddle together in groups", "rationale": "This also helps explain how they stay warm." },
+            { "key": "C", "text": "Penguins are black and white", "correct": true, "rationale": "Their color does not explain how they stay warm, so it is not important to the key idea." }
+          ],
+          "answer": ["C. Penguins are black and white"],
+          "explanation": ["Color does not help explain how penguins stay warm, so it does not support the key idea."]
+        }
+      ]
+    },
+    {
+      "programKey": "grade3_staar",
+      "subject": "rla",
+      "standardCode": "3.8B",
+      "version": 1,
+      "status": "available",
+      "title": "How Characters Interact and Change",
+      "intro": "Characters in a story talk, help, argue, and learn from each other. In this lesson you will describe how characters interact and how they change from the beginning to the end.",
+      "reportingCategory": "Literary Elements",
+      "visualKind": "text_evidence",
+      "vocabulary": [
+        { "term": "Character", "meaning": "A person or animal in a story." },
+        { "term": "Interaction", "meaning": "What happens when characters talk or act with each other." },
+        { "term": "Change", "meaning": "How a character is different at the end than at the start." }
+      ],
+      "body": [
+        { "kind": "heading", "level": 2, "text": "Characters work together" },
+        { "kind": "paragraph", "text": "When characters interact, they affect each other. One character might help another, teach a lesson, or cause a problem. Watch what characters say and do to each other." },
+        { "kind": "heading", "level": 2, "text": "Characters change" },
+        { "kind": "paragraph", "text": "Many characters are different by the end of a story. They might learn something, become braver, or be kinder. Compare how a character feels and acts at the beginning and at the end." },
+        { "kind": "html", "html": "<p><strong>Beginning:</strong> How is the character? <span>&rarr;</span> <strong>End:</strong> How are they different?</p>" },
+        { "kind": "callout", "tone": "info", "title": "Tip", "text": "Ask what event made the character change. Usually something happens that teaches them a lesson." }
+      ],
+      "practiceExamples": [
+        {
+          "id": "ex1",
+          "prompt": ["At the start, Liam refuses to share his blocks. After his friend shares crayons with him, Liam smiles and shares his blocks too. How does Liam change?"],
+          "options": [
+            { "key": "A", "text": "He becomes more selfish" },
+            { "key": "B", "text": "He learns to share", "correct": true, "rationale": "At the start he would not share, but by the end he does, so he changed by learning to share." },
+            { "key": "C", "text": "He stops playing" }
+          ],
+          "answer": ["B. He learns to share"],
+          "explanation": ["Liam would not share at first, but after his friend shared, he did too. That shows he changed by learning to share."]
+        },
+        {
+          "id": "ex2",
+          "prompt": ["The text says, \"At first Mia laughed at the new student, but when the student helped her find her lost dog, Mia said sorry and they became friends.\" What caused Mia to change?"],
+          "options": [
+            { "key": "A", "text": "The new student helped Mia find her dog", "correct": true, "rationale": "This kind act is the event that made Mia change her feelings." },
+            { "key": "B", "text": "Mia got a new backpack" },
+            { "key": "C", "text": "It started to rain" }
+          ],
+          "answer": ["A. The new student helped Mia find her dog"],
+          "explanation": ["The student's kind act of helping find the dog is what made Mia change from laughing to being friends."]
+        }
+      ]
+    },
+    {
+      "programKey": "grade3_staar",
+      "subject": "rla",
+      "standardCode": "3.10D",
+      "version": 1,
+      "status": "available",
+      "title": "Figurative Language: Similes and More",
+      "intro": "Authors use special words to paint pictures in your mind. In this lesson you will spot figurative language, especially the simile, and explain what it really means.",
+      "reportingCategory": "Author's Craft",
+      "visualKind": "text_evidence",
+      "vocabulary": [
+        { "term": "Figurative language", "meaning": "Words that mean more than their plain meaning to create a picture." },
+        { "term": "Simile", "meaning": "A comparison of two things using the word like or as." },
+        { "term": "Metaphor", "meaning": "A comparison that says one thing is another, without using like or as." }
+      ],
+      "body": [
+        { "kind": "heading", "level": 2, "text": "What is a simile?" },
+        { "kind": "paragraph", "text": "A simile compares two different things using the word like or as. It helps you picture something in a fun way. \"Her smile was as bright as the sun\" compares a smile to the sun." },
+        { "kind": "html", "html": "<p>Simile clue words: <strong>like</strong> and <strong>as</strong>. Example: \"He ran <em>like</em> the wind\" means he ran very fast.</p>" },
+        { "kind": "heading", "level": 2, "text": "Explaining the meaning" },
+        { "kind": "paragraph", "text": "When you find a simile, ask what the two things have in common. \"As busy as a bee\" means very busy, because bees are always working." },
+        { "kind": "callout", "tone": "info", "title": "Remember", "text": "A simile does not mean the words are really true. \"Quiet as a mouse\" does not mean the person is a mouse—just very quiet." }
+      ],
+      "practiceExamples": [
+        {
+          "id": "ex1",
+          "prompt": ["Which sentence contains a simile?"],
+          "options": [
+            { "key": "A", "text": "The puppy was small and brown.", "rationale": "This describes the puppy but does not compare it using like or as." },
+            { "key": "B", "text": "The puppy was as soft as a cloud.", "correct": true, "rationale": "It compares the puppy to a cloud using the word as, which makes it a simile." },
+            { "key": "C", "text": "The puppy ran into the yard." }
+          ],
+          "answer": ["B. The puppy was as soft as a cloud."],
+          "explanation": ["A simile uses like or as to compare two things. This sentence uses \"as soft as a cloud.\""]
+        },
+        {
+          "id": "ex2",
+          "prompt": ["What does the simile \"The classroom was as loud as a stadium\" mean?"],
+          "options": [
+            { "key": "A", "text": "The classroom was very quiet" },
+            { "key": "B", "text": "The classroom was very noisy", "correct": true, "rationale": "Comparing the room to a loud stadium shows it was very noisy." },
+            { "key": "C", "text": "The classroom was a real stadium" }
+          ],
+          "answer": ["B. The classroom was very noisy"],
+          "explanation": ["Stadiums are very loud, so comparing the classroom to one means the classroom was very noisy."]
+        }
+      ]
+    },
+    {
+      "programKey": "grade3_staar",
+      "subject": "rla",
+      "standardCode": "3.8C",
+      "version": 1,
+      "status": "available",
+      "title": "Plot Elements and the Story's Theme",
+      "intro": "Every story has parts that fit together, and a lesson the author wants you to learn. In this lesson you will name the plot elements and figure out the theme.",
+      "reportingCategory": "Literary Elements",
+      "visualKind": "steps",
+      "vocabulary": [
+        { "term": "Plot", "meaning": "The events that happen in a story, in order." },
+        { "term": "Problem", "meaning": "The trouble or challenge the characters face." },
+        { "term": "Solution", "meaning": "How the problem gets fixed." },
+        { "term": "Theme", "meaning": "The lesson or big message of the story." }
+      ],
+      "body": [
+        { "kind": "heading", "level": 2, "text": "The parts of a plot" },
+        { "kind": "paragraph", "text": "A plot usually has a beginning where you meet the characters, a middle where a problem grows, and an end where the problem is solved." },
+        { "kind": "svg", "alt": "A plot line showing beginning, problem, and solution", "svg": "<svg viewBox='0 0 300 110' role='img'><polyline points='20,90 110,90 200,25 280,80' fill='none' stroke='#2563eb' stroke-width='3'/><circle cx='20' cy='90' r='5' fill='#2563eb'/><circle cx='200' cy='25' r='5' fill='#dc2626'/><circle cx='280' cy='80' r='5' fill='#16a34a'/><text x='20' y='105' font-size='10' text-anchor='middle'>Beginning</text><text x='200' y='15' font-size='10' text-anchor='middle' fill='#dc2626'>Problem</text><text x='275' y='98' font-size='10' text-anchor='middle' fill='#16a34a'>Solution</text></svg>" },
+        { "kind": "heading", "level": 2, "text": "Finding the theme" },
+        { "kind": "paragraph", "text": "The theme is the lesson the story teaches, like \"never give up\" or \"be kind to others.\" Look at how the problem is solved and what the characters learn." },
+        { "kind": "callout", "tone": "info", "title": "Tip", "text": "The theme is usually a lesson about life, not just one thing that happened in the story." }
+      ],
+      "practiceExamples": [
+        {
+          "id": "ex1",
+          "prompt": ["In a story, a turtle keeps trying to climb a hill even after falling many times, and finally reaches the top. What is the problem in the plot?"],
+          "options": [
+            { "key": "A", "text": "The turtle is having trouble climbing the hill", "correct": true, "rationale": "The challenge the turtle faces is the problem of the plot." },
+            { "key": "B", "text": "The turtle is green" },
+            { "key": "C", "text": "The hill is made of grass" }
+          ],
+          "answer": ["A. The turtle is having trouble climbing the hill"],
+          "explanation": ["The problem is the challenge the character faces, which is the turtle struggling to climb the hill."]
+        },
+        {
+          "id": "ex2",
+          "prompt": ["The turtle falls many times but keeps trying and finally reaches the top. What is the theme of this story?"],
+          "options": [
+            { "key": "A", "text": "Turtles are slow animals", "rationale": "This is a fact, not the lesson the story teaches." },
+            { "key": "B", "text": "Never give up, even when something is hard", "correct": true, "rationale": "The turtle keeps trying until it succeeds, which teaches this lesson." },
+            { "key": "C", "text": "Hills are hard to climb" }
+          ],
+          "answer": ["B. Never give up, even when something is hard"],
+          "explanation": ["The turtle keeps trying after falling, so the lesson, or theme, is to never give up."]
+        }
+      ]
+    }
+  ]
+}

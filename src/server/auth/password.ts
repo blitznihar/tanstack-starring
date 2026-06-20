@@ -7,6 +7,8 @@ import { randomBytes, randomInt } from "node:crypto";
  * and store only the argon2id hash.
  */
 
+export const DEFAULT_INITIAL_PASSWORD = "Password@1234";
+
 export async function hashPassword(plain: string): Promise<string> {
   return argon2.hash(plain, { type: argon2.argon2id });
 }

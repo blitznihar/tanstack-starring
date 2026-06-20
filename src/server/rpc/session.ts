@@ -4,9 +4,10 @@ import { usersRepo } from "~/repositories/users.js";
 import { sessionsRepo } from "~/repositories/sessions.js";
 import { enrollmentsRepo } from "~/repositories/enrollments.js";
 import { programsRepo } from "~/repositories/programs.js";
-import { generateToken } from "~/server/auth/password.js";
+import { DEFAULT_INITIAL_PASSWORD, generateToken, hashPassword, verifyPassword } from "~/server/auth/password.js";
 import { login as doLogin, logout as doLogout, sessionCookie, clearSessionCookie, SESSION_COOKIE } from "~/server/auth/session.js";
 import { roleSchema } from "~/schemas/common.js";
+import { queueEmailNotification } from "~/server/notifications/email.js";
 import { currentAuth } from "./context.js";
 import { getRequestHeader } from "@tanstack/react-start/server";
 
@@ -15,7 +16,15 @@ const isProd = process.env.NODE_ENV === "production";
 /** Current signed-in user (or null). */
 export const me = createServerFn({ method: "GET" }).handler(async () => {
   const auth = await currentAuth();
-  return auth ? { userId: auth.userId, displayName: auth.displayName, username: auth.username, roles: auth.roles } : null;
+  return auth ? {
+    userId: auth.userId,
+    displayName: auth.displayName,
+    username: auth.username,
+    email: auth.email,
+    emailConfirmed: auth.emailConfirmed,
+    forceChangeOnFirstLogin: auth.forceChangeOnFirstLogin,
+    roles: auth.roles,
+  } : null;
 });
 
 /** Real credential login. */
@@ -25,7 +34,65 @@ export const login = createServerFn({ method: "POST" })
     const result = await doLogin(data);
     if (!result) return { ok: false as const };
     setResponseHeader("Set-Cookie", sessionCookie(result.token, isProd));
-    return { ok: true as const, roles: result.auth.roles };
+    return {
+      ok: true as const,
+      roles: result.auth.roles,
+      displayName: result.auth.displayName,
+      needsAccountSetup: !result.auth.emailConfirmed || result.auth.forceChangeOnFirstLogin,
+    };
+  });
+
+export const confirmMyEmail = createServerFn({ method: "POST" })
+  .validator((d: { email: string }) => ({ email: String(d.email).trim().toLowerCase() }))
+  .handler(async ({ data }) => {
+    const auth = await currentAuth();
+    if (!auth) throw new Error("Not authenticated");
+    await usersRepo.update(auth.userId, { email: data.email, emailConfirmed: true });
+    await queueEmailNotification({
+      userId: auth.userId,
+      kind: "email_confirmation",
+      subject: "Email address confirmed",
+      body: `Your Comet Academy email address was confirmed as ${data.email}.`,
+    });
+    return { ok: true as const, email: data.email };
+  });
+
+export const changeMyPassword = createServerFn({ method: "POST" })
+  .validator((d: { currentPassword: string; newPassword: string }) => ({
+    currentPassword: String(d.currentPassword ?? ""),
+    newPassword: String(d.newPassword ?? ""),
+  }))
+  .handler(async ({ data }) => {
+    const auth = await currentAuth();
+    if (!auth) throw new Error("Not authenticated");
+    if (data.newPassword.length < 8) throw new Error("New password must be at least 8 characters.");
+    const user = await usersRepo.findById(auth.userId);
+    if (!user) throw new Error("User not found");
+    const ok = await verifyPassword(user.passwordHash, data.currentPassword);
+    if (!ok) throw new Error("Current password did not match.");
+    await usersRepo.updatePassword(auth.userId, await hashPassword(data.newPassword), false);
+    return { ok: true as const };
+  });
+
+export const forgotPassword = createServerFn({ method: "POST" })
+  .validator((d: { usernameOrEmail: string }) => ({ usernameOrEmail: String(d.usernameOrEmail ?? "").trim() }))
+  .handler(async ({ data }) => {
+    const key = data.usernameOrEmail;
+    if (!key) return { ok: true as const };
+    const matches = key.includes("@")
+      ? await usersRepo.listByEmail(key.toLowerCase())
+      : [await usersRepo.findByUsername(key)].filter((user): user is NonNullable<typeof user> => !!user);
+    for (const user of matches) {
+      if (!user._id) continue;
+      await usersRepo.updatePassword(String(user._id), await hashPassword(DEFAULT_INITIAL_PASSWORD), true);
+      await queueEmailNotification({
+        userId: String(user._id),
+        kind: "password_reset",
+        subject: "Comet Academy password reset",
+        body: `Your password was reset to ${DEFAULT_INITIAL_PASSWORD}. Sign in and choose a new password from Account Setup.`,
+      });
+    }
+    return { ok: true as const };
   });
 
 function routeForRoles(roles: string[]): "/admin/console" | "/student" | "/dashboard" {

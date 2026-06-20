@@ -16,6 +16,14 @@ export const usersRepo = {
     return (await col()).findOne({ username });
   },
 
+  async findByEmail(email: string): Promise<UserDoc | null> {
+    return (await col()).findOne({ email: email.toLowerCase() });
+  },
+
+  async listByEmail(email: string): Promise<UserDoc[]> {
+    return (await col()).find({ email: email.toLowerCase() }).toArray();
+  },
+
   async findById(id: string): Promise<UserDoc | null> {
     const users = await col();
     const direct = await users.findOne({ _id: id });
@@ -40,7 +48,7 @@ export const usersRepo = {
 
   async update(
     id: string,
-    patch: Partial<Pick<User, "username" | "displayName" | "roles" | "studentIds" | "parentIds" | "active" | "forceChangeOnFirstLogin">>,
+    patch: Partial<Pick<User, "username" | "displayName" | "email" | "emailConfirmed" | "roles" | "studentIds" | "parentIds" | "active" | "forceChangeOnFirstLogin">>,
   ): Promise<void> {
     await (await col()).updateOne({ _id: id }, { $set: { ...patch, updatedAt: new Date() } });
   },

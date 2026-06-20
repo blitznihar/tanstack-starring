@@ -1,0 +1,567 @@
+[
+  {
+    "programKey": "grade3_staar",
+    "subject": "math",
+    "standardCode": "3.4C",
+    "version": 1,
+    "status": "available",
+    "title": "Counting Money: Finding the Value of Coins and Bills",
+    "intro": "When you have a handful of coins and some bills, you can add them up to find the total amount of money. In this lesson you will learn an easy step-by-step way to count money and find its value.",
+    "reportingCategory": "Data Analysis & Personal Financial Literacy",
+    "visualKind": "steps",
+    "vocabulary": [
+      { "term": "value", "meaning": "How much money something is worth." },
+      { "term": "penny", "meaning": "A coin worth 1 cent." },
+      { "term": "nickel", "meaning": "A coin worth 5 cents." },
+      { "term": "dime", "meaning": "A coin worth 10 cents." },
+      { "term": "quarter", "meaning": "A coin worth 25 cents." },
+      { "term": "bill", "meaning": "Paper money, like a $1 bill or a $5 bill." }
+    ],
+    "body": [
+      { "kind": "heading", "level": 2, "text": "How Much Is Each Coin Worth?" },
+      { "kind": "paragraph", "text": "Before you count money, you need to know how much each coin is worth. Here are the coins you will use most." },
+      {
+        "kind": "html",
+        "html": "<table><tr><th>Coin</th><th>Value</th></tr><tr><td>Penny</td><td>1 cent</td></tr><tr><td>Nickel</td><td>5 cents</td></tr><tr><td>Dime</td><td>10 cents</td></tr><tr><td>Quarter</td><td>25 cents</td></tr></table>"
+      },
+      {
+        "kind": "svg",
+        "alt": "Four labeled coins: a quarter worth 25 cents, a dime worth 10 cents, a nickel worth 5 cents, and a penny worth 1 cent.",
+        "svg": "<svg viewBox='0 0 420 120' role='img' xmlns='http://www.w3.org/2000/svg'><circle cx='55' cy='50' r='34' fill='#cfd8dc' stroke='#607d8b' stroke-width='3'/><text x='55' y='55' text-anchor='middle' font-size='13'>25¢</text><text x='55' y='105' text-anchor='middle' font-size='12'>Quarter</text><circle cx='155' cy='52' r='26' fill='#cfd8dc' stroke='#607d8b' stroke-width='3'/><text x='155' y='56' text-anchor='middle' font-size='12'>10¢</text><text x='155' y='105' text-anchor='middle' font-size='12'>Dime</text><circle cx='255' cy='50' r='30' fill='#cfd8dc' stroke='#607d8b' stroke-width='3'/><text x='255' y='54' text-anchor='middle' font-size='12'>5¢</text><text x='255' y='105' text-anchor='middle' font-size='12'>Nickel</text><circle cx='355' cy='52' r='27' fill='#d7a86e' stroke='#a0522d' stroke-width='3'/><text x='355' y='56' text-anchor='middle' font-size='12'>1¢</text><text x='355' y='105' text-anchor='middle' font-size='12'>Penny</text></svg>"
+      },
+      { "kind": "heading", "level": 2, "text": "Steps to Count Money" },
+      {
+        "kind": "list",
+        "ordered": true,
+        "items": [
+          "Start with the bills and the biggest coins first.",
+          "Count the dollars from the bills.",
+          "Then add the coins, starting with quarters, then dimes, then nickels, then pennies.",
+          "Write the total using a dollar sign and a decimal point, like $1.45."
+        ]
+      },
+      {
+        "kind": "callout",
+        "tone": "info",
+        "title": "Tip",
+        "text": "It helps to count from the largest value to the smallest. That way you do not miss any money."
+      },
+      { "kind": "heading", "level": 2, "text": "Example: Adding It Up" },
+      { "kind": "paragraph", "text": "Imagine you have one $1 bill, 2 quarters, and 1 dime. First the bill is $1.00. Then 2 quarters is 50 cents. Then 1 dime is 10 cents. So 50 + 10 = 60 cents. The total is $1.60." }
+    ],
+    "practiceExamples": [
+      {
+        "id": "ex1",
+        "prompt": ["Mia has 3 dimes and 1 nickel. What is the total value of her coins?"],
+        "options": [
+          { "key": "A", "text": "15 cents" },
+          { "key": "B", "text": "35 cents", "correct": true, "rationale": "3 dimes is 30 cents and 1 nickel is 5 cents, so 30 + 5 = 35 cents." },
+          { "key": "C", "text": "40 cents" }
+        ],
+        "answer": ["B. 35 cents"],
+        "explanation": ["Three dimes equal 30 cents, and one nickel adds 5 cents, for a total of 35 cents."]
+      },
+      {
+        "id": "ex2",
+        "prompt": ["Sam has one $1 bill and 2 quarters. How much money does he have?"],
+        "options": [
+          { "key": "A", "text": "$1.25" },
+          { "key": "B", "text": "$1.50", "correct": true, "rationale": "The bill is $1.00 and 2 quarters is 50 cents, so $1.00 + $0.50 = $1.50." },
+          { "key": "C", "text": "$2.00" }
+        ],
+        "answer": ["B. $1.50"],
+        "explanation": ["A dollar bill is $1.00 and two quarters add 50 cents, which makes $1.50."]
+      },
+      {
+        "id": "ex3",
+        "prompt": ["Which way should you count to find a total fastest and most safely?"],
+        "options": [
+          { "key": "A", "text": "From smallest value to biggest value" },
+          { "key": "B", "text": "From biggest value to smallest value", "correct": true, "rationale": "Counting bills first, then quarters, dimes, nickels, and pennies helps you stay organized and not miss any money." },
+          { "key": "C", "text": "In any order you grab them" }
+        ],
+        "answer": ["B. From biggest value to smallest value"],
+        "explanation": ["Starting with the largest values keeps your counting neat and helps you avoid mistakes."]
+      }
+    ]
+  },
+  {
+    "programKey": "grade3_staar",
+    "subject": "math",
+    "standardCode": "3.8A",
+    "version": 1,
+    "status": "available",
+    "title": "Showing Data with Frequency Tables, Pictographs, and Bar Graphs",
+    "intro": "Data is information we collect, like favorite foods or pets. In this lesson you will learn how to organize data and show it using a frequency table, a pictograph, and a bar graph with scaled intervals.",
+    "reportingCategory": "Data Analysis & Personal Financial Literacy",
+    "visualKind": "text_evidence",
+    "vocabulary": [
+      { "term": "data", "meaning": "Information that we collect and count." },
+      { "term": "category", "meaning": "A group that data can be sorted into, like 'dogs' or 'cats'." },
+      { "term": "frequency table", "meaning": "A table that shows how many are in each category." },
+      { "term": "pictograph", "meaning": "A graph that uses pictures to show data, where one picture can stand for more than one." },
+      { "term": "bar graph", "meaning": "A graph that uses bars of different heights to show data." },
+      { "term": "scale", "meaning": "The numbers on a graph that tell how much each step is worth." }
+    ],
+    "body": [
+      { "kind": "heading", "level": 2, "text": "What Is Data?" },
+      { "kind": "paragraph", "text": "When you ask a question and count the answers, you collect data. For example, a class voted on their favorite fruit. We can put the answers into different categories." },
+      { "kind": "heading", "level": 2, "text": "A Frequency Table" },
+      { "kind": "paragraph", "text": "A frequency table lists each category and how many votes it got." },
+      {
+        "kind": "html",
+        "html": "<table><tr><th>Fruit</th><th>Number of Votes</th></tr><tr><td>Apple</td><td>6</td></tr><tr><td>Banana</td><td>4</td></tr><tr><td>Grapes</td><td>8</td></tr></table>"
+      },
+      { "kind": "heading", "level": 2, "text": "A Pictograph" },
+      { "kind": "paragraph", "text": "A pictograph uses pictures. Here, each circle stands for 2 votes. So if a row has 3 circles, that means 6 votes." },
+      {
+        "kind": "svg",
+        "alt": "A pictograph of fruit votes where each circle equals 2 votes. Apple has 3 circles, banana has 2 circles, grapes has 4 circles.",
+        "svg": "<svg viewBox='0 0 420 170' role='img' xmlns='http://www.w3.org/2000/svg'><text x='10' y='30' font-size='13'>Apple</text><circle cx='95' cy='26' r='9' fill='#e57373'/><circle cx='120' cy='26' r='9' fill='#e57373'/><circle cx='145' cy='26' r='9' fill='#e57373'/><text x='10' y='75' font-size='13'>Banana</text><circle cx='95' cy='71' r='9' fill='#fdd835'/><circle cx='120' cy='71' r='9' fill='#fdd835'/><text x='10' y='120' font-size='13'>Grapes</text><circle cx='95' cy='116' r='9' fill='#8e24aa'/><circle cx='120' cy='116' r='9' fill='#8e24aa'/><circle cx='145' cy='116' r='9' fill='#8e24aa'/><circle cx='170' cy='116' r='9' fill='#8e24aa'/><text x='10' y='155' font-size='12'>Key: each circle = 2 votes</text></svg>"
+      },
+      { "kind": "heading", "level": 2, "text": "A Bar Graph with a Scale" },
+      { "kind": "paragraph", "text": "A bar graph uses bars. The taller the bar, the more votes. On this graph, the scale goes up by 2." },
+      {
+        "kind": "svg",
+        "alt": "A bar graph of fruit votes with a scale by 2. Apple bar reaches 6, banana bar reaches 4, grapes bar reaches 8.",
+        "svg": "<svg viewBox='0 0 360 230' role='img' xmlns='http://www.w3.org/2000/svg'><line x1='50' y1='10' x2='50' y2='190' stroke='#333' stroke-width='2'/><line x1='50' y1='190' x2='340' y2='190' stroke='#333' stroke-width='2'/><text x='20' y='194' font-size='11'>0</text><text x='20' y='150' font-size='11'>2</text><text x='20' y='110' font-size='11'>4</text><text x='20' y='70' font-size='11'>6</text><text x='20' y='30' font-size='11'>8</text><line x1='46' y1='150' x2='50' y2='150' stroke='#333'/><line x1='46' y1='110' x2='50' y2='110' stroke='#333'/><line x1='46' y1='70' x2='50' y2='70' stroke='#333'/><line x1='46' y1='30' x2='50' y2='30' stroke='#333'/><rect x='70' y='70' width='50' height='120' fill='#e57373'/><text x='75' y='205' font-size='11'>Apple</text><rect x='150' y='110' width='50' height='80' fill='#fdd835'/><text x='150' y='205' font-size='11'>Banana</text><rect x='230' y='30' width='50' height='160' fill='#8e24aa'/><text x='232' y='205' font-size='11'>Grapes</text></svg>"
+      },
+      {
+        "kind": "callout",
+        "tone": "info",
+        "title": "Remember",
+        "text": "Always check the scale or the key. It tells you how much each step or each picture is worth."
+      }
+    ],
+    "practiceExamples": [
+      {
+        "id": "ex1",
+        "prompt": ["In the pictograph, each circle equals 2 votes. Grapes has 4 circles. How many votes did grapes get?"],
+        "options": [
+          { "key": "A", "text": "4 votes" },
+          { "key": "B", "text": "6 votes" },
+          { "key": "C", "text": "8 votes", "correct": true, "rationale": "Each circle equals 2 votes, and 4 circles times 2 equals 8 votes." }
+        ],
+        "answer": ["C. 8 votes"],
+        "explanation": ["Since each circle stands for 2 votes, 4 circles mean 4 × 2 = 8 votes."]
+      },
+      {
+        "id": "ex2",
+        "prompt": ["On the bar graph, which fruit got the most votes?"],
+        "options": [
+          { "key": "A", "text": "Apple" },
+          { "key": "B", "text": "Banana" },
+          { "key": "C", "text": "Grapes", "correct": true, "rationale": "Grapes has the tallest bar, reaching 8, which is more than apple (6) or banana (4)." }
+        ],
+        "answer": ["C. Grapes"],
+        "explanation": ["The grapes bar is the tallest, reaching 8 votes, so grapes got the most."]
+      },
+      {
+        "id": "ex3",
+        "prompt": ["What does a key on a pictograph tell you?"],
+        "options": [
+          { "key": "A", "text": "How many pictures to draw in total" },
+          { "key": "B", "text": "How much each picture is worth", "correct": true, "rationale": "The key tells you the value of each picture, like 'each circle = 2 votes', so you can find the totals." },
+          { "key": "C", "text": "The name of the graph" }
+        ],
+        "answer": ["B. How much each picture is worth"],
+        "explanation": ["The key explains the value of each picture so you can count the data correctly."]
+      }
+    ]
+  },
+  {
+    "programKey": "grade3_staar",
+    "subject": "math",
+    "standardCode": "3.8B",
+    "version": 1,
+    "status": "available",
+    "title": "Solving Problems Using Graphs and Data Tables",
+    "intro": "Once data is shown in a graph or table, you can use it to solve problems. In this lesson you will read graphs and tables to answer one-step and two-step questions.",
+    "reportingCategory": "Data Analysis & Personal Financial Literacy",
+    "visualKind": "text_evidence",
+    "vocabulary": [
+      { "term": "one-step problem", "meaning": "A problem you can solve with just one calculation." },
+      { "term": "two-step problem", "meaning": "A problem that needs two calculations to solve." },
+      { "term": "compare", "meaning": "To look at two amounts to see how they are different." },
+      { "term": "total", "meaning": "The whole amount when you add groups together." },
+      { "term": "difference", "meaning": "How much more one amount is than another, found by subtracting." },
+      { "term": "key", "meaning": "A note on a graph that tells how much each picture or symbol is worth." }
+    ],
+    "body": [
+      { "kind": "heading", "level": 2, "text": "Reading the Graph First" },
+      { "kind": "paragraph", "text": "Before you solve a problem, read the graph carefully. Look at the labels, the scale, and any key. This bar graph shows how many books three students read." },
+      {
+        "kind": "svg",
+        "alt": "A bar graph showing books read. Ben read 5, Lily read 8, and Max read 3.",
+        "svg": "<svg viewBox='0 0 360 230' role='img' xmlns='http://www.w3.org/2000/svg'><line x1='50' y1='10' x2='50' y2='190' stroke='#333' stroke-width='2'/><line x1='50' y1='190' x2='340' y2='190' stroke='#333' stroke-width='2'/><text x='20' y='194' font-size='11'>0</text><text x='20' y='150' font-size='11'>2</text><text x='20' y='110' font-size='11'>4</text><text x='20' y='70' font-size='11'>6</text><text x='20' y='30' font-size='11'>8</text><rect x='70' y='90' width='50' height='100' fill='#42a5f5'/><text x='80' y='205' font-size='11'>Ben</text><rect x='150' y='30' width='50' height='160' fill='#66bb6a'/><text x='160' y='205' font-size='11'>Lily</text><rect x='230' y='130' width='50' height='60' fill='#ffa726'/><text x='243' y='205' font-size='11'>Max</text></svg>"
+      },
+      { "kind": "heading", "level": 2, "text": "One-Step Problems" },
+      { "kind": "paragraph", "text": "A one-step problem needs one calculation. Example: How many more books did Lily read than Max? Lily read 8 and Max read 3, so 8 − 3 = 5 more books." },
+      { "kind": "heading", "level": 2, "text": "Two-Step Problems" },
+      { "kind": "paragraph", "text": "A two-step problem needs two calculations. Example: How many books did Ben and Max read together compared to Lily? First add Ben and Max: 5 + 3 = 8. Then compare to Lily: 8 − 8 = 0. They read the same amount." },
+      {
+        "kind": "html",
+        "html": "<table><tr><th>Student</th><th>Books Read</th></tr><tr><td>Ben</td><td>5</td></tr><tr><td>Lily</td><td>8</td></tr><tr><td>Max</td><td>3</td></tr></table>"
+      },
+      {
+        "kind": "callout",
+        "tone": "info",
+        "title": "Plan",
+        "text": "For two-step problems, do the first step, write down your answer, and then use it for the second step."
+      }
+    ],
+    "practiceExamples": [
+      {
+        "id": "ex1",
+        "prompt": ["Using the graph, how many books did Ben and Lily read in all?"],
+        "options": [
+          { "key": "A", "text": "11" },
+          { "key": "B", "text": "13", "correct": true, "rationale": "Ben read 5 and Lily read 8, so 5 + 8 = 13 books in all." },
+          { "key": "C", "text": "8" }
+        ],
+        "answer": ["B. 13"],
+        "explanation": ["Ben read 5 books and Lily read 8 books, so 5 + 8 = 13 books in all."]
+      },
+      {
+        "id": "ex2",
+        "prompt": ["How many more books did Lily read than Ben?"],
+        "options": [
+          { "key": "A", "text": "2" },
+          { "key": "B", "text": "3", "correct": true, "rationale": "Lily read 8 and Ben read 5, so 8 − 5 = 3 more books." },
+          { "key": "C", "text": "5" }
+        ],
+        "answer": ["B. 3"],
+        "explanation": ["Lily read 8 and Ben read 5, and 8 − 5 = 3, so Lily read 3 more books."]
+      },
+      {
+        "id": "ex3",
+        "prompt": ["Ben and Max read books together. How many did they read, and how many fewer is that than Lily? (Two steps)"],
+        "options": [
+          { "key": "A", "text": "They read 8, which is the same as Lily.", "correct": true, "rationale": "Ben (5) + Max (3) = 8, and Lily read 8, so 8 − 8 = 0; they read the same amount." },
+          { "key": "B", "text": "They read 8, which is 5 fewer than Lily." },
+          { "key": "C", "text": "They read 6, which is 2 fewer than Lily." }
+        ],
+        "answer": ["A. They read 8, which is the same as Lily."],
+        "explanation": ["First add Ben and Max: 5 + 3 = 8. Then compare to Lily's 8: 8 − 8 = 0, so they read the same number."]
+      }
+    ]
+  },
+  {
+    "programKey": "grade3_staar",
+    "subject": "math",
+    "standardCode": "3.9A",
+    "version": 1,
+    "status": "available",
+    "title": "Human Capital: How Skills and Work Earn Income",
+    "intro": "People earn money by working at jobs. The skills and knowledge you build are called human capital. In this lesson you will learn how human capital and labor connect to the income people earn.",
+    "reportingCategory": "Data Analysis & Personal Financial Literacy",
+    "visualKind": "text_evidence",
+    "vocabulary": [
+      { "term": "income", "meaning": "Money a person earns, usually from working." },
+      { "term": "labor", "meaning": "The work people do to make goods or give services." },
+      { "term": "human capital", "meaning": "The skills, knowledge, and training a person has." },
+      { "term": "job", "meaning": "Work a person does to earn money." },
+      { "term": "skill", "meaning": "Something you can do well because you learned and practiced it." },
+      { "term": "earn", "meaning": "To get money in return for work." }
+    ],
+    "body": [
+      { "kind": "heading", "level": 2, "text": "What Is Income?" },
+      { "kind": "paragraph", "text": "Income is the money people get for working. A teacher earns income by teaching. A baker earns income by baking and selling bread. Work that people do to earn income is called labor." },
+      { "kind": "heading", "level": 2, "text": "What Is Human Capital?" },
+      { "kind": "paragraph", "text": "Human capital is all the skills and knowledge a person has. When you learn to read, do math, or fix a bike, you are building human capital. The more skills you have, the more kinds of work you can do." },
+      {
+        "kind": "svg",
+        "alt": "A simple flow chart showing skills and learning lead to a job, which leads to income.",
+        "svg": "<svg viewBox='0 0 460 110' role='img' xmlns='http://www.w3.org/2000/svg'><rect x='10' y='35' width='120' height='45' rx='8' fill='#bbdefb' stroke='#1976d2'/><text x='70' y='55' text-anchor='middle' font-size='12'>Skills &amp;</text><text x='70' y='70' text-anchor='middle' font-size='12'>Learning</text><text x='150' y='62' font-size='22'>&#8594;</text><rect x='175' y='35' width='110' height='45' rx='8' fill='#c8e6c9' stroke='#388e3c'/><text x='230' y='62' text-anchor='middle' font-size='12'>Job (Labor)</text><text x='300' y='62' font-size='22'>&#8594;</text><rect x='325' y='35' width='120' height='45' rx='8' fill='#fff9c4' stroke='#fbc02d'/><text x='385' y='62' text-anchor='middle' font-size='12'>Income ($)</text></svg>"
+      },
+      { "kind": "heading", "level": 2, "text": "How They Connect" },
+      { "kind": "paragraph", "text": "When you build human capital and use it to do labor at a job, you can earn income. People who keep learning new skills often have more job choices. Going to school and practicing skills helps build human capital for the future." },
+      {
+        "kind": "list",
+        "ordered": false,
+        "items": [
+          "A doctor learned a lot to help sick people, and earns income for that work.",
+          "A carpenter practiced building, and earns income from building things.",
+          "A coder learned to write programs, and earns income making apps."
+        ]
+      },
+      {
+        "kind": "callout",
+        "tone": "info",
+        "title": "Big Idea",
+        "text": "Learning skills builds human capital. Using those skills at a job through labor earns income."
+      }
+    ],
+    "practiceExamples": [
+      {
+        "id": "ex1",
+        "prompt": ["What is human capital?"],
+        "options": [
+          { "key": "A", "text": "The money in a bank" },
+          { "key": "B", "text": "The skills and knowledge a person has", "correct": true, "rationale": "Human capital means all the skills, training, and knowledge a person has built up." },
+          { "key": "C", "text": "A kind of coin" }
+        ],
+        "answer": ["B. The skills and knowledge a person has"],
+        "explanation": ["Human capital is the skills, knowledge, and training a person carries, which helps them do work."]
+      },
+      {
+        "id": "ex2",
+        "prompt": ["Why might a person who learns more skills earn income more easily?"],
+        "options": [
+          { "key": "A", "text": "Because more skills give them more kinds of work they can do", "correct": true, "rationale": "Building more human capital means a person can do more types of jobs and labor, which helps them earn income." },
+          { "key": "B", "text": "Because skills turn into coins by themselves" },
+          { "key": "C", "text": "Because they no longer need to work" }
+        ],
+        "answer": ["A. Because more skills give them more kinds of work they can do"],
+        "explanation": ["More skills mean more human capital, so a person can do more jobs and earn income."]
+      },
+      {
+        "id": "ex3",
+        "prompt": ["A baker earns money by baking and selling bread. What is the work the baker does called?"],
+        "options": [
+          { "key": "A", "text": "Income" },
+          { "key": "B", "text": "Labor", "correct": true, "rationale": "Labor is the work people do to make goods or give services, like baking bread." },
+          { "key": "C", "text": "A bill" }
+        ],
+        "answer": ["B. Labor"],
+        "explanation": ["The work people do to make goods or services is called labor; the money earned is income."]
+      }
+    ]
+  },
+  {
+    "programKey": "grade3_staar",
+    "subject": "math",
+    "standardCode": "3.9B",
+    "version": 1,
+    "status": "available",
+    "title": "Scarcity and Cost: Why Some Things Cost More",
+    "intro": "Some things are easy to find, and some things are hard to find. When something is hard to find, it is scarce. In this lesson you will learn how the amount of a resource affects how much it costs.",
+    "reportingCategory": "Data Analysis & Personal Financial Literacy",
+    "visualKind": "text_evidence",
+    "vocabulary": [
+      { "term": "resource", "meaning": "Something used to make goods or do work, like water, wood, or workers." },
+      { "term": "scarce", "meaning": "Hard to find or in short supply; there is not much of it." },
+      { "term": "available", "meaning": "Easy to find; there is plenty of it." },
+      { "term": "cost", "meaning": "The amount of money you pay to buy something." },
+      { "term": "demand", "meaning": "How much people want to buy something." },
+      { "term": "supply", "meaning": "How much of something is ready to be sold." }
+    ],
+    "body": [
+      { "kind": "heading", "level": 2, "text": "Plenty or Scarce?" },
+      { "kind": "paragraph", "text": "When there is a lot of something, we say it is available. When there is very little of something, we say it is scarce. The amount of a resource can change how much it costs." },
+      { "kind": "heading", "level": 2, "text": "The Rule of Scarcity" },
+      { "kind": "paragraph", "text": "When something is scarce and many people want it, the cost usually goes up. When something is plentiful and easy to get, the cost usually goes down." },
+      {
+        "kind": "svg",
+        "alt": "Two baskets of apples. The left basket is full and labeled low cost. The right basket has few apples and is labeled high cost.",
+        "svg": "<svg viewBox='0 0 420 180' role='img' xmlns='http://www.w3.org/2000/svg'><text x='95' y='20' text-anchor='middle' font-size='13'>Many apples</text><path d='M40 60 h110 l-12 70 h-86 z' fill='#a1887f' stroke='#5d4037'/><circle cx='65' cy='55' r='10' fill='#e53935'/><circle cx='90' cy='52' r='10' fill='#e53935'/><circle cx='115' cy='55' r='10' fill='#e53935'/><circle cx='78' cy='72' r='10' fill='#e53935'/><circle cx='105' cy='72' r='10' fill='#e53935'/><text x='95' y='160' text-anchor='middle' font-size='13'>Low cost</text><text x='320' y='20' text-anchor='middle' font-size='13'>Few apples</text><path d='M265 60 h110 l-12 70 h-86 z' fill='#a1887f' stroke='#5d4037'/><circle cx='310' cy='58' r='10' fill='#e53935'/><text x='320' y='160' text-anchor='middle' font-size='13'>High cost</text></svg>"
+      },
+      { "kind": "heading", "level": 2, "text": "An Example" },
+      { "kind": "paragraph", "text": "Imagine a town where it rains a lot, so water is easy to get. Water there costs very little. Now imagine a desert town where water is scarce. There, water might cost much more because it is harder to get." },
+      {
+        "kind": "list",
+        "ordered": false,
+        "items": [
+          "More resource available, easier to get → cost usually lower.",
+          "Less resource available, scarce → cost usually higher."
+        ]
+      },
+      {
+        "kind": "callout",
+        "tone": "info",
+        "title": "Key Idea",
+        "text": "Scarcity often raises cost. When something is hard to find but many people want it, it usually costs more."
+      }
+    ],
+    "practiceExamples": [
+      {
+        "id": "ex1",
+        "prompt": ["What does it mean if a resource is scarce?"],
+        "options": [
+          { "key": "A", "text": "There is a lot of it and it is easy to find" },
+          { "key": "B", "text": "There is very little of it and it is hard to find", "correct": true, "rationale": "Scarce means in short supply; there is not much of it, so it is hard to find." },
+          { "key": "C", "text": "It is always free" }
+        ],
+        "answer": ["B. There is very little of it and it is hard to find"],
+        "explanation": ["Scarce means there is only a small amount, which makes a resource hard to find."]
+      },
+      {
+        "id": "ex2",
+        "prompt": ["A toy is very scarce, but lots of kids want it. What usually happens to its cost?"],
+        "options": [
+          { "key": "A", "text": "The cost usually goes up", "correct": true, "rationale": "When something is scarce and many people want it, the cost usually rises." },
+          { "key": "B", "text": "The cost usually goes down" },
+          { "key": "C", "text": "The cost stays exactly the same forever" }
+        ],
+        "answer": ["A. The cost usually goes up"],
+        "explanation": ["Scarce items that many people want usually cost more because they are hard to get."]
+      },
+      {
+        "id": "ex3",
+        "prompt": ["In a town with lots of rain, water is easy to get. What is most likely true about the cost of water there?"],
+        "options": [
+          { "key": "A", "text": "It is likely lower because water is plentiful", "correct": true, "rationale": "When a resource is available and easy to get, its cost is usually lower." },
+          { "key": "B", "text": "It is likely higher because water is scarce" },
+          { "key": "C", "text": "Water cannot be bought" }
+        ],
+        "answer": ["A. It is likely lower because water is plentiful"],
+        "explanation": ["When a resource is plentiful and easy to get, the cost is usually lower."]
+      }
+    ]
+  },
+  {
+    "programKey": "grade3_staar",
+    "subject": "math",
+    "standardCode": "3.9D",
+    "version": 1,
+    "status": "available",
+    "title": "Understanding Credit: Borrowing Money and Paying It Back",
+    "intro": "Sometimes people want or need something but do not have enough money right now. They might use credit, which means borrowing money. In this lesson you will learn what credit is and how it must be paid back.",
+    "reportingCategory": "Data Analysis & Personal Financial Literacy",
+    "visualKind": "text_evidence",
+    "vocabulary": [
+      { "term": "credit", "meaning": "Borrowing money now with a promise to pay it back later." },
+      { "term": "borrow", "meaning": "To take money or a thing that you will give back." },
+      { "term": "interest", "meaning": "Extra money you pay back for borrowing, on top of what you borrowed." },
+      { "term": "want", "meaning": "Something you would like to have but do not need to live." },
+      { "term": "need", "meaning": "Something you must have to live, like food or a place to stay." },
+      { "term": "repay", "meaning": "To pay back money that you borrowed." }
+    ],
+    "body": [
+      { "kind": "heading", "level": 2, "text": "When Money Is Not Enough" },
+      { "kind": "paragraph", "text": "Sometimes a want or a need costs more than the money a person has right now. One choice people have is to use credit. Credit means borrowing money so you can buy something today." },
+      { "kind": "heading", "level": 2, "text": "Paying It Back, Usually with Interest" },
+      { "kind": "paragraph", "text": "When you use credit, you must pay the money back. Often you pay back a little extra too. That extra money is called interest. So you pay back what you borrowed plus the interest." },
+      {
+        "kind": "svg",
+        "alt": "A diagram showing a person borrows 10 dollars, then pays back 10 dollars plus 1 dollar of interest, which equals 11 dollars.",
+        "svg": "<svg viewBox='0 0 440 130' role='img' xmlns='http://www.w3.org/2000/svg'><rect x='10' y='40' width='130' height='50' rx='8' fill='#bbdefb' stroke='#1976d2'/><text x='75' y='62' text-anchor='middle' font-size='12'>Borrow $10</text><text x='75' y='80' text-anchor='middle' font-size='11'>(credit)</text><text x='150' y='72' font-size='20'>&#8594;</text><rect x='180' y='40' width='240' height='50' rx='8' fill='#ffe0b2' stroke='#e65100'/><text x='300' y='60' text-anchor='middle' font-size='12'>Pay back $10 + $1 interest</text><text x='300' y='80' text-anchor='middle' font-size='12'>= $11 total</text></svg>"
+      },
+      { "kind": "heading", "level": 2, "text": "Wants and Needs" },
+      { "kind": "paragraph", "text": "People sometimes use credit for needs, like fixing a car so they can get to work. Other times they use it for wants, like a new game. Either way, the money must be repaid, often with interest, so credit should be used carefully." },
+      {
+        "kind": "callout",
+        "tone": "info",
+        "title": "Important",
+        "text": "Credit is borrowing money. You must pay it back, usually with extra money called interest."
+      }
+    ],
+    "practiceExamples": [
+      {
+        "id": "ex1",
+        "prompt": ["What does it mean to use credit?"],
+        "options": [
+          { "key": "A", "text": "To get money for free" },
+          { "key": "B", "text": "To borrow money now and pay it back later", "correct": true, "rationale": "Credit means borrowing money now with the promise to pay it back later, usually with interest." },
+          { "key": "C", "text": "To save money in a piggy bank" }
+        ],
+        "answer": ["B. To borrow money now and pay it back later"],
+        "explanation": ["Credit is borrowing money now with a promise to repay it later, usually with interest."]
+      },
+      {
+        "id": "ex2",
+        "prompt": ["Lena borrows $10 using credit and must pay $1 in interest. How much will she pay back in all?"],
+        "options": [
+          { "key": "A", "text": "$10" },
+          { "key": "B", "text": "$11", "correct": true, "rationale": "She pays back what she borrowed ($10) plus the interest ($1), so $10 + $1 = $11." },
+          { "key": "C", "text": "$1" }
+        ],
+        "answer": ["B. $11"],
+        "explanation": ["She repays the $10 she borrowed plus $1 of interest, which is $10 + $1 = $11."]
+      },
+      {
+        "id": "ex3",
+        "prompt": ["What is interest?"],
+        "options": [
+          { "key": "A", "text": "The extra money you pay for borrowing", "correct": true, "rationale": "Interest is the extra money paid back on top of the amount that was borrowed." },
+          { "key": "B", "text": "A free gift from the bank" },
+          { "key": "C", "text": "Money you find on the ground" }
+        ],
+        "answer": ["A. The extra money you pay for borrowing"],
+        "explanation": ["Interest is the extra money you pay back, on top of the amount you borrowed."]
+      }
+    ]
+  },
+  {
+    "programKey": "grade3_staar",
+    "subject": "math",
+    "standardCode": "3.9E",
+    "version": 1,
+    "status": "available",
+    "title": "Why We Save: Savings Plans for College and Emergencies",
+    "intro": "Saving money means keeping some of it for later instead of spending it all now. In this lesson you will learn reasons people save and how a savings plan can help with big goals like college or an emergency.",
+    "reportingCategory": "Data Analysis & Personal Financial Literacy",
+    "visualKind": "text_evidence",
+    "vocabulary": [
+      { "term": "save", "meaning": "To keep money for later instead of spending it now." },
+      { "term": "savings plan", "meaning": "A plan to put away some money over time to reach a goal." },
+      { "term": "goal", "meaning": "Something you are working toward, like buying a bike." },
+      { "term": "emergency", "meaning": "A surprise problem that needs money fast, like a broken pipe." },
+      { "term": "college", "meaning": "A school people go to after high school, which can cost money." },
+      { "term": "budget", "meaning": "A plan for how to use your money." }
+    ],
+    "body": [
+      { "kind": "heading", "level": 2, "text": "What Does It Mean to Save?" },
+      { "kind": "paragraph", "text": "Saving means putting some money away to use later instead of spending it all today. Even saving a small amount each week can add up over time." },
+      { "kind": "heading", "level": 2, "text": "Reasons to Save" },
+      {
+        "kind": "list",
+        "ordered": false,
+        "items": [
+          "To buy something big later, like a bike or a game.",
+          "To pay for college after high school.",
+          "To be ready for an emergency, like a surprise repair.",
+          "To reach a goal you really care about."
+        ]
+      },
+      { "kind": "heading", "level": 2, "text": "A Savings Plan Grows" },
+      { "kind": "paragraph", "text": "A savings plan means saving a little at a time. Look how saving $5 each week adds up over four weeks." },
+      {
+        "kind": "svg",
+        "alt": "A bar graph showing total savings growing each week: week 1 is 5 dollars, week 2 is 10, week 3 is 15, week 4 is 20.",
+        "svg": "<svg viewBox='0 0 380 230' role='img' xmlns='http://www.w3.org/2000/svg'><line x1='50' y1='10' x2='50' y2='190' stroke='#333' stroke-width='2'/><line x1='50' y1='190' x2='360' y2='190' stroke='#333' stroke-width='2'/><text x='15' y='194' font-size='10'>$0</text><text x='12' y='150' font-size='10'>$5</text><text x='8' y='110' font-size='10'>$10</text><text x='8' y='70' font-size='10'>$15</text><text x='8' y='30' font-size='10'>$20</text><rect x='70' y='150' width='45' height='40' fill='#66bb6a'/><text x='72' y='205' font-size='10'>Wk 1</text><rect x='140' y='110' width='45' height='80' fill='#66bb6a'/><text x='142' y='205' font-size='10'>Wk 2</text><rect x='210' y='70' width='45' height='120' fill='#66bb6a'/><text x='212' y='205' font-size='10'>Wk 3</text><rect x='280' y='30' width='45' height='160' fill='#66bb6a'/><text x='282' y='205' font-size='10'>Wk 4</text></svg>"
+      },
+      {
+        "kind": "callout",
+        "tone": "info",
+        "title": "Benefit of a Plan",
+        "text": "A savings plan helps you reach big goals and be ready for surprises, so you do not have to borrow money."
+      }
+    ],
+    "practiceExamples": [
+      {
+        "id": "ex1",
+        "prompt": ["Which of these is a good reason to save money?"],
+        "options": [
+          { "key": "A", "text": "To be ready for an emergency", "correct": true, "rationale": "Saving for an emergency means you have money ready for surprise problems, which is a smart reason to save." },
+          { "key": "B", "text": "To spend it all in one day" },
+          { "key": "C", "text": "To lose track of your money" }
+        ],
+        "answer": ["A. To be ready for an emergency"],
+        "explanation": ["Saving for an emergency is a smart reason because surprise problems can need money fast."]
+      },
+      {
+        "id": "ex2",
+        "prompt": ["Using the graph, how much does the saver have after Week 3?"],
+        "options": [
+          { "key": "A", "text": "$10" },
+          { "key": "B", "text": "$15", "correct": true, "rationale": "Saving $5 each week gives $5, then $10, then $15 by the end of Week 3." },
+          { "key": "C", "text": "$20" }
+        ],
+        "answer": ["B. $15"],
+        "explanation": ["Saving $5 each week adds up to $15 by the end of Week 3 (5 + 5 + 5)."]
+      },
+      {
+        "id": "ex3",
+        "prompt": ["How can a savings plan help if a big bill comes up?"],
+        "options": [
+          { "key": "A", "text": "It means you saved money ahead, so you may not need to borrow", "correct": true, "rationale": "A savings plan builds up money over time, so you have funds ready and may avoid borrowing and paying interest." },
+          { "key": "B", "text": "It makes the bill disappear" },
+          { "key": "C", "text": "It gives you free money from a stranger" }
+        ],
+        "answer": ["A. It means you saved money ahead, so you may not need to borrow"],
+        "explanation": ["A savings plan builds money over time, so you are ready for big costs and may avoid borrowing."]
+      }
+    ]
+  }
+]

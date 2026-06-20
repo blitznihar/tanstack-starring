@@ -9,6 +9,7 @@ import { scoreItem } from "~/domain/scoring/score.js";
 import { assemblePractice, earnUpTo, practiceAward } from "~/domain/practice/practice.js";
 import { walletFor } from "~/server/gamification/wallet.js";
 import { recordAttempt } from "~/server/mastery/mastery.js";
+import { queuePracticeProgressReport } from "~/server/notifications/progressReports.js";
 import { richToText } from "~/lib/richText.js";
 import type { AuthContext } from "~/server/auth/session.js";
 import type { Item } from "~/schemas/item.js";
@@ -229,6 +230,7 @@ export async function submitPracticeAnswer(
       refId: input.itemId,
     });
   }
+  await queuePracticeProgressReport(input.enrollmentId);
 
   const wallet = await walletFor(input.enrollmentId);
   return buildFeedback(item, input.selected, result.correct, awarded, perCorrect, wallet);

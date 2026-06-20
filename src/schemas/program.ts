@@ -61,7 +61,7 @@ export type ConceptConfig = z.infer<typeof conceptConfigSchema>;
  * truth for all earning. Separate from milestone reward rules (§11.B).
  */
 export const robuxRulesSchema = z.object({
-  practiceCorrect: z.number().int().nonnegative().default(10),
+  practiceCorrect: z.number().int().nonnegative().default(5),
   examCorrect: z.number().int().nonnegative().default(20),
   examWrong: z.number().int().nonnegative().default(10),
   lessonComplete: z.number().int().nonnegative().default(25),
@@ -69,7 +69,7 @@ export const robuxRulesSchema = z.object({
 export type RobuxRules = z.infer<typeof robuxRulesSchema>;
 
 export const DEFAULT_ROBUX_RULES: RobuxRules = {
-  practiceCorrect: 10,
+  practiceCorrect: 5,
   examCorrect: 20,
   examWrong: 10,
   lessonComplete: 25,

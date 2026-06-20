@@ -1,0 +1,54 @@
+{"_id":{"$oid":"6a35455b9857863c1abb6e62"},"subject":"math","programKey":"grade3_staar","code":"3.2A","description":"Compose/decompose & place value to 100,000","reportingCategory":"Numerical Representations"}
+{"_id":{"$oid":"6a35455b9857863c1abb6e65"},"subject":"math","programKey":"grade3_staar","code":"3.2D","description":"Compare & order whole numbers","reportingCategory":"Numerical Representations"}
+{"_id":{"$oid":"6a35455b9857863c1abb6e68"},"subject":"math","programKey":"grade3_staar","code":"3.4A","description":"Add & subtract within 1,000","reportingCategory":"Computations & Algebraic Relationships"}
+{"_id":{"$oid":"6a35455b9857863c1abb6e6b"},"subject":"math","programKey":"grade3_staar","code":"3.4D","description":"Equal groups & arrays","reportingCategory":"Computations & Algebraic Relationships"}
+{"_id":{"$oid":"6a35455b9857863c1abb6e6e"},"subject":"math","programKey":"grade3_staar","code":"3.4K","description":"Multiplication & division word problems","reportingCategory":"Computations & Algebraic Relationships"}
+{"_id":{"$oid":"6a35455b9857863c1abb6e71"},"subject":"math","programKey":"grade3_staar","code":"3.5B","description":"Number patterns & mult/div representations","reportingCategory":"Patterns"}
+{"_id":{"$oid":"6a35455b9857863c1abb6e74"},"subject":"math","programKey":"grade3_staar","code":"3.3F","description":"Equivalent fractions","reportingCategory":"Fractions"}
+{"_id":{"$oid":"6a35455b9857863c1abb6e77"},"subject":"math","programKey":"grade3_staar","code":"3.3B","description":"Fractions on a number line","reportingCategory":"Fractions"}
+{"_id":{"$oid":"6a3564389857863c1abb9c65"},"code":"3.9D","programKey":"grade3_staar","subject":"rla","description":"Recognize characteristics and the central idea of informational text","reportingCategory":"Multiple Genres"}
+{"_id":{"$oid":"6a3564389857863c1abb9c68"},"code":"3.10A","programKey":"grade3_staar","subject":"rla","description":"Explain the author's purpose and message","reportingCategory":"Author's Craft"}
+{"_id":{"$oid":"6a3564389857863c1abb9c6b"},"code":"3.6F","programKey":"grade3_staar","subject":"rla","description":"Make inferences and use evidence to support understanding","reportingCategory":"Comprehension"}
+{"_id":{"$oid":"6a3564389857863c1abb9c6e"},"code":"3.3B","programKey":"grade3_staar","subject":"rla","description":"Use context within a sentence to determine the meaning of words","reportingCategory":"Vocabulary"}
+{"_id":{"$oid":"6a3564389857863c1abb9c71"},"code":"3.7C","programKey":"grade3_staar","subject":"rla","description":"Use text evidence to support an appropriate response","reportingCategory":"Response Skills"}
+{"_id":{"$oid":"6a3564389857863c1abb9c74"},"code":"3.7D","programKey":"grade3_staar","subject":"rla","description":"Retell, paraphrase, or summarize texts","reportingCategory":"Response Skills"}
+{"_id":{"$oid":"6a3564389857863c1abb9c77"},"code":"3.6G","programKey":"grade3_staar","subject":"rla","description":"Evaluate details to determine key ideas","reportingCategory":"Comprehension"}
+{"_id":{"$oid":"6a3564389857863c1abb9c7a"},"code":"3.8B","programKey":"grade3_staar","subject":"rla","description":"Describe the interaction of characters and changes they undergo","reportingCategory":"Literary Elements"}
+{"_id":{"$oid":"6a3564389857863c1abb9c7d"},"code":"3.10D","programKey":"grade3_staar","subject":"rla","description":"Identify and explain figurative language such as simile","reportingCategory":"Author's Craft"}
+{"_id":{"$oid":"6a3564389857863c1abb9c80"},"code":"3.8C","programKey":"grade3_staar","subject":"rla","description":"Analyze plot elements and the lesson or theme","reportingCategory":"Literary Elements"}
+{"_id":{"$oid":"6a3624fd9857863c1abd015b"},"subject":"math","programKey":"grade3_staar","code":"3.2B","description":"Base-10 place value relationships","reportingCategory":"Numerical Representations"}
+{"_id":{"$oid":"6a3624fd9857863c1abd015e"},"subject":"math","code":"3.2C","programKey":"grade3_staar","description":"Number line between multiples; rounding","reportingCategory":"Numerical Representations"}
+{"_id":{"$oid":"6a3624fe9857863c1abd0163"},"subject":"math","programKey":"grade3_staar","code":"3.3A","description":"Represent fractions with models","reportingCategory":"Fractions"}
+{"_id":{"$oid":"6a3624fe9857863c1abd0168"},"subject":"math","programKey":"grade3_staar","code":"3.3C","description":"Unit fractions 1/b","reportingCategory":"Fractions"}
+{"_id":{"$oid":"6a3624fe9857863c1abd016b"},"subject":"math","programKey":"grade3_staar","code":"3.3D","description":"Compose/decompose fractions as sums of unit fractions","reportingCategory":"Fractions"}
+{"_id":{"$oid":"6a3624fe9857863c1abd016e"},"subject":"math","programKey":"grade3_staar","code":"3.3E","description":"Partitioning among recipients","reportingCategory":"Fractions"}
+{"_id":{"$oid":"6a3624fe9857863c1abd0173"},"subject":"math","programKey":"grade3_staar","code":"3.3G","description":"Equivalence via same point/portion","reportingCategory":"Fractions"}
+{"_id":{"$oid":"6a3624fe9857863c1abd0176"},"subject":"math","programKey":"grade3_staar","code":"3.3H","description":"Compare fractions with same numerator or denominator","reportingCategory":"Fractions"}
+{"_id":{"$oid":"6a3624fe9857863c1abd0179"},"subject":"math","programKey":"grade3_staar","code":"3.4I","description":"Even and odd numbers","reportingCategory":"Numerical Representations"}
+{"_id":{"$oid":"6a3624fe9857863c1abd017c"},"subject":"math","programKey":"grade3_staar","code":"3.7A","description":"Fractions as distances from zero on a number line","reportingCategory":"Fractions"}
+{"_id":{"$oid":"6a3624fe9857863c1abd0181"},"subject":"math","programKey":"grade3_staar","code":"3.4B","description":"Estimate sums/differences","reportingCategory":"Computations & Algebraic Relationships"}
+{"_id":{"$oid":"6a3624fe9857863c1abd0186"},"subject":"math","programKey":"grade3_staar","code":"3.4E","description":"Represent multiplication facts","reportingCategory":"Computations & Algebraic Relationships"}
+{"_id":{"$oid":"6a3624fe9857863c1abd0189"},"subject":"math","programKey":"grade3_staar","code":"3.4F","description":"Multiplication & division facts","reportingCategory":"Computations & Algebraic Relationships"}
+{"_id":{"$oid":"6a3624fe9857863c1abd018c"},"subject":"math","programKey":"grade3_staar","code":"3.4G","description":"Multiply 2-digit by 1-digit","reportingCategory":"Computations & Algebraic Relationships"}
+{"_id":{"$oid":"6a3624fe9857863c1abd018f"},"code":"3.4H","programKey":"grade3_staar","subject":"math","description":"Objects in each equal group","reportingCategory":"Computations & Algebraic Relationships"}
+{"_id":{"$oid":"6a3624fe9857863c1abd0192"},"code":"3.4J","programKey":"grade3_staar","subject":"math","description":"Quotient via multiplication/division","reportingCategory":"Computations & Algebraic Relationships"}
+{"_id":{"$oid":"6a3624fe9857863c1abd0197"},"subject":"math","code":"3.5A","programKey":"grade3_staar","description":"Model addition/subtraction problems","reportingCategory":"Computations & Algebraic Relationships"}
+{"_id":{"$oid":"6a3624fe9857863c1abd019c"},"subject":"math","programKey":"grade3_staar","code":"3.5C","description":"Multiplication as comparison","reportingCategory":"Computations & Algebraic Relationships"}
+{"_id":{"$oid":"6a3624fe9857863c1abd019f"},"subject":"math","code":"3.5D","programKey":"grade3_staar","description":"Unknown in mult/div equations","reportingCategory":"Computations & Algebraic Relationships"}
+{"_id":{"$oid":"6a3624fe9857863c1abd01a2"},"subject":"math","code":"3.5E","programKey":"grade3_staar","description":"Number pairs in a table","reportingCategory":"Computations & Algebraic Relationships"}
+{"_id":{"$oid":"6a3624fe9857863c1abd01a5"},"subject":"math","code":"3.6A","programKey":"grade3_staar","description":"Classify 2D & 3D figures","reportingCategory":"Geometry & Measurement"}
+{"_id":{"$oid":"6a3624fe9857863c1abd01a8"},"subject":"math","programKey":"grade3_staar","code":"3.6B","description":"Quadrilateral attributes","reportingCategory":"Geometry & Measurement"}
+{"_id":{"$oid":"6a3624fe9857863c1abd01ab"},"subject":"math","programKey":"grade3_staar","code":"3.6C","description":"Area of rectangles","reportingCategory":"Geometry & Measurement"}
+{"_id":{"$oid":"6a3624fe9857863c1abd01ae"},"subject":"math","programKey":"grade3_staar","code":"3.6D","description":"Composite area","reportingCategory":"Geometry & Measurement"}
+{"_id":{"$oid":"6a3624fe9857863c1abd01b1"},"subject":"math","code":"3.6E","programKey":"grade3_staar","description":"Unit-fraction area of equal parts","reportingCategory":"Geometry & Measurement"}
+{"_id":{"$oid":"6a3624fe9857863c1abd01b4"},"subject":"math","code":"3.7B","programKey":"grade3_staar","description":"Perimeter & missing side lengths","reportingCategory":"Geometry & Measurement"}
+{"_id":{"$oid":"6a3624fe9857863c1abd01b7"},"subject":"math","code":"3.7C","programKey":"grade3_staar","description":"Add/subtract time intervals","reportingCategory":"Geometry & Measurement"}
+{"_id":{"$oid":"6a3624fe9857863c1abd01ba"},"subject":"math","code":"3.7D","programKey":"grade3_staar","description":"Choose liquid volume or weight","reportingCategory":"Geometry & Measurement"}
+{"_id":{"$oid":"6a3624fe9857863c1abd01bd"},"subject":"math","code":"3.7E","programKey":"grade3_staar","description":"Measure volume/weight: units & tools","reportingCategory":"Geometry & Measurement"}
+{"_id":{"$oid":"6a3624fe9857863c1abd01c0"},"subject":"math","code":"3.4C","programKey":"grade3_staar","description":"Value of coins and bills","reportingCategory":"Data Analysis & Personal Financial Literacy"}
+{"_id":{"$oid":"6a3624fe9857863c1abd01c3"},"subject":"math","code":"3.8A","programKey":"grade3_staar","description":"Summarize data sets","reportingCategory":"Data Analysis & Personal Financial Literacy"}
+{"_id":{"$oid":"6a3624fe9857863c1abd01c6"},"subject":"math","code":"3.8B","programKey":"grade3_staar","description":"Solve problems with categorical data","reportingCategory":"Data Analysis & Personal Financial Literacy"}
+{"_id":{"$oid":"6a3624fe9857863c1abd01c9"},"subject":"math","code":"3.9A","programKey":"grade3_staar","description":"Human capital, labor & income","reportingCategory":"Data Analysis & Personal Financial Literacy"}
+{"_id":{"$oid":"6a3624fe9857863c1abd01cc"},"subject":"math","code":"3.9B","programKey":"grade3_staar","description":"Scarcity of resources & cost","reportingCategory":"Data Analysis & Personal Financial Literacy"}
+{"_id":{"$oid":"6a3624fe9857863c1abd01cf"},"subject":"math","code":"3.9D","programKey":"grade3_staar","description":"Credit & borrowing","reportingCategory":"Data Analysis & Personal Financial Literacy"}
+{"_id":{"$oid":"6a3624fe9857863c1abd01d2"},"subject":"math","programKey":"grade3_staar","code":"3.9E","description":"Reasons to save","reportingCategory":"Data Analysis & Personal Financial Literacy"}

@@ -29,8 +29,10 @@ export const lessonsRepo = {
     );
   },
 
-  async list(programKey?: string): Promise<LessonDoc[]> {
-    const filter = programKey ? { programKey } : {};
+  async list(programKey?: string, subject?: string): Promise<LessonDoc[]> {
+    const filter: Record<string, unknown> = {};
+    if (programKey) filter.programKey = programKey;
+    if (subject) filter.subject = subject;
     return (await lessonsCol()).find(filter).sort({ programKey: 1, subject: 1, standardCode: 1, version: -1 }).toArray();
   },
 

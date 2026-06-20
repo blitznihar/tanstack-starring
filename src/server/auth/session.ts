@@ -11,6 +11,8 @@ export type AuthContext = {
   userId: string;
   username: string;
   displayName: string;
+  email: string;
+  emailConfirmed: boolean;
   roles: Role[];
   forceChangeOnFirstLogin: boolean;
 };
@@ -29,6 +31,8 @@ export async function login(input: LoginInput): Promise<{ token: string; auth: A
         userId: String(user._id),
       username: user.username,
       displayName: user.displayName,
+      email: user.email ?? "blitznihar@gmail.com",
+      emailConfirmed: !!user.emailConfirmed,
       roles: user.roles,
       forceChangeOnFirstLogin: user.forceChangeOnFirstLogin,
     },
@@ -46,6 +50,8 @@ export async function authFromToken(token: string | undefined): Promise<AuthCont
     userId: String(user._id),
     username: user.username,
     displayName: user.displayName,
+    email: user.email ?? "blitznihar@gmail.com",
+    emailConfirmed: !!user.emailConfirmed,
     roles: user.roles,
     forceChangeOnFirstLogin: user.forceChangeOnFirstLogin,
   };

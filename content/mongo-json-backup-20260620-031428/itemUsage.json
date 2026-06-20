@@ -1,0 +1,8 @@
+{"_id":{"$oid":"6a3604439857863c1abca548"},"enrollmentId":"0ac140ba-3a9b-4290-b452-6b6226cde344","itemId":"grade3_staar:math:v1#0","context":"practice","usedAt":{"$date":{"$numberLong":"1781924931478"}}}
+{"_id":{"$oid":"6a36044c9857863c1abca58a"},"enrollmentId":"0ac140ba-3a9b-4290-b452-6b6226cde344","itemId":"grade3_staar:math:v1#1","context":"practice","usedAt":{"$date":{"$numberLong":"1781924940054"}}}
+{"_id":{"$oid":"6a3604729857863c1abca636"},"enrollmentId":"0ac140ba-3a9b-4290-b452-6b6226cde344","itemId":"grade3_staar:rla:v1#3","context":"practice","usedAt":{"$date":{"$numberLong":"1781924978926"}}}
+{"_id":{"$oid":"6a3628ae9857863c1abd0d6b"},"enrollmentId":"9e8fdd4d-3bf2-4a93-a14c-4f0d5681e8ed","itemId":"grade3_staar:math:v1#0","context":"practice","usedAt":{"$date":{"$numberLong":"1781934254759"}}}
+{"_id":{"$oid":"6a3628af9857863c1abd0d94"},"enrollmentId":"9e8fdd4d-3bf2-4a93-a14c-4f0d5681e8ed","itemId":"grade3_staar:math:v1#1","context":"practice","usedAt":{"$date":{"$numberLong":"1781934255655"}}}
+{"_id":{"$oid":"6a362f9e9857863c1abd17f8"},"enrollmentId":"0ac140ba-3a9b-4290-b452-6b6226cde344","itemId":"grade3_staar:rla:v1#0","context":"practice","usedAt":{"$date":{"$numberLong":"1781936030560"}}}
+{"_id":{"$oid":"6a363acb9857863c1abd237a"},"itemId":"grade3_staar:math:v1#3","enrollmentId":"0ac140ba-3a9b-4290-b452-6b6226cde344","context":"practice","usedAt":{"$date":{"$numberLong":"1781938891750"}}}
+{"_id":{"$oid":"6a363ae59857863c1abd23e1"},"itemId":"grade3_staar:math:v1#4","enrollmentId":"0ac140ba-3a9b-4290-b452-6b6226cde344","context":"practice","usedAt":{"$date":{"$numberLong":"1781938917745"}}}

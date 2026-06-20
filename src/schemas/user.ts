@@ -5,6 +5,8 @@ export const userSchema = z.object({
   _id: z.string().optional(),
   username: z.string().min(3).max(64),
   displayName: z.string().min(1),
+  email: z.string().email().default("blitznihar@gmail.com"),
+  emailConfirmed: z.boolean().default(false),
   roles: z.array(roleSchema).min(1),
   /** Parent profiles list the students they can see. */
   studentIds: z.array(z.string()).default([]),
@@ -26,6 +28,7 @@ export type PublicUser = z.infer<typeof publicUserSchema>;
 export const createUserInputSchema = z.object({
   username: z.string().min(3).max(64),
   displayName: z.string().min(1),
+  email: z.string().email().default("blitznihar@gmail.com"),
   roles: z.array(roleSchema).length(1),
   studentIds: z.array(z.string()).default([]),
   parentIds: z.array(z.string()).default([]),

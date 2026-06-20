@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
-import { contentTree, bundleDetail, lessonPrompt, refillPrompt, uploadContentJson, uploadLessonJson } from "~/server/rpc/content";
+import { contentTree, bundleDetail, lessonsDetail, lessonPrompt, refillPrompt, uploadContentJson, uploadLessonJson } from "~/server/rpc/content";
 import { me, logout } from "~/server/rpc/session";
 
 export const Route = createFileRoute("/admin/content")({
@@ -10,6 +10,7 @@ export const Route = createFileRoute("/admin/content")({
 });
 
 type Detail = Awaited<ReturnType<typeof bundleDetail>>;
+type LessonDetail = Awaited<ReturnType<typeof lessonsDetail>>;
 
 const STATUS_CLASS: Record<string, string> = { ok: "pill-ok", running_low: "pill-low", exhausted: "pill-exhausted" };
 const STATUS_LABEL: Record<string, string> = { ok: "ok", running_low: "running low", exhausted: "exhausted" };
@@ -18,6 +19,7 @@ function ContentBrowser() {
   const { tree: initialTree, user } = Route.useLoaderData();
   const navigate = useNavigate();
   const loadDetail = useServerFn(bundleDetail);
+  const loadLessons = useServerFn(lessonsDetail);
   const genRefill = useServerFn(refillPrompt);
   const genLessonPrompt = useServerFn(lessonPrompt);
   const doUploadContent = useServerFn(uploadContentJson);
@@ -28,6 +30,9 @@ function ContentBrowser() {
   const [tree, setTree] = useState(initialTree);
   const [open, setOpen] = useState<{ bundleId: string; programKey: string; subject: string; title: string } | null>(null);
   const [detail, setDetail] = useState<Detail | null>(null);
+  const [openLessons, setOpenLessons] = useState<{ programKey: string; subject?: string; title: string } | null>(null);
+  const [lessonDetail, setLessonDetail] = useState<LessonDetail | null>(null);
+  const [loadingLessons, setLoadingLessons] = useState(false);
   const [loading, setLoading] = useState(false);
   const [prompt, setPrompt] = useState<string | null>(null);
   const [promptTitle, setPromptTitle] = useState("Authoring prompt");
@@ -40,6 +45,17 @@ function ContentBrowser() {
     setLoading(true);
     setDetail(await loadDetail({ data: { bundleId: b.bundleId, programKey: b.programKey, subject: b.subject } }));
     setLoading(false);
+  }
+
+  async function openLessonBrowser(input: { programKey: string; subject?: string; title: string }) {
+    setOpenLessons(input);
+    setLessonDetail(null);
+    setLoadingLessons(true);
+    try {
+      setLessonDetail(await loadLessons({ data: { programKey: input.programKey, subject: input.subject } }));
+    } finally {
+      setLoadingLessons(false);
+    }
   }
 
   async function showRefill(programKey: string, subject: string) {
@@ -134,8 +150,16 @@ function ContentBrowser() {
               )}
             </div>
             {program.lessonCount > 0 && (
-              <div style={{ color: "var(--a-muted)", fontWeight: 800, fontSize: 12.5, marginTop: 8 }}>
-                {program.lessonCount} authored lesson{program.lessonCount === 1 ? "" : "s"} uploaded
+              <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", marginTop: 8 }}>
+                <span style={{ color: "var(--a-muted)", fontWeight: 800, fontSize: 12.5 }}>
+                  {program.lessonCount} authored lesson{program.lessonCount === 1 ? "" : "s"} uploaded
+                </span>
+                <button
+                  onClick={() => openLessonBrowser({ programKey: program.programKey, title: `${program.programTitle} lessons` })}
+                  style={btn(false)}
+                >
+                  View {program.lessonCount} lesson{program.lessonCount === 1 ? "" : "s"}
+                </button>
               </div>
             )}
             {uploadMessage && uploading !== program.programKey && (
@@ -151,10 +175,18 @@ function ContentBrowser() {
                     <div style={{ color: "var(--a-faint)", fontWeight: 700, fontSize: 12, marginTop: 2 }}>
                       {b.subject} · v{b.version} · <span style={{ color: b.status === "available" ? "var(--a-good)" : "var(--a-faint)" }}>{b.status}</span>
                     </div>
-                    <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
+                    <div style={{ display: "flex", gap: 8, marginTop: 12, flexWrap: "wrap" }}>
                       <button onClick={() => openBundle({ bundleId: b.bundleId, programKey: program.programKey, subject: b.subject, title: b.title })} style={btn(true)}>
                         {b.viewLabel}
                       </button>
+                      {program.lessons.filter((lesson) => lesson.subject === b.subject && lesson.status !== "archived").length > 0 && (
+                        <button
+                          onClick={() => openLessonBrowser({ programKey: program.programKey, subject: b.subject, title: `${program.programTitle} ${b.subject} lessons` })}
+                          style={btn(true)}
+                        >
+                          View {program.lessons.filter((lesson) => lesson.subject === b.subject && lesson.status !== "archived").length} lesson{program.lessons.filter((lesson) => lesson.subject === b.subject && lesson.status !== "archived").length === 1 ? "" : "s"}
+                        </button>
+                      )}
                       {canImportContent && (
                         <>
                           <button onClick={() => showRefill(program.programKey, b.subject)} style={btn(false)} title="Generate offline authoring prompt for low/exhausted pools">
@@ -228,6 +260,19 @@ function ContentBrowser() {
         </Modal>
       )}
 
+      {/* lesson drawer */}
+      {openLessons && (
+        <Modal onClose={() => setOpenLessons(null)} title={openLessons.title}>
+          {loadingLessons || !lessonDetail ? (
+            <p style={{ color: "var(--a-muted)", fontWeight: 600 }}>Loading lessons...</p>
+          ) : lessonDetail.lessons.length === 0 ? (
+            <p style={{ color: "var(--a-muted)", fontWeight: 700 }}>No authored lessons uploaded yet.</p>
+          ) : (
+            <LessonList lessons={lessonDetail.lessons} />
+          )}
+        </Modal>
+      )}
+
       {/* refill prompt modal */}
       {prompt !== null && (
         <Modal onClose={() => setPrompt(null)} title={promptTitle}>
@@ -235,6 +280,62 @@ function ContentBrowser() {
           <button onClick={() => navigator.clipboard?.writeText(prompt)} style={{ ...btn(true), marginTop: 10 }}>Copy</button>
         </Modal>
       )}
+    </div>
+  );
+}
+
+function LessonList({ lessons }: { lessons: LessonDetail["lessons"] }) {
+  return (
+    <div style={{ display: "grid", gap: 14 }}>
+      {lessons.map((lesson) => (
+        <section key={lesson._id} style={{ border: "1px solid var(--a-border2)", borderRadius: 12, padding: 14 }}>
+          <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap", marginBottom: 8 }}>
+            <span className="pill" style={{ background: "var(--a-accent-soft)", color: "var(--a-accent)" }}>{lesson.subject} · {lesson.standardCode}</span>
+            <span className="pill" style={{ background: lesson.status === "available" ? "var(--a-good-soft)" : "var(--a-border2)", color: lesson.status === "available" ? "var(--a-good)" : "var(--a-faint)" }}>v{lesson.version} · {lesson.status}</span>
+          </div>
+          <h3 style={{ margin: "0 0 6px", fontSize: 16 }}>{lesson.title}</h3>
+          {lesson.intro && <p style={{ margin: "0 0 10px", color: "var(--a-muted)", fontWeight: 700, fontSize: 13.5, lineHeight: 1.5 }}>{lesson.intro}</p>}
+          {lesson.vocabulary.length > 0 && (
+            <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 10 }}>
+              {lesson.vocabulary.map((word) => (
+                <span key={word.term} className="pill" style={{ background: "#F7F4EF", color: "var(--a-muted)" }}>
+                  {word.term}: {word.meaning}
+                </span>
+              ))}
+            </div>
+          )}
+          {lesson.body.length > 0 && (
+            <div style={{ display: "grid", gap: 6, marginBottom: 10 }}>
+              {lesson.body.map((block, index) => (
+                <div key={`${block.kind}:${index}`} style={{ background: "#F7F8FB", border: "1px solid var(--a-border)", borderRadius: 9, padding: "9px 11px" }}>
+                  <div style={{ color: "var(--a-faint)", fontWeight: 900, fontSize: 11, textTransform: "uppercase", letterSpacing: 0 }}>{block.label}</div>
+                  <div style={{ color: "var(--a-ink)", fontWeight: 700, fontSize: 13, lineHeight: 1.45 }}>{block.text || "(empty block)"}</div>
+                </div>
+              ))}
+            </div>
+          )}
+          <div style={{ fontWeight: 900, fontSize: 12.5, color: "var(--a-muted)", marginBottom: 6 }}>
+            {lesson.practiceExamples.length} lesson practice example{lesson.practiceExamples.length === 1 ? "" : "s"}
+          </div>
+          {lesson.practiceExamples.length > 0 && (
+            <div style={{ display: "grid", gap: 8 }}>
+              {lesson.practiceExamples.map((example) => (
+                <div key={example.id} style={{ border: "1px solid var(--a-border)", borderRadius: 10, padding: 10 }}>
+                  <div style={{ fontWeight: 800, fontSize: 13.5, marginBottom: 6 }}>{example.prompt}</div>
+                  {example.options.map((option) => (
+                    <div key={option.key} style={{ color: option.correct ? "var(--a-good)" : "var(--a-muted)", fontWeight: option.correct ? 900 : 700, fontSize: 12.5 }}>
+                      {option.correct ? "✓" : "·"} {option.key}. {option.text}
+                      {!option.correct && option.rationale ? <span style={{ color: "var(--a-faint)" }}> - {option.rationale}</span> : null}
+                    </div>
+                  ))}
+                  {example.answer && <div style={{ color: "var(--a-good)", fontWeight: 800, fontSize: 12.5, marginTop: 6 }}>Answer: {example.answer}</div>}
+                  {example.explanation && <div style={{ color: "var(--a-muted)", fontWeight: 700, fontSize: 12.5, marginTop: 3 }}>{example.explanation}</div>}
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+      ))}
     </div>
   );
 }

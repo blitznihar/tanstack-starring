@@ -1,0 +1,573 @@
+[
+  {
+    "programKey": "grade3_staar",
+    "subject": "math",
+    "standardCode": "3.6A",
+    "version": 1,
+    "status": "available",
+    "title": "Sorting Shapes by Sides, Vertices, Faces, and Edges",
+    "intro": "Shapes are all around us! In this lesson you will learn how to look closely at flat shapes and solid shapes and sort them by their parts. You will use math words like sides, vertices, faces, and edges.",
+    "reportingCategory": "Geometry & Measurement",
+    "visualKind": "array",
+    "vocabulary": [
+      { "term": "two-dimensional (2D) figure", "meaning": "A flat shape, like a triangle or a square." },
+      { "term": "three-dimensional (3D) figure", "meaning": "A solid shape you can hold, like a cube or a sphere." },
+      { "term": "side", "meaning": "A straight line that helps make a flat shape." },
+      { "term": "vertex", "meaning": "A corner where two sides or edges meet. More than one are called vertices." },
+      { "term": "face", "meaning": "A flat surface on a solid shape." },
+      { "term": "edge", "meaning": "The line where two faces of a solid shape meet." }
+    ],
+    "body": [
+      { "kind": "heading", "level": 2, "text": "Flat Shapes and Solid Shapes" },
+      { "kind": "paragraph", "text": "A 2D figure is flat, like a piece of paper. A 3D figure is solid, like a box you can hold. We sort shapes by counting their parts." },
+      { "kind": "heading", "level": 2, "text": "Parts of a Flat Shape" },
+      { "kind": "paragraph", "text": "Flat shapes have sides and vertices. A side is a straight line. A vertex is a corner where two sides meet." },
+      { "kind": "svg", "alt": "A triangle with 3 sides and 3 vertices marked, and a square with 4 sides and 4 vertices marked.", "svg": "<svg viewBox='0 0 300 160' role='img' xmlns='http://www.w3.org/2000/svg'><polygon points='60,130 20,130 40,30' fill='none' stroke='#1d4ed8' stroke-width='3'/><circle cx='40' cy='30' r='4' fill='#dc2626'/><circle cx='20' cy='130' r='4' fill='#dc2626'/><circle cx='60' cy='130' r='4' fill='#dc2626'/><text x='40' y='150' font-size='12' text-anchor='middle' fill='#111'>3 sides, 3 vertices</text><rect x='180' y='40' width='80' height='80' fill='none' stroke='#1d4ed8' stroke-width='3'/><circle cx='180' cy='40' r='4' fill='#dc2626'/><circle cx='260' cy='40' r='4' fill='#dc2626'/><circle cx='180' cy='120' r='4' fill='#dc2626'/><circle cx='260' cy='120' r='4' fill='#dc2626'/><text x='220' y='140' font-size='12' text-anchor='middle' fill='#111'>4 sides, 4 vertices</text></svg>" },
+      { "kind": "heading", "level": 2, "text": "Parts of a Solid Shape" },
+      { "kind": "paragraph", "text": "Solid shapes have faces, edges, and vertices. A face is a flat surface. An edge is where two faces meet. A cube has 6 faces, 12 edges, and 8 vertices." },
+      { "kind": "html", "html": "<table><tr><th>Solid Shape</th><th>Faces</th><th>Edges</th><th>Vertices</th></tr><tr><td>Cube</td><td>6</td><td>12</td><td>8</td></tr><tr><td>Rectangular prism</td><td>6</td><td>12</td><td>8</td></tr></table>" },
+      { "kind": "callout", "tone": "info", "title": "Remember", "text": "Flat shapes have sides and vertices. Solid shapes have faces, edges, and vertices." }
+    ],
+    "practiceExamples": [
+      {
+        "id": "ex1",
+        "prompt": ["How many vertices does a triangle have?"],
+        "options": [
+          { "key": "A", "text": "2" },
+          { "key": "B", "text": "3", "correct": true, "rationale": "A triangle has 3 corners, and each corner is a vertex." },
+          { "key": "C", "text": "4" }
+        ],
+        "answer": ["B. 3"],
+        "explanation": ["A triangle has 3 sides and 3 corners. Each corner is a vertex, so it has 3 vertices."]
+      },
+      {
+        "id": "ex2",
+        "prompt": ["Which word names the flat surface of a solid shape, like the side of a box?"],
+        "options": [
+          { "key": "A", "text": "Face", "correct": true, "rationale": "A face is the flat surface on a 3D figure." },
+          { "key": "B", "text": "Edge" },
+          { "key": "C", "text": "Vertex" }
+        ],
+        "answer": ["A. Face"],
+        "explanation": ["A face is a flat surface on a solid shape. An edge is a line, and a vertex is a corner."]
+      },
+      {
+        "id": "ex3",
+        "prompt": ["A cube has 6 faces and 8 vertices. How many edges does a cube have?"],
+        "options": [
+          { "key": "A", "text": "8" },
+          { "key": "B", "text": "10" },
+          { "key": "C", "text": "12", "correct": true, "rationale": "A cube has 12 edges where its faces meet." }
+        ],
+        "answer": ["C. 12"],
+        "explanation": ["A cube has 12 edges. An edge is the line where two faces meet."]
+      }
+    ]
+  },
+  {
+    "programKey": "grade3_staar",
+    "subject": "math",
+    "standardCode": "3.6B",
+    "version": 1,
+    "status": "available",
+    "title": "Quadrilaterals: Rhombuses, Squares, Rectangles, Trapezoids, and Parallelograms",
+    "intro": "A quadrilateral is any flat shape with exactly 4 sides. In this lesson you will learn the names of special quadrilaterals and how to tell them apart. You will also learn to spot shapes that do NOT belong.",
+    "reportingCategory": "Geometry & Measurement",
+    "visualKind": "array",
+    "vocabulary": [
+      { "term": "quadrilateral", "meaning": "A flat shape with exactly 4 straight sides and 4 vertices." },
+      { "term": "square", "meaning": "A quadrilateral with 4 equal sides and 4 square corners." },
+      { "term": "rectangle", "meaning": "A quadrilateral with 4 square corners. Opposite sides are equal." },
+      { "term": "rhombus", "meaning": "A quadrilateral with 4 equal sides. Its corners may not be square." },
+      { "term": "parallelogram", "meaning": "A quadrilateral where both pairs of opposite sides are parallel." },
+      { "term": "trapezoid", "meaning": "A quadrilateral with at least one pair of parallel sides." }
+    ],
+    "body": [
+      { "kind": "heading", "level": 2, "text": "All of These Have 4 Sides" },
+      { "kind": "paragraph", "text": "A quadrilateral is a shape with 4 sides. Squares, rectangles, rhombuses, parallelograms, and trapezoids are all quadrilaterals." },
+      { "kind": "svg", "alt": "Four quadrilaterals: a square, a rectangle, a rhombus, and a trapezoid.", "svg": "<svg viewBox='0 0 360 110' role='img' xmlns='http://www.w3.org/2000/svg'><rect x='10' y='20' width='60' height='60' fill='#bfdbfe' stroke='#1d4ed8' stroke-width='2'/><text x='40' y='100' font-size='11' text-anchor='middle'>Square</text><rect x='100' y='30' width='80' height='45' fill='#bfdbfe' stroke='#1d4ed8' stroke-width='2'/><text x='140' y='100' font-size='11' text-anchor='middle'>Rectangle</text><polygon points='220,75 245,20 285,20 260,75' fill='#bfdbfe' stroke='#1d4ed8' stroke-width='2'/><text x='252' y='100' font-size='11' text-anchor='middle'>Rhombus</text><polygon points='300,75 315,25 345,25 360,75' fill='#bfdbfe' stroke='#1d4ed8' stroke-width='2'/><text x='330' y='100' font-size='11' text-anchor='middle'>Trapezoid</text></svg>" },
+      { "kind": "heading", "level": 2, "text": "How Are They Different?" },
+      { "kind": "list", "ordered": false, "items": ["A square has 4 equal sides AND 4 square corners.", "A rectangle has 4 square corners, but the sides do not all have to be equal.", "A rhombus has 4 equal sides, but the corners do not have to be square.", "A trapezoid has only one pair of sides that are parallel."] },
+      { "kind": "heading", "level": 2, "text": "Shapes That Do Not Belong" },
+      { "kind": "paragraph", "text": "A shape that does not belong with the quadrilaterals has a number of sides other than 4. A triangle has 3 sides, and a pentagon has 5 sides, so they are not quadrilaterals." },
+      { "kind": "callout", "tone": "info", "title": "Tip", "text": "Every square is also a rectangle and a rhombus, because it follows all of their rules!" }
+    ],
+    "practiceExamples": [
+      {
+        "id": "ex1",
+        "prompt": ["Which shape is NOT a quadrilateral?"],
+        "options": [
+          { "key": "A", "text": "Square" },
+          { "key": "B", "text": "Triangle", "correct": true, "rationale": "A triangle has only 3 sides, but a quadrilateral must have 4 sides." },
+          { "key": "C", "text": "Rectangle" }
+        ],
+        "answer": ["B. Triangle"],
+        "explanation": ["A quadrilateral must have exactly 4 sides. A triangle has 3 sides, so it does not belong."]
+      },
+      {
+        "id": "ex2",
+        "prompt": ["A shape has 4 equal sides and 4 square corners. What is the best name for it?"],
+        "options": [
+          { "key": "A", "text": "Trapezoid" },
+          { "key": "B", "text": "Square", "correct": true, "rationale": "A square is the only shape with both 4 equal sides and 4 square corners." },
+          { "key": "C", "text": "Rhombus" }
+        ],
+        "answer": ["B. Square"],
+        "explanation": ["A square has 4 equal sides and 4 square corners, so square is the best name."]
+      },
+      {
+        "id": "ex3",
+        "prompt": ["A quadrilateral has 4 equal sides but its corners are NOT square. What is it called?"],
+        "options": [
+          { "key": "A", "text": "Rhombus", "correct": true, "rationale": "A rhombus has 4 equal sides, but its corners do not need to be square." },
+          { "key": "B", "text": "Rectangle" },
+          { "key": "C", "text": "Square" }
+        ],
+        "answer": ["A. Rhombus"],
+        "explanation": ["A rhombus has 4 equal sides. Unlike a square, its corners do not have to be square corners."]
+      }
+    ]
+  },
+  {
+    "programKey": "grade3_staar",
+    "subject": "math",
+    "standardCode": "3.6C",
+    "version": 1,
+    "status": "available",
+    "title": "Finding Area by Tiling and by Multiplying Rows by Columns",
+    "intro": "Area tells how much flat space is inside a shape. In this lesson you will find the area of rectangles by counting unit squares and by multiplying rows times columns. Area is measured in square units.",
+    "reportingCategory": "Geometry & Measurement",
+    "visualKind": "array",
+    "vocabulary": [
+      { "term": "area", "meaning": "The amount of flat space inside a shape." },
+      { "term": "unit square", "meaning": "A square that is 1 unit on each side. It is used to measure area." },
+      { "term": "square unit", "meaning": "The unit we use to measure area, such as square centimeters." },
+      { "term": "row", "meaning": "A line of unit squares going across, from side to side." },
+      { "term": "column", "meaning": "A line of unit squares going up and down." },
+      { "term": "tiling", "meaning": "Covering a shape with unit squares without gaps or overlaps." }
+    ],
+    "body": [
+      { "kind": "heading", "level": 2, "text": "What Is Area?" },
+      { "kind": "paragraph", "text": "Area is how much space is inside a flat shape. We can find area by covering the shape with unit squares and counting them." },
+      { "kind": "svg", "alt": "A rectangle 4 units wide and 3 units tall, covered with 12 unit squares in 3 rows and 4 columns.", "svg": "<svg viewBox='0 0 220 170' role='img' xmlns='http://www.w3.org/2000/svg'><g stroke='#1d4ed8' stroke-width='2' fill='#bfdbfe'><rect x='20' y='20' width='40' height='40'/><rect x='60' y='20' width='40' height='40'/><rect x='100' y='20' width='40' height='40'/><rect x='140' y='20' width='40' height='40'/><rect x='20' y='60' width='40' height='40'/><rect x='60' y='60' width='40' height='40'/><rect x='100' y='60' width='40' height='40'/><rect x='140' y='60' width='40' height='40'/><rect x='20' y='100' width='40' height='40'/><rect x='60' y='100' width='40' height='40'/><rect x='100' y='100' width='40' height='40'/><rect x='140' y='100' width='40' height='40'/></g><text x='100' y='160' font-size='13' text-anchor='middle' fill='#111'>3 rows x 4 columns = 12 square units</text></svg>" },
+      { "kind": "heading", "level": 2, "text": "Two Ways to Find Area" },
+      { "kind": "list", "ordered": true, "items": ["Count every unit square inside the rectangle.", "Multiply the number of rows by the number of columns."] },
+      { "kind": "paragraph", "text": "In the picture there are 3 rows and 4 columns. We can count 12 squares, or we can multiply 3 x 4 = 12. Both ways give 12 square units." },
+      { "kind": "callout", "tone": "info", "title": "Shortcut", "text": "Multiplying rows times columns is faster than counting every square, and you get the same answer!" }
+    ],
+    "practiceExamples": [
+      {
+        "id": "ex1",
+        "prompt": ["A rectangle has 5 rows and 2 columns of unit squares. What is its area?"],
+        "options": [
+          { "key": "A", "text": "7 square units" },
+          { "key": "B", "text": "10 square units", "correct": true, "rationale": "Rows times columns is 5 x 2 = 10 square units." },
+          { "key": "C", "text": "12 square units" }
+        ],
+        "answer": ["B. 10 square units"],
+        "explanation": ["Multiply rows by columns: 5 x 2 = 10. The area is 10 square units."]
+      },
+      {
+        "id": "ex2",
+        "prompt": ["A rectangle is tiled with 4 rows and 4 columns of unit squares. What is the area?"],
+        "options": [
+          { "key": "A", "text": "8 square units" },
+          { "key": "B", "text": "16 square units", "correct": true, "rationale": "4 rows times 4 columns is 4 x 4 = 16 square units." },
+          { "key": "C", "text": "20 square units" }
+        ],
+        "answer": ["B. 16 square units"],
+        "explanation": ["Multiply rows by columns: 4 x 4 = 16. The area is 16 square units."]
+      },
+      {
+        "id": "ex3",
+        "prompt": ["A rectangle has 6 unit squares in each of its 3 rows. What is the total area?"],
+        "options": [
+          { "key": "A", "text": "9 square units" },
+          { "key": "B", "text": "18 square units", "correct": true, "rationale": "3 rows of 6 squares is 3 x 6 = 18 square units." },
+          { "key": "C", "text": "12 square units" }
+        ],
+        "answer": ["B. 18 square units"],
+        "explanation": ["There are 3 rows with 6 squares each, so 3 x 6 = 18 square units."]
+      }
+    ]
+  },
+  {
+    "programKey": "grade3_staar",
+    "subject": "math",
+    "standardCode": "3.6D",
+    "version": 1,
+    "status": "available",
+    "title": "Area of Composite Figures Made of Two Rectangles",
+    "intro": "Sometimes a shape is made of two rectangles joined together. In this lesson you will break the shape into two non-overlapping rectangles, find each area, and add them. This helps you find the area of an L-shaped figure.",
+    "reportingCategory": "Geometry & Measurement",
+    "visualKind": "array",
+    "vocabulary": [
+      { "term": "composite figure", "meaning": "A shape made by joining two or more simple shapes." },
+      { "term": "decompose", "meaning": "To break a shape into smaller parts." },
+      { "term": "area", "meaning": "The amount of flat space inside a shape." },
+      { "term": "non-overlapping", "meaning": "Parts that do not cover each other or share inside space." },
+      { "term": "total area", "meaning": "The whole area found by adding the areas of the parts." }
+    ],
+    "body": [
+      { "kind": "heading", "level": 2, "text": "Breaking a Shape into Two Rectangles" },
+      { "kind": "paragraph", "text": "An L-shaped figure can be cut into two rectangles that do not overlap. Find the area of each rectangle, then add them together." },
+      { "kind": "svg", "alt": "An L-shaped figure split by a dashed line into two rectangles, one 4 by 2 and one 2 by 3.", "svg": "<svg viewBox='0 0 240 200' role='img' xmlns='http://www.w3.org/2000/svg'><polygon points='20,20 100,20 100,80 60,80 60,160 20,160' fill='#bfdbfe' stroke='#1d4ed8' stroke-width='2'/><line x1='20' y1='80' x2='100' y2='80' stroke='#dc2626' stroke-width='2' stroke-dasharray='6 4'/><text x='60' y='55' font-size='12' text-anchor='middle' fill='#111'>4 x 2 = 8</text><text x='40' y='125' font-size='12' text-anchor='middle' fill='#111'>2 x 3 = 6</text><text x='120' y='185' font-size='12' text-anchor='middle' fill='#111'>8 + 6 = 14 square units</text></svg>" },
+      { "kind": "heading", "level": 2, "text": "Steps to Find Total Area" },
+      { "kind": "list", "ordered": true, "items": ["Draw a line to split the figure into two rectangles.", "Find the area of the first rectangle (rows x columns).", "Find the area of the second rectangle.", "Add the two areas to get the total area."] },
+      { "kind": "html", "html": "<p>Top rectangle: <strong>4 x 2 = 8</strong> square units.<br/>Bottom rectangle: <strong>2 x 3 = 6</strong> square units.<br/>Total area: <strong>8 + 6 = 14</strong> square units.</p>" },
+      { "kind": "callout", "tone": "info", "title": "Watch Out", "text": "Make sure your two rectangles do not overlap, or you will count some squares twice." }
+    ],
+    "practiceExamples": [
+      {
+        "id": "ex1",
+        "prompt": ["A figure splits into a rectangle with area 9 square units and a rectangle with area 5 square units. What is the total area?"],
+        "options": [
+          { "key": "A", "text": "14 square units", "correct": true, "rationale": "Add the two areas: 9 + 5 = 14 square units." },
+          { "key": "B", "text": "45 square units" },
+          { "key": "C", "text": "4 square units" }
+        ],
+        "answer": ["A. 14 square units"],
+        "explanation": ["Add the area of each rectangle: 9 + 5 = 14 square units."]
+      },
+      {
+        "id": "ex2",
+        "prompt": ["An L-shape is made of a 3 x 2 rectangle and a 2 x 2 rectangle. What is the total area?"],
+        "options": [
+          { "key": "A", "text": "8 square units" },
+          { "key": "B", "text": "10 square units", "correct": true, "rationale": "3 x 2 = 6 and 2 x 2 = 4, then 6 + 4 = 10 square units." },
+          { "key": "C", "text": "12 square units" }
+        ],
+        "answer": ["B. 10 square units"],
+        "explanation": ["First rectangle: 3 x 2 = 6. Second rectangle: 2 x 2 = 4. Total: 6 + 4 = 10 square units."]
+      },
+      {
+        "id": "ex3",
+        "prompt": ["A shape is split into a 5 x 1 rectangle and a 5 x 2 rectangle. What is the total area?"],
+        "options": [
+          { "key": "A", "text": "13 square units" },
+          { "key": "B", "text": "15 square units", "correct": true, "rationale": "5 x 1 = 5 and 5 x 2 = 10, then 5 + 10 = 15 square units." },
+          { "key": "C", "text": "10 square units" }
+        ],
+        "answer": ["B. 15 square units"],
+        "explanation": ["First rectangle: 5 x 1 = 5. Second rectangle: 5 x 2 = 10. Total: 5 + 10 = 15 square units."]
+      }
+    ]
+  },
+  {
+    "programKey": "grade3_staar",
+    "subject": "math",
+    "standardCode": "3.6E",
+    "version": 1,
+    "status": "available",
+    "title": "Naming Equal Parts of a Whole Square as Unit Fractions of Area",
+    "intro": "When you split one whole square into equal parts, each part is a unit fraction of the whole area. In this lesson you will learn to name each equal piece, like one half or one fourth. The parts must be the same size.",
+    "reportingCategory": "Geometry & Measurement",
+    "visualKind": "array",
+    "vocabulary": [
+      { "term": "whole", "meaning": "The complete shape, like one full square." },
+      { "term": "equal parts", "meaning": "Parts that are the same size." },
+      { "term": "unit fraction", "meaning": "A fraction that shows one equal part, like 1/2 or 1/4." },
+      { "term": "denominator", "meaning": "The bottom number that tells how many equal parts the whole is split into." },
+      { "term": "area", "meaning": "The amount of flat space inside a shape." }
+    ],
+    "body": [
+      { "kind": "heading", "level": 2, "text": "Splitting One Square into Equal Parts" },
+      { "kind": "paragraph", "text": "Start with one whole square. If you cut it into equal parts, each part has the same area. We name each part with a unit fraction." },
+      { "kind": "svg", "alt": "A square split into 4 equal parts, with one part shaded and labeled one fourth.", "svg": "<svg viewBox='0 0 200 150' role='img' xmlns='http://www.w3.org/2000/svg'><rect x='30' y='20' width='100' height='100' fill='none' stroke='#1d4ed8' stroke-width='2'/><rect x='30' y='20' width='50' height='50' fill='#bfdbfe' stroke='#1d4ed8' stroke-width='2'/><rect x='80' y='20' width='50' height='50' fill='none' stroke='#1d4ed8' stroke-width='2'/><rect x='30' y='70' width='50' height='50' fill='none' stroke='#1d4ed8' stroke-width='2'/><rect x='80' y='70' width='50' height='50' fill='none' stroke='#1d4ed8' stroke-width='2'/><text x='150' y='75' font-size='14' fill='#111'>1/4</text><text x='80' y='140' font-size='12' text-anchor='middle' fill='#111'>4 equal parts</text></svg>" },
+      { "kind": "heading", "level": 2, "text": "Naming Each Part" },
+      { "kind": "paragraph", "text": "If a square is split into 4 equal parts, each part is 1/4 of the whole. The bottom number, 4, tells how many equal parts there are." },
+      { "kind": "list", "ordered": false, "items": ["2 equal parts: each part is 1/2.", "3 equal parts: each part is 1/3.", "4 equal parts: each part is 1/4.", "8 equal parts: each part is 1/8."] },
+      { "kind": "callout", "tone": "info", "title": "Important", "text": "The parts must be EQUAL in size. If the pieces are different sizes, you cannot name them with a simple unit fraction." }
+    ],
+    "practiceExamples": [
+      {
+        "id": "ex1",
+        "prompt": ["A square is split into 2 equal parts. What is the area of each part?"],
+        "options": [
+          { "key": "A", "text": "1/2 of the whole", "correct": true, "rationale": "Two equal parts means each part is one half, or 1/2." },
+          { "key": "B", "text": "1/4 of the whole" },
+          { "key": "C", "text": "2 wholes" }
+        ],
+        "answer": ["A. 1/2 of the whole"],
+        "explanation": ["The square has 2 equal parts, so each part is 1/2 of the whole."]
+      },
+      {
+        "id": "ex2",
+        "prompt": ["A whole square is split into 3 equal parts. What unit fraction names each part?"],
+        "options": [
+          { "key": "A", "text": "1/2" },
+          { "key": "B", "text": "1/3", "correct": true, "rationale": "Three equal parts means each part is 1/3 of the whole." },
+          { "key": "C", "text": "3/1" }
+        ],
+        "answer": ["B. 1/3"],
+        "explanation": ["With 3 equal parts, each part is one third, written 1/3."]
+      },
+      {
+        "id": "ex3",
+        "prompt": ["Which square shows equal parts that can be named with a unit fraction?"],
+        "options": [
+          { "key": "A", "text": "A square split into pieces that are all different sizes" },
+          { "key": "B", "text": "A square split into 4 same-size pieces", "correct": true, "rationale": "Equal parts must be the same size, so 4 same-size pieces can be named 1/4 each." },
+          { "key": "C", "text": "A square with one big piece and one tiny piece" }
+        ],
+        "answer": ["B. A square split into 4 same-size pieces"],
+        "explanation": ["Unit fractions name equal parts. The parts must all be the same size, like 4 same-size pieces."]
+      }
+    ]
+  },
+  {
+    "programKey": "grade3_staar",
+    "subject": "math",
+    "standardCode": "3.7B",
+    "version": 1,
+    "status": "available",
+    "title": "Perimeter of Polygons and Finding a Missing Side Length",
+    "intro": "Perimeter is the distance all the way around the outside of a shape. In this lesson you will add up the side lengths to find perimeter. You will also find a missing side when you know the perimeter and the other sides.",
+    "reportingCategory": "Geometry & Measurement",
+    "visualKind": "steps",
+    "vocabulary": [
+      { "term": "perimeter", "meaning": "The total distance around the outside of a shape." },
+      { "term": "polygon", "meaning": "A closed flat shape made of straight sides." },
+      { "term": "side length", "meaning": "How long one side of a shape is." },
+      { "term": "sum", "meaning": "The answer you get when you add numbers together." },
+      { "term": "missing side", "meaning": "A side length you do not know yet and need to find." }
+    ],
+    "body": [
+      { "kind": "heading", "level": 2, "text": "What Is Perimeter?" },
+      { "kind": "paragraph", "text": "Perimeter is the distance around the outside of a shape. To find it, add up the lengths of all the sides." },
+      { "kind": "svg", "alt": "A rectangle with side lengths labeled 6, 4, 6, and 4, with perimeter 20.", "svg": "<svg viewBox='0 0 240 160' role='img' xmlns='http://www.w3.org/2000/svg'><rect x='40' y='30' width='120' height='80' fill='#bfdbfe' stroke='#1d4ed8' stroke-width='2'/><text x='100' y='22' font-size='13' text-anchor='middle' fill='#111'>6</text><text x='100' y='128' font-size='13' text-anchor='middle' fill='#111'>6</text><text x='28' y='75' font-size='13' text-anchor='middle' fill='#111'>4</text><text x='172' y='75' font-size='13' text-anchor='middle' fill='#111'>4</text><text x='120' y='150' font-size='13' text-anchor='middle' fill='#111'>6 + 4 + 6 + 4 = 20</text></svg>" },
+      { "kind": "heading", "level": 2, "text": "Adding the Sides" },
+      { "kind": "paragraph", "text": "The rectangle above has sides 6, 4, 6, and 4. Add them: 6 + 4 + 6 + 4 = 20. The perimeter is 20 units." },
+      { "kind": "heading", "level": 2, "text": "Finding a Missing Side" },
+      { "kind": "paragraph", "text": "If you know the perimeter and all but one side, you can find the missing side. Add the sides you know, then subtract from the perimeter." },
+      { "kind": "html", "html": "<p>A triangle has a perimeter of <strong>15</strong>. Two sides are <strong>5</strong> and <strong>6</strong>. Add them: 5 + 6 = 11. Then subtract: 15 - 11 = <strong>4</strong>. The missing side is 4.</p>" },
+      { "kind": "callout", "tone": "info", "title": "Two Steps", "text": "To find a missing side: 1) Add the known sides. 2) Subtract that sum from the perimeter." }
+    ],
+    "practiceExamples": [
+      {
+        "id": "ex1",
+        "prompt": ["A square has 4 sides that are each 5 units long. What is its perimeter?"],
+        "options": [
+          { "key": "A", "text": "10 units" },
+          { "key": "B", "text": "20 units", "correct": true, "rationale": "Add all 4 sides: 5 + 5 + 5 + 5 = 20 units." },
+          { "key": "C", "text": "25 units" }
+        ],
+        "answer": ["B. 20 units"],
+        "explanation": ["A square has 4 equal sides. Add them: 5 + 5 + 5 + 5 = 20 units."]
+      },
+      {
+        "id": "ex2",
+        "prompt": ["A triangle has a perimeter of 12 units. Two of its sides are 3 units and 4 units. What is the missing side?"],
+        "options": [
+          { "key": "A", "text": "5 units", "correct": true, "rationale": "Add the known sides: 3 + 4 = 7. Then 12 - 7 = 5 units." },
+          { "key": "B", "text": "7 units" },
+          { "key": "C", "text": "19 units" }
+        ],
+        "answer": ["A. 5 units"],
+        "explanation": ["Add the known sides: 3 + 4 = 7. Subtract from the perimeter: 12 - 7 = 5 units."]
+      },
+      {
+        "id": "ex3",
+        "prompt": ["A rectangle has sides 8, 2, 8, and 2 units. What is its perimeter?"],
+        "options": [
+          { "key": "A", "text": "16 units" },
+          { "key": "B", "text": "20 units", "correct": true, "rationale": "Add all the sides: 8 + 2 + 8 + 2 = 20 units." },
+          { "key": "C", "text": "10 units" }
+        ],
+        "answer": ["B. 20 units"],
+        "explanation": ["Add every side: 8 + 2 + 8 + 2 = 20 units."]
+      }
+    ]
+  },
+  {
+    "programKey": "grade3_staar",
+    "subject": "math",
+    "standardCode": "3.7C",
+    "version": 1,
+    "status": "available",
+    "title": "Adding and Subtracting Time Intervals in Minutes",
+    "intro": "Time problems ask how long something takes or what time it will be. In this lesson you will add and subtract minutes using a clock and a number line. This helps you find start times, end times, and how much time has passed.",
+    "reportingCategory": "Geometry & Measurement",
+    "visualKind": "steps",
+    "vocabulary": [
+      { "term": "time interval", "meaning": "The amount of time between a start and an end, measured in minutes." },
+      { "term": "elapsed time", "meaning": "How much time has passed from the start to the end." },
+      { "term": "start time", "meaning": "The time when something begins." },
+      { "term": "end time", "meaning": "The time when something finishes." },
+      { "term": "minute", "meaning": "A unit of time. There are 60 minutes in one hour." }
+    ],
+    "body": [
+      { "kind": "heading", "level": 2, "text": "Using a Number Line for Time" },
+      { "kind": "paragraph", "text": "A time number line helps you add or subtract minutes. Start at one time and jump forward to add minutes." },
+      { "kind": "svg", "alt": "A number line of time showing a jump of 20 minutes from 3:10 to 3:30.", "svg": "<svg viewBox='0 0 320 110' role='img' xmlns='http://www.w3.org/2000/svg'><line x1='30' y1='70' x2='290' y2='70' stroke='#111' stroke-width='2'/><line x1='60' y1='60' x2='60' y2='80' stroke='#111' stroke-width='2'/><line x1='260' y1='60' x2='260' y2='80' stroke='#111' stroke-width='2'/><path d='M60 55 Q160 15 260 55' fill='none' stroke='#dc2626' stroke-width='2'/><text x='160' y='30' font-size='13' text-anchor='middle' fill='#dc2626'>+20 minutes</text><text x='60' y='98' font-size='13' text-anchor='middle' fill='#111'>3:10</text><text x='260' y='98' font-size='13' text-anchor='middle' fill='#111'>3:30</text></svg>" },
+      { "kind": "heading", "level": 2, "text": "Adding Minutes" },
+      { "kind": "paragraph", "text": "If recess starts at 3:10 and lasts 20 minutes, count forward: 3:10 plus 20 minutes is 3:30. Recess ends at 3:30." },
+      { "kind": "heading", "level": 2, "text": "Subtracting Minutes" },
+      { "kind": "paragraph", "text": "If a movie ends at 4:00 and it was 30 minutes long, count back: 4:00 minus 30 minutes is 3:30. The movie started at 3:30." },
+      { "kind": "html", "html": "<p><strong>Add</strong> minutes to find an end time.<br/><strong>Subtract</strong> minutes to find a start time.</p>" },
+      { "kind": "callout", "tone": "info", "title": "Remember", "text": "There are 60 minutes in one hour. When you pass 60 minutes, you move to the next hour." }
+    ],
+    "practiceExamples": [
+      {
+        "id": "ex1",
+        "prompt": ["A class starts at 2:15 and lasts 30 minutes. What time does it end?"],
+        "options": [
+          { "key": "A", "text": "2:30" },
+          { "key": "B", "text": "2:45", "correct": true, "rationale": "Add 30 minutes to 2:15: 2:15 + 30 = 2:45." },
+          { "key": "C", "text": "3:15" }
+        ],
+        "answer": ["B. 2:45"],
+        "explanation": ["Add the minutes: 2:15 plus 30 minutes is 2:45."]
+      },
+      {
+        "id": "ex2",
+        "prompt": ["A game ended at 5:00. It lasted 20 minutes. What time did it start?"],
+        "options": [
+          { "key": "A", "text": "4:40", "correct": true, "rationale": "Subtract 20 minutes from 5:00: 5:00 - 20 = 4:40." },
+          { "key": "B", "text": "5:20" },
+          { "key": "C", "text": "4:20" }
+        ],
+        "answer": ["A. 4:40"],
+        "explanation": ["Count back 20 minutes from 5:00 to get 4:40."]
+      },
+      {
+        "id": "ex3",
+        "prompt": ["Maria read from 6:00 to 6:25. How many minutes did she read?"],
+        "options": [
+          { "key": "A", "text": "20 minutes" },
+          { "key": "B", "text": "25 minutes", "correct": true, "rationale": "From 6:00 to 6:25 is 25 minutes of elapsed time." },
+          { "key": "C", "text": "30 minutes" }
+        ],
+        "answer": ["B. 25 minutes"],
+        "explanation": ["From 6:00 to 6:25 is 25 minutes. That is the elapsed time."]
+      }
+    ]
+  },
+  {
+    "programKey": "grade3_staar",
+    "subject": "math",
+    "standardCode": "3.7D",
+    "version": 1,
+    "status": "available",
+    "title": "Choosing Between Liquid Volume and Weight with the Right Units",
+    "intro": "Some things we measure by how much space they fill, and some by how heavy they are. In this lesson you will decide when to measure liquid volume and when to measure weight. You will also pick the best unit for each job.",
+    "reportingCategory": "Geometry & Measurement",
+    "visualKind": "steps",
+    "vocabulary": [
+      { "term": "liquid volume", "meaning": "How much liquid a container holds, also called capacity." },
+      { "term": "weight", "meaning": "How heavy an object is." },
+      { "term": "liter", "meaning": "A metric unit for measuring liquid volume." },
+      { "term": "gram", "meaning": "A metric unit for measuring the weight of light objects." },
+      { "term": "kilogram", "meaning": "A metric unit for measuring the weight of heavy objects." },
+      { "term": "milliliter", "meaning": "A metric unit for measuring small amounts of liquid." }
+    ],
+    "body": [
+      { "kind": "heading", "level": 2, "text": "Volume or Weight?" },
+      { "kind": "paragraph", "text": "Measure liquid volume when you want to know how much a container holds. Measure weight when you want to know how heavy something is." },
+      { "kind": "svg", "alt": "A measuring cup of liquid next to a scale weighing an apple.", "svg": "<svg viewBox='0 0 300 150' role='img' xmlns='http://www.w3.org/2000/svg'><path d='M30 40 L90 40 L85 120 L35 120 Z' fill='none' stroke='#1d4ed8' stroke-width='2'/><path d='M37 80 L88 80 L85 120 L35 120 Z' fill='#bfdbfe' stroke='#1d4ed8' stroke-width='1'/><text x='60' y='140' font-size='12' text-anchor='middle' fill='#111'>liquid volume</text><line x1='200' y1='40' x2='200' y2='110' stroke='#111' stroke-width='2'/><line x1='160' y1='40' x2='240' y2='40' stroke='#111' stroke-width='2'/><circle cx='180' cy='55' r='12' fill='#86efac' stroke='#15803d' stroke-width='2'/><circle cx='220' cy='55' r='12' fill='#fca5a5' stroke='#b91c1c' stroke-width='2'/><rect x='180' y='100' width='40' height='20' fill='#e5e7eb' stroke='#111' stroke-width='1'/><text x='210' y='140' font-size='12' text-anchor='middle' fill='#111'>weight</text></svg>" },
+      { "kind": "heading", "level": 2, "text": "Picking the Right Unit" },
+      { "kind": "list", "ordered": false, "items": ["Liquid volume: use milliliters for small amounts and liters for large amounts.", "Weight: use grams for light objects and kilograms for heavy objects."] },
+      { "kind": "html", "html": "<table><tr><th>What to Measure</th><th>Good Units</th></tr><tr><td>Juice in a bottle</td><td>liters or milliliters</td></tr><tr><td>A bag of apples</td><td>kilograms or grams</td></tr></table>" },
+      { "kind": "callout", "tone": "info", "title": "Ask Yourself", "text": "Does the question ask how much it holds, or how heavy it is? Holds means volume. Heavy means weight." }
+    ],
+    "practiceExamples": [
+      {
+        "id": "ex1",
+        "prompt": ["You want to know how much milk fits in a jug. What should you measure?"],
+        "options": [
+          { "key": "A", "text": "Liquid volume", "correct": true, "rationale": "How much a jug holds is liquid volume, measured in liters or milliliters." },
+          { "key": "B", "text": "Weight" },
+          { "key": "C", "text": "Length" }
+        ],
+        "answer": ["A. Liquid volume"],
+        "explanation": ["How much a container holds is liquid volume. Milk in a jug is measured by volume."]
+      },
+      {
+        "id": "ex2",
+        "prompt": ["Which unit is best for measuring the weight of a heavy backpack?"],
+        "options": [
+          { "key": "A", "text": "Liters" },
+          { "key": "B", "text": "Kilograms", "correct": true, "rationale": "Kilograms measure weight, and they are best for heavy objects like a backpack." },
+          { "key": "C", "text": "Milliliters" }
+        ],
+        "answer": ["B. Kilograms"],
+        "explanation": ["Weight of a heavy object is best measured in kilograms."]
+      },
+      {
+        "id": "ex3",
+        "prompt": ["Which unit would you use for a small amount of medicine in a spoon?"],
+        "options": [
+          { "key": "A", "text": "Kilograms" },
+          { "key": "B", "text": "Milliliters", "correct": true, "rationale": "Milliliters measure small amounts of liquid, like medicine in a spoon." },
+          { "key": "C", "text": "Liters" }
+        ],
+        "answer": ["B. Milliliters"],
+        "explanation": ["A small amount of liquid is measured in milliliters."]
+      }
+    ]
+  },
+  {
+    "programKey": "grade3_staar",
+    "subject": "math",
+    "standardCode": "3.7E",
+    "version": 1,
+    "status": "available",
+    "title": "Measuring Liquid Volume and Weight with the Right Tools and Units",
+    "intro": "To measure correctly, you need the right tool and the right unit. In this lesson you will use a measuring cup to find liquid volume and a scale to find weight. You will read the marks to find the amount.",
+    "reportingCategory": "Geometry & Measurement",
+    "visualKind": "steps",
+    "vocabulary": [
+      { "term": "capacity", "meaning": "The amount of liquid a container can hold." },
+      { "term": "measuring cup", "meaning": "A tool with marks used to measure liquid volume." },
+      { "term": "scale", "meaning": "A tool used to measure the weight of an object." },
+      { "term": "liter", "meaning": "A metric unit for measuring liquid volume." },
+      { "term": "kilogram", "meaning": "A metric unit for measuring weight." },
+      { "term": "estimate", "meaning": "A smart guess about how much or how heavy something is." }
+    ],
+    "body": [
+      { "kind": "heading", "level": 2, "text": "Reading a Measuring Cup" },
+      { "kind": "paragraph", "text": "A measuring cup has marks for liquid volume. Find the top of the liquid and read the mark next to it." },
+      { "kind": "svg", "alt": "A measuring cup with marks at 100, 200, 300, and 400 milliliters, filled to the 300 mark.", "svg": "<svg viewBox='0 0 200 180' role='img' xmlns='http://www.w3.org/2000/svg'><path d='M50 20 L150 20 L140 160 L60 160 Z' fill='none' stroke='#1d4ed8' stroke-width='2'/><path d='M64 70 L136 70 L140 160 L60 160 Z' fill='#bfdbfe' stroke='#1d4ed8' stroke-width='1'/><line x1='60' y1='160' x2='75' y2='160' stroke='#111' stroke-width='1'/><line x1='62' y1='125' x2='77' y2='125' stroke='#111' stroke-width='1'/><line x1='64' y1='95' x2='79' y2='95' stroke='#111' stroke-width='1'/><line x1='64' y1='70' x2='136' y2='70' stroke='#dc2626' stroke-width='2'/><text x='95' y='115' font-size='10' fill='#111'>200 mL</text><text x='160' y='73' font-size='12' fill='#dc2626'>300 mL</text></svg>" },
+      { "kind": "heading", "level": 2, "text": "Reading a Scale" },
+      { "kind": "paragraph", "text": "A scale measures weight. Place the object on the scale and read the number the pointer shows. Use grams for light things and kilograms for heavy things." },
+      { "kind": "heading", "level": 2, "text": "Steps to Measure" },
+      { "kind": "list", "ordered": true, "items": ["Choose the right tool: measuring cup for liquid, scale for weight.", "Choose the right unit for the size of the object.", "Read the mark or number carefully."] },
+      { "kind": "callout", "tone": "info", "title": "Tip", "text": "Read the cup at eye level so the liquid line is easy to see and you get the right amount." }
+    ],
+    "practiceExamples": [
+      {
+        "id": "ex1",
+        "prompt": ["Which tool should you use to find the liquid volume of water?"],
+        "options": [
+          { "key": "A", "text": "A measuring cup", "correct": true, "rationale": "A measuring cup has marks that show liquid volume." },
+          { "key": "B", "text": "A scale" },
+          { "key": "C", "text": "A ruler" }
+        ],
+        "answer": ["A. A measuring cup"],
+        "explanation": ["A measuring cup is the tool for measuring liquid volume."]
+      },
+      {
+        "id": "ex2",
+        "prompt": ["The liquid in a measuring cup reaches the 300 mL mark. How much liquid is in the cup?"],
+        "options": [
+          { "key": "A", "text": "100 mL" },
+          { "key": "B", "text": "300 mL", "correct": true, "rationale": "The top of the liquid is at the 300 mL mark, so there are 300 mL." },
+          { "key": "C", "text": "30 mL" }
+        ],
+        "answer": ["B. 300 mL"],
+        "explanation": ["Read the mark at the top of the liquid. It is at 300 mL."]
+      },
+      {
+        "id": "ex3",
+        "prompt": ["Which tool and unit are best for finding how heavy a watermelon is?"],
+        "options": [
+          { "key": "A", "text": "A measuring cup and liters" },
+          { "key": "B", "text": "A scale and kilograms", "correct": true, "rationale": "A scale measures weight, and kilograms fit a heavy object like a watermelon." },
+          { "key": "C", "text": "A ruler and centimeters" }
+        ],
+        "answer": ["B. A scale and kilograms"],
+        "explanation": ["Weight is measured with a scale. A heavy watermelon is best measured in kilograms."]
+      }
+    ]
+  }
+]

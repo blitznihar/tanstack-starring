@@ -6,6 +6,8 @@ import { requireCapability } from "~/server/auth/rbac.js";
 import type { AuthContext } from "~/server/auth/session.js";
 import type { Item, ItemType } from "~/schemas/item.js";
 import type { Difficulty } from "~/schemas/common.js";
+import type { LessonDoc } from "~/schemas/lesson.js";
+import { richToText } from "~/lib/richText.js";
 
 /**
  * Content browser (§5, §20.1). The Content area lists PROGRAMS at the top level;
@@ -83,6 +85,7 @@ export type ItemFilters = {
 };
 
 export type BrowserItem = Item & { usageCount: number };
+export type BrowserLesson = LessonDoc;
 
 /** All items in a bundle, filtered, each with a usage count. */
 export async function viewBundleItems(
@@ -99,4 +102,29 @@ export async function viewBundleItems(
 
   const counts = await itemUsageRepo.usageCounts(items.map((i) => i._id));
   return items.map((i) => ({ ...i, usageCount: counts.get(i._id) ?? 0 }));
+}
+
+/** Authored lessons for a program/subject, including lesson-only examples. */
+export async function viewLessons(
+  actor: AuthContext,
+  programKey: string,
+  subject?: string,
+): Promise<BrowserLesson[]> {
+  requireCapability(actor.roles, "content.browse");
+  return lessonsRepo.list(programKey, subject);
+}
+
+export function lessonPracticePreview(lesson: LessonDoc) {
+  return lesson.practiceExamples.map((example, index) => ({
+    id: example.id ?? `example-${index + 1}`,
+    prompt: richToText(example.prompt),
+    options: example.options.map((option) => ({
+      key: option.key,
+      text: option.text,
+      correct: !!option.correct,
+      rationale: option.rationale ?? "",
+    })),
+    answer: richToText(example.answer),
+    explanation: richToText(example.explanation),
+  }));
 }

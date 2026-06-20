@@ -18,6 +18,8 @@ const actor: AuthContext = {
   userId: "cli",
   username: "cli",
   displayName: "CLI",
+  email: "blitznihar@gmail.com",
+  emailConfirmed: true,
   roles: ["super_admin"],
   forceChangeOnFirstLogin: false,
 };

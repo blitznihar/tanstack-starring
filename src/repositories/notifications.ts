@@ -1,10 +1,18 @@
 import { randomUUID } from "node:crypto";
 import { COLLECTIONS, getCollection } from "./db.js";
 
-export type NotificationKind = "redemption_requested" | "redemption_approved" | "reward_rule_created";
+export type NotificationKind =
+  | "redemption_requested"
+  | "redemption_approved"
+  | "reward_rule_created"
+  | "practice_report"
+  | "exam_report"
+  | "password_reset"
+  | "email_confirmation";
 export type NotificationDoc = {
   _id: string;
   userId: string;
+  recipientEmail?: string;
   channel: "email";
   kind: NotificationKind;
   subject: string;

@@ -1,7 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { usersRepo } from "~/repositories/users.js";
 import { createUserInputSchema, type CreateUserInput, type PublicUser } from "~/schemas/user.js";
-import { generatePassword, hashPassword } from "./password.js";
+import { DEFAULT_INITIAL_PASSWORD, hashPassword } from "./password.js";
 import { requireCapability } from "./rbac.js";
 import type { AuthContext } from "./session.js";
 
@@ -23,7 +23,7 @@ export async function createUser(actor: AuthContext, rawInput: CreateUserInput):
   const existing = await usersRepo.findByUsername(input.username);
   if (existing) throw new Error(`Username already exists: ${input.username}`);
 
-  const password = generatePassword();
+  const password = DEFAULT_INITIAL_PASSWORD;
   const passwordHash = await hashPassword(password);
   const _id = randomUUID();
 
@@ -31,6 +31,8 @@ export async function createUser(actor: AuthContext, rawInput: CreateUserInput):
     _id,
     username: input.username,
     displayName: input.displayName,
+    email: input.email.trim().toLowerCase(),
+    emailConfirmed: false,
     roles: input.roles,
     studentIds: input.studentIds,
     parentIds: input.parentIds,
@@ -46,8 +48,14 @@ export async function createUser(actor: AuthContext, rawInput: CreateUserInput):
 /** Reset a user's password (admin/super_admin), returning the new plaintext once. */
 export async function resetPassword(actor: AuthContext, userId: string, forceChange = true): Promise<string> {
   requireCapability(actor.roles, "users.manage");
-  const password = generatePassword();
+  const password = DEFAULT_INITIAL_PASSWORD;
   const passwordHash = await hashPassword(password);
   await usersRepo.updatePassword(userId, passwordHash, forceChange);
   return password;
+}
+
+export async function setPassword(actor: AuthContext, userId: string, password: string, forceChange = false): Promise<void> {
+  requireCapability(actor.roles, "users.manage");
+  const passwordHash = await hashPassword(password);
+  await usersRepo.updatePassword(userId, passwordHash, forceChange);
 }

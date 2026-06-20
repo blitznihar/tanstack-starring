@@ -74,7 +74,7 @@ export const seedPrograms: z.input<typeof programSchema>[] = [
       "3.10A": { q: 2, m: 5 },
       "3.10D": { q: 2, m: 6 },
     },
-    robuxRules: { practiceCorrect: 10, examCorrect: 20, examWrong: 10, lessonComplete: 25 },
+    robuxRules: { practiceCorrect: 5, examCorrect: 20, examWrong: 10, lessonComplete: 25 },
     status: "live",
   },
   {
@@ -96,8 +96,8 @@ export const seedPrograms: z.input<typeof programSchema>[] = [
 
 /** Demo accounts created on seed (passwords printed once). */
 export const seedUsers = [
-  { username: "superadmin", displayName: "Super Admin", roles: ["super_admin"] as const },
-  { username: "admin", displayName: "Admin", roles: ["admin"] as const },
-  { username: "parent", displayName: "Parent (Rivera)", roles: ["parent"] as const },
-  { username: "maya", displayName: "Maya Rivera", roles: ["student"] as const },
+  { username: "superadmin", displayName: "Super Admin", email: "blitznihar@gmail.com", roles: ["super_admin"] as const },
+  { username: "admin", displayName: "Admin", email: "blitznihar@gmail.com", roles: ["admin"] as const },
+  { username: "parent", displayName: "Parent (Rivera)", email: "blitznihar@gmail.com", roles: ["parent"] as const },
+  { username: "maya", displayName: "Maya Rivera", email: "blitznihar@gmail.com", roles: ["student"] as const },
 ];

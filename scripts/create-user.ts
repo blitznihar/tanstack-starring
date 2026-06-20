@@ -23,11 +23,13 @@ const actor: AuthContext = {
   userId: "cli",
   username: "cli",
   displayName: "CLI",
+  email: "blitznihar@gmail.com",
+  emailConfirmed: true,
   roles: ["super_admin"],
   forceChangeOnFirstLogin: false,
 };
 
-createUser(actor, { username, displayName, roles, studentIds: [], parentIds: [], forceChangeOnFirstLogin: true })
+createUser(actor, { username, displayName, email: "blitznihar@gmail.com", roles, studentIds: [], parentIds: [], forceChangeOnFirstLogin: true })
   .then((r) => {
     console.log(`Created ${r.user.username} (${r.user.roles.join(", ")})`);
     console.log(`Password (shown once): ${r.generatedPassword}`);

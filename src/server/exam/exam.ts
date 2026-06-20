@@ -27,6 +27,7 @@ import {
 import { scoreExamSession, type ExamResult } from "~/domain/exam/scoreExam.js";
 import { walletFor } from "~/server/gamification/wallet.js";
 import { recordAttempt, masterySummary } from "~/server/mastery/mastery.js";
+import { queueExamProgressReport } from "~/server/notifications/progressReports.js";
 import {
   enqueueWrittenJobs,
   processSessionJobs,
@@ -455,6 +456,13 @@ async function finalizeIfNeeded(sessionId: string, state: ExamSessionState, prio
   });
 
   await examSessionsRepo.saveResult(sessionId, { ...result, itemReview, perCorrect: program.robuxRules.examCorrect, perWrong: program.robuxRules.examWrong });
+  await queueExamProgressReport(state.enrollmentId, {
+    title: program.title,
+    correctCount: result.overall.correctCount,
+    wrongCount: result.overall.wrongCount,
+    scorePct: result.overall.total > 0 ? Math.round((result.overall.correctCount / result.overall.total) * 100) : undefined,
+    robuxNet: result.robux.net,
+  });
 
   // §8: enqueue async SCR/ECR scoring (one job per written item) and kick it off
   // in the background. Submission has already returned — this never blocks it.

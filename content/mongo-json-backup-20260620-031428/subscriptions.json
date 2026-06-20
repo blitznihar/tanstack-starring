@@ -1,0 +1,1 @@
+{"_id":"default","accountId":"default","createdAt":{"$date":{"$numberLong":"1781886352587"}},"currentPeriodEnd":null,"interval":"month","planId":null,"status":"trialing","updatedAt":{"$date":{"$numberLong":"1781887489821"}},"stripeCustomerId":"cus_Z","stripeSubId":"sub_Z"}

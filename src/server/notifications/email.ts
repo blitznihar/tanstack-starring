@@ -1,4 +1,5 @@
 import { notificationsRepo, type NotificationKind } from "~/repositories/notifications.js";
+import { usersRepo } from "~/repositories/users.js";
 import { parentsForStudent, userId } from "~/server/users/associations.js";
 
 type EmailInput = {
@@ -9,7 +10,8 @@ type EmailInput = {
 };
 
 export async function queueEmailNotification(input: EmailInput): Promise<void> {
-  await notificationsRepo.queue(input);
+  const user = await usersRepo.findById(input.userId);
+  await notificationsRepo.queue({ ...input, recipientEmail: user?.email ?? "blitznihar@gmail.com" });
 }
 
 export async function queueStudentAndParentEmails(

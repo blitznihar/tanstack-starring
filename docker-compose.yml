@@ -19,8 +19,8 @@ services:
     ports:
       - "3000:3000"
     environment:
-      # In-container Mongo + DMR hostnames; override via a .env file as needed.
-      MONGODB_URI: mongodb://mongo:27017/comet
+      # Uses Atlas when MONGODB_URI is set in .env; falls back to the local Mongo container.
+      MONGODB_URI: ${MONGODB_URI:-mongodb://mongo:27017/comet}
       API_BASE_URL: ${API_BASE_URL:-http://localhost:3000}
       SESSION_SECRET: ${SESSION_SECRET:-change-me}
       AI_ENABLED: ${AI_ENABLED:-true}

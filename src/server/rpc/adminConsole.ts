@@ -10,7 +10,7 @@ import { roleSchema } from "~/schemas/common.js";
 import { requireCapability } from "~/server/auth/rbac.js";
 import { listContentByProgram } from "~/server/content/browser.js";
 import { importBundle, type ImportResult } from "~/server/content/import.js";
-import { createUser, resetPassword } from "~/server/auth/users.js";
+import { createUser, resetPassword, setPassword } from "~/server/auth/users.js";
 import {
   allowedConsoleRoles,
   assertCanSeeStudent,
@@ -291,6 +291,8 @@ async function buildConsoleSnapshot(auth: AuthContext) {
         id,
         username: u.username,
         displayName: u.displayName,
+        email: u.email ?? "blitznihar@gmail.com",
+        emailConfirmed: !!u.emailConfirmed,
         roles: u.roles,
         primaryRole: roleFor(u.roles),
         studentIds: u.studentIds ?? [],
@@ -344,6 +346,7 @@ const userRolesInput = z.array(roleSchema).length(1);
 const createConsoleUserInput = z.object({
   username: z.string().min(3).max(64),
   displayName: z.string().min(1),
+  email: z.string().email().default("blitznihar@gmail.com"),
   roles: userRolesInput,
   studentIds: z.array(z.string()).default([]),
   parentIds: z.array(z.string()).default([]),
@@ -361,6 +364,7 @@ export const createConsoleUser = createServerFn({ method: "POST" })
     const created = await createUser(auth, {
       username: data.username.trim(),
       displayName: data.displayName.trim(),
+      email: data.email.trim().toLowerCase(),
       roles: [role],
       studentIds: associations.studentIds,
       parentIds: associations.parentIds,
@@ -380,6 +384,7 @@ const updateConsoleUserInput = z.object({
   id: z.string().min(1),
   username: z.string().min(3).max(64),
   displayName: z.string().min(1),
+  email: z.string().email(),
   roles: userRolesInput,
   studentIds: z.array(z.string()).default([]),
   parentIds: z.array(z.string()).default([]),
@@ -406,6 +411,8 @@ export const updateConsoleUser = createServerFn({ method: "POST" })
     await usersRepo.update(data.id, {
       username: data.username.trim(),
       displayName: data.displayName.trim(),
+      email: data.email.trim().toLowerCase(),
+      emailConfirmed: existing.email?.toLowerCase() === data.email.trim().toLowerCase() ? !!existing.emailConfirmed : false,
       roles: [role],
       studentIds: associations.studentIds,
       parentIds: associations.parentIds,
@@ -444,6 +451,18 @@ export const resetConsoleUserPassword = createServerFn({ method: "POST" })
     if (!(await canManageUser(auth, existing))) throw new Error("Forbidden: user is not associated with this account.");
     const generatedPassword = await resetPassword(auth, data.id, true);
     return { snapshot: await buildConsoleSnapshot(auth), generatedPassword };
+  });
+
+export const setConsoleUserPassword = createServerFn({ method: "POST" })
+  .validator((d: unknown) => z.object({ id: z.string().min(1), password: z.string().min(8), forceChangeOnFirstLogin: z.boolean().default(false) }).parse(d))
+  .handler(async ({ data }) => {
+    const auth = await requireAuth();
+    requireCapability(auth.roles, "users.manage");
+    const existing = await usersRepo.findById(data.id);
+    if (!existing) throw new Error("User not found");
+    if (!(await canManageUser(auth, existing))) throw new Error("Forbidden: user is not associated with this account.");
+    await setPassword(auth, data.id, data.password, data.forceChangeOnFirstLogin);
+    return buildConsoleSnapshot(auth);
   });
 
 const addProgramInput = z.object({
