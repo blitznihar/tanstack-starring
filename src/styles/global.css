@@ -1,0 +1,269 @@
+/* Design tokens extracted verbatim from the Comet prototype (Staar/…standalone-src.html).
+   Two "worlds": warm Student (--s-*) and calm Admin/Parent (--a-*). §21.2 */
+:root {
+  /* Student world — warm, friendly */
+  --s-bg: #fbf3e9;
+  --s-bg2: #f6e8d8;
+  --s-surface: #ffffff;
+  --s-ink: #36304a;
+  --s-muted: #8a8198;
+  --s-primary: #6c4ce0;
+  --s-primary-ink: #4a2fb0;
+  --s-primary-soft: #ece6ff;
+  --s-accent: #ff7a4d;
+  --s-accent-soft: #ffe7dd;
+  --s-robux: #f2a900;
+  --s-robux-soft: #fff1d0;
+  --s-success: #16b07a;
+  --s-success-soft: #dcf6ec;
+  --s-sky: #2fa7e0;
+  --s-sky-soft: #dcf0fb;
+  /* Admin / parent world — calm, professional */
+  --a-bg: #f5f7fa;
+  --a-surface: #ffffff;
+  --a-ink: #131a2a;
+  --a-muted: #647084;
+  --a-faint: #94a0b3;
+  --a-border: #e4e9f0;
+  --a-border2: #eef1f6;
+  --a-accent: #2f5bea;
+  --a-accent-soft: #e8eeff;
+  --a-good: #18a06a;
+  --a-good-soft: #e0f4ec;
+  --a-warn: #e0992b;
+  --a-warn-soft: #fbf0dc;
+  --a-bad: #db4d52;
+  --a-bad-soft: #fbe6e7;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: "Manrope", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  color: var(--a-ink);
+  background: var(--a-bg);
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+button {
+  font-family: inherit;
+}
+
+@keyframes cometfade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---- shared admin-world primitives ---- */
+.a-shell {
+  min-height: 100vh;
+  background: var(--a-bg);
+}
+.a-card {
+  background: var(--a-surface);
+  border: 1px solid var(--a-border);
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 800;
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  letter-spacing: 0.02em;
+}
+.pill-ok {
+  background: var(--a-good-soft);
+  color: var(--a-good);
+}
+.pill-low {
+  background: var(--a-warn-soft);
+  color: var(--a-warn);
+}
+.pill-exhausted {
+  background: var(--a-bad-soft);
+  color: var(--a-bad);
+}
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  display: inline-block;
+}
+
+.admin-topbar {
+  background: #fff;
+  border-bottom: 1px solid var(--a-border);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+.admin-topbar-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 13px 26px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.brand-lockup {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.brand-mark {
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+.brand-mark span {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #fff;
+  display: block;
+}
+.brand-mark-admin {
+  background: var(--a-ink);
+}
+.brand-word {
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: 0;
+}
+.role-chip {
+  background: var(--a-accent-soft);
+  color: var(--a-accent);
+  font-weight: 800;
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 7px;
+}
+.admin-nav {
+  display: flex;
+  gap: 4px;
+  margin-left: 10px;
+  flex-wrap: wrap;
+}
+.admin-nav-link {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--a-muted);
+  padding: 8px 13px;
+  border-radius: 9px;
+}
+.admin-nav-link.active {
+  color: var(--a-ink);
+  background: var(--a-border2);
+}
+.topbar-spacer {
+  flex: 1;
+}
+.student-context {
+  text-align: right;
+  white-space: nowrap;
+  font-weight: 700;
+  font-size: 13.5px;
+}
+.student-context span {
+  display: block;
+  font-weight: 600;
+  font-size: 11.5px;
+  color: var(--a-faint);
+  margin-top: 1px;
+}
+.topbar-ghost-button {
+  border: 1px solid var(--a-border);
+  background: #fff;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--a-muted);
+  padding: 8px 14px;
+  border-radius: 9px;
+}
+.segmented {
+  display: flex;
+  gap: 4px;
+  background: #edf0f5;
+  border-radius: 11px;
+  padding: 3px;
+  width: fit-content;
+}
+.segmented button {
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 13.5px;
+  padding: 8px 16px;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--a-muted);
+}
+.segmented button.active {
+  background: #fff;
+  color: var(--a-accent);
+}
+.error-panel {
+  max-width: 560px;
+  margin: 90px auto;
+  padding: 32px;
+  background: #fff;
+  border: 1px solid var(--a-border);
+  border-radius: 18px;
+  box-shadow: 0 16px 40px rgba(19, 26, 42, 0.08);
+}
+.error-panel h1 {
+  font-size: 24px;
+  margin: 18px 0 6px;
+}
+.error-panel p {
+  color: var(--a-muted);
+  font-weight: 600;
+  line-height: 1.55;
+}
+.error-panel pre {
+  white-space: pre-wrap;
+  background: #fafbfd;
+  border: 1px solid var(--a-border2);
+  border-radius: 10px;
+  color: var(--a-muted);
+  padding: 12px;
+  font-size: 12px;
+  line-height: 1.45;
+}
+.error-home-link {
+  display: inline-flex;
+  margin-top: 10px;
+  background: var(--a-accent);
+  color: #fff;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-weight: 800;
+  font-size: 13px;
+}

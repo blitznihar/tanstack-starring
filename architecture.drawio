@@ -1,0 +1,163 @@
+<mxfile host="Electron">
+  <diagram name="STAAR Prep — System Architecture" id="staar-arch">
+    <mxGraphModel dx="1550" dy="1072" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1700" pageHeight="900" math="0" shadow="0" adaptiveColors="auto">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="zUsers" parent="1" style="swimlane;startSize=30;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;" value="USERS / PERSONAS" vertex="1">
+          <mxGeometry height="420" width="240" x="40" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="sa" parent="zUsers" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;" value="Super Admin&#xa;create users · generate passwords" vertex="1">
+          <mxGeometry height="70" width="200" x="20" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="adm" parent="zUsers" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;" value="Admin&#xa;content · scoring review · redemptions" vertex="1">
+          <mxGeometry height="70" width="200" x="20" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="par" parent="zUsers" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;" value="Parent&#xa;read-only oversight" vertex="1">
+          <mxGeometry height="70" width="200" x="20" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="stu" parent="zUsers" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;" value="Student&#xa;lessons · exercises · exams" vertex="1">
+          <mxGeometry height="70" width="200" x="20" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="noteRoles" parent="zUsers" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontStyle=2;fontColor=#555555;" value="One account may hold several roles (single-family)." vertex="1">
+          <mxGeometry height="52" width="200" x="20" y="358" as="geometry" />
+        </mxCell>
+        <mxCell id="zUI" parent="1" style="swimlane;startSize=30;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;" value="WEB UI — TanStack Start (React)" vertex="1">
+          <mxGeometry height="420" width="260" x="320" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="login" parent="zUI" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;" value="Login / Auth UI" vertex="1">
+          <mxGeometry height="55" width="220" x="20" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="sapp" parent="zUI" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;" value="Student App&#xa;lesson viewer · exercises&#xa;STAAR-style exam player" vertex="1">
+          <mxGeometry height="85" width="220" x="20" y="105" as="geometry" />
+        </mxCell>
+        <mxCell id="acon" parent="zUI" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;" value="Admin Console&#xa;content import · scoring review&#xa;redemptions · export / import" vertex="1">
+          <mxGeometry height="85" width="220" x="20" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="pdash" parent="zUI" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;" value="Parent Dashboard&#xa;day / week / month&#xa;topics done vs. remaining" vertex="1">
+          <mxGeometry height="85" width="220" x="20" y="295" as="geometry" />
+        </mxCell>
+        <mxCell id="zSrv" parent="1" style="swimlane;startSize=30;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;" value="BUN SERVER — TanStack server functions (local)" vertex="1">
+          <mxGeometry height="560" width="600" x="620" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="auth" parent="zSrv" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;" value="Auth &amp; RBAC&#xa;4 roles · multi-role accounts" vertex="1">
+          <mxGeometry height="70" width="270" x="20" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="content" parent="zSrv" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;" value="Content Service + Import&#xa;Zod validate · enable/disable · versioned bundles" vertex="1">
+          <mxGeometry height="70" width="270" x="310" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="exam" parent="zSrv" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;" value="Exam Delivery Engine&#xa;timer/pause state machine · autosave&#xa;1 / 1.5 / 2 / 2.5 / 3 h presets" vertex="1">
+          <mxGeometry height="80" width="270" x="20" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="scoring" parent="zSrv" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;" value="Scoring Engine&#xa;auto-score + partial credit&#xa;raw → scale → performance level" vertex="1">
+          <mxGeometry height="80" width="270" x="310" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="mastery" parent="zSrv" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;" value="Mastery &amp; Remediation&#xa;per-TEKS state · spiral weighting&#xa;circuit-breaker" vertex="1">
+          <mxGeometry height="80" width="270" x="20" y="225" as="geometry" />
+        </mxCell>
+        <mxCell id="sched" parent="zSrv" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;" value="Scheduler&#xa;≤ 45 days · weekday lessons&#xa;Fri/Sat/Sun cumulative exams" vertex="1">
+          <mxGeometry height="80" width="270" x="310" y="225" as="geometry" />
+        </mxCell>
+        <mxCell id="robux" parent="zSrv" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;" value="Robux Ledger + Redemptions&#xa;weekly budget (50% exams)&#xa;earn → redeem → fulfill → settle" vertex="1">
+          <mxGeometry height="80" width="270" x="20" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="report" parent="zSrv" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;" value="Reporting / Dashboards API&#xa;progress by day / week / month&#xa;topics done vs. remaining" vertex="1">
+          <mxGeometry height="80" width="270" x="310" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="crworker" parent="zSrv" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" value="CR Scoring Worker (async)&#xa;queues SCR / ECR · parent override&#xa;fallback to manual queue" vertex="1">
+          <mxGeometry height="80" width="270" x="20" y="415" as="geometry" />
+        </mxCell>
+        <mxCell id="profio" parent="zSrv" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;" value="Profile Export / Import&#xa;whole-profile last-write-wins" vertex="1">
+          <mxGeometry height="80" width="270" x="310" y="415" as="geometry" />
+        </mxCell>
+        <mxCell id="noteRuntime" parent="zSrv" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontStyle=2;fontColor=#7a5c00;" value="Deterministic at runtime — the ONLY runtime model call is CR scoring → Local AI. Everything else is pure code." vertex="1">
+          <mxGeometry height="40" width="560" x="20" y="505" as="geometry" />
+        </mxCell>
+        <mxCell id="zData" parent="1" style="swimlane;startSize=30;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;" value="DATA — MongoDB (local)" vertex="1">
+          <mxGeometry height="560" width="300" x="1260" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="db" parent="zData" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" value="MongoDB (local)" vertex="1">
+          <mxGeometry height="80" width="140" x="80" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="colls" parent="zData" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;fillColor=#ffffff;strokeColor=#d79b00;spacing=8;" value="Collections&#xa;&#xa;users (roles, pwd hash)&#xa;bundles · standards&#xa;passages · lessons · items&#xa;exams · examSessions&#xa;responses&#xa;masteryStates&#xa;robuxLedger&#xa;redemptionRequests&#xa;scoringJobs&#xa;schedules&#xa;conversionTables" vertex="1">
+          <mxGeometry height="400" width="260" x="20" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="zOff" parent="1" style="swimlane;startSize=30;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;dashed=1;" value="OFFLINE CONTENT AUTHORING (not at runtime)" vertex="1">
+          <mxGeometry height="260" width="540" x="40" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="prompts" parent="zOff" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;" value="Adapted LLM prompts&#xa;(Math / RLA / Math-facts)&#xa;run by Admin OFFLINE" vertex="1">
+          <mxGeometry height="80" width="230" x="20" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="bundle" parent="zOff" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;" value="JSON content bundle&#xa;+ SVG / PNG figures" vertex="1">
+          <mxGeometry height="80" width="230" x="290" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="noteOff" parent="zOff" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontStyle=2;fontColor=#555555;" value="Output is imported via the Content Service. The app never calls an LLM to generate content." vertex="1">
+          <mxGeometry height="70" width="500" x="20" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="zAI" parent="1" style="swimlane;startSize=30;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1;" value="LOCAL AI — Docker Model Runner" vertex="1">
+          <mxGeometry height="160" width="600" x="620" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="gemma" parent="zAI" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;" value="Gemma (e.g. ai/gemma3) via Docker Model Runner&#xa;OpenAI-compatible API · http://localhost:12434/engines/v1&#xa;local · private · offline · constructed-response scoring ONLY" vertex="1">
+          <mxGeometry height="90" width="560" x="20" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="sjson" parent="1" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;fillColor=#f5f5f5;strokeColor=#666666;" value="Student Profile JSON&#xa;export / import · backup / restore" vertex="1">
+          <mxGeometry height="90" width="300" x="1260" y="660" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="sa" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" target="acon" value="manage users">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="adm" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" target="acon" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="par" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" target="pdash" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="stu" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" target="sapp" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="login" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" target="auth" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="sapp" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" target="exam" value="lessons / exams">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="acon" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" target="content" value="import / manage">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="pdash" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" target="report" value="reports">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" edge="1" parent="1" source="content" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" target="db" value="read / write">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" edge="1" parent="1" source="exam" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" target="db" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" edge="1" parent="1" source="profio" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" target="db" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" edge="1" parent="1" source="scoring" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" target="crworker" value="queue SCR / ECR">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" edge="1" parent="1" source="crworker" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;strokeColor=#9673a6;" target="gemma" value="OpenAI call (server-side)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e14" edge="1" parent="1" source="scoring" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" target="mastery" value="results">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e15" edge="1" parent="1" source="mastery" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" target="sched" value="weak TEKS → more lessons / items">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e16" edge="1" parent="1" source="bundle" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;dashed=1;" target="content" value="import (offline output)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e17" edge="1" parent="1" source="profio" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" target="sjson" value="export">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e18" edge="1" parent="1" source="sjson" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;dashed=1;" target="profio" value="import">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

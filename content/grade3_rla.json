@@ -1,0 +1,1915 @@
+{
+  "programKey": "grade3_staar",
+  "subject": "rla",
+  "version": 1,
+  "status": "available",
+  "title": "Grade 3 Reading / Language Arts",
+  "standards": [
+    {
+      "code": "3.9D",
+      "programKey": "grade3_staar",
+      "subject": "rla",
+      "reportingCategory": "Multiple Genres",
+      "description": "Recognize characteristics and the central idea of informational text"
+    },
+    {
+      "code": "3.10A",
+      "programKey": "grade3_staar",
+      "subject": "rla",
+      "reportingCategory": "Author's Craft",
+      "description": "Explain the author's purpose and message"
+    },
+    {
+      "code": "3.6F",
+      "programKey": "grade3_staar",
+      "subject": "rla",
+      "reportingCategory": "Comprehension",
+      "description": "Make inferences and use evidence to support understanding"
+    },
+    {
+      "code": "3.3B",
+      "programKey": "grade3_staar",
+      "subject": "rla",
+      "reportingCategory": "Vocabulary",
+      "description": "Use context within a sentence to determine the meaning of words"
+    },
+    {
+      "code": "3.7C",
+      "programKey": "grade3_staar",
+      "subject": "rla",
+      "reportingCategory": "Response Skills",
+      "description": "Use text evidence to support an appropriate response"
+    },
+    {
+      "code": "3.7D",
+      "programKey": "grade3_staar",
+      "subject": "rla",
+      "reportingCategory": "Response Skills",
+      "description": "Retell, paraphrase, or summarize texts"
+    },
+    {
+      "code": "3.6G",
+      "programKey": "grade3_staar",
+      "subject": "rla",
+      "reportingCategory": "Comprehension",
+      "description": "Evaluate details to determine key ideas"
+    },
+    {
+      "code": "3.8B",
+      "programKey": "grade3_staar",
+      "subject": "rla",
+      "reportingCategory": "Literary Elements",
+      "description": "Describe the interaction of characters and changes they undergo"
+    },
+    {
+      "code": "3.10D",
+      "programKey": "grade3_staar",
+      "subject": "rla",
+      "reportingCategory": "Author's Craft",
+      "description": "Identify and explain figurative language such as simile"
+    },
+    {
+      "code": "3.8C",
+      "programKey": "grade3_staar",
+      "subject": "rla",
+      "reportingCategory": "Literary Elements",
+      "description": "Analyze plot elements and the lesson or theme"
+    }
+  ],
+  "passages": [
+    {
+      "id": "garden",
+      "title": "The Class Garden",
+      "genre": "informational",
+      "level": "Grade 3 · 530L",
+      "body": [
+        {
+          "kind": "paragraph",
+          "text": "1. Last spring, Room 12 turned a weedy strip of dirt behind the school into a vegetable garden. Mr. Diaz warned that the hard, dry ground would need a lot of work before a single seed could grow."
+        },
+        {
+          "kind": "paragraph",
+          "text": "2. First, the students pulled the weeds and broke up the packed dirt with small shovels. The work was slow, and by recess their hands were sore. Still, no one wanted to quit."
+        },
+        {
+          "kind": "paragraph",
+          "text": "3. Next, they mixed in compost — dark, crumbly material made from old leaves and vegetable scraps. Compost adds nutrients, the things plants need to grow strong and healthy. The soil that had been pale and dusty turned a rich brown."
+        },
+        {
+          "kind": "paragraph",
+          "text": "4. The class planted beans, carrots, and tomatoes. Each student took charge of one row and watered it every morning. They kept a notebook to record how tall the sprouts grew."
+        },
+        {
+          "kind": "paragraph",
+          "text": "5. By the end of May, the garden was bursting with green. The bean vines climbed up their strings like ladders, and the tomatoes turned from green to red. The harvest filled three big baskets."
+        },
+        {
+          "kind": "paragraph",
+          "text": "6. The class shared the vegetables with the school kitchen. Mr. Diaz smiled and said the best crop of all was how much patience the students had grown along the way."
+        }
+      ],
+      "wordCount": 203
+    },
+    {
+      "id": "lighthouse",
+      "title": "Mira and the Lighthouse",
+      "genre": "literary",
+      "level": "Grade 3 · 560L",
+      "body": [
+        {
+          "kind": "paragraph",
+          "text": "1. Mira lived with her grandfather in a tall white lighthouse at the edge of the bay. Every evening, Grandpa climbed the spiral stairs that curled up the tower to light the great lamp so ships could find their way home."
+        },
+        {
+          "kind": "paragraph",
+          "text": "2. One stormy night, the wind howled and rain slapped the windows. Halfway up the stairs, Grandpa stopped and pressed a hand to his knee. \"It's acting up again,\" he said. \"I'm not sure I can make the climb tonight.\""
+        },
+        {
+          "kind": "paragraph",
+          "text": "3. Mira looked out at the churning, crashing sea. Somewhere out there a fishing boat would be searching for the light. Her heart pounded, but she squared her shoulders. \"I'll go,\" she said. \"Tell me what to do.\""
+        },
+        {
+          "kind": "paragraph",
+          "text": "4. Step by step, Grandpa guided her from his chair below. Mira reached the lamp room, struck the match just as he had shown her a hundred times, and the warm beam swept out across the water like a golden road."
+        },
+        {
+          "kind": "paragraph",
+          "text": "5. Minutes later, a horn sounded from the bay — three short blasts, the fishing boat's way of saying thank you. Grandpa's eyes shone. \"You kept the light, Mira,\" he said softly. \"You kept us all safe.\""
+        },
+        {
+          "kind": "paragraph",
+          "text": "6. From that night on, Mira climbed the stairs beside her grandfather every evening, proud to be the lighthouse keeper's helper."
+        }
+      ],
+      "wordCount": 212
+    },
+    {
+      "id": "bats",
+      "title": "Backyard Bats",
+      "genre": "informational",
+      "level": "Grade 3 · 540L",
+      "body": [
+        {
+          "kind": "paragraph",
+          "text": "1. When people think of bats, they often imagine something spooky. But bats are some of the most helpful animals in your neighborhood."
+        },
+        {
+          "kind": "paragraph",
+          "text": "2. A single little brown bat can eat more than a thousand insects in one hour. Many of those insects are mosquitoes, so bats help keep pesky bugs away from yards and gardens."
+        },
+        {
+          "kind": "paragraph",
+          "text": "3. Bats help plants, too. As they fly from flower to flower sipping nectar, the sweet liquid inside blossoms, they carry yellow pollen with them. That helps fruits like bananas and mangoes grow."
+        },
+        {
+          "kind": "paragraph",
+          "text": "4. Bats find their food in the dark using sound. They make tiny squeaks and listen for the echoes that bounce back, like a shout returning in a canyon. This clever trick is called echolocation."
+        },
+        {
+          "kind": "paragraph",
+          "text": "5. You can help bats by leaving old trees standing and by putting up a bat house. When we protect bats, they keep right on protecting us."
+        }
+      ],
+      "wordCount": 146
+    }
+  ],
+  "items": [
+    {
+      "standardCodes": [
+        "3.9D"
+      ],
+      "difficulty": "easy",
+      "passageRef": "garden",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "What is “The Class Garden” MOSTLY about?"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "A class that grows a vegetable garden behind the school",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "How to cook fresh vegetables",
+          "rationale": "The passage is about growing the garden, not cooking."
+        },
+        {
+          "key": "C",
+          "text": "A big storm that floods a school",
+          "rationale": "There is no storm in this passage."
+        },
+        {
+          "key": "D",
+          "text": "A field trip to a farm",
+          "rationale": "The class works on their own garden, not a farm trip."
+        }
+      ],
+      "explanation": [
+        "The whole passage follows Room 12 as they turn a weedy strip into a garden — that is the central idea."
+      ],
+      "workedSolution": [
+        "The whole passage follows Room 12 as they turn a weedy strip into a garden — that is the central idea."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.10A"
+      ],
+      "difficulty": "medium",
+      "passageRef": "garden",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "The author wrote this passage mainly to —"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "inform readers about how a class grew a garden",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "tell a make-believe adventure story",
+          "rationale": "These are real steps, not a make-believe story."
+        },
+        {
+          "key": "C",
+          "text": "persuade readers to stop eating vegetables",
+          "rationale": "The author never argues against vegetables."
+        },
+        {
+          "key": "D",
+          "text": "give a recipe for tomato soup",
+          "rationale": "No recipe appears anywhere in the passage."
+        }
+      ],
+      "explanation": [
+        "The passage explains real steps and facts, so the author's purpose is to inform."
+      ],
+      "workedSolution": [
+        "The passage explains real steps and facts, so the author's purpose is to inform."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.6F"
+      ],
+      "difficulty": "medium",
+      "passageRef": "garden",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "By the end of the passage, the students most likely feel —"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "proud of what they accomplished",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "bored with the garden",
+          "rationale": "They worked hard and shared the harvest — not signs of boredom."
+        },
+        {
+          "key": "C",
+          "text": "angry at Mr. Diaz",
+          "rationale": "Nothing shows the students are upset with their teacher."
+        },
+        {
+          "key": "D",
+          "text": "afraid of the vegetables",
+          "rationale": "There is no reason for fear in the passage."
+        }
+      ],
+      "explanation": [
+        "They turned hard dirt into a full harvest and shared it — the details point to pride."
+      ],
+      "workedSolution": [
+        "They turned hard dirt into a full harvest and shared it — the details point to pride."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.3B"
+      ],
+      "difficulty": "medium",
+      "passageRef": "garden",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "In paragraph 3, the word “nutrients” means —"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "things plants need to grow strong",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "kinds of weeds",
+          "rationale": "Weeds were pulled out earlier; nutrients help plants, not hurt them."
+        },
+        {
+          "key": "C",
+          "text": "small garden tools",
+          "rationale": "Tools were the shovels in paragraph 2, not nutrients."
+        },
+        {
+          "key": "D",
+          "text": "colors of the soil",
+          "rationale": "Color is described separately ('rich brown')."
+        }
+      ],
+      "explanation": [
+        "The sentence says compost adds nutrients, 'the things plants need to grow strong and healthy.'"
+      ],
+      "workedSolution": [
+        "The sentence says compost adds nutrients, 'the things plants need to grow strong and healthy.'"
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.7C"
+      ],
+      "difficulty": "medium",
+      "passageRef": "garden",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "Which detail BEST shows that preparing the soil was hard work?"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "“by recess their hands were sore”",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "“the tomatoes turned from green to red”",
+          "rationale": "That shows the plants growing, not the difficulty of the work."
+        },
+        {
+          "key": "C",
+          "text": "“They kept a notebook”",
+          "rationale": "The notebook records growth; it does not show hard work."
+        },
+        {
+          "key": "D",
+          "text": "“Mr. Diaz smiled”",
+          "rationale": "Smiling shows happiness at the end, not hard work."
+        }
+      ],
+      "explanation": [
+        "Sore hands by recess is direct evidence that the soil work was difficult."
+      ],
+      "workedSolution": [
+        "Sore hands by recess is direct evidence that the soil work was difficult."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.6F"
+      ],
+      "difficulty": "easy",
+      "passageRef": "garden",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "Why did the class keep a notebook?"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "to record how tall the sprouts grew",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "to draw pictures of bugs",
+          "rationale": "The passage does not mention drawing bugs."
+        },
+        {
+          "key": "C",
+          "text": "to write a story",
+          "rationale": "The notebook tracks the plants, not stories."
+        },
+        {
+          "key": "D",
+          "text": "to list the students' names",
+          "rationale": "No name list is mentioned."
+        }
+      ],
+      "explanation": [
+        "Paragraph 4 says they 'kept a notebook to record how tall the sprouts grew.'"
+      ],
+      "workedSolution": [
+        "Paragraph 4 says they 'kept a notebook to record how tall the sprouts grew.'"
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.7D"
+      ],
+      "difficulty": "medium",
+      "passageRef": "garden",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "Which step happened FIRST?"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "The students pulled weeds and broke up the dirt",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "They planted beans, carrots, and tomatoes",
+          "rationale": "Planting came after the soil was prepared."
+        },
+        {
+          "key": "C",
+          "text": "They shared vegetables with the kitchen",
+          "rationale": "Sharing happened at the very end."
+        },
+        {
+          "key": "D",
+          "text": "The harvest filled three baskets",
+          "rationale": "The harvest was one of the last events."
+        }
+      ],
+      "explanation": [
+        "The order is: pull weeds → add compost → plant → harvest → share. Pulling weeds is first."
+      ],
+      "workedSolution": [
+        "The order is: pull weeds → add compost → plant → harvest → share. Pulling weeds is first."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.3B"
+      ],
+      "difficulty": "hard",
+      "passageRef": "garden",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "In paragraph 5, “bursting with green” means the garden was —"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "full of healthy growing plants",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "empty and bare",
+          "rationale": "'Bursting with green' is the opposite of empty."
+        },
+        {
+          "key": "C",
+          "text": "painted green",
+          "rationale": "The green is from living plants, not paint."
+        },
+        {
+          "key": "D",
+          "text": "on fire",
+          "rationale": "'Bursting' here is a lively image of growth, not flames."
+        }
+      ],
+      "explanation": [
+        "'Bursting with green' is a vivid way of saying the garden was packed with thriving plants."
+      ],
+      "workedSolution": [
+        "'Bursting with green' is a vivid way of saying the garden was packed with thriving plants."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.6G"
+      ],
+      "difficulty": "medium",
+      "passageRef": "garden",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiselect",
+      "prompt": [
+        "Select TWO things the students did to PREPARE the soil before planting seeds."
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "Pulled the weeds and broke up the dirt",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "Mixed in compost",
+          "correct": true
+        },
+        {
+          "key": "C",
+          "text": "Watered each row every morning",
+          "rationale": "Watering happened after planting, not while preparing the soil."
+        },
+        {
+          "key": "D",
+          "text": "Shared vegetables with the kitchen",
+          "rationale": "Sharing happened at the very end."
+        },
+        {
+          "key": "E",
+          "text": "Climbed the bean strings",
+          "rationale": "The bean vines climbed the strings — the students did not."
+        }
+      ],
+      "explanation": [
+        "Preparing the soil = pulling weeds/breaking dirt and mixing in compost (paragraphs 2–3)."
+      ],
+      "workedSolution": [
+        "Preparing the soil = pulling weeds/breaking dirt and mixing in compost (paragraphs 2–3)."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.10A"
+      ],
+      "difficulty": "easy",
+      "passageRef": "garden",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "inline_choice",
+      "prompt": [
+        "Choose the word that best completes the sentence about the text:  “The Class Garden” is a piece of ______ writing."
+      ],
+      "blanks": {
+        "b1": "informational"
+      },
+      "options": [
+        {
+          "key": "informational",
+          "text": "informational",
+          "correct": true
+        },
+        {
+          "key": "fairy-tale",
+          "text": "fairy-tale"
+        },
+        {
+          "key": "poetry",
+          "text": "poetry"
+        }
+      ],
+      "explanation": [
+        "It gives real facts and steps about growing a garden, so it is informational writing."
+      ],
+      "workedSolution": [
+        "It gives real facts and steps about growing a garden, so it is informational writing."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.3B"
+      ],
+      "difficulty": "medium",
+      "passageRef": "garden",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "text_entry",
+      "prompt": [
+        "In paragraph 3, find the word that names the dark, crumbly material made from old leaves and vegetable scraps. Write the word."
+      ],
+      "answer": "compost",
+      "explanation": [
+        "Paragraph 3 names that material 'compost.'"
+      ],
+      "workedSolution": [
+        "Paragraph 3 names that material 'compost.'"
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.7C"
+      ],
+      "difficulty": "hard",
+      "passageRef": "garden",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "hot_text",
+      "prompt": [
+        "Click the sentence that BEST shows the soil got better after the class worked on it."
+      ],
+      "tokens": [
+        {
+          "id": "t1",
+          "text": "The work was slow, and by recess their hands were sore."
+        },
+        {
+          "id": "t2",
+          "text": "The soil that had been pale and dusty turned a rich brown."
+        },
+        {
+          "id": "t3",
+          "text": "Each student took charge of one row and watered it every morning."
+        },
+        {
+          "id": "t4",
+          "text": "The harvest filled three big baskets."
+        }
+      ],
+      "correct": [
+        "t2"
+      ],
+      "explanation": [
+        "Pale, dusty soil turning 'a rich brown' is the evidence that the soil improved."
+      ],
+      "workedSolution": [
+        "Pale, dusty soil turning 'a rich brown' is the evidence that the soil improved."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.6F"
+      ],
+      "difficulty": "hard",
+      "passageRef": "garden",
+      "figures": [],
+      "points": 2,
+      "allowPartialCredit": true,
+      "type": "multipart",
+      "prompt": [
+        "Answer Part A and Part B."
+      ],
+      "parts": [
+        {
+          "id": "A",
+          "prompt": [
+            "Part A: Why did the soil change from pale and dusty to a rich brown?"
+          ],
+          "type": "multiple_choice",
+          "options": [
+            {
+              "key": "A",
+              "text": "The students mixed in compost",
+              "correct": true
+            },
+            {
+              "key": "B",
+              "text": "It rained for many days",
+              "rationale": "Rain is not mentioned as the reason in the passage."
+            },
+            {
+              "key": "C",
+              "text": "They painted the soil",
+              "rationale": "Soil is not painted; the color came from compost."
+            },
+            {
+              "key": "D",
+              "text": "They pulled out the weeds",
+              "rationale": "Pulling weeds came first but did not change the soil's color."
+            }
+          ]
+        },
+        {
+          "id": "B",
+          "prompt": [
+            "Part B: Which sentence from the passage BEST supports your answer to Part A?"
+          ],
+          "type": "multiple_choice",
+          "options": [
+            {
+              "key": "A",
+              "text": "“The work was slow, and by recess their hands were sore.”",
+              "rationale": "This is about the hard work, not the soil's color."
+            },
+            {
+              "key": "B",
+              "text": "“Next, they mixed in compost … The soil that had been pale and dusty turned a rich brown.”",
+              "correct": true
+            },
+            {
+              "key": "C",
+              "text": "“Each student took charge of one row.”",
+              "rationale": "This is about caring for rows, not the soil changing color."
+            },
+            {
+              "key": "D",
+              "text": "“The harvest filled three big baskets.”",
+              "rationale": "This happens at the very end, after the soil was ready."
+            }
+          ]
+        }
+      ],
+      "explanation": [
+        "Adding compost is what changed the soil, and the sentence about compost turning it 'a rich brown' is the evidence."
+      ],
+      "workedSolution": [
+        "Adding compost is what changed the soil, and the sentence about compost turning it 'a rich brown' is the evidence."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.7D"
+      ],
+      "difficulty": "medium",
+      "passageRef": "garden",
+      "figures": [],
+      "points": 2,
+      "allowPartialCredit": false,
+      "type": "scr",
+      "prompt": [
+        "In two or three sentences, summarize how Room 12 turned the weedy strip into a vegetable garden. Use details from the passage."
+      ],
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          {
+            "id": "steps",
+            "description": "Names the key steps in order (clear weeds/dirt, add compost, plant, water, harvest).",
+            "points": 1
+          },
+          {
+            "id": "evidence",
+            "description": "Uses accurate details from the passage.",
+            "points": 1
+          }
+        ]
+      },
+      "explanation": [
+        "Room 12 first pulled the weeds and broke up the hard dirt. Then they mixed in compost to add nutrients, planted beans, carrots, and tomatoes, and watered them every day. By May they had a big harvest to share."
+      ],
+      "workedSolution": [
+        "Room 12 first pulled the weeds and broke up the hard dirt. Then they mixed in compost to add nutrients, planted beans, carrots, and tomatoes, and watered them every day. By May they had a big harvest to share."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.7C"
+      ],
+      "difficulty": "hard",
+      "passageRef": "garden",
+      "figures": [],
+      "points": 5,
+      "allowPartialCredit": false,
+      "type": "ecr",
+      "prompt": [
+        "At the end, Mr. Diaz says the best crop was the patience the students grew. Write a paragraph explaining what he means. Use at least two details from the passage to support your answer."
+      ],
+      "rubric": {
+        "maxPoints": 5,
+        "criteria": [
+          {
+            "id": "claim",
+            "description": "States a clear idea of what the teacher means.",
+            "points": 1
+          },
+          {
+            "id": "evidence",
+            "description": "Includes at least two relevant details from the passage.",
+            "points": 2
+          },
+          {
+            "id": "explanation",
+            "description": "Explains how the details support the idea.",
+            "points": 1
+          },
+          {
+            "id": "conventions",
+            "description": "Writing is organized and easy to follow.",
+            "points": 1
+          }
+        ]
+      },
+      "explanation": [
+        "Mr. Diaz means the students learned to wait and keep working even when things were hard. At first the dirt was so packed their hands got sore, but they did not quit. They watered every morning and waited weeks for the sprouts to grow before the big harvest. Growing the garden slowly taught them patience, which is why he calls it the best crop."
+      ],
+      "workedSolution": [
+        "Mr. Diaz means the students learned to wait and keep working even when things were hard. At first the dirt was so packed their hands got sore, but they did not quit. They watered every morning and waited weeks for the sprouts to grow before the big harvest. Growing the garden slowly taught them patience, which is why he calls it the best crop."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.8B"
+      ],
+      "difficulty": "easy",
+      "passageRef": "lighthouse",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "At the beginning of the story, who lights the lamp each evening?"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "Grandpa",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "Mira",
+          "rationale": "Mira lights it only on the stormy night, not at the beginning."
+        },
+        {
+          "key": "C",
+          "text": "the fishing crew",
+          "rationale": "The crew is out at sea looking for the light."
+        },
+        {
+          "key": "D",
+          "text": "a neighbor",
+          "rationale": "No neighbor appears in the story."
+        }
+      ],
+      "explanation": [
+        "Paragraph 1 says every evening Grandpa climbed the stairs to light the great lamp."
+      ],
+      "workedSolution": [
+        "Paragraph 1 says every evening Grandpa climbed the stairs to light the great lamp."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.6F"
+      ],
+      "difficulty": "medium",
+      "passageRef": "lighthouse",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "Why does Mira go up the stairs herself that night?"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "Grandpa's knee hurts, so he cannot make the climb",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "She wants to play in the lamp room",
+          "rationale": "She goes because the boat needs light, not to play."
+        },
+        {
+          "key": "C",
+          "text": "Grandpa has fallen asleep",
+          "rationale": "Grandpa is awake and guides her from his chair."
+        },
+        {
+          "key": "D",
+          "text": "The lamp is broken",
+          "rationale": "The lamp works fine once she lights it."
+        }
+      ],
+      "explanation": [
+        "Grandpa presses his sore knee and says he cannot climb, so Mira goes instead."
+      ],
+      "workedSolution": [
+        "Grandpa presses his sore knee and says he cannot climb, so Mira goes instead."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.10D"
+      ],
+      "difficulty": "hard",
+      "passageRef": "lighthouse",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "Read this sentence: “the warm beam swept out across the water like a golden road.” This is an example of —"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "a simile, because it compares two things using “like”",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "a question the author asks",
+          "rationale": "It is a statement, not a question."
+        },
+        {
+          "key": "C",
+          "text": "a fact you could look up",
+          "rationale": "It is a poetic comparison, not a checkable fact."
+        },
+        {
+          "key": "D",
+          "text": "a list of steps",
+          "rationale": "There is no list in the sentence."
+        }
+      ],
+      "explanation": [
+        "A simile compares two things using 'like' or 'as' — here the beam is compared to a golden road."
+      ],
+      "workedSolution": [
+        "A simile compares two things using 'like' or 'as' — here the beam is compared to a golden road."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.3B"
+      ],
+      "difficulty": "medium",
+      "passageRef": "lighthouse",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "In paragraph 1, “spiral stairs” are stairs that —"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "wind around in a curl going up",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "are cracked and broken",
+          "rationale": "Nothing says the stairs are broken."
+        },
+        {
+          "key": "C",
+          "text": "lead outside the tower",
+          "rationale": "The stairs lead up to the lamp inside the tower."
+        },
+        {
+          "key": "D",
+          "text": "are painted bright red",
+          "rationale": "Their color is not described."
+        }
+      ],
+      "explanation": [
+        "The text says the spiral stairs 'curled up the tower,' so spiral means winding around."
+      ],
+      "workedSolution": [
+        "The text says the spiral stairs 'curled up the tower,' so spiral means winding around."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.8C"
+      ],
+      "difficulty": "medium",
+      "passageRef": "lighthouse",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "What lesson does the story teach?"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "Helping others can take courage",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "Always stay inside during a storm",
+          "rationale": "The story celebrates Mira's brave action, not staying put."
+        },
+        {
+          "key": "C",
+          "text": "Lighthouses are very old buildings",
+          "rationale": "That is a fact, not the lesson of the story."
+        },
+        {
+          "key": "D",
+          "text": "Fishing boats are dangerous",
+          "rationale": "The boat is helped, not shown as dangerous."
+        }
+      ],
+      "explanation": [
+        "Mira is scared but helps anyway, teaching that helping others can take courage."
+      ],
+      "workedSolution": [
+        "Mira is scared but helps anyway, teaching that helping others can take courage."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.8B"
+      ],
+      "difficulty": "easy",
+      "passageRef": "lighthouse",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "How does Grandpa feel about Mira at the end?"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "proud",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "angry",
+          "rationale": "His eyes shine and he praises her — that is pride, not anger."
+        },
+        {
+          "key": "C",
+          "text": "bored",
+          "rationale": "He is moved by what she did, not bored."
+        },
+        {
+          "key": "D",
+          "text": "frightened",
+          "rationale": "The danger has passed and he is grateful."
+        }
+      ],
+      "explanation": [
+        "Grandpa's eyes shine and he says she kept everyone safe — he is proud."
+      ],
+      "workedSolution": [
+        "Grandpa's eyes shine and he says she kept everyone safe — he is proud."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.6F"
+      ],
+      "difficulty": "medium",
+      "passageRef": "lighthouse",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "The three short horn blasts from the boat are a way of saying —"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "thank you",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "help, we are sinking",
+          "rationale": "The boat is safe now thanks to the light."
+        },
+        {
+          "key": "C",
+          "text": "goodbye forever",
+          "rationale": "Nothing suggests a final goodbye."
+        },
+        {
+          "key": "D",
+          "text": "turn off the light",
+          "rationale": "The crew is grateful the light is on."
+        }
+      ],
+      "explanation": [
+        "The passage states the three blasts are 'the fishing boat's way of saying thank you.'"
+      ],
+      "workedSolution": [
+        "The passage states the three blasts are 'the fishing boat's way of saying thank you.'"
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.8B"
+      ],
+      "difficulty": "medium",
+      "passageRef": "lighthouse",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiselect",
+      "prompt": [
+        "Select TWO words that BEST describe Mira in the story."
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "brave",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "helpful",
+          "correct": true
+        },
+        {
+          "key": "C",
+          "text": "lazy",
+          "rationale": "She works hard to climb the tower and light the lamp."
+        },
+        {
+          "key": "D",
+          "text": "selfish",
+          "rationale": "She helps the sailors and her grandfather."
+        },
+        {
+          "key": "E",
+          "text": "cruel",
+          "rationale": "Nothing in the story shows her being unkind."
+        }
+      ],
+      "explanation": [
+        "Mira is frightened but climbs the tower to help — she is brave and helpful."
+      ],
+      "workedSolution": [
+        "Mira is frightened but climbs the tower to help — she is brave and helpful."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.3B"
+      ],
+      "difficulty": "hard",
+      "passageRef": "lighthouse",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "inline_choice",
+      "prompt": [
+        "In paragraph 3, the word “churning” describes water that is —"
+      ],
+      "blanks": {
+        "b1": "moving violently"
+      },
+      "options": [
+        {
+          "key": "moving violently",
+          "text": "moving violently",
+          "correct": true
+        },
+        {
+          "key": "perfectly still",
+          "text": "perfectly still"
+        },
+        {
+          "key": "frozen solid",
+          "text": "frozen solid"
+        }
+      ],
+      "explanation": [
+        "'Churning, crashing sea' during a storm describes water moving violently."
+      ],
+      "workedSolution": [
+        "'Churning, crashing sea' during a storm describes water moving violently."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.10D"
+      ],
+      "difficulty": "hard",
+      "passageRef": "lighthouse",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "hot_text",
+      "prompt": [
+        "Click the sentence that uses a SIMILE (a comparison using “like” or “as”)."
+      ],
+      "tokens": [
+        {
+          "id": "t1",
+          "text": "Every evening, Grandpa climbed the spiral stairs to light the great lamp."
+        },
+        {
+          "id": "t2",
+          "text": "Halfway up the stairs, Grandpa stopped and pressed a hand to his knee."
+        },
+        {
+          "id": "t3",
+          "text": "The warm beam swept out across the water like a golden road."
+        },
+        {
+          "id": "t4",
+          "text": "Minutes later, a horn sounded from the bay."
+        }
+      ],
+      "correct": [
+        "t3"
+      ],
+      "explanation": [
+        "Only sentence t3 compares two things with 'like' (the beam to a golden road) — a simile."
+      ],
+      "workedSolution": [
+        "Only sentence t3 compares two things with 'like' (the beam to a golden road) — a simile."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.7C"
+      ],
+      "difficulty": "hard",
+      "passageRef": "lighthouse",
+      "figures": [],
+      "points": 2,
+      "allowPartialCredit": true,
+      "type": "multipart",
+      "prompt": [
+        "Answer Part A and Part B."
+      ],
+      "parts": [
+        {
+          "id": "A",
+          "prompt": [
+            "Part A: Which word BEST describes how Mira feels as she decides to climb the stairs?"
+          ],
+          "type": "multiple_choice",
+          "options": [
+            {
+              "key": "A",
+              "text": "Calm and bored",
+              "rationale": "Her pounding heart shows she is not calm or bored."
+            },
+            {
+              "key": "B",
+              "text": "Frightened but determined",
+              "correct": true
+            },
+            {
+              "key": "C",
+              "text": "Angry at her grandfather",
+              "rationale": "She is not angry; she volunteers to help."
+            },
+            {
+              "key": "D",
+              "text": "Confident and unworried",
+              "rationale": "Her heart pounds, so she is worried — but she goes anyway."
+            }
+          ]
+        },
+        {
+          "id": "B",
+          "prompt": [
+            "Part B: Which sentence from the story BEST supports your answer to Part A?"
+          ],
+          "type": "multiple_choice",
+          "options": [
+            {
+              "key": "A",
+              "text": "“Mira lived with her grandfather in a tall white lighthouse.”",
+              "rationale": "This tells where she lives, not how she feels."
+            },
+            {
+              "key": "B",
+              "text": "“Her heart pounded, but she squared her shoulders.”",
+              "correct": true
+            },
+            {
+              "key": "C",
+              "text": "“Grandpa's eyes shone.”",
+              "rationale": "This describes Grandpa at the end, not Mira's feelings before the climb."
+            },
+            {
+              "key": "D",
+              "text": "“A horn sounded from the bay.”",
+              "rationale": "This happens after she lights the lamp."
+            }
+          ]
+        }
+      ],
+      "explanation": [
+        "Mira is frightened (heart pounding) but determined (squares her shoulders) — and that exact sentence is the evidence."
+      ],
+      "workedSolution": [
+        "Mira is frightened (heart pounding) but determined (squares her shoulders) — and that exact sentence is the evidence."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.6F"
+      ],
+      "difficulty": "medium",
+      "passageRef": "lighthouse",
+      "figures": [],
+      "points": 2,
+      "allowPartialCredit": false,
+      "type": "scr",
+      "prompt": [
+        "Why does the fishing boat sound its horn three times? What does this tell you about what happened? Use details from the story."
+      ],
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          {
+            "id": "reason",
+            "description": "Explains the horn means thank you / the boat is safe.",
+            "points": 1
+          },
+          {
+            "id": "inference",
+            "description": "Connects it to Mira lighting the lamp so the boat found its way.",
+            "points": 1
+          }
+        ]
+      },
+      "explanation": [
+        "The boat sounds its horn three times to say thank you. This tells me the crew saw Mira's light and found their way safely through the storm, so her climb up the tower worked."
+      ],
+      "workedSolution": [
+        "The boat sounds its horn three times to say thank you. This tells me the crew saw Mira's light and found their way safely through the storm, so her climb up the tower worked."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.8C"
+      ],
+      "difficulty": "hard",
+      "passageRef": "lighthouse",
+      "figures": [],
+      "points": 5,
+      "allowPartialCredit": false,
+      "type": "ecr",
+      "prompt": [
+        "What lesson does Mira learn in the story? Write a paragraph explaining the lesson and use at least TWO details from the passage to support your answer."
+      ],
+      "rubric": {
+        "maxPoints": 5,
+        "criteria": [
+          {
+            "id": "theme",
+            "description": "Identifies a reasonable lesson/theme (e.g., bravery, helping others).",
+            "points": 1
+          },
+          {
+            "id": "evidence",
+            "description": "Uses at least two relevant details from the passage.",
+            "points": 2
+          },
+          {
+            "id": "explanation",
+            "description": "Explains how the details support the lesson.",
+            "points": 1
+          },
+          {
+            "id": "conventions",
+            "description": "Organized and clear.",
+            "points": 1
+          }
+        ]
+      },
+      "explanation": [
+        "Mira learns that helping others is worth being brave. At first she is scared — her heart pounds when she sees the churning sea — but she squares her shoulders and climbs the tower anyway. She lights the lamp, and the fishing boat sounds its horn to say thank you. By the end she proudly climbs the stairs every night, showing she learned that courage helps her take care of others."
+      ],
+      "workedSolution": [
+        "Mira learns that helping others is worth being brave. At first she is scared — her heart pounds when she sees the churning sea — but she squares her shoulders and climbs the tower anyway. She lights the lamp, and the fishing boat sounds its horn to say thank you. By the end she proudly climbs the stairs every night, showing she learned that courage helps her take care of others."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.9D"
+      ],
+      "difficulty": "easy",
+      "passageRef": "bats",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "What is the MAIN idea of “Backyard Bats”?"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "Bats are helpful animals, not scary ones",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "Bats are dangerous and should be feared",
+          "rationale": "The passage argues the opposite — that bats are helpful."
+        },
+        {
+          "key": "C",
+          "text": "Bats only eat fruit",
+          "rationale": "Bats also eat thousands of insects."
+        },
+        {
+          "key": "D",
+          "text": "Bats sleep in caves all winter",
+          "rationale": "Caves and winter sleep are not the focus here."
+        }
+      ],
+      "explanation": [
+        "Every paragraph gives a reason bats help us, so the main idea is that bats are helpful."
+      ],
+      "workedSolution": [
+        "Every paragraph gives a reason bats help us, so the main idea is that bats are helpful."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.10A"
+      ],
+      "difficulty": "medium",
+      "passageRef": "bats",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "The author most likely wrote this passage to —"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "inform readers and change their minds about bats",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "tell a funny made-up story",
+          "rationale": "It gives facts, not a story."
+        },
+        {
+          "key": "C",
+          "text": "describe a family vacation",
+          "rationale": "There is no vacation in the passage."
+        },
+        {
+          "key": "D",
+          "text": "explain how to draw a bat",
+          "rationale": "No drawing steps are given."
+        }
+      ],
+      "explanation": [
+        "The author shares facts to show bats are helpful — informing and shifting the reader's view."
+      ],
+      "workedSolution": [
+        "The author shares facts to show bats are helpful — informing and shifting the reader's view."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.7C"
+      ],
+      "difficulty": "medium",
+      "passageRef": "bats",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "According to the passage, how do bats help fruit grow?"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "They carry pollen from flower to flower",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "They eat the fruit when it is ripe",
+          "rationale": "Eating fruit would not help it grow."
+        },
+        {
+          "key": "C",
+          "text": "They water the plants",
+          "rationale": "Bats do not water plants in the passage."
+        },
+        {
+          "key": "D",
+          "text": "They scare away hungry birds",
+          "rationale": "The passage never mentions scaring birds."
+        }
+      ],
+      "explanation": [
+        "Paragraph 3 says bats carry pollen between flowers, which helps fruits like bananas grow."
+      ],
+      "workedSolution": [
+        "Paragraph 3 says bats carry pollen between flowers, which helps fruits like bananas grow."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.6F"
+      ],
+      "difficulty": "medium",
+      "passageRef": "bats",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "From the passage, you can tell that mosquitoes are —"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "insects that bats eat",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "a kind of bat",
+          "rationale": "Mosquitoes are insects, not bats."
+        },
+        {
+          "key": "C",
+          "text": "a type of flower",
+          "rationale": "Mosquitoes are pests, not flowers."
+        },
+        {
+          "key": "D",
+          "text": "a fruit",
+          "rationale": "Mosquitoes are insects, not fruit."
+        }
+      ],
+      "explanation": [
+        "The passage lists mosquitoes among the insects bats eat, so they are insects bats eat."
+      ],
+      "workedSolution": [
+        "The passage lists mosquitoes among the insects bats eat, so they are insects bats eat."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.3B"
+      ],
+      "difficulty": "easy",
+      "passageRef": "bats",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "In paragraph 3, “nectar” is —"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "a sweet liquid inside flowers",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "a kind of insect",
+          "rationale": "The insects are what bats eat in paragraph 2."
+        },
+        {
+          "key": "C",
+          "text": "a bat's wing",
+          "rationale": "Nectar is something bats sip, not part of their body."
+        },
+        {
+          "key": "D",
+          "text": "a tall tree",
+          "rationale": "Trees appear in paragraph 5, not as the meaning of nectar."
+        }
+      ],
+      "explanation": [
+        "The passage explains nectar right in the sentence: 'the sweet liquid inside blossoms.'"
+      ],
+      "workedSolution": [
+        "The passage explains nectar right in the sentence: 'the sweet liquid inside blossoms.'"
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.6F"
+      ],
+      "difficulty": "medium",
+      "passageRef": "bats",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "Putting up a bat house most likely helps bats by —"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "giving them a safe place to live",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "feeding the neighborhood birds",
+          "rationale": "A bat house is for bats, not birds."
+        },
+        {
+          "key": "C",
+          "text": "growing more flowers",
+          "rationale": "A house is shelter, not a garden."
+        },
+        {
+          "key": "D",
+          "text": "scaring insects away by itself",
+          "rationale": "It is the bats, not the house, that handle insects."
+        }
+      ],
+      "explanation": [
+        "A bat house is shelter, so it most likely gives bats a safe place to live."
+      ],
+      "workedSolution": [
+        "A bat house is shelter, so it most likely gives bats a safe place to live."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.6G"
+      ],
+      "difficulty": "medium",
+      "passageRef": "bats",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiselect",
+      "prompt": [
+        "Select TWO ways bats help people, according to the passage."
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "They eat insects like mosquitoes",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "They carry pollen that helps fruit grow",
+          "correct": true
+        },
+        {
+          "key": "C",
+          "text": "They make spooky sounds at night",
+          "rationale": "Spooky is what people imagine; it is not a way bats help."
+        },
+        {
+          "key": "D",
+          "text": "They build houses for people",
+          "rationale": "People build bat houses, not the other way around."
+        },
+        {
+          "key": "E",
+          "text": "They guard gardens from rain",
+          "rationale": "The passage never says bats stop rain."
+        }
+      ],
+      "explanation": [
+        "Two helpful actions the passage names: eating insects and carrying pollen."
+      ],
+      "workedSolution": [
+        "Two helpful actions the passage names: eating insects and carrying pollen."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.3B"
+      ],
+      "difficulty": "hard",
+      "passageRef": "bats",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "inline_choice",
+      "prompt": [
+        "In paragraph 4, the word “echolocation” names the way bats —"
+      ],
+      "blanks": {
+        "b1": "find food using sound and echoes"
+      },
+      "options": [
+        {
+          "key": "find food using sound and echoes",
+          "text": "find food using sound and echoes",
+          "correct": true
+        },
+        {
+          "key": "fly very high in the sky",
+          "text": "fly very high in the sky"
+        },
+        {
+          "key": "sleep upside down",
+          "text": "sleep upside down"
+        }
+      ],
+      "explanation": [
+        "The paragraph defines echolocation as making squeaks and listening for echoes to find food."
+      ],
+      "workedSolution": [
+        "The paragraph defines echolocation as making squeaks and listening for echoes to find food."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.3B"
+      ],
+      "difficulty": "hard",
+      "passageRef": "bats",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "text_entry",
+      "prompt": [
+        "Write the science word from paragraph 4 that means finding food by making sounds and listening for echoes."
+      ],
+      "answer": "echolocation",
+      "explanation": [
+        "Paragraph 4 ends by naming this trick 'echolocation.'"
+      ],
+      "workedSolution": [
+        "Paragraph 4 ends by naming this trick 'echolocation.'"
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.10D"
+      ],
+      "difficulty": "hard",
+      "passageRef": "bats",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "hot_text",
+      "prompt": [
+        "Click the sentence that compares bat echoes to something using the word “like.”"
+      ],
+      "tokens": [
+        {
+          "id": "t1",
+          "text": "A single little brown bat can eat more than a thousand insects in one hour."
+        },
+        {
+          "id": "t2",
+          "text": "They make tiny squeaks and listen for the echoes that bounce back, like a shout returning in a canyon."
+        },
+        {
+          "id": "t3",
+          "text": "You can help bats by leaving old trees standing."
+        },
+        {
+          "id": "t4",
+          "text": "But bats are some of the most helpful animals in your neighborhood."
+        }
+      ],
+      "correct": [
+        "t2"
+      ],
+      "explanation": [
+        "Sentence t2 compares the echoes to 'a shout returning in a canyon' using 'like' — figurative language."
+      ],
+      "workedSolution": [
+        "Sentence t2 compares the echoes to 'a shout returning in a canyon' using 'like' — figurative language."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.6F"
+      ],
+      "difficulty": "hard",
+      "passageRef": "bats",
+      "figures": [],
+      "points": 2,
+      "allowPartialCredit": true,
+      "type": "multipart",
+      "prompt": [
+        "Answer Part A and Part B."
+      ],
+      "parts": [
+        {
+          "id": "A",
+          "prompt": [
+            "Part A: How are bats able to find food in the dark?"
+          ],
+          "type": "multiple_choice",
+          "options": [
+            {
+              "key": "A",
+              "text": "They have very large eyes",
+              "rationale": "The passage says bats use sound, not big eyes."
+            },
+            {
+              "key": "B",
+              "text": "They use sound and listen for echoes",
+              "correct": true
+            },
+            {
+              "key": "C",
+              "text": "They follow the smell of flowers",
+              "rationale": "Smell is not how the passage says they find food."
+            },
+            {
+              "key": "D",
+              "text": "They wait until morning",
+              "rationale": "Bats hunt in the dark, not in the morning."
+            }
+          ]
+        },
+        {
+          "id": "B",
+          "prompt": [
+            "Part B: Which sentence from the passage BEST supports your answer to Part A?"
+          ],
+          "type": "multiple_choice",
+          "options": [
+            {
+              "key": "A",
+              "text": "“They make tiny squeaks and listen for the echoes that bounce back.”",
+              "correct": true
+            },
+            {
+              "key": "B",
+              "text": "“A single little brown bat can eat more than a thousand insects in one hour.”",
+              "rationale": "This is about how much bats eat, not how they find food."
+            },
+            {
+              "key": "C",
+              "text": "“As they fly from flower to flower sipping nectar …”",
+              "rationale": "This is about helping plants, not finding food in the dark."
+            },
+            {
+              "key": "D",
+              "text": "“You can help bats by leaving old trees standing.”",
+              "rationale": "This is about helping bats, not how they hunt."
+            }
+          ]
+        }
+      ],
+      "explanation": [
+        "Bats use echolocation — squeaking and listening for echoes — and that exact sentence is the supporting evidence."
+      ],
+      "workedSolution": [
+        "Bats use echolocation — squeaking and listening for echoes — and that exact sentence is the supporting evidence."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.9D"
+      ],
+      "difficulty": "medium",
+      "passageRef": "bats",
+      "figures": [],
+      "points": 2,
+      "allowPartialCredit": false,
+      "type": "scr",
+      "prompt": [
+        "What is the central (main) idea of “Backyard Bats”? Support your answer with ONE detail from the passage."
+      ],
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          {
+            "id": "idea",
+            "description": "States the central idea (bats are helpful).",
+            "points": 1
+          },
+          {
+            "id": "detail",
+            "description": "Gives one accurate supporting detail.",
+            "points": 1
+          }
+        ]
+      },
+      "explanation": [
+        "The central idea is that bats are helpful animals. For example, one little brown bat can eat more than a thousand insects, including mosquitoes, in a single hour, which keeps yards more comfortable for people."
+      ],
+      "workedSolution": [
+        "The central idea is that bats are helpful animals. For example, one little brown bat can eat more than a thousand insects, including mosquitoes, in a single hour, which keeps yards more comfortable for people."
+      ]
+    }
+  ]
+}

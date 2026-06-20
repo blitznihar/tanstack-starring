@@ -1,0 +1,1379 @@
+{
+  "programKey": "grade3_staar",
+  "subject": "math",
+  "version": 1,
+  "status": "available",
+  "title": "Grade 3 Math",
+  "standards": [
+    {
+      "code": "3.2A",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Numerical Representations",
+      "description": "Place value to 100,000"
+    },
+    {
+      "code": "3.2D",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Numerical Representations",
+      "description": "Comparing numbers"
+    },
+    {
+      "code": "3.4A",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Computations & Algebraic Relationships",
+      "description": "Addition & subtraction"
+    },
+    {
+      "code": "3.4D",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Computations & Algebraic Relationships",
+      "description": "Arrays & multiplication"
+    },
+    {
+      "code": "3.4K",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Computations & Algebraic Relationships",
+      "description": "Multiplication & division word problems"
+    },
+    {
+      "code": "3.5B",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Patterns",
+      "description": "Number patterns"
+    },
+    {
+      "code": "3.3F",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Fractions",
+      "description": "Equivalent fractions"
+    },
+    {
+      "code": "3.3B",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Fractions",
+      "description": "Fractions on a number line"
+    }
+  ],
+  "items": [
+    {
+      "standardCodes": [
+        "3.2A"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "prompt": [
+        "What is the value of the 7 in 4,732?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "7",
+          "rationale": "That would be the 7 in the ones place — here it is three places over."
+        },
+        {
+          "key": "B",
+          "text": "70",
+          "rationale": "That is the tens place; the 7 is one place to the left of that."
+        },
+        {
+          "key": "C",
+          "text": "700",
+          "correct": true
+        },
+        {
+          "key": "D",
+          "text": "7,000",
+          "rationale": "That is the thousands place — the 4 is there, not the 7."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "The 7 sits in the hundreds place, so its value is 7 × 100 = 700."
+      ],
+      "workedSolution": [
+        "The 7 sits in the hundreds place, so its value is 7 × 100 = 700."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.2A"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "prompt": [
+        "Which number is fifty-three thousand, six hundred eight?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "53,608",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "53,680",
+          "rationale": "This reads \"six hundred eighty\" — but there are 0 tens, so the tens digit is 0."
+        },
+        {
+          "key": "C",
+          "text": "5,368",
+          "rationale": "This is only \"five thousand\" — we need fifty-three thousand."
+        },
+        {
+          "key": "D",
+          "text": "530,608",
+          "rationale": "That is five hundred thirty thousand, far too big."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "53 thousands, 6 hundreds, 0 tens, 8 ones → 53,608."
+      ],
+      "workedSolution": [
+        "53 thousands, 6 hundreds, 0 tens, 8 ones → 53,608."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.2A"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "prompt": [
+        "In 8,205, which digit is in the tens place?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "8",
+          "rationale": "That is the thousands place."
+        },
+        {
+          "key": "B",
+          "text": "2",
+          "rationale": "That is the hundreds place."
+        },
+        {
+          "key": "C",
+          "text": "0",
+          "correct": true
+        },
+        {
+          "key": "D",
+          "text": "5",
+          "rationale": "That is the ones place."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Counting from the right: 5 ones, 0 tens, 2 hundreds, 8 thousands. The tens digit is 0."
+      ],
+      "workedSolution": [
+        "Counting from the right: 5 ones, 0 tens, 2 hundreds, 8 thousands. The tens digit is 0."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.2A"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "prompt": [
+        "6,000 + 300 + 40 + 9 = ?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "6,349",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "6,439",
+          "rationale": "The tens and hundreds got swapped — 300 is hundreds, 40 is tens."
+        },
+        {
+          "key": "C",
+          "text": "634.9",
+          "rationale": "These are whole-number place values, not decimals."
+        },
+        {
+          "key": "D",
+          "text": "6,034",
+          "rationale": "This drops the hundreds; 300 means a 3 in the hundreds place."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Add each place value together: 6,000 + 300 + 40 + 9 = 6,349."
+      ],
+      "workedSolution": [
+        "Add each place value together: 6,000 + 300 + 40 + 9 = 6,349."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.2D"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "prompt": [
+        "Which symbol makes this true?  4,512 __ 4,521"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": ">",
+          "rationale": "That says 4,512 is bigger, but it is smaller in the tens place."
+        },
+        {
+          "key": "B",
+          "text": "<",
+          "correct": true
+        },
+        {
+          "key": "C",
+          "text": "=",
+          "rationale": "They are not equal — the tens digits differ."
+        },
+        {
+          "key": "D",
+          "text": "+",
+          "rationale": "A comparison needs <, >, or =, not a plus sign."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "The thousands and hundreds match. Compare tens: 1 ten < 2 tens, so 4,512 < 4,521."
+      ],
+      "workedSolution": [
+        "The thousands and hundreds match. Compare tens: 1 ten < 2 tens, so 4,512 < 4,521."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.2D"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "prompt": [
+        "Which number is the greatest?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "8,999",
+          "rationale": "Close, but 8 thousands is less than 9 thousands."
+        },
+        {
+          "key": "B",
+          "text": "9,087",
+          "correct": true
+        },
+        {
+          "key": "C",
+          "text": "9,078",
+          "rationale": "Same thousands and hundreds; compare ones: 9,087 > 9,078."
+        },
+        {
+          "key": "D",
+          "text": "8,909",
+          "rationale": "8 thousands is less than 9 thousands."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Compare the thousands place first: 9,087 has 9 thousands, more than all the others."
+      ],
+      "workedSolution": [
+        "Compare the thousands place first: 9,087 has 9 thousands, more than all the others."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.2D"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "prompt": [
+        "Order from LEAST to greatest: 3,400 · 3,040 · 3,404"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "3,040 · 3,400 · 3,404",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "3,400 · 3,404 · 3,040",
+          "rationale": "3,040 is the smallest, so it must come first."
+        },
+        {
+          "key": "C",
+          "text": "3,404 · 3,400 · 3,040",
+          "rationale": "That is greatest to least, the reverse order."
+        },
+        {
+          "key": "D",
+          "text": "3,400 · 3,040 · 3,404",
+          "rationale": "3,040 is smaller than 3,400, so the first two are out of order."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Compare place by place: 3,040 < 3,400 < 3,404."
+      ],
+      "workedSolution": [
+        "Compare place by place: 3,040 < 3,400 < 3,404."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4A"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "347 + 285 = ?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "522",
+          "rationale": "It looks like the carrying was skipped when adding the tens."
+        },
+        {
+          "key": "B",
+          "text": "632",
+          "correct": true
+        },
+        {
+          "key": "C",
+          "text": "512",
+          "rationale": "Remember to carry the 1 from 7+5=12."
+        },
+        {
+          "key": "D",
+          "text": "612",
+          "rationale": "Close — recheck the tens column: 4+8+1 carried = 13."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "7+5=12 (write 2 carry 1), 4+8+1=13 (write 3 carry 1), 3+2+1=6 → 632."
+      ],
+      "workedSolution": [
+        "7+5=12 (write 2 carry 1), 4+8+1=13 (write 3 carry 1), 3+2+1=6 → 632."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4A"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "500 − 236 = ?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "264",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "336",
+          "rationale": "This subtracted the wrong way in a column; borrowing from the zeros is needed."
+        },
+        {
+          "key": "C",
+          "text": "274",
+          "rationale": "Recheck the ones and tens after borrowing."
+        },
+        {
+          "key": "D",
+          "text": "364",
+          "rationale": "The hundreds digit drops to 2 after borrowing, not 3."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Borrow across the zeros: 500 − 236 = 264."
+      ],
+      "workedSolution": [
+        "Borrow across the zeros: 500 − 236 = 264."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4A"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Lia had 412 stickers and gave away 158. How many are left?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "254",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "346",
+          "rationale": "That adds instead of subtracts — she gave some away, so we take away."
+        },
+        {
+          "key": "C",
+          "text": "264",
+          "rationale": "Recheck the borrow in the tens place."
+        },
+        {
+          "key": "D",
+          "text": "570",
+          "rationale": "This adds the two numbers; \"gave away\" means subtract."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Subtract: 412 − 158 = 254 stickers left."
+      ],
+      "workedSolution": [
+        "Subtract: 412 − 158 = 254 stickers left."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4A"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Round 462 to the nearest hundred."
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "400",
+          "rationale": "We round down only when the tens digit is 4 or less; here it is 6."
+        },
+        {
+          "key": "B",
+          "text": "460",
+          "rationale": "That rounds to the nearest ten, not the nearest hundred."
+        },
+        {
+          "key": "C",
+          "text": "500",
+          "correct": true
+        },
+        {
+          "key": "D",
+          "text": "470",
+          "rationale": "That is not a hundred; nearest hundred means 400 or 500."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "The tens digit is 6, which is 5 or more, so round up to 500."
+      ],
+      "workedSolution": [
+        "The tens digit is 6, which is 5 or more, so round up to 500."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4D"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "An array has 5 rows of 3. How many in all?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "8",
+          "rationale": "That adds 5+3; an array means multiply rows by columns."
+        },
+        {
+          "key": "B",
+          "text": "15",
+          "correct": true
+        },
+        {
+          "key": "C",
+          "text": "53",
+          "rationale": "Those are just the two numbers stuck together, not a product."
+        },
+        {
+          "key": "D",
+          "text": "10",
+          "rationale": "That is 5×2; each row has 3, not 2."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "5 rows × 3 in each row = 15."
+      ],
+      "workedSolution": [
+        "5 rows × 3 in each row = 15."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4D"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Which equation matches 4 groups of 6?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "4 + 6 = 10",
+          "rationale": "Groups means multiply, not add."
+        },
+        {
+          "key": "B",
+          "text": "4 × 6 = 24",
+          "correct": true
+        },
+        {
+          "key": "C",
+          "text": "6 − 4 = 2",
+          "rationale": "Subtraction does not show equal groups."
+        },
+        {
+          "key": "D",
+          "text": "6 ÷ 4",
+          "rationale": "Division splits into groups; here we are combining equal groups."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "4 groups of 6 means 4 × 6 = 24."
+      ],
+      "workedSolution": [
+        "4 groups of 6 means 4 × 6 = 24."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4D"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "7 × 8 = ?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "54",
+          "rationale": "Close — recount; 7×8 is 56, not 54."
+        },
+        {
+          "key": "B",
+          "text": "15",
+          "rationale": "That is 7+8; the × sign means multiply."
+        },
+        {
+          "key": "C",
+          "text": "56",
+          "correct": true
+        },
+        {
+          "key": "D",
+          "text": "64",
+          "rationale": "That is 8×8; one factor here is 7."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "7 × 8 = 56 (think 7×8 = 7×4 doubled = 28 doubled = 56)."
+      ],
+      "workedSolution": [
+        "7 × 8 = 56 (think 7×8 = 7×4 doubled = 28 doubled = 56)."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4D"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Which array shows 2 × 6?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "2 rows of 6",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "3 rows of 6",
+          "rationale": "That is 3 × 6 = 18, not 2 × 6."
+        },
+        {
+          "key": "C",
+          "text": "2 rows of 5",
+          "rationale": "That is 2 × 5 = 10; each row needs 6."
+        },
+        {
+          "key": "D",
+          "text": "6 rows of 6",
+          "rationale": "That is 6 × 6 = 36."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "2 × 6 is 2 rows with 6 in each row (or 6 rows of 2)."
+      ],
+      "workedSolution": [
+        "2 × 6 is 2 rows with 6 in each row (or 6 rows of 2)."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4K"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "A bag has 12 marbles shared equally into 3 cups. How many in each cup?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "3",
+          "rationale": "That is the number of cups, not how many go in each."
+        },
+        {
+          "key": "B",
+          "text": "4",
+          "correct": true
+        },
+        {
+          "key": "C",
+          "text": "6",
+          "rationale": "That would split into 2 cups, but there are 3."
+        },
+        {
+          "key": "D",
+          "text": "9",
+          "rationale": "That subtracts 12−3; \"shared equally\" means divide."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Share equally = divide: 12 ÷ 3 = 4 in each cup."
+      ],
+      "workedSolution": [
+        "Share equally = divide: 12 ÷ 3 = 4 in each cup."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4K"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "6 packs of pencils, 5 in each pack. How many pencils?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "11",
+          "rationale": "That adds 6+5; equal groups means multiply."
+        },
+        {
+          "key": "B",
+          "text": "30",
+          "correct": true
+        },
+        {
+          "key": "C",
+          "text": "1",
+          "rationale": "That divides 6÷6; we want the total pencils."
+        },
+        {
+          "key": "D",
+          "text": "25",
+          "rationale": "That is 5×5; there are 6 packs, not 5."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Equal groups = multiply: 6 × 5 = 30 pencils."
+      ],
+      "workedSolution": [
+        "Equal groups = multiply: 6 × 5 = 30 pencils."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4K"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "24 students sit in rows of 4. How many rows?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "6",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "20",
+          "rationale": "That subtracts 24−4; we need to split into groups."
+        },
+        {
+          "key": "C",
+          "text": "28",
+          "rationale": "That adds; the students are being split up, not combined."
+        },
+        {
+          "key": "D",
+          "text": "8",
+          "rationale": "That is 24÷3; each row holds 4, not 3."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Split into equal rows = divide: 24 ÷ 4 = 6 rows."
+      ],
+      "workedSolution": [
+        "Split into equal rows = divide: 24 ÷ 4 = 6 rows."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4K"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Ben reads 3 pages a day. How many pages in 7 days?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "10",
+          "rationale": "That adds 3+7; \"each day\" repeats, so multiply."
+        },
+        {
+          "key": "B",
+          "text": "21",
+          "correct": true
+        },
+        {
+          "key": "C",
+          "text": "4",
+          "rationale": "That is 7−3; nothing is being taken away."
+        },
+        {
+          "key": "D",
+          "text": "37",
+          "rationale": "Those are the digits stuck together, not a product."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Same amount each day = multiply: 3 × 7 = 21 pages."
+      ],
+      "workedSolution": [
+        "Same amount each day = multiply: 3 × 7 = 21 pages."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.5B"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "What comes next?  4, 8, 12, 16, __"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "18",
+          "rationale": "That adds only 2; the step here is +4."
+        },
+        {
+          "key": "B",
+          "text": "20",
+          "correct": true
+        },
+        {
+          "key": "C",
+          "text": "24",
+          "rationale": "That skips ahead by 8; each step is +4."
+        },
+        {
+          "key": "D",
+          "text": "17",
+          "rationale": "That adds 1; look at the gap between terms."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "The pattern adds 4 each time: 16 + 4 = 20."
+      ],
+      "workedSolution": [
+        "The pattern adds 4 each time: 16 + 4 = 20."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.5B"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Skip count by 5: 25, 30, 35, __"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "36",
+          "rationale": "That adds 1; we are skip-counting by 5."
+        },
+        {
+          "key": "B",
+          "text": "45",
+          "rationale": "That skips a step (added 10)."
+        },
+        {
+          "key": "C",
+          "text": "40",
+          "correct": true
+        },
+        {
+          "key": "D",
+          "text": "50",
+          "rationale": "That jumps too far; the next term after 35 is 40."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Add 5 each time: 35 + 5 = 40."
+      ],
+      "workedSolution": [
+        "Add 5 each time: 35 + 5 = 40."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.5B"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "The rule is \"add 3.\" If the input is 9, what is the output?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "12",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "6",
+          "rationale": "That subtracts 3; the rule says add."
+        },
+        {
+          "key": "C",
+          "text": "27",
+          "rationale": "That multiplies by 3; the rule is add 3."
+        },
+        {
+          "key": "D",
+          "text": "3",
+          "rationale": "That is just the rule number, not 9 + 3."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Apply the rule: 9 + 3 = 12."
+      ],
+      "workedSolution": [
+        "Apply the rule: 9 + 3 = 12."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.3F"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "prompt": [
+        "Which fraction is the same as one half?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "2/4",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "1/3",
+          "rationale": "1/3 is less than half — 3 parts means each is smaller."
+        },
+        {
+          "key": "C",
+          "text": "3/4",
+          "rationale": "3/4 is more than half."
+        },
+        {
+          "key": "D",
+          "text": "1/5",
+          "rationale": "1/5 is much less than half."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "2/4 means 2 out of 4 equal parts, which fills the same space as 1/2."
+      ],
+      "workedSolution": [
+        "2/4 means 2 out of 4 equal parts, which fills the same space as 1/2."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.3F"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "prompt": [
+        "Which fraction equals 1 whole?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "3/4",
+          "rationale": "One part is still missing."
+        },
+        {
+          "key": "B",
+          "text": "4/4",
+          "correct": true
+        },
+        {
+          "key": "C",
+          "text": "1/4",
+          "rationale": "Only one part out of four is filled."
+        },
+        {
+          "key": "D",
+          "text": "4/8",
+          "rationale": "4/8 is one half, not a whole."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "When the top and bottom numbers match (4/4), all the parts are filled = 1 whole."
+      ],
+      "workedSolution": [
+        "When the top and bottom numbers match (4/4), all the parts are filled = 1 whole."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.3F"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "prompt": [
+        "Which is the same as 2/6?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "1/3",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "1/2",
+          "rationale": "1/2 would be 3/6, not 2/6."
+        },
+        {
+          "key": "C",
+          "text": "2/3",
+          "rationale": "That is 4/6; we only have 2 parts shaded."
+        },
+        {
+          "key": "D",
+          "text": "1/6",
+          "rationale": "That is half of 2/6."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Divide top and bottom by 2: 2/6 = 1/3."
+      ],
+      "workedSolution": [
+        "Divide top and bottom by 2: 2/6 = 1/3."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.3F"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "prompt": [
+        "Two pizzas are cut differently. Which shows the same amount as 1/2?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "3/6",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "2/3",
+          "rationale": "2/3 is more than half."
+        },
+        {
+          "key": "C",
+          "text": "1/4",
+          "rationale": "1/4 is less than half."
+        },
+        {
+          "key": "D",
+          "text": "3/8",
+          "rationale": "3/8 is a little less than half (half would be 4/8)."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Any fraction worth half — like 3/6 — covers the same amount as 1/2."
+      ],
+      "workedSolution": [
+        "Any fraction worth half — like 3/6 — covers the same amount as 1/2."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.3F"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "prompt": [
+        "Which fraction is greater: 3/4 or 1/4?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "3/4",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "1/4",
+          "rationale": "Fewer parts shaded means it is the smaller fraction."
+        },
+        {
+          "key": "C",
+          "text": "They are equal",
+          "rationale": "The tops differ, so they are not equal."
+        },
+        {
+          "key": "D",
+          "text": "Cannot tell",
+          "rationale": "Same denominator lets us compare easily."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Same bottom number, so compare tops: 3 parts is more than 1 part — 3/4 is greater."
+      ],
+      "workedSolution": [
+        "Same bottom number, so compare tops: 3 parts is more than 1 part — 3/4 is greater."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.3F"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "prompt": [
+        "A shape has 8 equal parts and 4 are shaded. What fraction is that?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "4/8",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "8/4",
+          "rationale": "The shaded parts go on top, the total on the bottom."
+        },
+        {
+          "key": "C",
+          "text": "4/4",
+          "rationale": "That would mean all 8 are shaded."
+        },
+        {
+          "key": "D",
+          "text": "1/4",
+          "rationale": "1/4 of 8 is only 2 parts."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "4 shaded out of 8 parts = 4/8, which is the same as 1/2."
+      ],
+      "workedSolution": [
+        "4 shaded out of 8 parts = 4/8, which is the same as 1/2."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.3B"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "prompt": [
+        "On a line from 0 to 1 split into 4 parts, where is 3/4?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "1st mark",
+          "rationale": "That is 1/4."
+        },
+        {
+          "key": "B",
+          "text": "2nd mark",
+          "rationale": "That is 2/4."
+        },
+        {
+          "key": "C",
+          "text": "3rd mark",
+          "correct": true
+        },
+        {
+          "key": "D",
+          "text": "at the 1",
+          "rationale": "The 1 is 4/4, a whole."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Count 3 jumps of 1/4 from 0 — that lands on the 3rd mark."
+      ],
+      "workedSolution": [
+        "Count 3 jumps of 1/4 from 0 — that lands on the 3rd mark."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.3B"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "prompt": [
+        "A number line 0 to 1 is split into 3 equal parts. What is the first mark?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "1/3",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "1/4",
+          "rationale": "That would be 4 equal parts, not 3."
+        },
+        {
+          "key": "C",
+          "text": "1/2",
+          "rationale": "Half would be between the 1st and 2nd marks of thirds."
+        },
+        {
+          "key": "D",
+          "text": "3/3",
+          "rationale": "3/3 is the whole, at the far right."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "3 equal parts means each jump is 1/3, so the first mark is 1/3."
+      ],
+      "workedSolution": [
+        "3 equal parts means each jump is 1/3, so the first mark is 1/3."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.3B"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "prompt": [
+        "Which point is closest to 1 whole?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "1/6",
+          "rationale": "That is near 0."
+        },
+        {
+          "key": "B",
+          "text": "3/6",
+          "rationale": "That is exactly halfway."
+        },
+        {
+          "key": "C",
+          "text": "5/6",
+          "correct": true
+        },
+        {
+          "key": "D",
+          "text": "2/6",
+          "rationale": "That is closer to 0 than to 1."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "The closer the top is to the bottom, the closer to 1. 5/6 is nearly whole."
+      ],
+      "workedSolution": [
+        "The closer the top is to the bottom, the closer to 1. 5/6 is nearly whole."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.3B"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "prompt": [
+        "On a line split into halves, where does 1/2 sit?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "At the middle",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "At 0",
+          "rationale": "0 is the start, before any jumps."
+        },
+        {
+          "key": "C",
+          "text": "At 1",
+          "rationale": "1 is the whole, two halves over."
+        },
+        {
+          "key": "D",
+          "text": "Past 1",
+          "rationale": "1/2 is less than a whole, so it stays before 1."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "1/2 is exactly one jump of one half — the middle mark between 0 and 1."
+      ],
+      "workedSolution": [
+        "1/2 is exactly one jump of one half — the middle mark between 0 and 1."
+      ]
+    }
+  ]
+}

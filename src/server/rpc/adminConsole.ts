@@ -1,0 +1,365 @@
+import { randomUUID } from "node:crypto";
+import { createServerFn } from "@tanstack/react-start";
+import { z } from "zod";
+import { enrollmentsRepo } from "~/repositories/enrollments.js";
+import { programsRepo } from "~/repositories/programs.js";
+import { usersRepo } from "~/repositories/users.js";
+import { toIso } from "~/lib/dates.js";
+import { programSchema, type Program } from "~/schemas/program.js";
+import { roleSchema } from "~/schemas/common.js";
+import { requireCapability } from "~/server/auth/rbac.js";
+import { listContentByProgram } from "~/server/content/browser.js";
+import { importBundle, type ImportResult } from "~/server/content/import.js";
+import { createUser, resetPassword } from "~/server/auth/users.js";
+import type { AuthContext } from "~/server/auth/session.js";
+import { requireAuth } from "./context.js";
+
+type ProgramStatus = Program["status"];
+
+function slugify(value: string): string {
+  return value
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "_")
+    .replace(/^_+|_+$/g, "")
+    .slice(0, 48) || `program_${Date.now()}`;
+}
+
+function defaultSplit(subjects: string[]): Record<string, number> {
+  const base = Math.floor(100 / subjects.length);
+  const out: Record<string, number> = {};
+  subjects.forEach((subject, index) => {
+    out[subject] = index === subjects.length - 1 ? 100 - base * (subjects.length - 1) : base;
+  });
+  return out;
+}
+
+function uniqueSubjects(values: unknown[], fallback = ["math"]): string[] {
+  const subjects = [
+    ...new Set(
+      values
+        .flatMap((value) => String(value).split(","))
+        .map((value) => value.trim().toLowerCase())
+        .filter(Boolean),
+    ),
+  ];
+  return subjects.length ? subjects : fallback;
+}
+
+function asObject(value: unknown): Record<string, unknown> {
+  return value && typeof value === "object" && !Array.isArray(value) ? (value as Record<string, unknown>) : {};
+}
+
+function asArray(value: unknown): unknown[] {
+  if (Array.isArray(value)) return value;
+  return value == null ? [] : [value];
+}
+
+function normalizeExamBlueprint(source: Record<string, unknown>, subjects: string[]): Program["examBlueprint"] {
+  const raw = asObject(source.examBlueprint);
+  const durationPresets = uniqueNumbers(raw.durationPresets, [30, 40, 50, 60, 70, 80, 90, 105]);
+  const defaultDurationMinutes = numberOr(raw.defaultDurationMinutes, 60);
+  const defaultSplitPct = asObject(raw.defaultSplitPct);
+  return {
+    durationPresets,
+    defaultDurationMinutes,
+    defaultSplitPct: subjects.reduce<Record<string, number>>((acc, subject) => {
+      const value = defaultSplitPct[subject];
+      acc[subject] = typeof value === "number" ? value : defaultSplit(subjects)[subject] ?? 0;
+      return acc;
+    }, {}),
+    breakSeconds: numberOr(raw.breakSeconds, 300),
+  };
+}
+
+function uniqueNumbers(value: unknown, fallback: number[]): number[] {
+  const parsed = asArray(value)
+    .map((entry) => Number(entry))
+    .filter((entry) => Number.isFinite(entry) && entry > 0)
+    .map((entry) => Math.round(entry));
+  return [...new Set(parsed.length ? parsed : fallback)].sort((a, b) => a - b);
+}
+
+function numberOr(value: unknown, fallback: number): number {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) && parsed > 0 ? Math.round(parsed) : fallback;
+}
+
+function normalizeProgramUpload(raw: unknown): { program: Program; bundles: unknown[] } {
+  const payload = asObject(raw);
+  const metadata = asObject(payload.metadata);
+  const programSource = asObject(payload.program);
+  const source = Object.keys(programSource).length ? programSource : payload;
+  const bundleCandidates = [
+    ...asArray(payload.bundles),
+    ...asArray(payload.contentBundles),
+    ...asArray(payload.contents),
+    ...asArray(payload.content),
+    ...asArray(payload.bundle),
+  ].filter((entry) => entry && typeof entry === "object");
+  const directBundle = payload.items ? [payload] : [];
+  const rawSubjects = asArray(source.subjects ?? metadata.subjects);
+  const subjects = uniqueSubjects(rawSubjects.length ? rawSubjects : bundleCandidates.map((bundle) => asObject(bundle).subject));
+  const title = String(source.title ?? source.name ?? source.programName ?? metadata.title ?? metadata.name ?? "Uploaded Program").trim();
+  const key = slugify(String(source.key ?? metadata.key ?? title));
+  const program = programSchema.parse({
+    key,
+    title,
+    category: String(source.category ?? metadata.category ?? "K-12").trim() || "K-12",
+    subjects,
+    targetDays: numberOr(source.targetDays ?? metadata.targetDays, 45),
+    examBlueprint: normalizeExamBlueprint(source, subjects),
+    scoringModel: source.scoringModel,
+    conceptConfig: source.conceptConfig,
+    robuxRules: source.robuxRules,
+    status: source.status ?? "setup",
+  });
+  const bundles = (bundleCandidates.length ? bundleCandidates : directBundle).map((bundle, index) => ({
+    ...asObject(bundle),
+    programKey: asObject(bundle).programKey ?? program.key,
+    subject: asObject(bundle).subject ?? subjects[0] ?? "math",
+    version: asObject(bundle).version ?? index + 1,
+    status: asObject(bundle).status ?? "available",
+    title: asObject(bundle).title ?? `${program.title} Content ${index + 1}`,
+  }));
+  return { program, bundles };
+}
+
+async function buildConsoleSnapshot(auth: AuthContext) {
+  requireCapability(auth.roles, "reports.viewAll");
+
+  const [users, programs, content] = await Promise.all([
+    usersRepo.list(),
+    programsRepo.list(),
+    listContentByProgram(auth),
+  ]);
+
+  const studentIds = users.filter((u) => u.roles.includes("student") && u._id).map((u) => String(u._id));
+  const enrollments = (await Promise.all(studentIds.map((studentId) => enrollmentsRepo.listForStudent(studentId)))).flat();
+  const enrollmentsByStudent = new Map<string, typeof enrollments>();
+  const activeByProgram = new Map<string, number>();
+
+  for (const enrollment of enrollments) {
+    const studentId = String(enrollment.studentId);
+    const existing = enrollmentsByStudent.get(studentId) ?? [];
+    existing.push(enrollment);
+    enrollmentsByStudent.set(studentId, existing);
+    if (enrollment.status === "active") {
+      activeByProgram.set(enrollment.programKey, (activeByProgram.get(enrollment.programKey) ?? 0) + 1);
+    }
+  }
+
+  const contentByProgram = new Map(content.map((c) => [c.programKey, c]));
+
+  return {
+    users: users.map((u) => {
+      const id = u._id ? String(u._id) : u.username;
+      return {
+        id,
+        username: u.username,
+        displayName: u.displayName,
+        roles: u.roles,
+        active: u.active,
+        forceChangeOnFirstLogin: u.forceChangeOnFirstLogin,
+        createdAt: toIso(u.createdAt),
+        enrollments: (enrollmentsByStudent.get(id) ?? []).map((e) => ({
+          id: e._id ? String(e._id) : `${id}:${e.programKey}`,
+          programKey: e.programKey,
+          status: e.status,
+          startDate: e.startDate,
+          targetDays: e.targetDays,
+        })),
+      };
+    }),
+    programs: programs.map((p) => {
+      const programContent = contentByProgram.get(p.key);
+      const bundles = programContent?.bundles ?? [];
+      return {
+        key: p.key,
+        title: p.title,
+        category: p.category,
+        status: p.status,
+        subjects: p.subjects,
+        targetDays: p.targetDays,
+        enrolledCount: activeByProgram.get(p.key) ?? 0,
+        bundleCount: bundles.length,
+        itemCount: bundles.reduce((sum, b) => sum + b.itemCount, 0),
+        bundles: bundles.map((b) => ({ ...b, bundleId: String(b.bundleId) })),
+        examBlueprint: p.examBlueprint,
+      };
+    }),
+    enrollmentCount: enrollments.filter((e) => e.status === "active").length,
+  };
+}
+
+async function snapshotForCurrentUser() {
+  const auth = await requireAuth();
+  return buildConsoleSnapshot(auth);
+}
+
+export const consoleSnapshot = createServerFn({ method: "GET" }).handler(snapshotForCurrentUser);
+
+const userRolesInput = z.array(roleSchema).min(1);
+const createConsoleUserInput = z.object({
+  username: z.string().min(3).max(64),
+  displayName: z.string().min(1),
+  roles: userRolesInput,
+  forceChangeOnFirstLogin: z.boolean().default(true),
+});
+
+export const createConsoleUser = createServerFn({ method: "POST" })
+  .validator((d: unknown) => createConsoleUserInput.parse(d))
+  .handler(async ({ data }) => {
+    const auth = await requireAuth();
+    const created = await createUser(auth, data);
+    return { snapshot: await buildConsoleSnapshot(auth), generatedPassword: created.generatedPassword };
+  });
+
+const updateConsoleUserInput = z.object({
+  id: z.string().min(1),
+  username: z.string().min(3).max(64),
+  displayName: z.string().min(1),
+  roles: userRolesInput,
+  active: z.boolean(),
+  forceChangeOnFirstLogin: z.boolean().optional(),
+});
+
+export const updateConsoleUser = createServerFn({ method: "POST" })
+  .validator((d: unknown) => updateConsoleUserInput.parse(d))
+  .handler(async ({ data }) => {
+    const auth = await requireAuth();
+    requireCapability(auth.roles, "users.manage");
+    const existing = await usersRepo.findById(data.id);
+    if (!existing) throw new Error("User not found");
+    const matchingUsername = await usersRepo.findByUsername(data.username);
+    if (matchingUsername?._id && String(matchingUsername._id) !== data.id) {
+      throw new Error(`Username already exists: ${data.username}`);
+    }
+    await usersRepo.update(data.id, {
+      username: data.username.trim(),
+      displayName: data.displayName.trim(),
+      roles: data.roles,
+      active: auth.userId === data.id ? true : data.active,
+      ...(data.forceChangeOnFirstLogin == null ? {} : { forceChangeOnFirstLogin: data.forceChangeOnFirstLogin }),
+    });
+    return buildConsoleSnapshot(auth);
+  });
+
+export const deleteConsoleUser = createServerFn({ method: "POST" })
+  .validator((d: unknown) => z.object({ id: z.string().min(1) }).parse(d))
+  .handler(async ({ data }) => {
+    const auth = await requireAuth();
+    requireCapability(auth.roles, "users.manage");
+    if (auth.userId === data.id) throw new Error("You cannot remove the signed-in user.");
+    await usersRepo.delete(data.id);
+    return buildConsoleSnapshot(auth);
+  });
+
+export const resetConsoleUserPassword = createServerFn({ method: "POST" })
+  .validator((d: unknown) => z.object({ id: z.string().min(1) }).parse(d))
+  .handler(async ({ data }) => {
+    const auth = await requireAuth();
+    const generatedPassword = await resetPassword(auth, data.id, true);
+    return { snapshot: await buildConsoleSnapshot(auth), generatedPassword };
+  });
+
+const addProgramInput = z.object({
+  title: z.string().min(2).max(80),
+  key: z.string().optional(),
+  category: z.string().min(1).default("K-12"),
+  subjects: z.array(z.string().min(1)).min(1),
+  targetDays: z.number().int().positive().default(45),
+});
+
+export const addProgram = createServerFn({ method: "POST" })
+  .validator((d: unknown) => addProgramInput.parse(d))
+  .handler(async ({ data }) => {
+    const auth = await requireAuth();
+    requireCapability(auth.roles, "content.import");
+    const subjects = [...new Set(data.subjects.map((s) => s.trim().toLowerCase()).filter(Boolean))];
+    const key = slugify(data.key?.trim() || data.title);
+    const program = programSchema.parse({
+      key,
+      title: data.title.trim(),
+      category: data.category.trim(),
+      subjects,
+      targetDays: data.targetDays,
+      examBlueprint: {
+        durationPresets: [30, 40, 50, 60, 70, 80, 90, 105, 120, 150, 180],
+        defaultDurationMinutes: 60,
+        defaultSplitPct: defaultSplit(subjects),
+        breakSeconds: 300,
+      },
+      status: "setup",
+    });
+    await programsRepo.upsert(program);
+    return buildConsoleSnapshot(auth);
+  });
+
+export const uploadProgramJson = createServerFn({ method: "POST" })
+  .validator((d: unknown) => z.object({ json: z.string().min(2) }).parse(d))
+  .handler(async ({ data }) => {
+    const auth = await requireAuth();
+    requireCapability(auth.roles, "content.import");
+    const parsed = JSON.parse(data.json) as unknown;
+    const { program, bundles } = normalizeProgramUpload(parsed);
+    await programsRepo.upsert(program);
+    const imported: ImportResult[] = [];
+    for (const bundle of bundles) imported.push(await importBundle(auth, bundle));
+    return {
+      snapshot: await buildConsoleSnapshot(auth),
+      imported: {
+        programKey: program.key,
+        programTitle: program.title,
+        bundleCount: imported.length,
+        itemCount: imported.reduce((sum, result) => sum + result.itemCount, 0),
+      },
+    };
+  });
+
+const setProgramStatusInput = z.object({
+  programKey: z.string().min(1),
+  status: z.enum(["live", "setup", "soon", "archived"]),
+});
+
+export const setProgramStatus = createServerFn({ method: "POST" })
+  .validator((d: unknown) => setProgramStatusInput.parse(d))
+  .handler(async ({ data }) => {
+    const auth = await requireAuth();
+    requireCapability(auth.roles, "content.import");
+    await programsRepo.setStatus(data.programKey, data.status as ProgramStatus);
+    return buildConsoleSnapshot(auth);
+  });
+
+const setStudentProgramInput = z.object({
+  studentId: z.string().min(1),
+  programKey: z.string().min(1),
+  active: z.boolean(),
+});
+
+export const setStudentProgram = createServerFn({ method: "POST" })
+  .validator((d: unknown) => setStudentProgramInput.parse(d))
+  .handler(async ({ data }) => {
+    const auth = await requireAuth();
+    requireCapability(auth.roles, "reports.viewAll");
+    const program = await programsRepo.findByKey(data.programKey);
+    if (!program) throw new Error(`Unknown program: ${data.programKey}`);
+    const existing = await enrollmentsRepo.find(data.studentId, data.programKey);
+    if (data.active) {
+      if (existing?._id) {
+        await enrollmentsRepo.setStatusForStudentProgram(data.studentId, data.programKey, "active");
+      } else {
+        await enrollmentsRepo.upsert({
+          _id: randomUUID(),
+          studentId: data.studentId,
+          programKey: data.programKey,
+          startDate: new Date().toISOString().slice(0, 10),
+          targetDays: program.targetDays,
+          status: "active",
+        });
+      }
+    } else if (existing?._id) {
+      await enrollmentsRepo.setStatusForStudentProgram(data.studentId, data.programKey, "archived");
+    }
+    return buildConsoleSnapshot(auth);
+  });

@@ -1,0 +1,75 @@
+/**
+ * Central environment access. Nothing else in the app reads `process.env` directly,
+ * so swapping local Docker → Atlas (or DMR config) is a config change, not a code change.
+ */
+
+function str(key: string, fallback?: string): string {
+  const v = process.env[key];
+  if (v === undefined || v === "") {
+    if (fallback !== undefined) return fallback;
+    throw new Error(`Missing required environment variable: ${key}`);
+  }
+  return v;
+}
+
+function num(key: string, fallback: number): number {
+  const v = process.env[key];
+  if (v === undefined || v === "") return fallback;
+  const n = Number(v);
+  if (Number.isNaN(n)) throw new Error(`Environment variable ${key} must be a number, got "${v}"`);
+  return n;
+}
+
+function bool(key: string, fallback: boolean): boolean {
+  const v = process.env[key];
+  if (v === undefined || v === "") return fallback;
+  return v === "true" || v === "1";
+}
+
+export const env = {
+  get mongodbUri() {
+    return str("MONGODB_URI", "mongodb://localhost:27017/comet");
+  },
+  get sessionSecret() {
+    return str("SESSION_SECRET", "change-me");
+  },
+  get ai() {
+    return {
+      enabled: bool("AI_ENABLED", true),
+      baseUrl: str("AI_BASE_URL", "http://localhost:12434/engines/v1"),
+      model: str("AI_MODEL", "ai/gemma3"),
+      timeoutMs: num("AI_TIMEOUT_MS", 60000),
+    };
+  },
+  get robux() {
+    return {
+      weeklyBudget: num("WEEKLY_ROBUX_BUDGET", 1000),
+      examShare: num("EXAM_ROBUX_SHARE", 0.5),
+      examWrongPenalty: num("EXAM_WRONG_PENALTY", 10),
+      examAwardFloor: num("EXAM_AWARD_FLOOR", 0),
+    };
+  },
+  get apiBaseUrl() {
+    return str("API_BASE_URL", "http://localhost:3000");
+  },
+  get stripe() {
+    const secretKey = str("STRIPE_SECRET_KEY", "sk_test_placeholder");
+    const publishableKey = str("STRIPE_PUBLISHABLE_KEY", "pk_test_placeholder");
+    // "enabled" = a real Stripe key is configured. Otherwise the app runs in demo
+    // mode (no real charge), exactly like the prototype. A placeholder/"..." key
+    // (the .env.example default) is treated as NOT configured. The guardrail is
+    // TEST MODE in dev (§), so only `sk_test_` keys enable Stripe by default; a
+    // live key requires the explicit STRIPE_ALLOW_LIVE opt-in.
+    const isPlaceholder = (k: string) => k.includes("placeholder") || k.includes("...") || k.trim() === "";
+    const allowLive = bool("STRIPE_ALLOW_LIVE", false);
+    const usable = !isPlaceholder(secretKey) && (secretKey.startsWith("sk_test_") || (secretKey.startsWith("sk_live_") && allowLive));
+    return {
+      secretKey,
+      publishableKey,
+      webhookSecret: str("STRIPE_WEBHOOK_SECRET", "whsec_placeholder"),
+      baseUrl: str("STRIPE_API_BASE_URL", "https://api.stripe.com/v1"),
+      allowLive,
+      enabled: usable,
+    };
+  },
+};

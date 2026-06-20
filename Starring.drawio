@@ -1,0 +1,193 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Page-1" id="2xHMsbR2SoHfoV9YrZAy">
+    <mxGraphModel dx="1632" dy="1435" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1700" pageHeight="1050" math="0" shadow="0" adaptiveColors="auto">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;fontStyle=1;fontSize=16;align=left;verticalAlign=middle;" value="STAAR Practice Platform — Architecture (single-family · local home server)" vertex="1">
+          <mxGeometry height="30" width="980" x="40" y="-50" as="geometry" />
+        </mxCell>
+        <mxCell id="p_lane1" parent="1" style="swimlane;horizontal=0;startSize=110;fillColor=#f5f5f5;html=1;" value="Personas" vertex="1">
+          <mxGeometry height="150" width="1580" as="geometry" />
+        </mxCell>
+        <mxCell id="ps_sa" parent="p_lane1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;" value="Super Admin" vertex="1">
+          <mxGeometry height="60" width="150" x="120" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="ps_ad" parent="p_lane1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;" value="Admin" vertex="1">
+          <mxGeometry height="60" width="150" x="300" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="ps_pa" parent="p_lane1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;" value="Parent" vertex="1">
+          <mxGeometry height="60" width="150" x="480" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="ps_st" parent="p_lane1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;" value="Student" vertex="1">
+          <mxGeometry height="60" width="150" x="660" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="p_lane2" parent="1" style="swimlane;horizontal=0;startSize=110;fillColor=#e8f4f8;html=1;" value="Browser UI  (TanStack React)" vertex="1">
+          <mxGeometry height="150" width="1580" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="ui_login" parent="p_lane2" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;" value="Login / Auth" vertex="1">
+          <mxGeometry height="60" width="150" x="120" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="ui_admin" parent="p_lane2" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;" value="Admin Console" vertex="1">
+          <mxGeometry height="60" width="150" x="300" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="ui_parent" parent="p_lane2" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;" value="Parent Dashboard" vertex="1">
+          <mxGeometry height="60" width="150" x="480" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="ui_student" parent="p_lane2" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;" value="Student App&lt;br&gt;lessons · practice" vertex="1">
+          <mxGeometry height="60" width="150" x="660" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="ui_exam" parent="p_lane2" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Exam Player&lt;br&gt;STAAR-like UI" vertex="1">
+          <mxGeometry height="60" width="150" x="840" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="p_lane3" parent="1" style="swimlane;horizontal=0;startSize=110;fillColor=#fff0e6;html=1;" value="App Server  (Bun + TanStack Start server functions)" vertex="1">
+          <mxGeometry height="150" width="1580" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="sv_auth" parent="p_lane3" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;" value="Auth &amp; RBAC" vertex="1">
+          <mxGeometry height="60" width="150" x="120" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="sv_content" parent="p_lane3" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;" value="Content Service&lt;br&gt;import / export" vertex="1">
+          <mxGeometry height="60" width="150" x="300" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="sv_sched" parent="p_lane3" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;" value="Scheduler&lt;br&gt;45-day · weekend exams" vertex="1">
+          <mxGeometry height="60" width="150" x="480" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="sv_exam" parent="p_lane3" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;" value="Exam Engine&lt;br&gt;timer · pause" vertex="1">
+          <mxGeometry height="60" width="150" x="660" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="sv_score" parent="p_lane3" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#ffe6cc;strokeColor=#d79b00;" value="Scoring Engine&lt;br&gt;auto + LLM" vertex="1">
+          <mxGeometry height="60" width="150" x="840" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="sv_mastery" parent="p_lane3" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;" value="Mastery &amp;&lt;br&gt;Remediation" vertex="1">
+          <mxGeometry height="60" width="150" x="1020" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="sv_game" parent="p_lane3" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;" value="Gamification&lt;br&gt;Robux ledger" vertex="1">
+          <mxGeometry height="60" width="150" x="1200" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="sv_report" parent="p_lane3" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;" value="Reporting" vertex="1">
+          <mxGeometry height="60" width="150" x="1380" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="p_lane4" parent="1" style="swimlane;horizontal=0;startSize=110;fillColor=#e8f5e9;html=1;" value="MongoDB" vertex="1">
+          <mxGeometry height="150" width="1580" y="450" as="geometry" />
+        </mxCell>
+        <mxCell id="db_users" parent="p_lane4" style="shape=cylinder3;whiteSpace=wrap;html=1;fontSize=10;boundedLbl=1;" value="users&lt;br&gt;roles · pwd hash" vertex="1">
+          <mxGeometry height="70" width="150" x="120" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="db_content" parent="p_lane4" style="shape=cylinder3;whiteSpace=wrap;html=1;fontSize=10;boundedLbl=1;" value="content&lt;br&gt;bundles · items · passages" vertex="1">
+          <mxGeometry height="70" width="150" x="300" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="db_exam" parent="p_lane4" style="shape=cylinder3;whiteSpace=wrap;html=1;fontSize=10;boundedLbl=1;" value="examSessions&lt;br&gt;responses" vertex="1">
+          <mxGeometry height="70" width="150" x="480" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="db_mastery" parent="p_lane4" style="shape=cylinder3;whiteSpace=wrap;html=1;fontSize=10;boundedLbl=1;" value="masteryStates" vertex="1">
+          <mxGeometry height="70" width="150" x="660" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="db_robux" parent="p_lane4" style="shape=cylinder3;whiteSpace=wrap;html=1;fontSize=10;boundedLbl=1;" value="robuxLedger&lt;br&gt;redemptions" vertex="1">
+          <mxGeometry height="70" width="150" x="840" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="db_score" parent="p_lane4" style="shape=cylinder3;whiteSpace=wrap;html=1;fontSize=10;boundedLbl=1;" value="scoringJobs" vertex="1">
+          <mxGeometry height="70" width="150" x="1020" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="db_sched" parent="p_lane4" style="shape=cylinder3;whiteSpace=wrap;html=1;fontSize=10;boundedLbl=1;" value="schedules" vertex="1">
+          <mxGeometry height="70" width="150" x="1200" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="p_lane5" parent="1" style="swimlane;horizontal=0;startSize=110;fillColor=#fff9e6;html=1;" value="Local AI" vertex="1">
+          <mxGeometry height="150" width="1580" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="ai_dmr" parent="p_lane5" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#ffe6cc;strokeColor=#d79b00;" value="Docker Model Runner — Gemma&lt;br&gt;localhost:12434 · OpenAI-compatible" vertex="1">
+          <mxGeometry height="70" width="270" x="780" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ai_note" parent="p_lane5" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;fillColor=none;fontSize=10;" value="Used ONLY for SCR / ECR scoring&lt;br&gt;server-side · offline → manual queue" vertex="1">
+          <mxGeometry height="70" width="230" x="1130" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="p_lane6" parent="1" style="swimlane;horizontal=0;startSize=110;fillColor=#fce4ec;html=1;" value="Offline Content Authoring  (out-of-band)" vertex="1">
+          <mxGeometry height="150" width="1580" y="750" as="geometry" />
+        </mxCell>
+        <mxCell id="of_prompt" parent="p_lane6" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;" value="LLM Prompts&lt;br&gt;Math / RLA coaches" vertex="1">
+          <mxGeometry height="60" width="160" x="120" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="of_json" parent="p_lane6" style="shape=mxgraph.flowchart.document;whiteSpace=wrap;html=1;fontSize=10;" value="JSON Content Bundle&lt;br&gt;items + SVG figures" vertex="1">
+          <mxGeometry height="70" width="170" x="320" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="of_valid" parent="p_lane6" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;" value="Validate (Zod)&lt;br&gt;+ Import" vertex="1">
+          <mxGeometry height="60" width="150" x="540" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="ps_sa" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" target="ui_admin" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="ps_ad" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" target="ui_admin" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="ps_pa" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" target="ui_parent" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="ps_st" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" target="ui_student" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="ps_st" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" target="ui_exam" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="ui_admin" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" target="sv_content" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="ui_admin" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;" target="sv_auth" value="user mgmt">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="ui_parent" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" target="sv_report" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" edge="1" parent="1" source="ui_student" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;" target="sv_sched" value="daily work">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" edge="1" parent="1" source="ui_exam" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" target="sv_exam" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" edge="1" parent="1" source="sv_exam" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" target="sv_score" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" edge="1" parent="1" source="sv_score" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" target="sv_mastery" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" edge="1" parent="1" source="sv_mastery" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;dashed=1;" target="sv_sched" value="weak TEKS">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e14" edge="1" parent="1" source="sv_score" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;" target="sv_game" value="award">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e15" edge="1" parent="1" source="sv_auth" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" target="db_users" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e16" edge="1" parent="1" source="sv_content" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" target="db_content" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e17" edge="1" parent="1" source="sv_exam" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" target="db_exam" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e18" edge="1" parent="1" source="sv_mastery" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" target="db_mastery" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e19" edge="1" parent="1" source="sv_game" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" target="db_robux" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e20" edge="1" parent="1" source="sv_sched" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" target="db_sched" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e21" edge="1" parent="1" source="sv_score" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" target="db_score" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e22" edge="1" parent="1" source="sv_score" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;dashed=1;strokeColor=#d79b00;" target="ai_dmr" value="score SCR / ECR">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e23" edge="1" parent="1" source="of_prompt" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" target="of_json" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e24" edge="1" parent="1" source="of_json" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" target="of_valid" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e25" edge="1" parent="1" source="of_valid" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;dashed=1;" target="sv_content" value="import bundle">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
