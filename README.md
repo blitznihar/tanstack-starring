@@ -3,6 +3,7 @@
 [![CI](https://img.shields.io/github/actions/workflow/status/blitznihar/tanstack-starring/ci-cd.yml?branch=main&label=CI)](https://github.com/blitznihar/tanstack-starring/actions/workflows/ci-cd.yml)
 [![CD](https://img.shields.io/github/actions/workflow/status/blitznihar/tanstack-starring/ci-cd.yml?branch=main&event=push&label=CD)](https://github.com/blitznihar/tanstack-starring/actions/workflows/ci-cd.yml)
 [![Codecov](https://codecov.io/gh/blitznihar/tanstack-starring/graph/badge.svg)](https://codecov.io/gh/blitznihar/tanstack-starring)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Bun](https://img.shields.io/badge/runtime-Bun-black?logo=bun)](https://bun.sh)
 [![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178c6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![TanStack Start](https://img.shields.io/badge/TanStack%20Start-React-ff4154)](https://tanstack.com/start)
@@ -261,9 +262,10 @@ bun run build
 ```
 
 Coverage uses Vitest's V8 provider and uploads `coverage/lcov.info` to Codecov.
-Codecov thresholds are in [`codecov.yml`](codecov.yml): 20% project target with
-a 5% threshold for the current broad full-app baseline, plus a 50% informational
-patch target.
+The coverage gate currently measures core unit-tested application logic:
+`src/domain/**`, `src/lib/dates.ts`, `src/lib/env.ts`, and auth primitives.
+Codecov thresholds are in [`codecov.yml`](codecov.yml): 80% project target with
+a 2% threshold, plus an 80% informational patch target.
 
 ### CD
 
