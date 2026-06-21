@@ -1,6 +1,7 @@
 # Comet — Multi-Program Practice Platform
 
-[![CI/CD](https://github.com/blitznihar/tanstack-starring/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/blitznihar/tanstack-starring/actions/workflows/ci-cd.yml)
+[![CI](https://img.shields.io/github/actions/workflow/status/blitznihar/tanstack-starring/ci-cd.yml?branch=main&label=CI)](https://github.com/blitznihar/tanstack-starring/actions/workflows/ci-cd.yml)
+[![CD](https://img.shields.io/github/actions/workflow/status/blitznihar/tanstack-starring/ci-cd.yml?branch=main&event=push&label=CD)](https://github.com/blitznihar/tanstack-starring/actions/workflows/ci-cd.yml)
 [![Codecov](https://codecov.io/gh/blitznihar/tanstack-starring/graph/badge.svg)](https://codecov.io/gh/blitznihar/tanstack-starring)
 [![Bun](https://img.shields.io/badge/runtime-Bun-black?logo=bun)](https://bun.sh)
 [![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178c6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
@@ -26,7 +27,7 @@ and [`Staar/`](Staar/) for the authoritative UI/UX prototype.
 |---|---|
 | Runtime | **Bun** |
 | Framework | **TanStack Start** (React + Router + Query + server functions), TypeScript **strict** |
-| Database | **MongoDB** via the official driver behind a **repository layer** (env-only connection string) |
+| Database | **MongoDB** via the official driver behind a **repository layer** (env-only connection string; DB name is deployment-derived) |
 | Validation | **Zod** at every boundary |
 | Auth | session cookie (HTTP-only, Secure) + **argon2id** |
 | AI (scoring only) | OpenAI Chat Completions (`gpt-5.4-mini`) |
@@ -34,7 +35,9 @@ and [`Staar/`](Staar/) for the authoritative UI/UX prototype.
 | Desktop | optional **Electron** macOS shell |
 
 Switching local Docker → MongoDB Atlas is a `MONGODB_URI` change only — no code
-changes, because all DB access goes through `src/repositories/*`.
+changes, because all DB access goes through `src/repositories/*`. The URI
+chooses the Mongo server/cluster; the app database is `comet-dev` everywhere
+except Vercel Production, where it is `comet`.
 
 ---
 
@@ -73,7 +76,8 @@ docker compose up -d mongo          # local MongoDB on :27017
 bun run seed                        # programs + demo users + Maya's enrollments + Grade 3 Math
 ```
 > Already have MongoDB on `:27017`? Skip the compose step — `bun run seed` connects
-> to whatever `MONGODB_URI` points at (default `mongodb://localhost:27017/comet`).
+> to whatever `MONGODB_URI` points at (default `mongodb://localhost:27017/comet-dev`).
+> The local database name is `comet-dev`.
 `seed` prints **one-time passwords** for the demo accounts
 (`superadmin`, `admin`, `parent`, `maya`). After seeding you have:
 - 2 programs (`grade3_staar` with subjects `math`,`rla`; `sat` — a separate
@@ -239,10 +243,11 @@ electron/        optional macOS shell (M8)
   and [`vercel.json`](vercel.json) pins the framework to `tanstack-start`.
   Vercel Git auto-deploys are disabled there because GitHub Actions owns
   preview/production deployment.
-- **Atlas:** migrate the database to MongoDB Atlas by changing `MONGODB_URI`
-  only.
+- **Atlas:** migrate MongoDB hosting by changing `MONGODB_URI` only. The app
+  still uses `comet-dev` outside Vercel Production and `comet` in Vercel
+  Production.
 
-### CI/CD
+### CI
 
 GitHub Actions live in [`.github/workflows/ci-cd.yml`](.github/workflows/ci-cd.yml).
 The `ci` job runs on pull requests, pushes to `main`, and manual dispatch:
@@ -260,13 +265,19 @@ Codecov thresholds are in [`codecov.yml`](codecov.yml): 20% project target with
 a 5% threshold for the current broad full-app baseline, plus a 50% informational
 patch target.
 
+### CD
+
 Deployments run only after `ci` passes:
 
 - Pull requests from this same repository deploy to the GitHub `preview`
   environment with `vercel pull`, `vercel build`, and `vercel deploy --prebuilt`.
-- Pushes to `main` deploy to the GitHub `production` environment with
-  `vercel pull --environment=production`, `vercel build --prod`, and
-  `vercel deploy --prebuilt --prod`.
+- Pushes to `main` deploy to the GitHub `preview` environment first. The
+  production job depends on the preview job, then targets the GitHub
+  `production` environment with `vercel pull --environment=production`,
+  `vercel build --prod`, and `vercel deploy --prebuilt --prod`.
+- Configure the GitHub `production` environment with required reviewers so the
+  production job pauses for approval after preview succeeds. Without required
+  reviewers, GitHub will allow production to continue automatically.
 - The deploy jobs set `NITRO_PRESET=vercel` so Nitro writes Vercel Build Output
   API artifacts to `.vercel/output` for `vercel deploy --prebuilt`.
 - Fork pull requests do not receive preview deploys, so repository secrets are
@@ -281,8 +292,9 @@ VERCEL_PROJECT_ID
 CODECOV_TOKEN
 ```
 
-Create GitHub environments named `preview` and `production`. Add any required
-approval rules to `production` in GitHub repository settings.
+Create GitHub environments named `preview` and `production`. In GitHub repository
+settings, open **Environments -> production** and enable **Required reviewers**
+for the people or teams allowed to approve production deploys.
 
 ### Vercel Setup
 
@@ -302,7 +314,7 @@ values.
 Required/expected app environment variables:
 
 ```bash
-MONGODB_URI
+MONGODB_URI                  # Mongo server/cluster URI; DB name is comet-dev except Vercel production uses comet
 SESSION_SECRET
 AI_ENABLED
 OPENAI_API_KEY

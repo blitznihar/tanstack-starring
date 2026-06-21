@@ -27,9 +27,16 @@ function bool(key: string, fallback: boolean): boolean {
   return v === "true" || v === "1";
 }
 
+export function mongodbDatabaseNameForVercelEnv(vercelEnv = process.env.VERCEL_ENV): "comet" | "comet-dev" {
+  return vercelEnv?.toLowerCase() === "production" ? "comet" : "comet-dev";
+}
+
 export const env = {
   get mongodbUri() {
-    return str("MONGODB_URI", "mongodb://localhost:27017/comet");
+    return str("MONGODB_URI", "mongodb://localhost:27017/comet-dev");
+  },
+  get mongodbDatabaseName() {
+    return mongodbDatabaseNameForVercelEnv();
   },
   get sessionSecret() {
     return str("SESSION_SECRET", "change-me");

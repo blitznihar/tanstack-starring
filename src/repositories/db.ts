@@ -3,23 +3,12 @@ import { env } from "~/lib/env.js";
 import { noticeError, recordMetric } from "~/server/observability/newrelic.js";
 
 /**
- * Single Mongo connection, env-configured. Switching local Docker → Atlas is a
- * change to MONGODB_URI only — no code changes. All collection access goes
- * through the repository layer (one module per collection); nothing else imports
- * the driver directly.
+ * Single Mongo connection, env-configured. The URI selects the Mongo server;
+ * the database name is environment-derived so only Vercel Production uses
+ * `comet`, while local, preview, and other deployments use `comet-dev`.
  */
 
 let clientPromise: Promise<MongoClient> | null = null;
-
-function dbNameFromUri(uri: string): string {
-  try {
-    const afterHost = uri.split("/").slice(3).join("/");
-    const name = afterHost.split("?")[0];
-    return name && name.length > 0 ? name : "comet";
-  } catch {
-    return "comet";
-  }
-}
 
 export async function getClient(): Promise<MongoClient> {
   if (!clientPromise) {
@@ -51,7 +40,7 @@ export async function getClient(): Promise<MongoClient> {
 
 export async function getDb(): Promise<Db> {
   const client = await getClient();
-  return client.db(dbNameFromUri(env.mongodbUri));
+  return client.db(env.mongodbDatabaseName);
 }
 
 export async function getCollection<T extends Document = Document>(
