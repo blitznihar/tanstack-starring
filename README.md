@@ -2,11 +2,11 @@
 
 [![CI](https://img.shields.io/github/actions/workflow/status/blitznihar/tanstack-starring/ci-cd.yml?branch=main&label=CI)](https://github.com/blitznihar/tanstack-starring/actions/workflows/ci-cd.yml)
 [![CD](https://img.shields.io/github/actions/workflow/status/blitznihar/tanstack-starring/ci-cd.yml?branch=main&event=push&label=CD)](https://github.com/blitznihar/tanstack-starring/actions/workflows/ci-cd.yml)
-[![Codecov](https://codecov.io/gh/blitznihar/tanstack-starring/graph/badge.svg)](https://codecov.io/gh/blitznihar/tanstack-starring)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![codecov](https://codecov.io/gh/blitznihar/tanstack-starring/graph/badge.svg?token=dGONNkk8Eh)](https://codecov.io/gh/blitznihar/tanstack-starring)
 [![Bun](https://img.shields.io/badge/runtime-Bun-black?logo=bun)](https://bun.sh)
 [![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178c6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![TanStack Start](https://img.shields.io/badge/TanStack%20Start-React-ff4154)](https://tanstack.com/start)
+![License](https://img.shields.io/github/license/blitznihar/blitznihar/tanstack-starring?cacheSeconds=0)
 [![Last commit](https://img.shields.io/github/last-commit/blitznihar/tanstack-starring)](https://github.com/blitznihar/tanstack-starring/commits/main)
 
 A web/desktop app that teaches concepts and delivers exam-style practice across
