@@ -1,5 +1,6 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { env } from "~/lib/env.js";
+import { noticeError, recordMetric } from "~/server/observability/newrelic.js";
 
 /**
  * Stripe adapter (§12) — the ONLY place that talks to Stripe, via the REST API
@@ -36,6 +37,7 @@ async function stripePost<T>(path: string, params: Record<string, string | numbe
   if (!stripeConfigured()) throw new StripeError("Stripe is not configured (running in demo mode)");
   const url = `${env.stripe.baseUrl.replace(/\/$/, "")}${path}`;
   let res: Response;
+  const started = Date.now();
   try {
     res = await fetch(url, {
       method: "POST",
@@ -46,12 +48,20 @@ async function stripePost<T>(path: string, params: Record<string, string | numbe
       body: formEncode(params),
     });
   } catch (err) {
-    throw new StripeError(`Stripe request failed: ${err instanceof Error ? err.message : String(err)}`, { cause: err });
+    const error = new StripeError(`Stripe request failed: ${err instanceof Error ? err.message : String(err)}`, { cause: err });
+    recordMetric("Custom/Stripe/RequestFailure", 1);
+    noticeError(error, { component: "stripe", operation: path });
+    throw error;
   }
   if (!res.ok) {
     const text = await res.text().catch(() => "");
-    throw new StripeError(`Stripe returned HTTP ${res.status}: ${text.slice(0, 200)}`);
+    const error = new StripeError(`Stripe returned HTTP ${res.status}: ${text.slice(0, 200)}`);
+    recordMetric("Custom/Stripe/RequestFailure", 1);
+    noticeError(error, { component: "stripe", operation: path, status: res.status });
+    throw error;
   }
+  recordMetric("Custom/Stripe/RequestDurationMs", Date.now() - started);
+  recordMetric("Custom/Stripe/RequestSuccess", 1);
   return (await res.json()) as T;
 }
 

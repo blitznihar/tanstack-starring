@@ -5,6 +5,7 @@ import { billingConfigRepo } from "~/repositories/billingConfig.js";
 import { programsRepo } from "~/repositories/programs.js";
 import { can, requireCapability, ForbiddenError } from "~/server/auth/rbac.js";
 import { env } from "~/lib/env.js";
+import { noticeError, recordMetric } from "~/server/observability/newrelic.js";
 import { priceForInterval, priceLabel } from "~/domain/billing/pricing.js";
 import { programAccess } from "~/domain/billing/access.js";
 import { createCheckoutSession, stripeConfigured, verifyStripeSignature, parseStripeEvent } from "./stripe.js";
@@ -309,7 +310,10 @@ export async function applyCheckoutCompleted(input: {
  */
 export async function handleStripeWebhook(rawBody: string, signature: string): Promise<{ handled: boolean; type?: string }> {
   if (!verifyStripeSignature(rawBody, signature, env.stripe.webhookSecret)) {
-    throw new Error("Invalid Stripe webhook signature");
+    const error = new Error("Invalid Stripe webhook signature");
+    recordMetric("Custom/Stripe/WebhookFailure", 1);
+    noticeError(error, { component: "stripe", operation: "webhook" });
+    throw error;
   }
   const event = parseStripeEvent(rawBody);
   if (event.type === "checkout.session.completed") {
@@ -321,6 +325,7 @@ export async function handleStripeWebhook(rawBody: string, signature: string): P
         subscriptionId: typeof obj.subscription === "string" ? obj.subscription : undefined,
       });
     }
+    recordMetric("Custom/Stripe/WebhookSuccess", 1);
     return { handled: true, type: event.type };
   }
   return { handled: false, type: event.type };

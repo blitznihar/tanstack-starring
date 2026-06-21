@@ -1,5 +1,12 @@
 # Comet — Multi-Program Practice Platform
 
+[![CI/CD](https://github.com/blitznihar/tanstack-starring/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/blitznihar/tanstack-starring/actions/workflows/ci-cd.yml)
+[![Codecov](https://codecov.io/gh/blitznihar/tanstack-starring/graph/badge.svg)](https://codecov.io/gh/blitznihar/tanstack-starring)
+[![Bun](https://img.shields.io/badge/runtime-Bun-black?logo=bun)](https://bun.sh)
+[![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178c6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![TanStack Start](https://img.shields.io/badge/TanStack%20Start-React-ff4154)](https://tanstack.com/start)
+[![Last commit](https://img.shields.io/github/last-commit/blitznihar/tanstack-starring)](https://github.com/blitznihar/tanstack-starring/commits/main)
+
 A web/desktop app that teaches concepts and delivers exam-style practice across
 multiple programs. It **starts with Grade 3 STAAR (Math + RLA)** but is built so
 **any program** (Grade 4/5 STAAR, SAT, GRE, "XYZ") can be added by importing
@@ -48,7 +55,7 @@ cp .env.example .env        # adjust if needed
 **1. Run the unit tests** (no database needed):
 ```bash
 bun test
-# 139 passing: scoring (+ partial credit), raw→scale→level, ledger
+# 162 passing: scoring (+ partial credit), raw→scale→level, ledger
 # (penalty/floor/partial fulfillment), RBAC, content import, exam assembly,
 # mastery/scheduler, AI-score parsing, profile LWW, RLA item-type contracts,
 # billing pricing + demo/subscription access gating
@@ -102,7 +109,8 @@ All served from MongoDB through TanStack Start server functions.
 ## Useful commands
 
 ```bash
-bun test                 # run the suite (139 tests)
+bun test                 # run the suite (162 tests)
+bun run test:coverage    # run Vitest with V8 coverage, writes coverage/lcov.info
 bun run demo             # no-DB engine demo
 bun run build-content    # regenerate content/grade3_{math,rla}.json from authored source
 bun run seed             # seed the database (needs Mongo): programs, users, Math + RLA bundles
@@ -217,16 +225,189 @@ electron/        optional macOS shell (M8)
 
 ## Deployment
 
-- **Now:** `docker compose up` runs MongoDB locally; the Bun API/UI run in Docker
-  Desktop. Optionally package the UI as an Electron macOS app pointing at
-  `API_BASE_URL`.
+- **Docker/local:** `docker compose up` runs MongoDB locally; the Bun API/UI run
+  in Docker Desktop. Optionally package the UI as an Electron macOS app pointing
+  at `API_BASE_URL`.
 - **Desktop without Docker:** `bun run desktop:prod` builds the app, starts the
   Bun server locally on `http://localhost:3000`, and opens the Electron shell.
   To use an already-running server from another desktop, run
   `bun run desktop -- --url=http://<server-ip-or-host>:<port>` on that desktop.
   See [`electron/README.md`](electron/README.md) for the full same-machine and
   other-desktop flows.
-- **Later:** migrate the database to MongoDB Atlas by changing `MONGODB_URI` only.
+- **Vercel:** TanStack Start is deployed through Nitro. The app uses
+  `tanstackStart(), nitro(), viteReact()` in [`vite.config.ts`](vite.config.ts)
+  and [`vercel.json`](vercel.json) pins the framework to `tanstack-start`.
+  Vercel Git auto-deploys are disabled there because GitHub Actions owns
+  preview/production deployment.
+- **Atlas:** migrate the database to MongoDB Atlas by changing `MONGODB_URI`
+  only.
+
+### CI/CD
+
+GitHub Actions live in [`.github/workflows/ci-cd.yml`](.github/workflows/ci-cd.yml).
+The `ci` job runs on pull requests, pushes to `main`, and manual dispatch:
+
+```bash
+bun install --frozen-lockfile
+bun run lint
+bun run typecheck
+bun run test:coverage
+bun run build
+```
+
+Coverage uses Vitest's V8 provider and uploads `coverage/lcov.info` to Codecov.
+Codecov thresholds are in [`codecov.yml`](codecov.yml): 20% project target with
+a 5% threshold for the current broad full-app baseline, plus a 50% informational
+patch target.
+
+Deployments run only after `ci` passes:
+
+- Pull requests from this same repository deploy to the GitHub `preview`
+  environment with `vercel pull`, `vercel build`, and `vercel deploy --prebuilt`.
+- Pushes to `main` deploy to the GitHub `production` environment with
+  `vercel pull --environment=production`, `vercel build --prod`, and
+  `vercel deploy --prebuilt --prod`.
+- Fork pull requests do not receive preview deploys, so repository secrets are
+  not exposed to untrusted PRs.
+
+Required GitHub Actions secrets:
+
+```bash
+VERCEL_TOKEN
+VERCEL_ORG_ID
+VERCEL_PROJECT_ID
+CODECOV_TOKEN
+```
+
+Create GitHub environments named `preview` and `production`. Add any required
+approval rules to `production` in GitHub repository settings.
+
+### Vercel Setup
+
+Create or link a Vercel project for `blitznihar/tanstack-starring`, then store
+runtime values in Vercel Project Settings → Environment Variables. Do not commit
+real values to `.env` or `.env.example`.
+
+References: [Vercel TanStack Start guide](https://vercel.com/docs/frameworks/full-stack/tanstack-start),
+[TanStack Start hosting guide](https://tanstack.com/start/latest/docs/framework/react/guide/hosting),
+and [Vercel GitHub Actions deployment guide](https://vercel.com/kb/guide/how-can-i-use-github-actions-with-vercel).
+
+Server-only secrets must stay unprefixed. TanStack Start/Vite exposes variables
+with a `VITE_` prefix to browser code, so do not use `VITE_` for database,
+OpenAI, Auth0 client secret, SMTP password, Stripe secret, or New Relic license
+values.
+
+Required/expected app environment variables:
+
+```bash
+MONGODB_URI
+SESSION_SECRET
+AI_ENABLED
+OPENAI_API_KEY
+AI_BASE_URL
+AI_MODEL
+AI_TIMEOUT_MS
+AUTH0_DOMAIN
+AUTH0_CLIENT_ID
+AUTH0_CLIENT_SECRET
+AUTH0_CALLBACK_URL
+AUTH0_LOGOUT_URL
+AUTH0_CONNECTION
+API_BASE_URL
+EMAIL_FROM
+SMTP_HOST
+SMTP_PORT
+SMTP_SECURE
+SMTP_USER
+SMTP_PASS
+STRIPE_SECRET_KEY
+STRIPE_PUBLISHABLE_KEY
+STRIPE_WEBHOOK_SECRET
+STRIPE_ALLOW_LIVE
+NEW_RELIC_ENABLED
+NEW_RELIC_APP_NAME
+NEW_RELIC_LICENSE_KEY
+NEW_RELIC_DISTRIBUTED_TRACING_ENABLED
+NEW_RELIC_APPLICATION_LOGGING_ENABLED
+NEW_RELIC_APPLICATION_LOGGING_FORWARDING_ENABLED
+NEW_RELIC_LOG_LEVEL
+```
+
+For Auth0, configure callback/logout URLs for every deployed domain, for example:
+
+```text
+https://<preview-or-production-domain>/callback
+https://<preview-or-production-domain>/logout
+```
+
+### Health Check
+
+`GET /health` returns a small JSON payload with status and timestamp. It does
+not read MongoDB, call external providers, or expose secrets/database contents.
+Use it for Vercel checks, New Relic synthetics, and uptime monitoring.
+
+### New Relic Observability
+
+New Relic is opt-in. Local development remains unchanged with:
+
+```bash
+NEW_RELIC_ENABLED=false
+```
+
+When enabling direct New Relic Node APM in a Node runtime, set the variables in
+Vercel/New Relic secret stores, not in git:
+
+```bash
+NEW_RELIC_ENABLED=true
+NEW_RELIC_APP_NAME=comet-academy
+NEW_RELIC_LICENSE_KEY=<secret>
+NEW_RELIC_DISTRIBUTED_TRACING_ENABLED=true
+NEW_RELIC_APPLICATION_LOGGING_ENABLED=true
+NEW_RELIC_APPLICATION_LOGGING_FORWARDING_ENABLED=true
+NEW_RELIC_LOG_LEVEL=info
+```
+
+Because this app is ESM and Vercel runs the Nitro output as serverless Node
+functions, validate direct Node-agent APM in Preview before enabling it in
+Production. New Relic's ESM agent path requires process startup preloading, so
+the Vercel setting to test is:
+
+```bash
+NODE_OPTIONS=--import newrelic/esm-loader.mjs -r newrelic
+```
+
+If direct APM is unreliable on Vercel serverless, use the official Vercel/New
+Relic integration for Vercel logs and function traces, plus New Relic synthetics.
+The app emits safe custom metrics in Node runtimes where the `newrelic` package
+is available at runtime and `NEW_RELIC_ENABLED=true`; on Vercel prebuilt
+serverless output, treat those as best-effort until validated in Preview.
+References: [New Relic Node.js compatibility](https://docs.newrelic.com/docs/apm/agents/nodejs-agent/getting-started/compatibility-requirements-nodejs-agent/),
+[New Relic ESM setup](https://docs.newrelic.com/docs/apm/agents/nodejs-agent/installation-configuration/es-modules/),
+and [New Relic for Vercel](https://vercel.com/marketplace/newrelic).
+
+Suggested New Relic dashboard widgets:
+
+- Error rate: transaction error percentage over time, faceted by route/function.
+- Response time: average and p95 transaction duration by route/function.
+- Throughput: requests per minute by route/function.
+- OpenAI scoring failures/timeouts: `Custom/OpenAI/Scoring/Failure`,
+  `Custom/OpenAI/Scoring/Timeout`, and `Custom/OpenAI/Scoring/DurationMs`.
+- MongoDB latency: `Custom/MongoDB/*/DurationMs`, `Custom/MongoDB/ConnectMs`,
+  `Custom/MongoDB/CommandFailure`, and `Custom/MongoDB/ConnectFailure`.
+- SMTP failures: `Custom/SMTP/SendFailure` and `Custom/SMTP/SendDurationMs`.
+- Auth0 callback failures: `Custom/Auth0/CallbackFailure` and
+  `Custom/Auth0/CallbackSuccess`.
+- Stripe checkout/webhook failures: `Custom/Stripe/RequestFailure`,
+  `Custom/Stripe/WebhookFailure`, `Custom/Stripe/RequestDurationMs`, and
+  `Custom/Stripe/WebhookSuccess`.
+
+Suggested synthetic monitors:
+
+- Home page: `GET /`
+- Health check: `GET /health`
+- Optional safe login smoke test: use dedicated test credentials stored only in
+  New Relic secure credentials. Do not commit synthetic usernames, passwords, or
+  Auth0 test secrets.
 
 Secrets live in env (see [.env.example](.env.example)); never hardcode them. The
 app never stores raw card data — Stripe-hosted/Elements only.

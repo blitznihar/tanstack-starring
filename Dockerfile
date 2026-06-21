@@ -12,7 +12,7 @@ WORKDIR /app
 ENV NODE_ENV=production
 COPY --from=build /app/package.json /app/bun.lock ./
 COPY --from=build /app/node_modules ./node_modules
-COPY --from=build /app/dist ./dist
+COPY --from=build /app/.output ./.output
 COPY --from=build /app/scripts/serve-dist.mjs ./scripts/serve-dist.mjs
 EXPOSE 3000
 CMD ["bun", "scripts/serve-dist.mjs"]

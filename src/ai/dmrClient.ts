@@ -1,4 +1,5 @@
 import { env } from "~/lib/env.js";
+import { noticeError, recordMetric } from "~/server/observability/newrelic.js";
 import type { ChatMessage } from "./rubricPrompt.js";
 
 /**
@@ -39,6 +40,7 @@ function isOpenAiEndpoint(baseUrl: string): boolean {
 export async function dmrChat(messages: ChatMessage[]): Promise<string> {
   if (!env.ai.enabled) throw new DmrError("AI scoring is disabled (AI_ENABLED=false)");
 
+  const started = Date.now();
   const baseUrl = env.ai.baseUrl.replace(/\/$/, "");
   const openai = isOpenAiEndpoint(baseUrl);
   if (openai && !env.ai.openaiApiKey) throw new DmrError("OPENAI_API_KEY is required for OpenAI AI scoring");
@@ -91,13 +93,24 @@ export async function dmrChat(messages: ChatMessage[]): Promise<string> {
     if (choice?.finish_reason === "length") {
       throw new DmrError("AI scorer reply was truncated at max tokens — score this one manually");
     }
+    recordMetric("Custom/OpenAI/Scoring/DurationMs", Date.now() - started);
+    recordMetric("Custom/OpenAI/Scoring/Success", 1);
     return content;
   } catch (err) {
-    if (err instanceof DmrError) throw err;
-    if (err instanceof Error && err.name === "AbortError") {
-      throw new DmrError(`AI scorer timed out after ${env.ai.timeoutMs}ms`, { cause: err });
+    recordMetric("Custom/OpenAI/Scoring/Failure", 1);
+    if (err instanceof DmrError) {
+      noticeError(err, { component: "openai_scoring", model: OPENAI_MODEL });
+      throw err;
     }
-    throw new DmrError(`AI scorer request failed: ${err instanceof Error ? err.message : String(err)}`, { cause: err });
+    if (err instanceof Error && err.name === "AbortError") {
+      const timeoutError = new DmrError(`AI scorer timed out after ${env.ai.timeoutMs}ms`, { cause: err });
+      recordMetric("Custom/OpenAI/Scoring/Timeout", 1);
+      noticeError(timeoutError, { component: "openai_scoring", model: OPENAI_MODEL });
+      throw timeoutError;
+    }
+    const requestError = new DmrError(`AI scorer request failed: ${err instanceof Error ? err.message : String(err)}`, { cause: err });
+    noticeError(requestError, { component: "openai_scoring", model: OPENAI_MODEL });
+    throw requestError;
   } finally {
     clearTimeout(timer);
   }

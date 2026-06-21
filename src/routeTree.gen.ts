@@ -16,6 +16,7 @@ import { Route as PracticeRouteImport } from './routes/practice'
 import { Route as PlanRouteImport } from './routes/plan'
 import { Route as LogoutRouteImport } from './routes/logout'
 import { Route as LessonRouteImport } from './routes/lesson'
+import { Route as HealthRouteImport } from './routes/health'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CallbackRouteImport } from './routes/callback'
 import { Route as BillingRouteImport } from './routes/billing'
@@ -61,6 +62,11 @@ const LogoutRoute = LogoutRouteImport.update({
 const LessonRoute = LessonRouteImport.update({
   id: '/lesson',
   path: '/lesson',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HealthRoute = HealthRouteImport.update({
+  id: '/health',
+  path: '/health',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardRoute = DashboardRouteImport.update({
@@ -125,6 +131,7 @@ export interface FileRoutesByFullPath {
   '/billing': typeof BillingRoute
   '/callback': typeof CallbackRoute
   '/dashboard': typeof DashboardRoute
+  '/health': typeof HealthRoute
   '/lesson': typeof LessonRoute
   '/logout': typeof LogoutRoute
   '/plan': typeof PlanRoute
@@ -145,6 +152,7 @@ export interface FileRoutesByTo {
   '/billing': typeof BillingRoute
   '/callback': typeof CallbackRoute
   '/dashboard': typeof DashboardRoute
+  '/health': typeof HealthRoute
   '/lesson': typeof LessonRoute
   '/logout': typeof LogoutRoute
   '/plan': typeof PlanRoute
@@ -166,6 +174,7 @@ export interface FileRoutesById {
   '/billing': typeof BillingRoute
   '/callback': typeof CallbackRoute
   '/dashboard': typeof DashboardRoute
+  '/health': typeof HealthRoute
   '/lesson': typeof LessonRoute
   '/logout': typeof LogoutRoute
   '/plan': typeof PlanRoute
@@ -188,6 +197,7 @@ export interface FileRouteTypes {
     | '/billing'
     | '/callback'
     | '/dashboard'
+    | '/health'
     | '/lesson'
     | '/logout'
     | '/plan'
@@ -208,6 +218,7 @@ export interface FileRouteTypes {
     | '/billing'
     | '/callback'
     | '/dashboard'
+    | '/health'
     | '/lesson'
     | '/logout'
     | '/plan'
@@ -228,6 +239,7 @@ export interface FileRouteTypes {
     | '/billing'
     | '/callback'
     | '/dashboard'
+    | '/health'
     | '/lesson'
     | '/logout'
     | '/plan'
@@ -249,6 +261,7 @@ export interface RootRouteChildren {
   BillingRoute: typeof BillingRoute
   CallbackRoute: typeof CallbackRoute
   DashboardRoute: typeof DashboardRoute
+  HealthRoute: typeof HealthRoute
   LessonRoute: typeof LessonRoute
   LogoutRoute: typeof LogoutRoute
   PlanRoute: typeof PlanRoute
@@ -313,6 +326,13 @@ declare module '@tanstack/react-router' {
       path: '/lesson'
       fullPath: '/lesson'
       preLoaderRoute: typeof LessonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/health': {
+      id: '/health'
+      path: '/health'
+      fullPath: '/health'
+      preLoaderRoute: typeof HealthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard': {
@@ -401,6 +421,7 @@ const rootRouteChildren: RootRouteChildren = {
   BillingRoute: BillingRoute,
   CallbackRoute: CallbackRoute,
   DashboardRoute: DashboardRoute,
+  HealthRoute: HealthRoute,
   LessonRoute: LessonRoute,
   LogoutRoute: LogoutRoute,
   PlanRoute: PlanRoute,

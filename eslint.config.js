@@ -3,7 +3,7 @@ import tsparser from "@typescript-eslint/parser";
 
 export default [
   {
-    ignores: ["node_modules/**", "dist/**", ".output/**", ".vinxi/**", "Staar/**"],
+    ignores: ["node_modules/**", "dist/**", ".output/**", ".vinxi/**", ".vercel/**", "coverage/**", "Staar/**"],
   },
   {
     files: ["**/*.{ts,tsx}"],

@@ -4,6 +4,7 @@ import { usersRepo } from "~/repositories/users.js";
 import { sessionsRepo } from "~/repositories/sessions.js";
 import { generateToken } from "./password.js";
 import type { Role } from "~/schemas/common.js";
+import { noticeError, recordMetric } from "~/server/observability/newrelic.js";
 
 export const AUTH0_STATE_COOKIE = "comet_auth0_state";
 export const AUTH0_PENDING_COOKIE = "comet_auth0_pending";
@@ -272,17 +273,20 @@ export async function completeAuth0Login(input: {
 }): Promise<Auth0CompleteResult> {
   try {
     if (!input.expectedState || input.expectedState.state !== input.state) {
+      recordMetric("Custom/Auth0/CallbackFailure", 1);
       return { ok: false, message: "The login session expired. Please try signing in again." };
     }
     const accessToken = await exchangeCode(input.code, input.expectedState.callbackUrl);
     const info = await userInfo(accessToken);
     const email = info.email?.trim().toLowerCase();
     if (!email || info.email_verified === false) {
+      recordMetric("Custom/Auth0/CallbackFailure", 1);
       return { ok: false, message: "Auth0 did not return a verified email address." };
     }
 
     const matches = await activeUsersForEmail(email);
     if (matches.length === 0) {
+      recordMetric("Custom/Auth0/CallbackFailure", 1);
       return {
         ok: false,
         message: "This Google account is not enabled for Comet Academy. Ask an admin to add that Gmail address to Users.",
@@ -293,8 +297,11 @@ export async function completeAuth0Login(input: {
     }
 
     const session = await createSessionForAuth0User(matches[0]!.id);
+    recordMetric("Custom/Auth0/CallbackSuccess", 1);
     return { ok: true, mode: "signed_in", ...session };
   } catch (error) {
+    recordMetric("Custom/Auth0/CallbackFailure", 1);
+    noticeError(error, { component: "auth0", operation: "callback" });
     return {
       ok: false,
       message: error instanceof Error ? error.message : "Auth0 sign-in failed.",

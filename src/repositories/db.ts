@@ -1,5 +1,6 @@
 import { MongoClient, type Db, type Collection, type Document } from "mongodb";
 import { env } from "~/lib/env.js";
+import { noticeError, recordMetric } from "~/server/observability/newrelic.js";
 
 /**
  * Single Mongo connection, env-configured. Switching local Docker → Atlas is a
@@ -22,8 +23,28 @@ function dbNameFromUri(uri: string): string {
 
 export async function getClient(): Promise<MongoClient> {
   if (!clientPromise) {
-    const client = new MongoClient(env.mongodbUri);
-    clientPromise = client.connect();
+    const client = new MongoClient(env.mongodbUri, { monitorCommands: true });
+    client.on("commandSucceeded", (event) => {
+      recordMetric(`Custom/MongoDB/${event.commandName}/DurationMs`, event.duration);
+    });
+    client.on("commandFailed", (event) => {
+      recordMetric("Custom/MongoDB/CommandFailure", 1);
+      noticeError(event.failure, { component: "mongodb", command: event.commandName });
+    });
+
+    const started = Date.now();
+    clientPromise = client
+      .connect()
+      .then((connected) => {
+        recordMetric("Custom/MongoDB/ConnectMs", Date.now() - started);
+        return connected;
+      })
+      .catch((error) => {
+        clientPromise = null;
+        recordMetric("Custom/MongoDB/ConnectFailure", 1);
+        noticeError(error, { component: "mongodb", operation: "connect" });
+        throw error;
+      });
   }
   return clientPromise;
 }

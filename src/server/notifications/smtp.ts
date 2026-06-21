@@ -1,6 +1,7 @@
 import nodemailer from "nodemailer";
 import { env } from "~/lib/env.js";
 import type { NotificationDoc } from "~/repositories/notifications.js";
+import { noticeError, recordMetric } from "~/server/observability/newrelic.js";
 
 function escapeHtml(value: string): string {
   return value
@@ -61,11 +62,20 @@ export async function sendNotificationEmail(notification: NotificationDoc): Prom
     ...(auth ? { auth } : {}),
   });
 
-  await transport.sendMail({
-    from: config.from,
-    to: notification.recipientEmail,
-    subject: notification.subject,
-    text,
-    html,
-  });
+  const started = Date.now();
+  try {
+    await transport.sendMail({
+      from: config.from,
+      to: notification.recipientEmail,
+      subject: notification.subject,
+      text,
+      html,
+    });
+    recordMetric("Custom/SMTP/SendDurationMs", Date.now() - started);
+    recordMetric("Custom/SMTP/SendSuccess", 1);
+  } catch (error) {
+    recordMetric("Custom/SMTP/SendFailure", 1);
+    noticeError(error, { component: "smtp", operation: "sendMail" });
+    throw error;
+  }
 }
