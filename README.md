@@ -271,13 +271,16 @@ Deployments run only after `ci` passes:
 
 - Pull requests from this same repository deploy to the GitHub `preview`
   environment with `vercel pull`, `vercel build`, and `vercel deploy --prebuilt`.
-- Pushes to `main` deploy to the GitHub `preview` environment first. The
-  production job depends on the preview job, then targets the GitHub
-  `production` environment with `vercel pull --environment=production`,
-  `vercel build --prod`, and `vercel deploy --prebuilt --prod`.
-- Configure the GitHub `production` environment with required reviewers so the
-  production job pauses for approval after preview succeeds. Without required
-  reviewers, GitHub will allow production to continue automatically.
+- Pushes to `main` deploy to the GitHub `preview` environment only. Production
+  does not run automatically on push.
+- After manually validating the preview deployment, promote the same `main`
+  branch to production from **Actions -> CI/CD -> Run workflow** with
+  `deploy_target=production`. That manual production run executes CI first, then
+  targets the GitHub `production` environment with
+  `vercel pull --environment=production`, `vercel build --prod`, and
+  `vercel deploy --prebuilt --prod`.
+- Optionally configure the GitHub `production` environment with required
+  reviewers for a second approval gate before the production job can run.
 - The deploy jobs set `NITRO_PRESET=vercel` so Nitro writes Vercel Build Output
   API artifacts to `.vercel/output` for `vercel deploy --prebuilt`.
 - Fork pull requests do not receive preview deploys, so repository secrets are
@@ -292,9 +295,10 @@ VERCEL_PROJECT_ID
 CODECOV_TOKEN
 ```
 
-Create GitHub environments named `preview` and `production`. In GitHub repository
-settings, open **Environments -> production** and enable **Required reviewers**
-for the people or teams allowed to approve production deploys.
+Create GitHub environments named `preview` and `production`. To add another
+approval layer, open **Settings -> Environments -> production** and enable
+**Required reviewers** for the people or teams allowed to approve production
+deploys.
 
 ### Vercel Setup
 
