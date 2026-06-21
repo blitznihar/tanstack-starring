@@ -6,12 +6,12 @@
 [![Bun](https://img.shields.io/badge/runtime-Bun-black?logo=bun)](https://bun.sh)
 [![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178c6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![TanStack Start](https://img.shields.io/badge/TanStack%20Start-React-ff4154)](https://tanstack.com/start)
-![License](https://img.shields.io/github/license/blitznihar/blitznihar/tanstack-starring?cacheSeconds=0)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Last commit](https://img.shields.io/github/last-commit/blitznihar/tanstack-starring)](https://github.com/blitznihar/tanstack-starring/commits/main)
 
 A web/desktop app that teaches concepts and delivers exam-style practice across
-multiple programs. It **starts with Grade 3 STAAR (Math + RLA)** but is built so
-**any program** (Grade 4/5 STAAR, SAT, GRE, "XYZ") can be added by importing
+multiple programs. It is built so
+**any program** ( SAT, GRE, "XYZ") can be added by importing
 content — no code changes. See [INSTRUCTION.md](INSTRUCTION.md) for the full spec
 and [`Staar/`](Staar/) for the authoritative UI/UX prototype.
 
@@ -95,7 +95,7 @@ Open the URL and pick a role on the login screen (local dev creates a real
 session for the seeded demo account — no password needed).
 
 - **Admin / Super Admin** → the live **Content browser**: programs at the top
-  level (SAT separate from Grade 3), the **Grade 3 Math** bundle's **"View 32
+  level (SAT), the **Grade 3 Math** bundle's **"View 32
   items"** with usage counts and answer keys, **pool health** pills
   (ok / running low / exhausted), and the **"Refill prompt"** generator.
 - **Student** (Maya) → the **Practice** screen: "Showing 31 questions today · 32
