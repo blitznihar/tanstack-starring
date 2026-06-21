@@ -32,6 +32,7 @@ export const createUserInputSchema = z.object({
   roles: z.array(roleSchema).length(1),
   studentIds: z.array(z.string()).default([]),
   parentIds: z.array(z.string()).default([]),
+  password: z.string().min(8).optional(),
   forceChangeOnFirstLogin: z.boolean().default(true),
 });
 export type CreateUserInput = z.infer<typeof createUserInputSchema>;

@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { studentOverview } from "~/server/reporting/reporting.js";
+import { rewardPanel } from "~/server/gamification/gamification.js";
 import { assertCanSeeStudent, publicUserOption, userId, visibleStudentsFor } from "~/server/users/associations.js";
 import { requireAuth } from "./context.js";
 
@@ -49,12 +50,19 @@ export const childOverview = createServerFn({ method: "GET" })
     const student = students.find((entry) => userId(entry) === studentId);
     const overview = await studentOverview(auth, studentId);
     const studentSummaries = await summariesForStudents(auth, students, studentId, overview);
+    const rewards = (await Promise.all(
+      overview.perProgram.map(async (program) => {
+        const rules = await rewardPanel(auth, program.enrollmentId);
+        return rules.map((rule) => ({ ...rule, enrollmentId: program.enrollmentId, programTitle: program.programTitle }));
+      }),
+    )).flat();
     return {
       available: true as const,
       students: selector,
       studentSummaries,
       studentId,
       studentName: student?.displayName ?? "Student",
+      rewards,
       ...overview,
     };
   });

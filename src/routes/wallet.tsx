@@ -103,12 +103,18 @@ function WalletPage() {
                   {state!.rewards.map((r, i) => (
                     <div key={i}>
                       <div style={{ display: "flex", justifyContent: "space-between", fontWeight: 800, fontSize: 14, marginBottom: 6 }}>
-                        <span>{r.prize} {r.met ? "🎉" : ""}</span>
-                        <span style={{ color: "var(--s-muted)", fontWeight: 700, fontSize: 12.5 }}>{r.label}</span>
+                        <span>{r.prizeName} {r.met ? "🎉" : ""}</span>
+                        <span style={{ color: r.expired ? "var(--a-bad)" : r.paused ? "var(--a-warn)" : "var(--s-muted)", fontWeight: 700, fontSize: 12.5 }}>
+                          {r.targetType.toLowerCase().replace(/_/g, " ")} · {r.targetValue}
+                        </span>
+                      </div>
+                      <div style={{ color: "var(--s-muted)", fontWeight: 800, fontSize: 13, marginBottom: 7 }}>
+                        {r.message}
                       </div>
                       <div style={{ height: 12, background: "#EEE9F6", borderRadius: 999, overflow: "hidden" }}>
-                        <div style={{ width: `${Math.round(r.progress * 100)}%`, height: "100%", background: r.met ? "var(--s-success)" : "var(--s-primary)", borderRadius: 999 }} />
+                        <div style={{ width: `${Math.round(r.progress * 100)}%`, height: "100%", background: r.met ? "var(--s-success)" : r.expired ? "var(--a-bad)" : r.paused ? "var(--a-warn)" : "var(--s-primary)", borderRadius: 999 }} />
                       </div>
+                      <div style={{ color: "var(--s-muted)", fontWeight: 700, fontSize: 12, marginTop: 5 }}>{r.label}</div>
                     </div>
                   ))}
                 </div>

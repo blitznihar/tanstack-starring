@@ -38,6 +38,13 @@ export const responsesRepo = {
     return (await col()).find({ enrollmentId, context: "practice" }).toArray();
   },
 
+  async deletePracticeByItemIds(enrollmentId: string, itemIds: string[]): Promise<number> {
+    const ids = [...new Set(itemIds.map(String).filter(Boolean))];
+    if (ids.length === 0) return 0;
+    const result = await (await col()).deleteMany({ enrollmentId, context: "practice", itemId: { $in: ids } });
+    return result.deletedCount;
+  },
+
   /** Insert; returns null if a practice response for this item already exists. */
   async insertPractice(doc: Omit<ResponseDoc, "_id" | "at" | "context">): Promise<ResponseDoc | null> {
     const full: ResponseDoc = { ...doc, _id: randomUUID(), context: "practice", at: new Date() };

@@ -24,6 +24,7 @@ import {
   adminGrantRobux,
   adminRedemptions,
   robuxRules,
+  removeRewardRule,
   rewardRulesList,
   saveRewardRule,
   saveRobuxRules,
@@ -57,9 +58,19 @@ type Billing = Awaited<ReturnType<typeof billingOverview>>;
 type Preview = Awaited<ReturnType<typeof previewImportFn>>;
 type ProgramStatus = Snapshot["programs"][number]["status"];
 type ProgramPromptDraft = { programTitle: string; category?: string; subjects: string[]; targetDays: number; itemsPerSubject?: number };
-type UserDraft = { username: string; displayName: string; email: string; roles: Role[]; studentIds: string[]; parentIds: string[]; adminIds: string[]; forceChangeOnFirstLogin: boolean };
-type UserUpdateDraft = UserDraft & { id: string; active: boolean };
+type UserDraft = { username: string; displayName: string; email: string; password: string; roles: Role[]; studentIds: string[]; parentIds: string[]; adminIds: string[]; forceChangeOnFirstLogin: boolean };
+type UserUpdateDraft = Omit<UserDraft, "password"> & { id: string; active: boolean };
 type ProgramUploadResult = { programKey: string; programTitle: string; bundleCount: number; itemCount: number };
+type RewardTargetType = "STREAK" | "POINTS" | "COMPLETE_IN_DAYS";
+type RewardDraft = {
+  id?: string;
+  prizeName: string;
+  targetType: RewardTargetType;
+  targetValue: number;
+  effectiveDate: string;
+  programIds: string[];
+  streakBreakBehavior: "PAUSE" | "RESET";
+};
 
 const TABS: { key: TabKey; label: string }[] = [
   { key: "users", label: "Users" },
@@ -86,6 +97,20 @@ const STEPPERS: { key: keyof Rules; label: string; sub: string }[] = [
   { key: "lessonComplete", label: "Lesson complete", sub: "Awarded on completed lessons" },
 ];
 
+function todayDateInput(): string {
+  return new Date().toISOString().slice(0, 10);
+}
+
+function cleanNonnegativeInt(value: unknown): number {
+  const n = Number(value);
+  if (!Number.isFinite(n)) return 0;
+  return Math.max(0, Math.floor(n));
+}
+
+function cleanPositiveInt(value: unknown): number {
+  return Math.max(1, cleanNonnegativeInt(value));
+}
+
 function ConsolePage() {
   const init = Route.useLoaderData();
   const navigate = useNavigate();
@@ -102,6 +127,7 @@ function ConsolePage() {
   const doNewProgramPrompt = useServerFn(newProgramPrompt);
   const doSaveRobux = useServerFn(saveRobuxRules);
   const doSaveReward = useServerFn(saveRewardRule);
+  const doRemoveReward = useServerFn(removeRewardRule);
   const doApprove = useServerFn(adminApprove);
   const doFulfill = useServerFn(adminFulfill);
   const doCreateRedemption = useServerFn(adminCreateRedemption);
@@ -113,7 +139,14 @@ function ConsolePage() {
   const [rewards, setRewards] = useState(init.rewards);
   const [redemptions, setRedemptions] = useState(init.redemptions);
   const [savedRules, setSavedRules] = useState(false);
-  const [rewardDraft, setRewardDraft] = useState({ prize: "", kind: "complete_in_days" as "complete_in_days" | "streak" | "points", threshold: 45 });
+  const [rewardDraft, setRewardDraft] = useState<RewardDraft>({
+    prizeName: "",
+    targetType: "COMPLETE_IN_DAYS",
+    targetValue: 45,
+    effectiveDate: todayDateInput(),
+    programIds: [],
+    streakBreakBehavior: "RESET",
+  });
 
   const primaryProgram = snapshot.programs[0];
   const summary = useMemo(() => ({
@@ -128,6 +161,11 @@ function ConsolePage() {
     setSavedRules(false);
   }
 
+  function setRuleValue(key: keyof Rules, value: unknown) {
+    setRules((current) => ({ ...current, [key]: cleanNonnegativeInt(value) }));
+    setSavedRules(false);
+  }
+
   async function saveRules() {
     if (!primaryProgram) return;
     await doSaveRobux({ data: { programKey: primaryProgram.key, rules } });
@@ -135,9 +173,32 @@ function ConsolePage() {
   }
 
   async function addReward() {
-    if (!rewardDraft.prize.trim() || !primaryProgram) return;
-    setRewards(await doSaveReward({ data: { programKey: primaryProgram.key, prize: rewardDraft.prize, kind: rewardDraft.kind, threshold: rewardDraft.threshold, status: "active" } }));
-    setRewardDraft({ prize: "", kind: rewardDraft.kind, threshold: rewardDraft.threshold });
+    const programIds = rewardDraft.programIds.length > 0 ? rewardDraft.programIds : primaryProgram ? [primaryProgram.key] : [];
+    if (!rewardDraft.prizeName.trim() || programIds.length === 0) return;
+    setRewards(await doSaveReward({
+      data: {
+        id: rewardDraft.id,
+        prizeName: rewardDraft.prizeName.trim(),
+        targetType: rewardDraft.targetType,
+        targetValue: cleanPositiveInt(rewardDraft.targetValue),
+        effectiveDate: rewardDraft.effectiveDate || todayDateInput(),
+        programIds,
+        streakBreakBehavior: rewardDraft.streakBreakBehavior,
+        status: "active",
+      },
+    }));
+    setRewardDraft({
+      prizeName: "",
+      targetType: rewardDraft.targetType,
+      targetValue: rewardDraft.targetValue,
+      effectiveDate: todayDateInput(),
+      programIds,
+      streakBreakBehavior: rewardDraft.streakBreakBehavior,
+    });
+  }
+
+  async function deleteReward(id: string) {
+    setRewards(await doRemoveReward({ data: { id } }));
   }
 
   return (
@@ -226,8 +287,10 @@ function ConsolePage() {
             rewardDraft={rewardDraft}
             onDraft={setRewardDraft}
             onStep={stepRule}
+            onRuleValue={setRuleValue}
             onSaveRules={saveRules}
             onAddReward={addReward}
+            onDeleteReward={deleteReward}
             onCreate={async (enrollmentId, item, amount) => setRedemptions(await doCreateRedemption({ data: { enrollmentId, item, amount } }))}
             onGrant={async (enrollmentId, amount) => setRedemptions(await doGrantRobux({ data: { enrollmentId, amount, reason: "admin demo grant" } }))}
             onApprove={async (id) => setRedemptions(await doApprove({ data: { id } }))}
@@ -273,6 +336,7 @@ function UsersTab({
     username: "",
     displayName: "",
     email: "blitznihar@gmail.com",
+    password: "Password@1234",
     roles: [defaultRole],
     studentIds: [],
     parentIds: [],
@@ -286,7 +350,7 @@ function UsersTab({
   const [busy, setBusy] = useState<string | null>(null);
 
   function resetDraft() {
-    setDraft({ username: "", displayName: "", email: "blitznihar@gmail.com", roles: [defaultRole], studentIds: [], parentIds: [], adminIds: [], forceChangeOnFirstLogin: true });
+    setDraft({ username: "", displayName: "", email: "blitznihar@gmail.com", password: "Password@1234", roles: [defaultRole], studentIds: [], parentIds: [], adminIds: [], forceChangeOnFirstLogin: true });
   }
 
   function selectDraftRole(role: Role) {
@@ -392,11 +456,12 @@ function UsersTab({
   return (
     <div style={{ display: "grid", gap: 16 }}>
       <section className="a-card" style={{ padding: 20 }}>
-        <SectionTitle title="Add user" note="Create one role per profile. Starter password is Password@1234." />
+        <SectionTitle title="Add user" note="Create one role per profile and choose the initial password." />
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(170px,1fr))", gap: 10 }}>
           <input value={draft.displayName} onChange={(e) => setDraft({ ...draft, displayName: e.target.value })} placeholder="Display name" style={inputStyle} />
           <input value={draft.username} onChange={(e) => setDraft({ ...draft, username: e.target.value })} placeholder="Username" style={inputStyle} />
           <input value={draft.email} onChange={(e) => setDraft({ ...draft, email: e.target.value })} placeholder="Email address" type="email" style={inputStyle} />
+          <input value={draft.password} onChange={(e) => setDraft({ ...draft, password: e.target.value })} placeholder="Initial password" type="text" style={inputStyle} />
           <label style={checkLabel}>
             <input type="checkbox" checked={draft.forceChangeOnFirstLogin} onChange={(e) => setDraft({ ...draft, forceChangeOnFirstLogin: e.target.checked })} />
             Require password change
@@ -404,7 +469,7 @@ function UsersTab({
         </div>
         <RolePicker roles={draft.roles} allowedRoles={snapshot.viewer.allowedRoles} onChange={selectDraftRole} />
         <UserAssociationFields snapshot={snapshot} draft={draft} onChange={(patch) => setDraft({ ...draft, ...patch })} />
-        <button onClick={create} disabled={busy === "create" || !draft.username.trim() || !draft.displayName.trim() || !draft.email.includes("@") || !userDraftValid(snapshot, draft)} style={primaryButton}>{busy === "create" ? "Creating..." : "Add user"}</button>
+        <button onClick={create} disabled={busy === "create" || !draft.username.trim() || !draft.displayName.trim() || !draft.email.includes("@") || draft.password.length < 8 || !userDraftValid(snapshot, draft)} style={primaryButton}>{busy === "create" ? "Creating..." : "Add user"}</button>
         {message && <div style={{ marginTop: 12, color: message.includes("Temporary password") || message.startsWith("Saved") || message.startsWith("Created") || message.startsWith("Removed") ? "var(--a-good)" : "var(--a-bad)", fontWeight: 900, fontSize: 13 }}>{message}</div>}
       </section>
 
@@ -895,6 +960,8 @@ function ContentTab({ snapshot }: { snapshot: Snapshot }) {
 }
 
 function ConsoleLessonList({ lessons }: { lessons: LessonDetail["lessons"] }) {
+  const [preview, setPreview] = useState<LessonDetail["lessons"][number] | null>(null);
+  if (preview) return <AdminStudentLessonPreview lesson={preview} onClose={() => setPreview(null)} />;
   return (
     <div style={{ display: "grid", gap: 12 }}>
       {lessons.map((lesson) => (
@@ -914,11 +981,166 @@ function ConsoleLessonList({ lessons }: { lessons: LessonDetail["lessons"] }) {
           <div style={{ color: "var(--a-muted)", fontWeight: 800, fontSize: 12, marginTop: 8 }}>
             {lesson.practiceExamples.length} lesson example{lesson.practiceExamples.length === 1 ? "" : "s"}
           </div>
+          <button onClick={() => setPreview(lesson)} style={{ ...secondaryButton, marginTop: 10 }}>View in Student Mode</button>
         </div>
       ))}
     </div>
   );
 }
+
+function AdminStudentLessonPreview({ lesson, onClose }: { lesson: LessonDetail["lessons"][number]; onClose: () => void }) {
+  return (
+    <div style={{ background: "var(--s-bg)", borderRadius: 14, padding: 18, color: "var(--s-ink)", fontFamily: "'Nunito', sans-serif" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "center", marginBottom: 16 }}>
+        <div>
+          <div style={{ fontWeight: 900, color: "var(--s-muted)", fontSize: 12 }}>Student Mode Preview</div>
+          <h2 style={{ margin: "2px 0 0", fontFamily: "'Baloo 2', sans-serif", fontSize: 26 }}>{lesson.title}</h2>
+        </div>
+        <button onClick={onClose} style={secondaryButton}>Close Student Mode</button>
+      </div>
+      <section style={{ background: "#fff", borderRadius: 22, padding: 24, boxShadow: "0 8px 22px rgba(54,48,74,.06)" }}>
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 14 }}>
+          <span style={{ background: "var(--s-primary-soft)", color: "var(--s-primary-ink)", borderRadius: 999, padding: "7px 12px", fontWeight: 900, fontSize: 12 }}>TEKS {lesson.standardCode}</span>
+          <span style={{ background: "#D9F0FF", color: "#1B76A0", borderRadius: 999, padding: "7px 12px", fontWeight: 900, fontSize: 12 }}>{lesson.subject} · Lesson</span>
+        </div>
+        {lesson.intro && <p style={{ color: "var(--s-muted)", fontWeight: 700, fontSize: 16, lineHeight: 1.65 }}>{lesson.intro}</p>}
+        {lesson.vocabulary.length > 0 && (
+          <>
+            <h3 style={studentPreviewHeading}>Words to know</h3>
+            <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 20 }}>
+              {lesson.vocabulary.map((word) => (
+                <span key={word.term} style={{ background: "#FBF4EA", borderRadius: 12, padding: "10px 14px", color: "var(--s-muted)", fontWeight: 900, fontSize: 13 }}>
+                  <b style={{ color: "var(--s-primary-ink)" }}>{word.term}</b> - {word.meaning}
+                </span>
+              ))}
+            </div>
+          </>
+        )}
+        <AdminLessonBody blocks={lesson.studentBody} />
+        {lesson.studentPracticeExamples.length > 0 && (
+          <>
+            <h3 style={studentPreviewHeading}>Practice examples</h3>
+            <div style={{ display: "grid", gap: 12 }}>
+              {lesson.studentPracticeExamples.map((example, index) => (
+                <AdminStudentPracticeExample key={example.id ?? index} example={example} num={index + 1} />
+              ))}
+            </div>
+          </>
+        )}
+      </section>
+    </div>
+  );
+}
+
+function AdminLessonBody({ blocks }: { blocks: LessonDetail["lessons"][number]["studentBody"] }) {
+  if (blocks.length === 0) return <EmptyNote>This lesson uses the generated student visual in the student screen.</EmptyNote>;
+  return (
+    <div style={{ display: "grid", gap: 14, margin: "6px 0 22px" }}>
+      {blocks.map((block, index) => {
+        if (block.kind === "heading") return <h3 key={index} style={studentPreviewHeading}>{block.text}</h3>;
+        if (block.kind === "paragraph") {
+          if (block.html) return <div key={index} style={studentPreviewBox} dangerouslySetInnerHTML={{ __html: sanitizeAdminMarkup(block.html) }} />;
+          return <p key={index} style={studentPreviewParagraph}>{block.text}</p>;
+        }
+        if (block.kind === "html") return <div key={index} style={studentPreviewBox} dangerouslySetInnerHTML={{ __html: sanitizeAdminMarkup(block.html) }} />;
+        if (block.kind === "svg") {
+          return (
+            <figure key={index} style={{ margin: 0, background: "#F7F2FF", borderRadius: 16, padding: 14 }}>
+              <div dangerouslySetInnerHTML={{ __html: sanitizeAdminMarkup(block.svg) }} />
+              <figcaption style={{ color: "var(--s-muted)", fontWeight: 800, fontSize: 12, marginTop: 8 }}>{block.caption ?? block.alt}</figcaption>
+            </figure>
+          );
+        }
+        if (block.kind === "list") {
+          const Tag = block.ordered ? "ol" : "ul";
+          return <Tag key={index} style={studentPreviewParagraph}>{block.items.map((item) => <li key={item}>{item}</li>)}</Tag>;
+        }
+        return (
+          <div key={index} style={{ ...studentPreviewBox, borderColor: block.tone === "warning" ? "#F3C87A" : block.tone === "success" ? "#A9E0C7" : "#D7CBF4" }}>
+            {block.title && <div style={{ fontWeight: 900, marginBottom: 4 }}>{block.title}</div>}
+            {block.text && <div>{block.text}</div>}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function AdminStudentPracticeExample({ example, num }: { example: LessonDetail["lessons"][number]["studentPracticeExamples"][number]; num: number }) {
+  const [show, setShow] = useState(false);
+  return (
+    <div style={{ border: "2px solid #EFEAF7", borderRadius: 14, padding: 16 }}>
+      <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
+        <span style={{ width: 30, height: 30, borderRadius: "50%", background: "var(--s-primary)", color: "#fff", display: "grid", placeItems: "center", fontWeight: 900, flex: "none" }}>{num}</span>
+        <div style={{ flex: 1 }}>
+          <AdminRichContent content={example.prompt} />
+          {example.options.length > 0 && (
+            <div style={{ display: "grid", gap: 8, marginTop: 10 }}>
+              {example.options.map((option) => (
+                <div key={option.key} style={{ border: "2px solid #ECE7F4", borderRadius: 12, padding: "10px 12px", fontWeight: 800, background: show && option.correct ? "var(--s-success-soft)" : "#fff", color: show && option.correct ? "#0E7A55" : "var(--s-ink)" }}>
+                  {option.key}. {option.text}
+                </div>
+              ))}
+            </div>
+          )}
+          <button onClick={() => setShow((value) => !value)} style={{ ...secondaryButton, marginTop: 10 }}>{show ? "Hide answer" : "Show answer"}</button>
+          {show && (
+            <div style={{ background: "var(--s-success-soft)", color: "#0E7A55", borderRadius: 12, padding: 12, marginTop: 10, fontWeight: 800 }}>
+              <AdminRichContent content={example.answer} />
+              {example.explanation.length > 0 && <div style={{ marginTop: 8 }}><AdminRichContent content={example.explanation} /></div>}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AdminRichContent({ content }: { content: LessonDetail["lessons"][number]["studentPracticeExamples"][number]["prompt"] }) {
+  return (
+    <div style={{ display: "grid", gap: 8 }}>
+      {content.map((node, index) => {
+        if (typeof node === "string") return <p key={index} style={studentPreviewParagraph}>{node}</p>;
+        if (node.kind === "heading") return <h3 key={index} style={studentPreviewHeading}>{node.text}</h3>;
+        if (node.kind === "list") return <ul key={index} style={studentPreviewParagraph}>{(node.items ?? []).map((item) => <li key={item}>{item}</li>)}</ul>;
+        if (node.kind === "math" || node.kind === "code") return <code key={index} style={{ background: "#F4F1FA", borderRadius: 8, padding: "3px 6px", fontWeight: 900 }}>{node.text}</code>;
+        if (node.kind === "blank") return <span key={index} style={{ display: "inline-block", minWidth: 70, borderBottom: "2px solid var(--s-muted)" }} />;
+        return <p key={index} style={studentPreviewParagraph}>{node.text ?? ""}</p>;
+      })}
+    </div>
+  );
+}
+
+function sanitizeAdminMarkup(markup: string): string {
+  return markup
+    .replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi, "")
+    .replace(/\son[a-z]+\s*=\s*"[^"]*"/gi, "")
+    .replace(/\son[a-z]+\s*=\s*'[^']*'/gi, "")
+    .replace(/\son[a-z]+\s*=\s*[^\s>]+/gi, "")
+    .replace(/javascript:/gi, "");
+}
+
+const studentPreviewHeading: React.CSSProperties = {
+  fontFamily: "'Baloo 2', sans-serif",
+  fontSize: 20,
+  margin: "10px 0 8px",
+  color: "var(--s-ink)",
+};
+const studentPreviewParagraph: React.CSSProperties = {
+  margin: 0,
+  color: "var(--s-ink)",
+  fontWeight: 700,
+  lineHeight: 1.6,
+};
+const studentPreviewBox: React.CSSProperties = {
+  border: "2px solid #EFEAF7",
+  borderRadius: 14,
+  padding: 14,
+  background: "#fff",
+  color: "var(--s-ink)",
+  fontWeight: 700,
+  lineHeight: 1.55,
+};
 
 function ExamsTab({ snapshot }: { snapshot: Snapshot }) {
   const [programKey, setProgramKey] = useState(snapshot.programs[0]?.key ?? "");
@@ -1087,8 +1309,10 @@ function RedemptionsTab({
   rewardDraft,
   onDraft,
   onStep,
+  onRuleValue,
   onSaveRules,
   onAddReward,
+  onDeleteReward,
   onCreate,
   onGrant,
   onApprove,
@@ -1099,11 +1323,13 @@ function RedemptionsTab({
   rewards: Rewards;
   redemptions: Redemptions;
   savedRules: boolean;
-  rewardDraft: { prize: string; kind: "complete_in_days" | "streak" | "points"; threshold: number };
-  onDraft: (draft: { prize: string; kind: "complete_in_days" | "streak" | "points"; threshold: number }) => void;
+  rewardDraft: RewardDraft;
+  onDraft: (draft: RewardDraft) => void;
   onStep: (key: keyof Rules, delta: number) => void;
+  onRuleValue: (key: keyof Rules, value: unknown) => void;
   onSaveRules: () => Promise<void>;
   onAddReward: () => Promise<void>;
+  onDeleteReward: (id: string) => Promise<void>;
   onCreate: (enrollmentId: string, item: string, amount: number) => Promise<void>;
   onGrant: (enrollmentId: string, amount: number) => Promise<void>;
   onApprove: (id: string) => Promise<void>;
@@ -1115,6 +1341,35 @@ function RedemptionsTab({
   const [amount, setAmount] = useState(1000);
   const [grantAmount, setGrantAmount] = useState(1000);
   const enrollmentId = selected || enrollments[0]?.id || "";
+  const effectiveProgramIds = rewardDraft.programIds.length > 0 ? rewardDraft.programIds : snapshot.programs[0] ? [snapshot.programs[0].key] : [];
+
+  function editReward(rule: Rewards[number]) {
+    onDraft({
+      id: rule.id,
+      prizeName: rule.prizeName ?? rule.prize ?? "",
+      targetType: rule.targetType ?? (rule.kind === "streak" ? "STREAK" : rule.kind === "points" ? "POINTS" : "COMPLETE_IN_DAYS"),
+      targetValue: cleanPositiveInt(rule.targetValue ?? rule.threshold ?? 1),
+      effectiveDate: rule.effectiveDate ?? todayDateInput(),
+      programIds: rule.programIds?.length ? rule.programIds : rule.programKey ? [rule.programKey] : effectiveProgramIds,
+      streakBreakBehavior: rule.streakBreakBehavior ?? "RESET",
+    });
+  }
+
+  async function removeReward(rule: Rewards[number]) {
+    const ok = window.confirm(`Delete reward rule "${rule.prizeName ?? rule.prize}"?`);
+    if (!ok) return;
+    await onDeleteReward(rule.id);
+    if (rewardDraft.id === rule.id) {
+      onDraft({ ...rewardDraft, id: undefined, prizeName: "" });
+    }
+  }
+
+  function toggleProgram(programKey: string) {
+    const current = new Set(effectiveProgramIds);
+    if (current.has(programKey)) current.delete(programKey);
+    else current.add(programKey);
+    onDraft({ ...rewardDraft, programIds: [...current] });
+  }
 
   return (
     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
@@ -1147,9 +1402,17 @@ function RedemptionsTab({
                 <div style={{ fontWeight: 900, fontSize: 13.5 }}>{s.label}</div>
                 <div style={{ color: "var(--a-faint)", fontWeight: 700, fontSize: 11.5 }}>{s.sub}</div>
               </div>
-              <button onClick={() => onStep(s.key, -5)} style={stepButton}>-</button>
-              <span style={{ fontWeight: 900, fontSize: 17, width: 38, textAlign: "center" }}>{rules[s.key]}</span>
-              <button onClick={() => onStep(s.key, 5)} style={stepButton}>+</button>
+              <button onClick={() => onStep(s.key, -1)} style={stepButton}>-</button>
+              <input
+                type="number"
+                min={0}
+                step={1}
+                value={rules[s.key]}
+                onChange={(e) => onRuleValue(s.key, e.target.value)}
+                onBlur={(e) => onRuleValue(s.key, e.target.value)}
+                style={{ ...inputStyle, width: 58, margin: 0, textAlign: "center", fontWeight: 900, fontSize: 16, padding: "6px 4px" }}
+              />
+              <button onClick={() => onStep(s.key, 1)} style={stepButton}>+</button>
             </div>
           ))}
         </div>
@@ -1159,22 +1422,61 @@ function RedemptionsTab({
       <section className="a-card" style={{ padding: 20 }}>
         <SectionTitle title="Reward rules" note="Big goals and prize milestones." />
         <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 14 }}>
-          {rewards.slice(0, 4).map((r) => (
+          {rewards.length === 0 ? <EmptyNote>No reward rules yet.</EmptyNote> : rewards.map((r) => {
+            const targetType = r.targetType ?? (r.kind === "streak" ? "STREAK" : r.kind === "points" ? "POINTS" : "COMPLETE_IN_DAYS");
+            const value = r.targetValue ?? r.threshold ?? 0;
+            const programIds = r.programIds?.length ? r.programIds : r.programKey ? [r.programKey] : [];
+            const programLabels = programIds.map((key) => snapshot.programs.find((program) => program.key === key)?.title ?? key).join(", ");
+            return (
             <div key={r.id} style={{ border: "1px solid var(--a-border2)", borderRadius: 10, padding: "10px 12px", fontWeight: 800, fontSize: 13 }}>
-              {r.prize} <span style={{ color: "var(--a-muted)", fontWeight: 700 }}>· {r.kind.replace(/_/g, " ")} · {r.threshold}</span>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+                <div style={{ flex: 1, minWidth: 220 }}>
+                  {r.prizeName ?? r.prize} <span style={{ color: "var(--a-muted)", fontWeight: 700 }}>· {targetType.toLowerCase().replace(/_/g, " ")} · {value}</span>
+                  <div style={{ color: "var(--a-faint)", fontWeight: 700, fontSize: 11.5, marginTop: 3 }}>
+                    Effective {r.effectiveDate ?? "1970-01-01"} · {programLabels || "No programs"}{targetType === "STREAK" ? ` · ${(r.streakBreakBehavior ?? "RESET").toLowerCase()}` : ""}
+                  </div>
+                </div>
+                <button onClick={() => editReward(r)} style={tinyButton}>Edit</button>
+                <button onClick={() => removeReward(r)} style={{ ...tinyButton, color: "var(--a-bad)" }}>Delete</button>
+              </div>
             </div>
-          ))}
+          );})}
         </div>
-        <input value={rewardDraft.prize} onChange={(e) => onDraft({ ...rewardDraft, prize: e.target.value })} placeholder="Prize, e.g. movie night" style={inputStyle} />
+        <input value={rewardDraft.prizeName} onChange={(e) => onDraft({ ...rewardDraft, prizeName: e.target.value })} placeholder="Prize, e.g. movie night" style={inputStyle} />
         <div style={{ display: "flex", gap: 8 }}>
-          <select value={rewardDraft.kind} onChange={(e) => onDraft({ ...rewardDraft, kind: e.target.value as typeof rewardDraft.kind })} style={{ ...inputStyle, flex: 1 }}>
-            <option value="complete_in_days">Complete in days</option>
-            <option value="streak">Streak</option>
-            <option value="points">Points</option>
+          <select value={rewardDraft.targetType} onChange={(e) => onDraft({ ...rewardDraft, targetType: e.target.value as RewardTargetType })} style={{ ...inputStyle, flex: 1 }}>
+            <option value="COMPLETE_IN_DAYS">Complete in days</option>
+            <option value="STREAK">Streak</option>
+            <option value="POINTS">Points</option>
           </select>
-          <input type="number" value={rewardDraft.threshold} onChange={(e) => onDraft({ ...rewardDraft, threshold: Number(e.target.value) })} style={{ ...inputStyle, width: 90 }} />
+          <input type="number" min={1} step={1} value={rewardDraft.targetValue} onChange={(e) => onDraft({ ...rewardDraft, targetValue: cleanPositiveInt(e.target.value) })} style={{ ...inputStyle, width: 90 }} />
         </div>
-        <button onClick={onAddReward} style={{ ...secondaryButton, width: "100%" }}>Add reward rule</button>
+        <div style={{ display: "grid", gridTemplateColumns: rewardDraft.targetType === "STREAK" ? "1fr 1fr" : "1fr", gap: 8 }}>
+          <input type="date" value={rewardDraft.effectiveDate} onChange={(e) => onDraft({ ...rewardDraft, effectiveDate: e.target.value })} style={inputStyle} />
+          {rewardDraft.targetType === "STREAK" && (
+            <select value={rewardDraft.streakBreakBehavior} onChange={(e) => onDraft({ ...rewardDraft, streakBreakBehavior: e.target.value as RewardDraft["streakBreakBehavior"] })} style={inputStyle}>
+              <option value="RESET">Reset after missed day</option>
+              <option value="PAUSE">Pause after missed day</option>
+            </select>
+          )}
+        </div>
+        <div style={{ border: "1px solid var(--a-border)", borderRadius: 10, padding: 10, marginBottom: 8 }}>
+          <div style={{ color: "var(--a-muted)", fontWeight: 800, fontSize: 12, marginBottom: 8 }}>Programs</div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+            {snapshot.programs.map((program) => {
+              const active = effectiveProgramIds.includes(program.key);
+              return (
+                <button key={program.key} onClick={() => toggleProgram(program.key)} style={{ ...tinyButton, background: active ? "var(--a-accent-soft)" : "#fff", color: active ? "var(--a-accent)" : "var(--a-ink)" }}>
+                  {program.title}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+        <div style={{ display: "flex", gap: 8 }}>
+          <button onClick={onAddReward} style={{ ...secondaryButton, flex: 1 }}>{rewardDraft.id ? "Save reward rule" : "Add reward rule"}</button>
+          {rewardDraft.id && <button onClick={() => onDraft({ prizeName: "", targetType: rewardDraft.targetType, targetValue: rewardDraft.targetValue, effectiveDate: todayDateInput(), programIds: effectiveProgramIds, streakBreakBehavior: rewardDraft.streakBreakBehavior })} style={tinyButton}>Cancel</button>}
+        </div>
       </section>
 
       <section className="a-card" style={{ padding: 20 }}>

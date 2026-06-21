@@ -11,6 +11,7 @@ import {
   setRobuxRules,
   listRewardRules,
   upsertRewardRule,
+  deleteRewardRule,
   createAdminRedemption,
   grantRobux,
 } from "~/server/gamification/gamification.js";
@@ -94,9 +95,31 @@ export const rewardRulesList = createServerFn({ method: "GET" }).handler(async (
 });
 
 export const saveRewardRule = createServerFn({ method: "POST" })
-  .validator((d: { id?: string; programKey: string; studentId?: string; kind: "complete_in_days" | "streak" | "points"; threshold: number; prize: string; status: "active" | "fulfilled" | "archived" }) => d)
+  .validator((d: {
+    id?: string;
+    programKey?: string;
+    studentId?: string;
+    kind?: "complete_in_days" | "streak" | "points";
+    threshold?: number;
+    prize?: string;
+    prizeName?: string;
+    targetType?: "STREAK" | "POINTS" | "COMPLETE_IN_DAYS";
+    targetValue?: number;
+    effectiveDate?: string;
+    programIds?: string[];
+    streakBreakBehavior?: "PAUSE" | "RESET";
+    status: "active" | "fulfilled" | "archived";
+  }) => d)
   .handler(async ({ data }) => {
     const auth = await requireAuth();
     await upsertRewardRule(auth, data);
+    return listRewardRules(auth);
+  });
+
+export const removeRewardRule = createServerFn({ method: "POST" })
+  .validator((d: { id: string }) => d)
+  .handler(async ({ data }) => {
+    const auth = await requireAuth();
+    await deleteRewardRule(auth, data.id);
     return listRewardRules(auth);
   });

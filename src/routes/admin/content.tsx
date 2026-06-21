@@ -285,6 +285,8 @@ function ContentBrowser() {
 }
 
 function LessonList({ lessons }: { lessons: LessonDetail["lessons"] }) {
+  const [preview, setPreview] = useState<LessonDetail["lessons"][number] | null>(null);
+  if (preview) return <StudentLessonPreview lesson={preview} onClose={() => setPreview(null)} />;
   return (
     <div style={{ display: "grid", gap: 14 }}>
       {lessons.map((lesson) => (
@@ -317,6 +319,9 @@ function LessonList({ lessons }: { lessons: LessonDetail["lessons"] }) {
           <div style={{ fontWeight: 900, fontSize: 12.5, color: "var(--a-muted)", marginBottom: 6 }}>
             {lesson.practiceExamples.length} lesson practice example{lesson.practiceExamples.length === 1 ? "" : "s"}
           </div>
+          <button onClick={() => setPreview(lesson)} style={{ ...btn(false), marginBottom: lesson.practiceExamples.length > 0 ? 10 : 0 }}>
+            View in Student Mode
+          </button>
           {lesson.practiceExamples.length > 0 && (
             <div style={{ display: "grid", gap: 8 }}>
               {lesson.practiceExamples.map((example) => (
@@ -339,6 +344,116 @@ function LessonList({ lessons }: { lessons: LessonDetail["lessons"] }) {
     </div>
   );
 }
+
+function StudentLessonPreview({ lesson, onClose }: { lesson: LessonDetail["lessons"][number]; onClose: () => void }) {
+  return (
+    <div style={{ background: "var(--s-bg)", borderRadius: 14, padding: 18, color: "var(--s-ink)", fontFamily: "'Nunito', sans-serif" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14 }}>
+        <div>
+          <div style={{ color: "var(--s-muted)", fontWeight: 900, fontSize: 12 }}>Student Mode Preview</div>
+          <h2 style={{ margin: "2px 0 0", fontFamily: "'Baloo 2', sans-serif", fontSize: 26 }}>{lesson.title}</h2>
+        </div>
+        <div style={{ flex: 1 }} />
+        <button onClick={onClose} style={btn(false)}>Close Student Mode</button>
+      </div>
+      <section style={{ background: "#fff", borderRadius: 22, padding: 24, boxShadow: "0 8px 22px rgba(54,48,74,.06)" }}>
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 14 }}>
+          <span style={studentPill}>TEKS {lesson.standardCode}</span>
+          <span style={{ ...studentPill, background: "#D9F0FF", color: "#1B76A0" }}>{lesson.subject} · Lesson</span>
+        </div>
+        {lesson.intro && <p style={studentParagraph}>{lesson.intro}</p>}
+        {lesson.vocabulary.length > 0 && (
+          <div style={{ display: "flex", gap: 10, flexWrap: "wrap", margin: "0 0 18px" }}>
+            {lesson.vocabulary.map((word) => (
+              <span key={word.term} style={{ background: "#FBF4EA", borderRadius: 12, padding: "10px 14px", color: "var(--s-muted)", fontWeight: 900, fontSize: 13 }}>
+                <b style={{ color: "var(--s-primary-ink)" }}>{word.term}</b> - {word.meaning}
+              </span>
+            ))}
+          </div>
+        )}
+        <StudentLessonBody blocks={lesson.studentBody} />
+        {lesson.studentPracticeExamples.length > 0 && (
+          <>
+            <h3 style={studentHeading}>Practice examples</h3>
+            <div style={{ display: "grid", gap: 12 }}>
+              {lesson.studentPracticeExamples.map((example, index) => (
+                <StudentPracticeExample key={example.id ?? index} example={example} num={index + 1} />
+              ))}
+            </div>
+          </>
+        )}
+      </section>
+    </div>
+  );
+}
+
+function StudentLessonBody({ blocks }: { blocks: LessonDetail["lessons"][number]["studentBody"] }) {
+  if (blocks.length === 0) return <p style={studentParagraph}>This lesson uses the generated student visual in the student screen.</p>;
+  return (
+    <div style={{ display: "grid", gap: 14, margin: "0 0 22px" }}>
+      {blocks.map((block, index) => {
+        if (block.kind === "heading") return <h3 key={index} style={studentHeading}>{block.text}</h3>;
+        if (block.kind === "paragraph") {
+          if (block.html) return <div key={index} style={studentBox} dangerouslySetInnerHTML={{ __html: sanitizeMarkup(block.html) }} />;
+          return <p key={index} style={studentParagraph}>{block.text}</p>;
+        }
+        if (block.kind === "html") return <div key={index} style={studentBox} dangerouslySetInnerHTML={{ __html: sanitizeMarkup(block.html) }} />;
+        if (block.kind === "svg") return <figure key={index} style={studentBox}><div dangerouslySetInnerHTML={{ __html: sanitizeMarkup(block.svg) }} /><figcaption style={{ color: "var(--s-muted)", fontWeight: 800, fontSize: 12 }}>{block.caption ?? block.alt}</figcaption></figure>;
+        if (block.kind === "list") {
+          const Tag = block.ordered ? "ol" : "ul";
+          return <Tag key={index} style={studentParagraph}>{block.items.map((item) => <li key={item}>{item}</li>)}</Tag>;
+        }
+        return <div key={index} style={studentBox}>{block.title && <b>{block.title}</b>} {block.text}</div>;
+      })}
+    </div>
+  );
+}
+
+function StudentPracticeExample({ example, num }: { example: LessonDetail["lessons"][number]["studentPracticeExamples"][number]; num: number }) {
+  const [show, setShow] = useState(false);
+  return (
+    <div style={{ border: "2px solid #EFEAF7", borderRadius: 14, padding: 16 }}>
+      <div style={{ fontWeight: 900, marginBottom: 8 }}>{num}.</div>
+      <RichPreview content={example.prompt} />
+      {example.options.map((option) => (
+        <div key={option.key} style={{ border: "2px solid #ECE7F4", borderRadius: 12, padding: "10px 12px", marginTop: 8, fontWeight: 800, background: show && option.correct ? "var(--s-success-soft)" : "#fff", color: show && option.correct ? "#0E7A55" : "var(--s-ink)" }}>
+          {option.key}. {option.text}
+        </div>
+      ))}
+      <button onClick={() => setShow((value) => !value)} style={{ ...btn(false), marginTop: 10 }}>{show ? "Hide answer" : "Show answer"}</button>
+      {show && <div style={{ ...studentBox, background: "var(--s-success-soft)", color: "#0E7A55", marginTop: 10 }}><RichPreview content={example.answer} />{example.explanation.length > 0 && <RichPreview content={example.explanation} />}</div>}
+    </div>
+  );
+}
+
+function RichPreview({ content }: { content: LessonDetail["lessons"][number]["studentPracticeExamples"][number]["prompt"] }) {
+  return (
+    <div style={{ display: "grid", gap: 8 }}>
+      {content.map((node, index) => {
+        if (typeof node === "string") return <p key={index} style={studentParagraph}>{node}</p>;
+        if (node.kind === "heading") return <h3 key={index} style={studentHeading}>{node.text}</h3>;
+        if (node.kind === "list") return <ul key={index} style={studentParagraph}>{(node.items ?? []).map((item) => <li key={item}>{item}</li>)}</ul>;
+        if (node.kind === "math" || node.kind === "code") return <code key={index}>{node.text}</code>;
+        if (node.kind === "blank") return <span key={index} style={{ display: "inline-block", minWidth: 70, borderBottom: "2px solid var(--s-muted)" }} />;
+        return <p key={index} style={studentParagraph}>{node.text ?? ""}</p>;
+      })}
+    </div>
+  );
+}
+
+function sanitizeMarkup(markup: string): string {
+  return markup
+    .replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi, "")
+    .replace(/\son[a-z]+\s*=\s*"[^"]*"/gi, "")
+    .replace(/\son[a-z]+\s*=\s*'[^']*'/gi, "")
+    .replace(/\son[a-z]+\s*=\s*[^\s>]+/gi, "")
+    .replace(/javascript:/gi, "");
+}
+
+const studentPill: React.CSSProperties = { background: "var(--s-primary-soft)", color: "var(--s-primary-ink)", borderRadius: 999, padding: "7px 12px", fontWeight: 900, fontSize: 12 };
+const studentHeading: React.CSSProperties = { fontFamily: "'Baloo 2', sans-serif", fontSize: 20, margin: "10px 0 8px", color: "var(--s-ink)" };
+const studentParagraph: React.CSSProperties = { margin: 0, color: "var(--s-ink)", fontWeight: 700, lineHeight: 1.6 };
+const studentBox: React.CSSProperties = { border: "2px solid #EFEAF7", borderRadius: 14, padding: 14, background: "#fff", color: "var(--s-ink)", fontWeight: 700, lineHeight: 1.55 };
 
 function btn(primary: boolean): React.CSSProperties {
   return {

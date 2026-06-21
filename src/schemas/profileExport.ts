@@ -30,6 +30,8 @@ export const profileExportSchema = z.object({
   examSessions: docArray, // includes per-session `result` payloads
   exams: docArray,
   itemUsage: docArray,
+  lessonProgress: docArray,
+  practiceProgress: docArray,
   masteryStates: docArray,
   robuxLedger: docArray,
   redemptions: docArray,

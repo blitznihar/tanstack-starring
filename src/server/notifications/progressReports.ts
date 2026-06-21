@@ -1,12 +1,12 @@
 import { contentRepo } from "~/repositories/content.js";
 import { enrollmentsRepo } from "~/repositories/enrollments.js";
+import { lessonProgressRepo } from "~/repositories/lessonProgress.js";
 import { programsRepo } from "~/repositories/programs.js";
 import { responsesRepo } from "~/repositories/responses.js";
-import { schedulesRepo } from "~/repositories/schedules.js";
 import { usersRepo } from "~/repositories/users.js";
-import { currentDayIndex, type Task } from "~/domain/scheduler/scheduler.js";
 import { parentsForStudent, userId } from "~/server/users/associations.js";
 import { queueEmailNotification } from "./email.js";
+import type { PracticeCompletionQuestion } from "~/server/practice/practice.js";
 
 type ReportExamSummary = {
   title: string;
@@ -33,25 +33,18 @@ function escapeHtml(value: string): string {
     .replace(/"/g, "&quot;");
 }
 
-function labelTask(task: Task, standardTitles: Map<string, string>): string {
-  const subject = task.subject ? task.subject.toUpperCase() : "";
-  const topic = task.topic ? `TEKS ${task.topic}` : task.title;
-  const title = task.topic ? standardTitles.get(task.topic) : "";
-  return [subject, topic, title].filter(Boolean).join(" - ");
-}
-
 async function todaysLessons(enrollmentId: string): Promise<string[]> {
   const enrollment = await enrollmentsRepo.findById(enrollmentId);
   if (!enrollment) return [];
-  const [schedule, standards] = await Promise.all([
-    schedulesRepo.find(enrollmentId),
+  const [completed, standards] = await Promise.all([
+    lessonProgressRepo.completedToday(enrollmentId),
     contentRepo.listStandards(enrollment.programKey),
   ]);
-  if (!schedule) return [];
-  const current = schedule.days[currentDayIndex(schedule)];
-  if (!current) return [];
   const standardTitles = new Map(standards.map((standard) => [standard.code, standard.description ?? standard.code]));
-  return current.tasks.filter((task) => task.kind === "lesson").map((task) => labelTask(task, standardTitles));
+  return completed.map((lesson) => {
+    const title = standardTitles.get(lesson.standardCode);
+    return [lesson.subject.toUpperCase(), `TEKS ${lesson.standardCode}`, title].filter(Boolean).join(" - ");
+  });
 }
 
 async function todaysPracticeSummary(enrollmentId: string): Promise<{ solved: number; right: number; wrong: number }> {
@@ -74,11 +67,30 @@ function reportBody(input: {
   programTitle: string;
   lessons: string[];
   practice: { solved: number; right: number; wrong: number };
+  practiceDetail?: PracticeCompletionQuestion[];
+  practiceEarned?: number;
   exam?: ReportExamSummary;
 }): string {
   const lessons = input.lessons.length
     ? input.lessons.map((lesson) => `<li>${escapeHtml(lesson)}</li>`).join("")
-    : "<li>No scheduled lesson was found today.</li>";
+    : "";
+  const practiceDetail = input.practiceDetail?.length
+    ? `
+      <h3 style="margin:20px 0 8px;color:#2f2943;">Practice Details</h3>
+      ${input.practiceDetail.map((question) => `
+        <div style="border:1px solid #e4dced;border-radius:10px;padding:12px;margin:0 0 10px;">
+          <div style="font-weight:800;color:#2f2943;margin-bottom:6px;">${question.num}. ${escapeHtml(question.prompt)}</div>
+          <div style="font-size:12px;color:#746b88;margin-bottom:8px;">${escapeHtml(question.teks)}</div>
+          <table style="width:100%;border-collapse:collapse;font-size:14px;">
+            <tr><td style="padding:7px;border:1px solid #eee7f5;width:34%;">Student answer</td><td style="padding:7px;border:1px solid #eee7f5;"><strong>${escapeHtml(question.studentAnswer)}</strong></td></tr>
+            <tr><td style="padding:7px;border:1px solid #eee7f5;">Correct answer</td><td style="padding:7px;border:1px solid #eee7f5;"><strong>${escapeHtml(question.correctAnswer)}</strong></td></tr>
+            <tr><td style="padding:7px;border:1px solid #eee7f5;">Result</td><td style="padding:7px;border:1px solid #eee7f5;color:${question.correct ? "#0b7a58" : "#c2491f"};"><strong>${question.correct ? "Correct" : "Incorrect"}</strong>${question.awarded ? ` · +${question.awarded} Robux` : ""}</td></tr>
+            ${question.whyWrong ? `<tr><td style="padding:7px;border:1px solid #eee7f5;">Why the wrong answer missed</td><td style="padding:7px;border:1px solid #eee7f5;">${escapeHtml(question.whyWrong)}</td></tr>` : ""}
+            ${question.whyRight ? `<tr><td style="padding:7px;border:1px solid #eee7f5;">Student-screen explanation</td><td style="padding:7px;border:1px solid #eee7f5;">${escapeHtml(question.whyRight)}</td></tr>` : ""}
+          </table>
+        </div>
+      `).join("")}`
+    : "";
   const exam = input.exam
     ? `
       <h3 style="margin:20px 0 8px;color:#2f2943;">Exam</h3>
@@ -95,8 +107,20 @@ function reportBody(input: {
       <h2 style="margin:0 0 6px;color:#2f2943;">Comet Academy Progress Report</h2>
       <p style="margin:0 0 18px;color:#746b88;">${escapeHtml(input.studentName)} - ${escapeHtml(input.programTitle)} - ${todayIso()}</p>
 
-      <h3 style="margin:0 0 8px;color:#2f2943;">Lessons Finished Today</h3>
-      <ul style="margin:0 0 18px;padding-left:20px;">${lessons}</ul>
+      <h3 style="margin:0 0 8px;color:#2f2943;">Summary</h3>
+      <table style="width:100%;border-collapse:collapse;margin:0 0 18px;">
+        <tr>
+          <td style="padding:8px;border:1px solid #e4dced;">Questions solved</td>
+          <td style="padding:8px;border:1px solid #e4dced;"><strong>${input.practice.solved}</strong></td>
+        </tr>
+        <tr>
+          <td style="padding:8px;border:1px solid #e4dced;">Right / Wrong</td>
+          <td style="padding:8px;border:1px solid #e4dced;"><strong>${input.practice.right}</strong> right, <strong>${input.practice.wrong}</strong> wrong</td>
+        </tr>
+        ${input.practiceEarned == null ? "" : `<tr><td style="padding:8px;border:1px solid #e4dced;">Practice Robux earned</td><td style="padding:8px;border:1px solid #e4dced;"><strong>${input.practiceEarned}</strong></td></tr>`}
+      </table>
+
+      ${lessons ? `<h3 style="margin:0 0 8px;color:#2f2943;">Lessons Completed Today</h3><ul style="margin:0 0 18px;padding-left:20px;">${lessons}</ul>` : ""}
 
       <h3 style="margin:0 0 8px;color:#2f2943;">Practice</h3>
       <table style="width:100%;border-collapse:collapse;">
@@ -109,11 +133,19 @@ function reportBody(input: {
           <td style="padding:8px;border:1px solid #e4dced;"><strong>${input.practice.right}</strong> right, <strong>${input.practice.wrong}</strong> wrong</td>
         </tr>
       </table>
+      ${practiceDetail}
       ${exam}
     </div>`;
 }
 
-export async function queuePracticeProgressReport(enrollmentId: string): Promise<void> {
+export async function queuePracticeProgressReport(
+  enrollmentId: string,
+  detail?: {
+    subject: string;
+    questions: PracticeCompletionQuestion[];
+    summary: { solved: number; right: number; wrong: number; earned: number };
+  },
+): Promise<void> {
   const enrollment = await enrollmentsRepo.findById(enrollmentId);
   if (!enrollment) return;
   const [student, program, lessons, practice, recipients] = await Promise.all([
@@ -124,7 +156,14 @@ export async function queuePracticeProgressReport(enrollmentId: string): Promise
     reportRecipients(enrollment.studentId),
   ]);
   if (!student || !program || recipients.length === 0) return;
-  const body = reportBody({ studentName: student.displayName, programTitle: program.title, lessons, practice });
+  const body = reportBody({
+    studentName: student.displayName,
+    programTitle: program.title,
+    lessons,
+    practice: detail?.summary ?? practice,
+    practiceDetail: detail?.questions,
+    practiceEarned: detail?.summary.earned,
+  });
   await Promise.all(recipients.map((recipient) => queueEmailNotification({
     userId: userId(recipient),
     kind: "practice_report",

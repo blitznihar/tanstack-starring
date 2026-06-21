@@ -7,7 +7,7 @@ import { robuxLedgerRepo } from "~/repositories/robuxLedger.js";
 import { redemptionsRepo } from "~/repositories/redemptions.js";
 import { rewardRulesRepo } from "~/repositories/rewardRules.js";
 import { resolveFulfillment } from "~/domain/ledger/ledger.js";
-import { evaluateRules, type RewardRule } from "~/domain/rewards/rewards.js";
+import { evaluateRules, normalizeRewardRule, type RewardRule } from "~/domain/rewards/rewards.js";
 import { robuxRulesSchema, type RobuxRules } from "~/schemas/program.js";
 import { walletFor } from "./wallet.js";
 import { toIso } from "~/lib/dates.js";
@@ -156,14 +156,22 @@ export async function grantRobux(actor: AuthContext, enrollmentId: string, amoun
 
 async function rewardProgress(actor: AuthContext, enrollmentId: string, programKey: string) {
   const allTopics = [...new Set((await contentRepo.listItems({ programKey })).flatMap((i) => i.standardCodes))];
-  const summary = await masterySummary(enrollmentId, allTopics);
-  const wallet = await walletFor(enrollmentId);
+  const [summary, wallet, ledgerEntries] = await Promise.all([
+    masterySummary(enrollmentId, allTopics),
+    walletFor(enrollmentId),
+    robuxLedgerRepo.list(enrollmentId),
+  ]);
   let streak = 0;
   let daysElapsed = 0;
+  let scheduleDays: { date: string; status: "scheduled" | "done" | "off" | "sick" }[] = [];
+  let completedAt: string | null = null;
   try {
     const s = await getOrCreateSchedule(actor, enrollmentId);
     streak = s.streak;
     daysElapsed = s.currentDay;
+    scheduleDays = s.schedule.days.map((day) => ({ date: day.date, status: day.status }));
+    const doneDates = scheduleDays.filter((day) => day.status === "done").map((day) => day.date).sort();
+    completedAt = doneDates.at(-1) ?? null;
   } catch {
     /* schedule optional */
   }
@@ -171,7 +179,10 @@ async function rewardProgress(actor: AuthContext, enrollmentId: string, programK
     streak,
     daysElapsed,
     completed: allTopics.length > 0 && summary.remaining.length === 0,
+    completedAt,
     points: wallet.lifetimeEarned,
+    ledgerEntries,
+    scheduleDays,
   };
 }
 
@@ -181,7 +192,28 @@ export async function rewardPanel(actor: AuthContext, enrollmentId: string) {
   assertOwner(actor, enrollment);
   const rules = await rewardRulesRepo.listForProgram(enrollment!.programKey, enrollment!.studentId);
   const progress = await rewardProgress(actor, enrollmentId, enrollment!.programKey);
-  return evaluateRules(rules, progress).map((e) => ({ prize: e.rule.prize, kind: e.rule.kind, threshold: e.rule.threshold, met: e.met, progress: e.progress, label: e.label }));
+  return evaluateRules(rules, progress).map((e) => ({
+    id: e.rule.id,
+    prize: e.rule.prizeName,
+    prizeName: e.rule.prizeName,
+    kind: e.rule.kind,
+    targetType: e.rule.targetType,
+    threshold: e.rule.targetValue,
+    targetValue: e.rule.targetValue,
+    effectiveDate: e.rule.effectiveDate,
+    programIds: e.rule.programIds,
+    streakBreakBehavior: e.rule.streakBreakBehavior,
+    met: e.met,
+    progress: e.progress,
+    label: e.label,
+    message: e.message,
+    state: e.state,
+    current: e.current,
+    remaining: e.remaining,
+    daysRemaining: e.daysRemaining ?? null,
+    expired: e.expired ?? false,
+    paused: e.paused ?? false,
+  }));
 }
 
 // ---- admin config ----
@@ -191,16 +223,21 @@ export async function listRewardRules(actor: AuthContext): Promise<RewardRule[]>
 }
 export async function upsertRewardRule(actor: AuthContext, rule: Omit<RewardRule, "id"> & { id?: string }) {
   requireCapability(actor.roles, "rewards.configure");
-  const saved = await rewardRulesRepo.upsert(rule);
+  const normalized = normalizeRewardRule({ ...rule, id: rule.id ?? "pending", status: rule.status ?? "active" });
+  if (!normalized.prizeName) throw new Error("Prize name is required");
+  if (normalized.programIds.length === 0) throw new Error("Choose at least one program");
+  const { id: _pending, ...newRule } = normalized;
+  void _pending;
+  const saved = await rewardRulesRepo.upsert(rule.id ? normalized : newRule);
   const visibleStudents = await visibleStudentsFor(actor);
   const targetStudentIds = new Set<string>();
-  if (rule.studentId) {
-    if (visibleStudents.some((student) => userId(student) === rule.studentId)) targetStudentIds.add(rule.studentId);
+  if (normalized.studentId) {
+    if (visibleStudents.some((student) => userId(student) === normalized.studentId)) targetStudentIds.add(normalized.studentId);
   } else {
     for (const student of visibleStudents) {
       const id = userId(student);
       const enrollments = await enrollmentsRepo.listForStudent(id);
-      if (enrollments.some((enrollment) => enrollment.programKey === rule.programKey && enrollment.status === "active")) targetStudentIds.add(id);
+      if (enrollments.some((enrollment) => normalized.programIds.includes(enrollment.programKey) && enrollment.status === "active")) targetStudentIds.add(id);
     }
   }
   await Promise.all(
@@ -208,22 +245,34 @@ export async function upsertRewardRule(actor: AuthContext, rule: Omit<RewardRule
       queueStudentAndParentEmails(studentId, {
         kind: "reward_rule_created",
         subject: "New reward rule added",
-        body: `A new reward rule is available: ${rule.prize} for ${rule.kind.replace(/_/g, " ")} ${rule.threshold}.`,
+        body: `A new reward rule is available: ${normalized.prizeName} for ${normalized.targetType.replace(/_/g, " ").toLowerCase()} ${normalized.targetValue}.`,
       }),
     ),
   );
   return saved;
 }
 
+export async function deleteRewardRule(actor: AuthContext, id: string): Promise<void> {
+  requireCapability(actor.roles, "rewards.configure");
+  await rewardRulesRepo.delete(id);
+}
+
 function publicRewardRule(rule: RewardRule): RewardRule {
+  const normalized = normalizeRewardRule(rule);
   return {
-    id: rule.id,
-    programKey: rule.programKey,
-    ...(rule.studentId ? { studentId: rule.studentId } : {}),
-    kind: rule.kind,
-    threshold: rule.threshold,
-    prize: rule.prize,
-    status: rule.status,
+    id: normalized.id,
+    programKey: normalized.programKey,
+    ...(normalized.studentId ? { studentId: normalized.studentId } : {}),
+    kind: normalized.kind,
+    threshold: normalized.threshold,
+    prize: normalized.prizeName,
+    prizeName: normalized.prizeName,
+    targetType: normalized.targetType,
+    targetValue: normalized.targetValue,
+    effectiveDate: normalized.effectiveDate,
+    programIds: normalized.programIds,
+    streakBreakBehavior: normalized.streakBreakBehavior,
+    status: normalized.status,
   };
 }
 

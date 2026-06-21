@@ -1,6 +1,8 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
+import { useState } from "react";
 import { studentHome } from "~/server/rpc/student";
+import { startExam } from "~/server/rpc/exam";
 import { logout } from "~/server/rpc/session";
 
 export const Route = createFileRoute("/student")({
@@ -15,11 +17,32 @@ function StudentDashboard() {
   const data = Route.useLoaderData();
   const navigate = useNavigate();
   const doLogout = useServerFn(logout);
+  const doStartExam = useServerFn(startExam);
+  const [launchingExam, setLaunchingExam] = useState(false);
   const primary = data.primary;
 
   async function exit() {
     await doLogout({});
     navigate({ to: "/" });
+  }
+
+  async function launchScheduledExam(program: ProgramView) {
+    const task = program.todayTasks.find((entry) => entry.kind === "exam");
+    if (!task || launchingExam) return;
+    setLaunchingExam(true);
+    try {
+      const result = await doStartExam({
+        data: {
+          enrollmentId: program.enrollmentId,
+          kind: "progressive",
+          durationSeconds: (task.durationMinutes ?? 60) * 60,
+        },
+      });
+      navigate({ to: "/exam/$sessionId", params: { sessionId: result.sessionId } });
+    } catch (error) {
+      setLaunchingExam(false);
+      alert(error instanceof Error ? error.message : String(error));
+    }
   }
 
   return (
@@ -71,7 +94,7 @@ function StudentDashboard() {
 
         {primary ? (
           <>
-            <TodayPanel program={primary} />
+            <TodayPanel program={primary} launchingExam={launchingExam} onStartExam={launchScheduledExam} />
             <ScheduleBand program={primary} />
             <section style={{ display: "grid", gridTemplateColumns: "minmax(280px,1.25fr) minmax(260px,.95fr)", gap: 18, alignItems: "stretch" }}>
               <WeekPanel program={primary} />
@@ -123,8 +146,9 @@ function ProgramCard({ program, active }: { program: ProgramView; active: boolea
   );
 }
 
-function TodayPanel({ program }: { program: ProgramView }) {
-  const tasks = program.todayTasks.slice(0, 5);
+function TodayPanel({ program, launchingExam, onStartExam }: { program: ProgramView; launchingExam: boolean; onStartExam: (program: ProgramView) => Promise<void> }) {
+  const tasks = program.todayTasks;
+  const hasExam = tasks.some((task) => task.kind === "exam");
   const lessonSubject = tasks.find((task) => task.kind !== "exam" && task.subjectKey)?.subjectKey ?? program.subjects[0] ?? "math";
   return (
     <section style={{ position: "relative", overflow: "hidden", background: "linear-gradient(135deg,#6C4CE0,#7F61EC)", borderRadius: 28, padding: 28, color: "#fff", boxShadow: "0 18px 38px rgba(108,76,224,.22)", marginBottom: 18 }}>
@@ -135,9 +159,15 @@ function TodayPanel({ program }: { program: ProgramView }) {
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(160px,1fr))", gap: 12, position: "relative" }}>
         {tasks.length === 0 ? <TaskCard title="All caught up" meta={program.title} kind="practice" /> : tasks.map((task) => <TaskCard key={task.id} title={task.title} meta={`${task.subject} · ${task.meta}`} kind={task.kind} />)}
       </div>
-      <Link to="/lesson" search={{ subject: lessonSubject }} style={{ display: "inline-flex", marginTop: 22, background: "#fff", color: "var(--s-primary-ink)", borderRadius: 16, padding: "16px 25px", fontWeight: 900, fontSize: 15 }}>
-        Start today's work
-      </Link>
+      {hasExam ? (
+        <button onClick={() => onStartExam(program)} disabled={launchingExam} style={{ display: "inline-flex", marginTop: 22, background: "#fff", color: "var(--s-primary-ink)", border: "none", borderRadius: 16, padding: "16px 25px", fontWeight: 900, fontSize: 15, cursor: launchingExam ? "wait" : "pointer", fontFamily: "inherit" }}>
+          {launchingExam ? "Starting exam..." : "Start today's exam"}
+        </button>
+      ) : (
+        <Link to="/lesson" search={{ subject: lessonSubject }} style={{ display: "inline-flex", marginTop: 22, background: "#fff", color: "var(--s-primary-ink)", borderRadius: 16, padding: "16px 25px", fontWeight: 900, fontSize: 15 }}>
+          Start today's work
+        </Link>
+      )}
     </section>
   );
 }

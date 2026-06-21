@@ -21,7 +21,9 @@
     "export-profile": "bun run scripts/export-profile.ts",
     "import-profile": "bun run scripts/import-profile.ts",
     "send-test-notifications": "bun run scripts/send-test-notifications.ts",
-    "desktop": "electron electron/main.cjs"
+    "desktop": "bun scripts/desktop.mjs",
+    "desktop:dev": "bun scripts/desktop.mjs --dev",
+    "desktop:prod": "bun scripts/desktop.mjs --prod"
   },
   "overrides": {
     "vite": "7.3.5"
@@ -45,6 +47,7 @@
     "@typescript-eslint/eslint-plugin": "^8.19.0",
     "@typescript-eslint/parser": "^8.19.0",
     "@vitejs/plugin-react": "^5",
+    "electron": "^42.4.1",
     "eslint": "^9.17.0",
     "prettier": "^3.4.2",
     "typescript": "^5.7.2",

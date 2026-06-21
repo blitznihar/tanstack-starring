@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { enrollmentsRepo } from "~/repositories/enrollments.js";
 import { programsRepo } from "~/repositories/programs.js";
-import { getPracticeSet, submitPracticeAnswer } from "~/server/practice/practice.js";
+import { completePracticeSet, getPracticeSet, submitPracticeAnswer } from "~/server/practice/practice.js";
 import { walletFor } from "~/server/gamification/wallet.js";
 import { isProgramUnlocked, assertProgramUnlocked } from "~/server/billing/billing.js";
 import { requireAuth } from "./context.js";
@@ -49,4 +49,14 @@ export const submitPractice = createServerFn({ method: "POST" })
     const enrollment = await enrollmentsRepo.findById(data.enrollmentId);
     if (enrollment) await assertProgramUnlocked(enrollment.programKey);
     return submitPracticeAnswer(auth, data);
+  });
+
+/** Submit the whole visible practice set and send one progress report. */
+export const completePractice = createServerFn({ method: "POST" })
+  .validator((d: { enrollmentId: string; subject: string; itemIds: string[] }) => d)
+  .handler(async ({ data }) => {
+    const auth = await requireAuth();
+    const enrollment = await enrollmentsRepo.findById(data.enrollmentId);
+    if (enrollment) await assertProgramUnlocked(enrollment.programKey);
+    return completePracticeSet(auth, data);
   });

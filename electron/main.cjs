@@ -1,11 +1,12 @@
 // Optional Electron macOS shell (§19 M8). Wraps the Comet web UI in a native
-// desktop window pointing at API_BASE_URL. Electron is NOT a bundled dependency
-// (keeps the web install lean) — run it on demand:
+// desktop window pointing at API_BASE_URL.
 //
-//   API_BASE_URL=http://localhost:3000 bunx electron electron/main.cjs
+//   bun run desktop -- --url=http://localhost:3000
+//   bun run desktop:dev
+//   bun run desktop:prod
 //
-// or add `electron` to devDependencies and run `bun run desktop`. The DB/Stripe
-// config is unchanged — the shell only renders the same server-rendered UI.
+// The DB/Stripe config is unchanged — the shell only renders the same
+// server-rendered UI.
 const { app, BrowserWindow, shell } = require("electron");
 
 const URL_TO_LOAD = process.env.API_BASE_URL || process.env.COMET_URL || "http://localhost:3000";

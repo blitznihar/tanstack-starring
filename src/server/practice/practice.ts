@@ -3,13 +3,17 @@ import { programsRepo } from "~/repositories/programs.js";
 import { contentRepo } from "~/repositories/content.js";
 import { passagesRepo } from "~/repositories/passages.js";
 import { itemUsageRepo } from "~/repositories/itemUsage.js";
+import { lessonProgressRepo } from "~/repositories/lessonProgress.js";
+import { practiceProgressRepo } from "~/repositories/practiceProgress.js";
 import { responsesRepo } from "~/repositories/responses.js";
 import { robuxLedgerRepo } from "~/repositories/robuxLedger.js";
+import { schedulesRepo } from "~/repositories/schedules.js";
 import { scoreItem } from "~/domain/scoring/score.js";
-import { assemblePractice, earnUpTo, practiceAward } from "~/domain/practice/practice.js";
+import { assembleFocusedPractice, earnUpTo, practiceAward, sourceItemIdFromPracticeId } from "~/domain/practice/practice.js";
 import { walletFor } from "~/server/gamification/wallet.js";
 import { recordAttempt } from "~/server/mastery/mastery.js";
 import { queuePracticeProgressReport } from "~/server/notifications/progressReports.js";
+import { completeDay, currentDayIndex, type Schedule } from "~/domain/scheduler/scheduler.js";
 import { richToText } from "~/lib/richText.js";
 import type { AuthContext } from "~/server/auth/session.js";
 import type { Item } from "~/schemas/item.js";
@@ -43,6 +47,7 @@ export type PracticeSet = {
   bankTotal: number;
   perCorrect: number;
   earnUpTo: number;
+  unlockedStandards: string[];
   questions: PracticeQuestion[];
 };
 
@@ -73,9 +78,14 @@ export async function getPracticeSet(
   if (!program) throw new Error("Program not found");
 
   const bank = await contentRepo.listItems({ programKey: enrollment!.programKey, subject: input.subject });
-  const usedIds = await itemUsageRepo.usedItemIds(input.enrollmentId);
-  const order = subjectOrder(bank, Object.keys(program.conceptConfig));
-  const assembled = assemblePractice(bank, usedIds, program.conceptConfig, order);
+  const unlockedStandards = await lessonProgressRepo.completedCodes(input.enrollmentId, input.subject);
+  const unlocked = unlockedStandards.filter((code) => bank.some((item) => item.standardCodes.includes(code)));
+  const order = subjectOrder(bank, Object.keys(program.conceptConfig)).filter((code) => unlocked.includes(code));
+  const focusStandard = order.at(-1) ?? unlocked.at(-1) ?? "";
+  const priorStandards = order.filter((code) => code !== focusStandard);
+  const assembled = focusStandard
+    ? assembleFocusedPractice(bank, focusStandard, priorStandards, { focusCount: 20, reviewCount: 5, reviewPerStandard: 2 })
+    : { slots: [], bankTotal: bank.filter((item) => item.type !== "scr" && item.type !== "ecr").length };
   const perCorrect = program.robuxRules.practiceCorrect;
 
   // Resolve any referenced reading passages once (RLA).
@@ -84,21 +94,25 @@ export async function getPracticeSet(
 
   return {
     subject: input.subject,
-    shownCount: assembled.shownCount,
+    shownCount: assembled.slots.length,
     bankTotal: assembled.bankTotal,
     perCorrect,
-    earnUpTo: earnUpTo(assembled.shownCount, perCorrect),
-    questions: assembled.questions.map((it, i) => ({
-      itemId: it._id,
-      num: i + 1,
-      teks: it.standardCodes.map((c) => `TEKS ${c}`).join(", "),
-      type: it.type,
-      prompt: richToText(it.prompt),
-      passage: it.passageRef ? passageView(passageById.get(it.passageRef)) : null,
-      options: (it.options ?? []).map((o) => ({ key: o.key, text: o.text })),
-      blankIds: it.blanks ? Object.keys(it.blanks) : [],
-      tokens: (it.tokens ?? []).map((t) => ({ id: t.id, text: t.text })),
-    })),
+    earnUpTo: earnUpTo(assembled.slots.length, perCorrect),
+    unlockedStandards,
+    questions: assembled.slots.map((slot, i) => {
+      const it = slot.item;
+      return {
+        itemId: slot.practiceItemId,
+        num: i + 1,
+        teks: `${slot.kind === "review" ? "Review · " : ""}${it.standardCodes.map((c) => `TEKS ${c}`).join(", ")}`,
+        type: it.type,
+        prompt: richToText(it.prompt),
+        passage: it.passageRef ? passageView(passageById.get(it.passageRef)) : null,
+        options: (it.options ?? []).map((o) => ({ key: o.key, text: o.text })),
+        blankIds: it.blanks ? Object.keys(it.blanks) : [],
+        tokens: (it.tokens ?? []).map((t) => ({ id: t.id, text: t.text })),
+      };
+    }),
   };
 }
 
@@ -148,6 +162,26 @@ function correctAnswerText(item: Item): string {
   }
 }
 
+function answerText(item: Item, selected: unknown): string {
+  const opts = item.options ?? [];
+  const optionText = (key: string) => {
+    const option = opts.find((o) => o.key === key);
+    return option ? `${option.key}. ${option.text}` : key;
+  };
+  if (selected == null) return "(blank)";
+  if (typeof selected === "string") {
+    if (item.type === "multiple_choice" || item.type === "inline_choice") return optionText(selected);
+    return selected.trim() || "(blank)";
+  }
+  if (Array.isArray(selected)) return selected.map((value) => optionText(String(value))).join(", ") || "(blank)";
+  if (typeof selected === "object") {
+    return Object.entries(selected as Record<string, unknown>)
+      .map(([key, value]) => `${key}: ${item.type === "inline_choice" ? optionText(String(value)) : String(value)}`)
+      .join("; ") || "(blank)";
+  }
+  return String(selected);
+}
+
 function keysOf(v: unknown): string[] {
   if (Array.isArray(v)) return v.map((x) => String(x));
   if (typeof v === "string") return v ? [v] : [];
@@ -182,16 +216,43 @@ function buildFeedback(
   };
 }
 
+async function completeCurrentScheduleDayIfReady(enrollmentId: string): Promise<void> {
+  const doc = await schedulesRepo.find(enrollmentId);
+  if (!doc) return;
+  const schedule: Schedule = {
+    startDate: doc.startDate,
+    targetDays: doc.targetDays,
+    days: doc.days,
+    config: doc.config,
+    dayStatus: doc.dayStatus,
+    doneDates: doc.doneDates,
+  };
+  const index = currentDayIndex(schedule);
+  const day = schedule.days[index];
+  if (!day || day.status !== "scheduled" || day.tasks.length === 0 || day.tasks.some((task) => task.kind === "exam")) return;
+  for (const task of day.tasks) {
+    if (!task.subject || !task.topic) return;
+    if (task.kind === "lesson" && !(await lessonProgressRepo.isComplete(enrollmentId, task.subject, task.topic))) return;
+    if (task.kind === "practice" && !(await practiceProgressRepo.isComplete(enrollmentId, task.subject, task.topic))) return;
+  }
+  await schedulesRepo.save(enrollmentId, completeDay(schedule, index));
+}
+
 export async function submitPracticeAnswer(
   actor: AuthContext,
   input: { enrollmentId: string; itemId: string; selected: unknown },
 ): Promise<PracticeFeedback> {
   const enrollment = await enrollmentsRepo.findById(input.enrollmentId);
   assertOwner(actor, enrollment);
-  const item = await contentRepo.findItem(input.itemId);
+  const sourceItemId = sourceItemIdFromPracticeId(input.itemId);
+  const item = await contentRepo.findItem(sourceItemId);
   if (!item || item.programKey !== enrollment!.programKey) throw new Error("Item not in this enrollment's program");
   // Written items are never practiced (no instant scoring) — guard against misuse.
   if (item.type === "scr" || item.type === "ecr") throw new Error("Written items are exam-only");
+  const unlockedStandards = new Set(await lessonProgressRepo.completedCodes(input.enrollmentId, item.subject));
+  if (item.standardCodes.length === 0 || !item.standardCodes.every((code) => unlockedStandards.has(code))) {
+    throw new Error("Complete the lesson for this topic before practicing its problems.");
+  }
   const program = await programsRepo.findByKey(enrollment!.programKey);
   const perCorrect = program?.robuxRules.practiceCorrect ?? 0;
 
@@ -219,7 +280,7 @@ export async function submitPracticeAnswer(
     return buildFeedback(item, input.selected, result.correct, 0, perCorrect, wallet);
   }
 
-  await itemUsageRepo.record(input.enrollmentId, input.itemId, "practice");
+  await itemUsageRepo.record(input.enrollmentId, item._id, "practice");
   await recordAttempt(input.enrollmentId, item.standardCodes, result.correct);
   if (awarded > 0) {
     await robuxLedgerRepo.add({
@@ -230,8 +291,98 @@ export async function submitPracticeAnswer(
       refId: input.itemId,
     });
   }
-  await queuePracticeProgressReport(input.enrollmentId);
-
   const wallet = await walletFor(input.enrollmentId);
   return buildFeedback(item, input.selected, result.correct, awarded, perCorrect, wallet);
+}
+
+export type PracticeCompletionQuestion = {
+  itemId: string;
+  num: number;
+  teks: string;
+  prompt: string;
+  studentAnswer: string;
+  correctAnswer: string;
+  correct: boolean;
+  awarded: number;
+  whyWrong: string;
+  whyRight: string;
+};
+
+export type PracticeCompletionReport = {
+  solved: number;
+  right: number;
+  wrong: number;
+  earned: number;
+  questions: PracticeCompletionQuestion[];
+  wallet: { available: number; lifetime: number };
+};
+
+export async function completePracticeSet(
+  actor: AuthContext,
+  input: { enrollmentId: string; subject: string; itemIds: string[] },
+): Promise<PracticeCompletionReport> {
+  const enrollment = await enrollmentsRepo.findById(input.enrollmentId);
+  assertOwner(actor, enrollment);
+  const ids = [...new Set(input.itemIds.map(String).filter(Boolean))];
+  if (ids.length === 0) throw new Error("There are no practice questions to complete.");
+
+  const [responses, items] = await Promise.all([
+    responsesRepo.listPractice(input.enrollmentId),
+    Promise.all(ids.map((id) => contentRepo.findItem(sourceItemIdFromPracticeId(id)))),
+  ]);
+  const responseByItem = new Map(responses.map((response) => [response.itemId, response]));
+  const missing = ids.filter((id) => !responseByItem.has(id));
+  if (missing.length > 0) throw new Error("Check every answer before completing practice.");
+
+  const unlockedStandards = new Set(await lessonProgressRepo.completedCodes(input.enrollmentId, input.subject));
+  const questions: PracticeCompletionQuestion[] = [];
+  const completedStandards = new Set<string>();
+  for (let index = 0; index < ids.length; index++) {
+    const item = items[index];
+    const response = responseByItem.get(ids[index]!);
+    if (!item || !response || item.programKey !== enrollment!.programKey || item.subject !== input.subject) continue;
+    if (item.standardCodes.length === 0 || !item.standardCodes.every((code) => unlockedStandards.has(code))) {
+      throw new Error("Complete the lesson for every practice topic before submitting this practice set.");
+    }
+    for (const code of item.standardCodes) completedStandards.add(code);
+    const selectedKey = typeof response.selected === "string" ? response.selected : "";
+    const selectedOption = item.options?.find((option) => option.key === selectedKey);
+    questions.push({
+      itemId: ids[index]!,
+      num: index + 1,
+      teks: item.standardCodes.map((code) => `TEKS ${code}`).join(", "),
+      prompt: richToText(item.prompt),
+      studentAnswer: answerText(item, response.selected),
+      correctAnswer: correctAnswerText(item),
+      correct: response.correct,
+      awarded: response.awarded,
+      whyWrong: !response.correct && selectedOption ? selectedOption.rationale ?? "" : "",
+      whyRight: richToText(item.explanation),
+    });
+  }
+
+  if (questions.length === 0) throw new Error("No completed practice answers were found.");
+  const right = questions.filter((question) => question.correct).length;
+  const earned = questions.reduce((sum, question) => sum + question.awarded, 0);
+  await Promise.all([...completedStandards].map((standardCode) => practiceProgressRepo.complete({
+    enrollmentId: input.enrollmentId,
+    programKey: enrollment!.programKey,
+    subject: input.subject,
+    standardCode,
+  })));
+  await completeCurrentScheduleDayIfReady(input.enrollmentId);
+  await queuePracticeProgressReport(input.enrollmentId, {
+    subject: input.subject,
+    questions,
+    summary: { solved: questions.length, right, wrong: questions.length - right, earned },
+  });
+  const wallet = await walletFor(input.enrollmentId);
+  return {
+    solved: questions.length,
+    right,
+    wrong: questions.length - right,
+    earned,
+    questions,
+    wallet: { available: wallet.available, lifetime: wallet.lifetimeEarned },
+  };
 }

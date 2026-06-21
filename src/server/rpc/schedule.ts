@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { enrollmentsRepo } from "~/repositories/enrollments.js";
 import { programsRepo } from "~/repositories/programs.js";
-import { getOrCreateSchedule, setDayStatus, workAheadDays, completeScheduleDay } from "~/server/scheduler/scheduler.js";
+import { clearDayStatus, getOrCreateSchedule, setDayStatus, workAheadDays, completeScheduleDay } from "~/server/scheduler/scheduler.js";
 import { accountUnlockedPrograms } from "~/server/billing/billing.js";
 import { requireCapability } from "~/server/auth/rbac.js";
 import { assertCanSeeStudent, publicUserOption, userId, visibleStudentsFor } from "~/server/users/associations.js";
@@ -12,44 +12,97 @@ type PlanView = {
   programKey: string;
   programTitle: string;
   targetDays: number;
+  calendarDays: number;
   streak: number;
   currentDay: number;
+  currentStudyDay: number;
   days: {
     index: number;
+    studyDayNumber: number | null;
+    studyDayLabel: string;
     date: string;
+    dayName: string;
+    dateLabel: string;
     status: string;
     tag: string;
     title: string;
     subject: string;
+    durationMinutes: number | null;
     bumped: boolean;
     workloadFactor: number;
     isExam: boolean;
+    remainingAfter: number | null;
   }[];
 };
 
+function dayLabels(date: string): { dayName: string; dateLabel: string } {
+  const parsed = new Date(date + "T00:00:00Z");
+  return {
+    dayName: parsed.toLocaleDateString("en-US", { weekday: "short", timeZone: "UTC" }),
+    dateLabel: parsed.toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" }),
+  };
+}
+
+function lessonRangeTitle(ranges: NonNullable<Awaited<ReturnType<typeof getOrCreateSchedule>>["schedule"]["days"][number]["lessonRanges"]>): string {
+  return ranges
+    .map((range) => {
+      const subject = range.subject.toUpperCase();
+      const topicPart = range.from === range.to ? String(range.from) : `${range.from}-${range.to}`;
+      return `${subject} ${topicPart}`;
+    })
+    .join(" + ");
+}
+
 function toPlanView(enrollmentId: string, programKey: string, programTitle: string, s: Awaited<ReturnType<typeof getOrCreateSchedule>>): PlanView {
+  const days = s.schedule.days.map((d) => {
+    const exam = d.tasks.some((t) => t.kind === "exam");
+    const examTask = d.tasks.find((t) => t.kind === "exam");
+    const subjects = [...new Set(d.tasks.filter((t) => t.subject).map((t) => t.subject!))];
+    const topicSummary = d.lessonRanges?.length
+      ? lessonRangeTitle(d.lessonRanges)
+      : subjects
+        .map((subject) => {
+          const topic = d.tasks.find((task) => task.subject === subject && task.topic)?.topic;
+          return topic ? `${subject.toUpperCase()} ${topic}` : subject.toUpperCase();
+        })
+        .join(" + ");
+    const isFlex = d.status === "off" || d.status === "sick";
+    const dayNumber = isFlex ? null : (d.programDayEnd ?? null);
+    const studyDayLabel = isFlex
+      ? "Flex"
+      : d.programDayStart && d.programDayEnd && d.programDayStart !== d.programDayEnd
+        ? `Day ${d.programDayStart}-${d.programDayEnd}`
+        : dayNumber
+          ? `Day ${dayNumber}`
+          : "Day";
+    return {
+      index: d.index,
+      studyDayNumber: dayNumber,
+      studyDayLabel,
+      date: d.date,
+      ...dayLabels(d.date),
+      status: d.status,
+      tag: exam ? "EXAM" : d.status === "off" ? "OFF" : d.status === "sick" ? "SICK" : d.tasks.length > d.baseCount ? "ADDED" : "LESSON",
+      title: exam ? examTask?.title ?? "Progressive exam" : topicSummary || (d.status === "off" ? "Day off" : d.status === "sick" ? "Sick day" : "Catch-up / review"),
+      subject: subjects.join(" + "),
+      durationMinutes: examTask?.durationMinutes ?? null,
+      bumped: d.workloadFactor > 1,
+      workloadFactor: d.workloadFactor,
+      isExam: exam,
+      remainingAfter: d.remainingAfter ?? null,
+    };
+  });
+  const currentStudyDay = days.find((day) => day.index === s.currentDay)?.studyDayNumber ?? s.schedule.targetDays;
   return {
     enrollmentId,
     programKey,
     programTitle,
     targetDays: s.schedule.targetDays,
+    calendarDays: s.schedule.days.length,
     streak: s.streak,
     currentDay: s.currentDay,
-    days: s.schedule.days.map((d) => {
-      const exam = d.tasks.some((t) => t.kind === "exam");
-      const subjects = [...new Set(d.tasks.filter((t) => t.subject).map((t) => t.subject!))];
-      return {
-        index: d.index,
-        date: d.date,
-        status: d.status,
-        tag: exam ? "EXAM" : d.status === "off" ? "OFF" : d.status === "sick" ? "SICK" : d.tasks.length > d.baseCount ? "ADDED" : "LESSON",
-        title: exam ? "Progressive exam" : d.tasks[0]?.topic ?? (d.status === "off" ? "Day off" : d.status === "sick" ? "Sick day" : "Catch-up / review"),
-        subject: subjects.join(" + "),
-        bumped: d.workloadFactor > 1,
-        workloadFactor: d.workloadFactor,
-        isExam: exam,
-      };
-    }),
+    currentStudyDay,
+    days,
   };
 }
 
@@ -111,6 +164,17 @@ export const planMarkDay = createServerFn({ method: "POST" })
     if (!enrollment) throw new Error("Enrollment not found");
     await assertCanSeeStudent(auth, enrollment.studentId);
     const s = await setDayStatus(auth, data.enrollmentId, data.index, data.status);
+    return toPlanView(data.enrollmentId, data.programKey, data.programTitle, s);
+  });
+
+export const planUnmarkDay = createServerFn({ method: "POST" })
+  .validator((d: { enrollmentId: string; programKey: string; programTitle: string; index: number }) => d)
+  .handler(async ({ data }) => {
+    const auth = await requireAuth();
+    const enrollment = await enrollmentsRepo.findById(data.enrollmentId);
+    if (!enrollment) throw new Error("Enrollment not found");
+    await assertCanSeeStudent(auth, enrollment.studentId);
+    const s = await clearDayStatus(auth, data.enrollmentId, data.index);
     return toPlanView(data.enrollmentId, data.programKey, data.programTitle, s);
   });
 

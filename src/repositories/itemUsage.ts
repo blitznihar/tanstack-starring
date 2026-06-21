@@ -36,6 +36,15 @@ export const itemUsageRepo = {
     await Promise.all(itemIds.map((id) => this.record(enrollmentId, id, context)));
   },
 
+  async releaseMany(enrollmentId: string, itemIds: string[], context?: ItemUsage["context"]): Promise<number> {
+    const ids = [...new Set(itemIds.map(String).filter(Boolean))];
+    if (ids.length === 0) return 0;
+    const filter: Record<string, unknown> = { enrollmentId, itemId: { $in: ids } };
+    if (context) filter.context = context;
+    const result = await (await col()).deleteMany(filter);
+    return result.deletedCount;
+  },
+
   async countForItem(itemId: string): Promise<number> {
     return (await col()).countDocuments({ itemId });
   },

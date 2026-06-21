@@ -1,7 +1,7 @@
 import { createFileRoute, Link, redirect, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
-import { myPracticeSet, submitPractice } from "~/server/rpc/practice";
+import { completePractice, myPracticeSet, submitPractice } from "~/server/rpc/practice";
 import { startExam } from "~/server/rpc/exam";
 import { logout } from "~/server/rpc/session";
 
@@ -40,16 +40,19 @@ function PracticePage() {
   const search = Route.useSearch();
   const navigate = useNavigate();
   const doSubmit = useServerFn(submitPractice);
+  const doCompletePractice = useServerFn(completePractice);
   const doStartExam = useServerFn(startExam);
   const doLogout = useServerFn(logout);
 
-  const [data, setData] = useState<Data>(initial);
-  const [subject, setSubject] = useState(search.subject ?? "math");
+  const data = initial;
+  const subject = search.subject ?? "math";
   const [launching, setLaunching] = useState<string | null>(null);
   const [selected, setSelected] = useState<Record<string, AnswerValue>>({});
   const [feedback, setFeedback] = useState<Record<string, Feedback>>({});
   const [wallet, setWallet] = useState(initial.available ? initial.wallet.available : 0);
   const [pending, setPending] = useState<string | null>(null);
+  const [completingPractice, setCompletingPractice] = useState(false);
+  const [completeMessage, setCompleteMessage] = useState<string | null>(null);
   const [pop, setPop] = useState<number | null>(null);
 
   async function switchSubject(s: string) {
@@ -80,6 +83,23 @@ function PracticePage() {
       setTimeout(() => setPop(null), 1400);
     }
     setPending(null);
+  }
+
+  async function finishPractice() {
+    if (!data.available || completingPractice) return;
+    const itemIds = data.set.questions.map((question) => question.itemId);
+    if (itemIds.length === 0 || itemIds.some((itemId) => !feedback[itemId])) return;
+    setCompletingPractice(true);
+    setCompleteMessage(null);
+    try {
+      const report = await doCompletePractice({ data: { enrollmentId: data.enrollmentId, subject, itemIds } });
+      setWallet(report.wallet.available);
+      setCompleteMessage(`Practice submitted: ${report.right}/${report.solved} correct, +${report.earned} Robux. Report sent.`);
+    } catch (e) {
+      setCompleteMessage(e instanceof Error ? e.message : String(e));
+    } finally {
+      setCompletingPractice(false);
+    }
   }
 
   const onSignOut = async () => { await doLogout({}); navigate({ to: "/" }); };
@@ -136,11 +156,22 @@ function PracticePage() {
           <div style={{ maxWidth: 640, margin: "20px auto", textAlign: "center", color: "var(--s-muted)", fontWeight: 700 }}>
             No practice items for this subject yet. Ask an admin to import a bundle.
           </div>
+        ) : data.set.shownCount === 0 ? (
+          <div style={{ background: "var(--s-surface)", borderRadius: 22, padding: 24, boxShadow: "0 8px 22px rgba(54,48,74,.06)", color: "var(--s-muted)", fontWeight: 800, lineHeight: 1.5 }}>
+            {data.set.unlockedStandards.length === 0 ? (
+              <>
+                Complete today’s lesson before practicing this subject.
+                <div><Link to="/lesson" search={{ subject }} style={lessonReturnLink}>Go to lesson</Link></div>
+              </>
+            ) : (
+              "You have completed every available practice question for the lessons currently unlocked."
+            )}
+          </div>
         ) : (
           <>
             <p style={{ margin: "0 0 18px", color: "var(--s-muted)", fontWeight: 700, fontSize: 13.5 }}>
-              Showing <b style={{ color: "var(--s-primary-ink)" }}>{data.set.shownCount}</b> questions today ·{" "}
-              <b>{data.set.bankTotal}</b> in the practice bank
+              Showing <b style={{ color: "var(--s-primary-ink)" }}>{data.set.shownCount}</b> practice questions today ·{" "}
+              <b>{data.set.bankTotal}</b> source questions in the bank
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
               {data.set.questions.map((q) => (
@@ -150,6 +181,31 @@ function PracticePage() {
                   onChange={(v) => setSelected((s) => ({ ...s, [q.itemId]: v }))}
                   onCheck={() => check(q.itemId, data.enrollmentId)} />
               ))}
+            </div>
+            <div style={{ background: "var(--s-surface)", borderRadius: 22, padding: 22, boxShadow: "0 8px 22px rgba(54,48,74,.06)", marginTop: 16 }}>
+              <button
+                onClick={finishPractice}
+                disabled={completingPractice || data.set.questions.some((q) => !feedback[q.itemId])}
+                style={{
+                  width: "100%",
+                  border: "none",
+                  cursor: completingPractice ? "wait" : data.set.questions.some((q) => !feedback[q.itemId]) ? "default" : "pointer",
+                  background: data.set.questions.some((q) => !feedback[q.itemId]) ? "var(--s-bg)" : "var(--s-primary)",
+                  color: data.set.questions.some((q) => !feedback[q.itemId]) ? "var(--s-muted)" : "#fff",
+                  fontFamily: "'Baloo 2', sans-serif",
+                  fontWeight: 800,
+                  fontSize: 17,
+                  padding: 15,
+                  borderRadius: 16,
+                }}
+              >
+                {completingPractice ? "Submitting practice..." : "Complete Practice"}
+              </button>
+              {completeMessage && (
+                <div style={{ marginTop: 12, color: completeMessage.startsWith("Practice submitted") ? "#0E7A55" : "#C2491F", fontWeight: 900, fontSize: 13.5 }}>
+                  {completeMessage}
+                </div>
+              )}
             </div>
           </>
         )}

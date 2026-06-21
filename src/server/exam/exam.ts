@@ -3,7 +3,7 @@ import { enrollmentsRepo } from "~/repositories/enrollments.js";
 import { programsRepo } from "~/repositories/programs.js";
 import { contentRepo } from "~/repositories/content.js";
 import { itemUsageRepo } from "~/repositories/itemUsage.js";
-import { responsesRepo } from "~/repositories/responses.js";
+import { lessonProgressRepo } from "~/repositories/lessonProgress.js";
 import { robuxLedgerRepo } from "~/repositories/robuxLedger.js";
 import { examsRepo, type ExamDoc } from "~/repositories/exams.js";
 import { examSessionsRepo, type ExamSessionDoc } from "~/repositories/examSessions.js";
@@ -69,22 +69,16 @@ export type ExamResultPayload = ExamResult & {
   perWrong: number;
 };
 
-/**
- * Derive completed + weak topics for progressive assembly from MASTERY (§9).
- * Completed = topics the student has touched (any mastery state); weak = the
- * assembler's weighting set. A mock (or a brand-new student with no history)
- * covers all topics that have content.
- */
+/** Derive completed + weak topics for assembly. Exams only cover completed lessons. */
 async function deriveProgress(
   enrollmentId: string,
   programKey: string,
-  kind: ExamKind,
 ): Promise<{ completed: string[]; weak: string[] }> {
   const allTopics = [...new Set((await contentRepo.listItems({ programKey })).flatMap((i) => i.standardCodes))];
-  const summary = await masterySummary(enrollmentId, allTopics);
-  // Topics the student has attempted at all (mastered + partial + not_mastered).
-  const attempted = summary.states.map((s) => s.standardCode);
-  const completed = kind === "mock" || attempted.length === 0 ? allTopics : attempted;
+  const [completed, summary] = await Promise.all([
+    lessonProgressRepo.completedCodes(enrollmentId),
+    masterySummary(enrollmentId, allTopics),
+  ]);
   return { completed, weak: summary.weak };
 }
 
@@ -108,7 +102,8 @@ export async function buildExam(actor: AuthContext, input: BuildExamInput): Prom
   for (const subject of subjects) {
     bankBySubject[subject] = await contentRepo.listItems({ programKey: enrollment!.programKey, subject });
   }
-  const { completed, weak } = await deriveProgress(input.enrollmentId, enrollment!.programKey, kind);
+  const { completed, weak } = await deriveProgress(input.enrollmentId, enrollment!.programKey);
+  if (completed.length === 0) throw new Error("Complete at least one lesson before starting an exam.");
   const usedIds = await itemUsageRepo.usedItemIds(input.enrollmentId);
 
   const assembled = assembleExam({
@@ -122,6 +117,7 @@ export async function buildExam(actor: AuthContext, input: BuildExamInput): Prom
     durationSeconds: input.durationSeconds ?? program.examBlueprint.defaultDurationMinutes * 60,
     breakSeconds: program.examBlueprint.breakSeconds,
   });
+  if (assembled.itemIds.length === 0) throw new Error("No exam questions are available for the completed lessons yet.");
 
   const examId = randomUUID();
   const doc: ExamDoc = {

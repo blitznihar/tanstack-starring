@@ -351,6 +351,7 @@ const createConsoleUserInput = z.object({
   studentIds: z.array(z.string()).default([]),
   parentIds: z.array(z.string()).default([]),
   adminIds: z.array(z.string()).default([]),
+  password: z.string().min(8).optional(),
   forceChangeOnFirstLogin: z.boolean().default(true),
 });
 
@@ -368,6 +369,7 @@ export const createConsoleUser = createServerFn({ method: "POST" })
       roles: [role],
       studentIds: associations.studentIds,
       parentIds: associations.parentIds,
+      password: data.password?.trim() || undefined,
       forceChangeOnFirstLogin: data.forceChangeOnFirstLogin,
     });
     const createdId = created.user._id ? String(created.user._id) : created.user.username;

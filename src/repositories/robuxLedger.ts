@@ -42,4 +42,11 @@ export const robuxLedgerRepo = {
       throw e;
     }
   },
+
+  async deleteByRefs(enrollmentId: string, source: string, refIds: string[]): Promise<number> {
+    const ids = [...new Set(refIds.map(String).filter(Boolean))];
+    if (ids.length === 0) return 0;
+    const result = await (await col()).deleteMany({ enrollmentId, source, refId: { $in: ids } });
+    return result.deletedCount;
+  },
 };

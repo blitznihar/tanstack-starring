@@ -102,8 +102,8 @@ function RewardsAdmin() {
           <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 14 }}>
             {rewards.map((r) => (
               <div key={r.id} style={{ display: "flex", alignItems: "center", gap: 10, border: "1px solid var(--a-border2)", borderRadius: 10, padding: "10px 12px" }}>
-                <span style={{ fontWeight: 800, fontSize: 13.5, flex: 1 }}>{r.prize}</span>
-                <span style={{ color: "var(--a-muted)", fontWeight: 700, fontSize: 12 }}>{r.kind.replace(/_/g, " ")} · {r.threshold}</span>
+                <span style={{ fontWeight: 800, fontSize: 13.5, flex: 1 }}>{r.prizeName ?? r.prize}</span>
+                <span style={{ color: "var(--a-muted)", fontWeight: 700, fontSize: 12 }}>{(r.targetType ?? r.kind ?? "complete_in_days").toLowerCase().replace(/_/g, " ")} · {r.targetValue ?? r.threshold}</span>
               </div>
             ))}
           </div>

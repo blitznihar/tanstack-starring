@@ -1,10 +1,21 @@
 import { createServerFn } from "@tanstack/react-start";
 import { contentRepo } from "~/repositories/content.js";
+import { enrollmentsRepo } from "~/repositories/enrollments.js";
+import { itemUsageRepo } from "~/repositories/itemUsage.js";
 import { lessonsRepo } from "~/repositories/lessons.js";
+import { lessonProgressRepo } from "~/repositories/lessonProgress.js";
+import { practiceProgressRepo } from "~/repositories/practiceProgress.js";
+import { responsesRepo } from "~/repositories/responses.js";
+import { robuxLedgerRepo } from "~/repositories/robuxLedger.js";
+import { schedulesRepo } from "~/repositories/schedules.js";
+import { sourceItemIdFromPracticeId } from "~/domain/practice/practice.js";
 import { getOrCreateSchedule } from "~/server/scheduler/scheduler.js";
+import { reopenDayForTopic, type Schedule } from "~/domain/scheduler/scheduler.js";
 import { richToText } from "~/lib/richText.js";
+import { assertCanSeeStudent } from "~/server/users/associations.js";
 import { requireAuth } from "./context.js";
 import { resolvePracticeEnrollment } from "./practice.js";
+import type { AuthContext } from "~/server/auth/session.js";
 
 const SUBJECT_LABELS: Record<string, string> = {
   math: "Math",
@@ -73,52 +84,129 @@ export const lessonForToday = createServerFn({ method: "GET" })
   .validator((d?: { subject?: string }) => ({ subject: d?.subject ?? "math" }))
   .handler(async ({ data }) => {
     const auth = await requireAuth();
-    if (!auth.roles.includes("student")) throw new Error("Forbidden: lessons are only available to student profiles");
-    const enrollment = await resolvePracticeEnrollment(auth.userId, data.subject);
-    if (!enrollment?._id) return { available: false as const, displayName: auth.displayName };
+    return lessonForStudent(auth, data.subject);
+  });
 
-    const schedule = await getOrCreateSchedule(auth, enrollment._id);
-    const currentDay = schedule.schedule.days[schedule.currentDay] ?? schedule.schedule.days.find((day) => day.status === "scheduled");
-    const lessonTask =
-      currentDay?.tasks.find((task) => task.subject === data.subject && task.kind === "lesson" && task.topic) ??
-      currentDay?.tasks.find((task) => task.subject === data.subject && task.topic);
+async function lessonForStudent(auth: AuthContext, subject: string) {
+  if (!auth.roles.includes("student")) throw new Error("Forbidden: lessons are only available to student profiles");
+  const enrollment = await resolvePracticeEnrollment(auth.userId, subject);
+  if (!enrollment?._id) return { available: false as const, displayName: auth.displayName };
 
-    const standards = await contentRepo.listStandards(enrollment.programKey, data.subject);
-    const standardCode = lessonTask?.topic ?? standards[0]?.code ?? "";
-    if (!standardCode) return { available: false as const, displayName: auth.displayName };
+  const schedule = await getOrCreateSchedule(auth, enrollment._id);
+  const currentDay = schedule.schedule.days[schedule.currentDay] ?? schedule.schedule.days.find((day) => day.status === "scheduled");
+  const lessonTask =
+    currentDay?.tasks.find((task) => task.subject === subject && task.kind === "lesson" && task.topic) ??
+    currentDay?.tasks.find((task) => task.subject === subject && task.topic);
 
-    const standard = standards.find((entry) => entry.code === standardCode);
-    const description = standard?.description ?? standardCode;
-    const [items, authoredLesson] = await Promise.all([
-      contentRepo.listItemsByStandard(enrollment.programKey, data.subject, standardCode),
-      lessonsRepo.findAvailable(enrollment.programKey, data.subject, standardCode),
+  const standards = await contentRepo.listStandards(enrollment.programKey, subject);
+  const standardCode = lessonTask?.topic ?? standards[0]?.code ?? "";
+  if (!standardCode) return { available: false as const, displayName: auth.displayName };
+
+  const standard = standards.find((entry) => entry.code === standardCode);
+  const description = standard?.description ?? standardCode;
+  const [items, authoredLesson, completed] = await Promise.all([
+    contentRepo.listItemsByStandard(enrollment.programKey, subject, standardCode),
+    lessonsRepo.findAvailable(enrollment.programKey, subject, standardCode),
+    lessonProgressRepo.isComplete(enrollment._id, subject, standardCode),
+  ]);
+  const examples = items
+    .filter((item) => item.type !== "scr" && item.type !== "ecr")
+    .slice(0, 3)
+    .map((item, index) => ({
+      num: index + 1,
+      prompt: richToText(item.prompt),
+      solution: richToText(item.workedSolution) || richToText(item.explanation),
+    }));
+
+  return {
+    available: true as const,
+    displayName: auth.displayName,
+    firstName: auth.displayName.split(/\s+/)[0] ?? auth.displayName,
+    enrollmentId: enrollment._id,
+    programKey: enrollment.programKey,
+    subject,
+    subjectLabel: SUBJECT_LABELS[subject] ?? titleCase(subject),
+    standardCode,
+    completed,
+    source: authoredLesson ? "authored" as const : "generated" as const,
+    title: authoredLesson?.title ?? description,
+    reportingCategory: authoredLesson?.reportingCategory ?? standard?.reportingCategory ?? "Lesson",
+    intro: authoredLesson?.intro ?? shortIntro(description, subject),
+    vocabulary: authoredLesson?.vocabulary.length ? authoredLesson.vocabulary : vocabulary(description, subject),
+    body: authoredLesson?.body ?? [],
+    visualKind: authoredLesson?.visualKind ?? visualKind(description, subject),
+    examples,
+    practiceExamples: authoredLesson?.practiceExamples ?? [],
+  };
+}
+
+export const completeLesson = createServerFn({ method: "POST" })
+  .validator((d: { subject: string; standardCode: string }) => d)
+  .handler(async ({ data }) => {
+    const auth = await requireAuth();
+    const lesson = await lessonForStudent(auth, data.subject);
+    if (!lesson.available) throw new Error("No lesson is ready for this subject.");
+    if (lesson.standardCode !== data.standardCode) throw new Error("Complete today's lesson before practicing.");
+    await lessonProgressRepo.complete({
+      enrollmentId: lesson.enrollmentId,
+      programKey: lesson.programKey,
+      subject: lesson.subject,
+      standardCode: lesson.standardCode,
+    });
+    return { ...lesson, completed: true };
+  });
+
+export const markStudentLessonUndone = createServerFn({ method: "POST" })
+  .validator((d: { enrollmentId: string; subject: string; standardCode: string }) => d)
+  .handler(async ({ data }) => {
+    const auth = await requireAuth();
+    if (!auth.roles.includes("super_admin")) throw new Error("Forbidden: only a Super Admin can mark lessons undone.");
+    const enrollment = await enrollmentsRepo.findById(data.enrollmentId);
+    if (!enrollment?._id) throw new Error("Enrollment not found.");
+    await assertCanSeeStudent(auth, enrollment.studentId);
+
+    const [lessonRemoved, practiceRemoved] = await Promise.all([
+      lessonProgressRepo.undo(enrollment._id, data.subject, data.standardCode),
+      practiceProgressRepo.undo(enrollment._id, data.subject, data.standardCode),
     ]);
-    const examples = items
-      .filter((item) => item.type !== "scr" && item.type !== "ecr")
-      .slice(0, 3)
-      .map((item, index) => ({
-        num: index + 1,
-        prompt: richToText(item.prompt),
-        solution: richToText(item.workedSolution) || richToText(item.explanation),
-      }));
+    const sourceItems = await contentRepo.listItemsByStandard(enrollment.programKey, data.subject, data.standardCode);
+    const sourceItemIds = new Set(sourceItems.map((item) => item._id));
+    const practiceResponses = await responsesRepo.listPractice(enrollment._id);
+    const releasedResponseIds = practiceResponses
+      .filter((response) => sourceItemIds.has(sourceItemIdFromPracticeId(response.itemId)))
+      .map((response) => response.itemId);
+    const [practiceResponsesRemoved, practiceUsageReleased, practiceLedgerRemoved] = await Promise.all([
+      responsesRepo.deletePracticeByItemIds(enrollment._id, releasedResponseIds),
+      itemUsageRepo.releaseMany(enrollment._id, [...sourceItemIds], "practice"),
+      robuxLedgerRepo.deleteByRefs(enrollment._id, "practice", releasedResponseIds),
+    ]);
+
+    const existingSchedule = await schedulesRepo.find(enrollment._id);
+    let reopenedScheduleDay = false;
+    if (existingSchedule) {
+      const schedule: Schedule = {
+        startDate: existingSchedule.startDate,
+        targetDays: existingSchedule.targetDays,
+        days: existingSchedule.days,
+        config: existingSchedule.config,
+        dayStatus: existingSchedule.dayStatus,
+        doneDates: existingSchedule.doneDates,
+      };
+      const reopened = reopenDayForTopic(schedule, { subject: data.subject, topic: data.standardCode });
+      reopenedScheduleDay = reopened.days.some((day, index) => schedule.days[index]?.status === "done" && day.status === "scheduled");
+      if (reopenedScheduleDay) await schedulesRepo.save(enrollment._id, reopened);
+    }
 
     return {
-      available: true as const,
-      displayName: auth.displayName,
-      firstName: auth.displayName.split(/\s+/)[0] ?? auth.displayName,
       enrollmentId: enrollment._id,
-      programKey: enrollment.programKey,
+      studentId: enrollment.studentId,
       subject: data.subject,
-      subjectLabel: SUBJECT_LABELS[data.subject] ?? titleCase(data.subject),
-      standardCode,
-      source: authoredLesson ? "authored" as const : "generated" as const,
-      title: authoredLesson?.title ?? description,
-      reportingCategory: authoredLesson?.reportingCategory ?? standard?.reportingCategory ?? "Lesson",
-      intro: authoredLesson?.intro ?? shortIntro(description, data.subject),
-      vocabulary: authoredLesson?.vocabulary.length ? authoredLesson.vocabulary : vocabulary(description, data.subject),
-      body: authoredLesson?.body ?? [],
-      visualKind: authoredLesson?.visualKind ?? visualKind(description, data.subject),
-      examples,
-      practiceExamples: authoredLesson?.practiceExamples ?? [],
+      standardCode: data.standardCode,
+      lessonRemoved,
+      practiceRemoved,
+      reopenedScheduleDay,
+      practiceResponsesRemoved,
+      practiceUsageReleased,
+      practiceLedgerRemoved,
     };
   });

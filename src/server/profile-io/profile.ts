@@ -18,6 +18,8 @@ const COUNT_KEYS = [
   "examSessions",
   "exams",
   "itemUsage",
+  "lessonProgress",
+  "practiceProgress",
   "masteryStates",
   "robuxLedger",
   "redemptions",
@@ -27,7 +29,7 @@ const COUNT_KEYS = [
 ] as const;
 
 /** ISO datetime keys we revive back to Date on import (NOT YYYY-MM-DD strings). */
-const DATE_KEYS = new Set(["createdAt", "updatedAt", "at", "usedAt", "scoredAt"]);
+const DATE_KEYS = new Set(["createdAt", "updatedAt", "at", "usedAt", "scoredAt", "completedAt"]);
 const ISO_DT = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/;
 
 function reviveDates<T>(value: T): T {
@@ -70,6 +72,8 @@ export async function exportProfile(actor: AuthContext, studentId?: string): Pro
     examSessions: bundle.examSessions,
     exams: bundle.exams,
     itemUsage: bundle.itemUsage,
+    lessonProgress: bundle.lessonProgress,
+    practiceProgress: bundle.practiceProgress,
     masteryStates: bundle.masteryStates,
     robuxLedger: bundle.robuxLedger,
     redemptions: bundle.redemptions,
@@ -153,6 +157,8 @@ export async function importProfile(actor: AuthContext, raw: unknown, confirm: b
     examSessions: reviveDates(p.examSessions) as Doc[],
     exams: reviveDates(p.exams) as Doc[],
     itemUsage: reviveDates(p.itemUsage) as Doc[],
+    lessonProgress: reviveDates(p.lessonProgress) as Doc[],
+    practiceProgress: reviveDates(p.practiceProgress) as Doc[],
     masteryStates: reviveDates(p.masteryStates) as Doc[],
     robuxLedger: reviveDates(p.robuxLedger) as Doc[],
     redemptions: reviveDates(p.redemptions) as Doc[],

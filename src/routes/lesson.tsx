@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
-import { lessonForToday } from "~/server/rpc/lesson";
+import { completeLesson, lessonForToday } from "~/server/rpc/lesson";
 import { logout } from "~/server/rpc/session";
 
 export const Route = createFileRoute("/lesson")({
@@ -23,6 +23,10 @@ function LessonPage() {
   const data = Route.useLoaderData();
   const navigate = useNavigate();
   const doLogout = useServerFn(logout);
+  const doCompleteLesson = useServerFn(completeLesson);
+  const [lessonData, setLessonData] = useState(data);
+  const [completing, setCompleting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   async function exit() {
     await doLogout({});
@@ -31,16 +35,34 @@ function LessonPage() {
 
   return (
     <div style={{ minHeight: "100vh", background: "var(--s-bg)", color: "var(--s-ink)", fontFamily: "'Nunito', sans-serif" }}>
-      <StudentHeader active="lesson" displayName={data.displayName} onLogout={exit} />
+      <StudentHeader active="lesson" displayName={lessonData.displayName} onLogout={exit} />
       <main style={{ width: "min(920px, calc(100% - 32px))", margin: "0 auto", padding: "32px 0 54px" }}>
         <Link to="/student" style={{ color: "var(--s-muted)", fontWeight: 900, fontSize: 13.5 }}>← Back to plan</Link>
-        {!data.available ? (
+        {!lessonData.available ? (
           <section style={lessonCard}>
             <h1 style={lessonTitle}>No lesson is ready yet</h1>
             <p style={lessonCopy}>Ask an admin to add content for today’s program, then come back here before practice.</p>
           </section>
         ) : (
-          <LessonCard lesson={data} />
+          <LessonCard
+            lesson={lessonData}
+            completing={completing}
+            error={error}
+            onComplete={async () => {
+              if (!lessonData.available) return;
+              setCompleting(true);
+              setError(null);
+              try {
+                const updated = await doCompleteLesson({ data: { subject: lessonData.subject, standardCode: lessonData.standardCode } });
+                setLessonData(updated);
+                navigate({ to: "/practice", search: { subject: lessonData.subject, lesson: 1 } });
+              } catch (e) {
+                setError(e instanceof Error ? e.message : String(e));
+              } finally {
+                setCompleting(false);
+              }
+            }}
+          />
         )}
       </main>
     </div>
@@ -72,7 +94,7 @@ function StudentHeader({ active, displayName, onLogout }: { active: "lesson" | "
   );
 }
 
-function LessonCard({ lesson }: { lesson: Lesson }) {
+function LessonCard({ lesson, completing, error, onComplete }: { lesson: Lesson; completing: boolean; error: string | null; onComplete: () => void }) {
   const hasAuthoredBody = lesson.body.length > 0;
   const hasAuthoredExamples = lesson.practiceExamples.length > 0;
   return (
@@ -141,10 +163,13 @@ function LessonCard({ lesson }: { lesson: Lesson }) {
       )}
 
       <div style={{ background: "#DDF7EE", color: "#0B7A58", borderRadius: 14, padding: "16px 18px", fontWeight: 900, margin: "24px 0 22px" }}>
-        You've got this, {lesson.firstName}. Learn it first, then practice it.
+        {lesson.completed ? "Lesson complete. Practice is unlocked." : `You've got this, ${lesson.firstName}. Learn it first, then practice it.`}
       </div>
 
-      <Link to="/practice" search={{ subject: lesson.subject, lesson: 1 }} style={practiceButton}>Try some practice →</Link>
+      {error && <div style={{ color: "#C2491F", fontWeight: 900, fontSize: 13.5, marginBottom: 12 }}>{error}</div>}
+      <button onClick={onComplete} disabled={completing} style={{ ...practiceButton, border: "none", cursor: completing ? "wait" : "pointer" }}>
+        {completing ? "Unlocking practice..." : lesson.completed ? "Practice this lesson →" : "Complete lesson and practice →"}
+      </button>
     </section>
   );
 }

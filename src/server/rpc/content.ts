@@ -123,6 +123,9 @@ export const lessonsDetail = createServerFn({ method: "GET" })
         intro: lesson.intro ?? "",
         vocabulary: lesson.vocabulary,
         body: lesson.body.map(lessonBlockPreview),
+        studentBody: lesson.body,
+        studentPracticeExamples: lesson.practiceExamples,
+        visualKind: lesson.visualKind ?? null,
         practiceExamples: lessonPracticePreview(lesson),
       })),
     };

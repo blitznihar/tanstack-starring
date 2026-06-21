@@ -108,6 +108,9 @@ bun run build-content    # regenerate content/grade3_{math,rla}.json from author
 bun run seed             # seed the database (needs Mongo): programs, users, Math + RLA bundles
 bun run typecheck        # tsc --noEmit (strict)
 bun run lint             # eslint
+bun run desktop:dev      # start/use Vite on :5173 and open the Electron shell
+bun run desktop:prod     # build, start Bun server on :3000, and open Electron
+bun run desktop -- --url=http://<host>:<port>  # open Electron against an existing server
 
 # CLI tools
 bun run import-bundle <path.json>                 # single-upload a content bundle
@@ -216,6 +219,12 @@ electron/        optional macOS shell (M8)
 - **Now:** `docker compose up` runs MongoDB locally; the Bun API/UI run in Docker
   Desktop. Optionally package the UI as an Electron macOS app pointing at
   `API_BASE_URL`.
+- **Desktop without Docker:** `bun run desktop:prod` builds the app, starts the
+  Bun server locally on `http://localhost:3000`, and opens the Electron shell.
+  To use an already-running server from another desktop, run
+  `bun run desktop -- --url=http://<server-ip-or-host>:<port>` on that desktop.
+  See [`electron/README.md`](electron/README.md) for the full same-machine and
+  other-desktop flows.
 - **Later:** migrate the database to MongoDB Atlas by changing `MONGODB_URI` only.
 
 Secrets live in env (see [.env.example](.env.example)); never hardcode them. The

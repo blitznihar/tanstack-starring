@@ -2,7 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import { AdminParentShell } from "~/components/AppShell";
-import { managedPlans, planMarkDay } from "~/server/rpc/schedule";
+import { managedPlans, planMarkDay, planUnmarkDay } from "~/server/rpc/schedule";
 import { me, logout } from "~/server/rpc/session";
 
 export const Route = createFileRoute("/admin/scheduler")({
@@ -23,6 +23,7 @@ function SchedulerPage() {
   const doLogout = useServerFn(logout);
   const loadPlans = useServerFn(managedPlans);
   const markDay = useServerFn(planMarkDay);
+  const unmarkDay = useServerFn(planUnmarkDay);
   const [schedules, setSchedules] = useState<Schedules>(initialSchedules);
   const [query, setQuery] = useState("");
   const [busy, setBusy] = useState<string | null>(null);
@@ -46,6 +47,23 @@ function SchedulerPage() {
     setBusy(`${plan.enrollmentId}:${index}:${status}`);
     try {
       const updated = await markDay({ data: { enrollmentId: plan.enrollmentId, programKey: plan.programKey, programTitle: plan.programTitle, index, status } });
+      setSchedules((current) => ({
+        ...current,
+        plans: current.plans.map((item) =>
+          item.enrollmentId === plan.enrollmentId
+            ? { ...item, ...updated, studentId: item.studentId, studentName: item.studentName }
+            : item,
+        ),
+      }));
+    } finally {
+      setBusy(null);
+    }
+  }
+
+  async function clearFlexDay(plan: ManagedPlan, index: number) {
+    setBusy(`${plan.enrollmentId}:${index}:clear`);
+    try {
+      const updated = await unmarkDay({ data: { enrollmentId: plan.enrollmentId, programKey: plan.programKey, programTitle: plan.programTitle, index } });
       setSchedules((current) => ({
         ...current,
         plans: current.plans.map((item) =>
@@ -114,25 +132,33 @@ function SchedulerPage() {
                     <h2 style={{ fontSize: 17, margin: "0 0 3px" }}>{plan.studentName}</h2>
                     <div style={{ color: "var(--a-muted)", fontWeight: 700, fontSize: 12.5 }}>{plan.programTitle}</div>
                   </div>
-                  <span className="pill" style={{ background: "var(--a-accent-soft)", color: "var(--a-accent)" }}>Day {plan.currentDay} / {plan.targetDays}</span>
+                  <span className="pill" style={{ background: "var(--a-accent-soft)", color: "var(--a-accent)" }}>Day {Math.min(plan.currentStudyDay, plan.targetDays)} / {plan.targetDays}</span>
                 </div>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 10, marginBottom: 16 }}>
                   <MiniMetric label="Streak" value={plan.streak} />
                   <MiniMetric label="Exams" value={plan.days.filter((d) => d.isExam).length} />
                   <MiniMetric label="Flex days" value={plan.days.filter((d) => d.status === "off" || d.status === "sick").length} />
                 </div>
+                <div style={{ color: "var(--a-muted)", fontWeight: 800, fontSize: 12, marginBottom: 10 }}>
+                  Showing {plan.days.length} calendar date{plan.days.length === 1 ? "" : "s"} for {plan.targetDays} study day{plan.targetDays === 1 ? "" : "s"}.
+                </div>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(7,1fr)", gap: 7 }}>
-                  {plan.days.slice(0, 42).map((day) => {
+                  {plan.days.map((day) => {
                     const tone = day.isExam ? "exam" : day.status === "off" || day.status === "sick" ? "soft" : day.index < plan.currentDay ? "done" : "todo";
                     return (
-                      <div key={day.index} title={`${day.date} - ${day.title}`} style={dayBox(tone)}>
-                        <span style={{ fontWeight: 900, fontSize: 11 }}>{day.index}</span>
-                        <span style={{ fontWeight: 800, fontSize: 9 }}>{day.tag}</span>
+                      <div key={`${day.index}:${day.date}`} title={`${day.dayName}, ${day.dateLabel} - ${day.title}`} style={dayBox(tone)}>
+                        <span style={{ fontWeight: 900, fontSize: 10.5 }}>{day.studyDayLabel}</span>
+                        <span style={{ fontWeight: 900, fontSize: 11.5 }}>{day.dayName}</span>
+                        <span style={{ fontWeight: 800, fontSize: 10 }}>{day.dateLabel}</span>
+                        <span style={{ fontWeight: 900, fontSize: 9, marginTop: 2 }}>{day.tag}</span>
                         {day.status === "scheduled" && (
                           <span style={{ display: "flex", gap: 3, marginTop: 3 }}>
                             <button onClick={() => setFlexDay(plan, day.index, "off")} disabled={!!busy} style={miniActionButton}>Off</button>
                             <button onClick={() => setFlexDay(plan, day.index, "sick")} disabled={!!busy} style={miniActionButton}>Sick</button>
                           </span>
+                        )}
+                        {(day.status === "off" || day.status === "sick") && (
+                          <button onClick={() => clearFlexDay(plan, day.index)} disabled={!!busy} style={{ ...miniActionButton, marginTop: 3 }}>Unmark</button>
                         )}
                       </div>
                     );
@@ -164,7 +190,7 @@ function dayBox(tone: "done" | "exam" | "soft" | "todo"): React.CSSProperties {
     todo: { bg: "#F1F4F8", color: "var(--a-muted)" },
   }[tone];
   return {
-    minHeight: 66,
+    minHeight: 88,
     borderRadius: 10,
     background: palette.bg,
     color: palette.color,

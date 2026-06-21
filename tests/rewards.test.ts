@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { evaluateRule, evaluateRules, metRules, type RewardRule } from "~/domain/rewards/rewards.js";
+import { calculateStreakProgress, evaluateRule, evaluateRules, metRules, type RewardRule } from "~/domain/rewards/rewards.js";
 
 const base = { programKey: "grade3_staar", status: "active" as const };
 
@@ -36,5 +36,68 @@ describe("evaluateRules / metRules", () => {
   it("returns the met rules for fulfillment", () => {
     const met = metRules(rules, { daysElapsed: 0, completed: false, streak: 25, points: 1100 });
     expect(met.map((r) => r.id).sort()).toEqual(["1", "2"]);
+  });
+});
+
+describe("effective-date reward semantics", () => {
+  const days = [
+    { date: "2026-06-28", status: "done" as const },
+    { date: "2026-06-29", status: "done" as const },
+    { date: "2026-06-30", status: "scheduled" as const },
+    { date: "2026-07-01", status: "done" as const },
+  ];
+
+  it("RESET streak returns to 0 after a non-excused missed day", () => {
+    expect(calculateStreakProgress({ days: days.slice(0, 3), effectiveDate: "2026-06-28", today: "2026-07-01", behavior: "RESET" })).toEqual({ current: 0, paused: false });
+    expect(calculateStreakProgress({ days, effectiveDate: "2026-06-28", today: "2026-07-01", behavior: "RESET" })).toEqual({ current: 1, paused: false });
+    expect(evaluateRule({
+      id: "reset",
+      prizeName: "Family trip to Chicago",
+      targetType: "STREAK",
+      targetValue: 60,
+      effectiveDate: "2026-06-28",
+      programIds: ["grade3_staar"],
+      streakBreakBehavior: "RESET",
+      status: "active",
+    }, { completed: false, today: "2026-07-01", scheduleDays: days })).toMatchObject({ current: 1, remaining: 59, paused: false });
+  });
+
+  it("PAUSE streak holds prior count after a missed day", () => {
+    expect(calculateStreakProgress({ days: days.slice(0, 3), effectiveDate: "2026-06-28", today: "2026-07-01", behavior: "PAUSE" })).toEqual({ current: 2, paused: true });
+    expect(evaluateRule({
+      id: "pause",
+      prizeName: "Meta Quest 3 headset",
+      targetType: "STREAK",
+      targetValue: 60,
+      effectiveDate: "2026-06-28",
+      programIds: ["grade3_staar"],
+      streakBreakBehavior: "PAUSE",
+      status: "active",
+    }, { completed: false, today: "2026-07-01", scheduleDays: days.slice(0, 3) })).toMatchObject({ current: 2, remaining: 58, paused: true, state: "paused" });
+  });
+
+  it("Sick and Off days do not trigger reset or pause", () => {
+    const excusedDays = [
+      { date: "2026-06-28", status: "done" as const },
+      { date: "2026-06-29", status: "sick" as const },
+      { date: "2026-06-30", status: "off" as const },
+      { date: "2026-07-01", status: "done" as const },
+    ];
+    expect(calculateStreakProgress({ days: excusedDays, effectiveDate: "2026-06-28", today: "2026-07-01", behavior: "RESET" })).toEqual({ current: 2, paused: false });
+    expect(calculateStreakProgress({ days: excusedDays, effectiveDate: "2026-06-28", today: "2026-07-01", behavior: "PAUSE" })).toEqual({ current: 2, paused: false });
+  });
+
+  it("COMPLETE_IN_DAYS expires after the effective-date deadline", () => {
+    const rule: RewardRule = {
+      id: "deadline",
+      prizeName: "Meta Quest 3 headset",
+      targetType: "COMPLETE_IN_DAYS",
+      targetValue: 45,
+      effectiveDate: "2026-06-28",
+      programIds: ["grade3_staar"],
+      status: "active",
+    };
+    expect(evaluateRule(rule, { completed: false, today: "2026-08-12" })).toMatchObject({ expired: false, daysRemaining: 0 });
+    expect(evaluateRule(rule, { completed: false, today: "2026-08-13" })).toMatchObject({ expired: true, state: "expired", daysRemaining: -1 });
   });
 });

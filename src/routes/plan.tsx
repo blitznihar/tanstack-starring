@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
-import { myPlans, planMarkDay, planWorkAhead } from "~/server/rpc/schedule";
+import { myPlans, planMarkDay, planUnmarkDay, planWorkAhead } from "~/server/rpc/schedule";
 import { logout } from "~/server/rpc/session";
 
 export const Route = createFileRoute("/plan")({
@@ -25,6 +25,7 @@ function PlanPage() {
   const data = Route.useLoaderData();
   const navigate = useNavigate();
   const doMark = useServerFn(planMarkDay);
+  const doUnmark = useServerFn(planUnmarkDay);
   const doWorkAhead = useServerFn(planWorkAhead);
   const doLogout = useServerFn(logout);
 
@@ -41,6 +42,12 @@ function PlanPage() {
     if (!plan || busy) return;
     setBusy(true);
     replace(await doMark({ data: { enrollmentId: plan.enrollmentId, programKey: plan.programKey, programTitle: plan.programTitle, index, status } }));
+    setBusy(false);
+  }
+  async function unmark(index: number) {
+    if (!plan || busy) return;
+    setBusy(true);
+    replace(await doUnmark({ data: { enrollmentId: plan.enrollmentId, programKey: plan.programKey, programTitle: plan.programTitle, index } }));
     setBusy(false);
   }
   async function ahead() {
@@ -86,7 +93,7 @@ function PlanPage() {
             <button key={p.enrollmentId} onClick={() => setActive(i)}
               style={{ cursor: "pointer", background: i === active ? "var(--s-primary)" : "#fff", color: i === active ? "#fff" : "var(--a-ink)", border: i === active ? "none" : "1px solid var(--a-border)", borderRadius: 11, padding: "9px 15px", textAlign: "left" }}>
               <div style={{ fontWeight: 800, fontSize: 13.5 }}>{p.programTitle}</div>
-              <div style={{ fontWeight: 700, fontSize: 11, opacity: 0.85 }}>target {p.targetDays} days</div>
+              <div style={{ fontWeight: 700, fontSize: 11, opacity: 0.85 }}>target {p.targetDays} study days</div>
             </button>
           ))}
         </div>
@@ -95,7 +102,7 @@ function PlanPage() {
           <>
             <div style={{ display: "flex", alignItems: "center", gap: 12, margin: "14px 0 18px", flexWrap: "wrap" }}>
               <span style={{ fontWeight: 700, fontSize: 12.5, color: "var(--a-faint)" }}>
-                {plan.programTitle} · {lessonCount} lesson days · {examCount} progressive exams · target {plan.targetDays} days
+                {plan.programTitle} · {lessonCount} lesson days · {examCount} progressive exams · {plan.days.length} calendar dates
               </span>
               <div style={{ flex: 1 }} />
               <button onClick={ahead} disabled={busy} style={{ border: "1px solid var(--s-primary)", background: "var(--s-primary-soft)", color: "var(--s-primary-ink)", cursor: "pointer", fontWeight: 800, fontSize: 12.5, padding: "8px 13px", borderRadius: 9 }}>
@@ -114,11 +121,12 @@ function PlanPage() {
                 const bg = d.status === "off" ? "#F1F2F5" : d.status === "sick" ? "var(--a-bad-soft)" : d.isExam ? "var(--a-warn-soft)" : d.tag === "ADDED" ? "var(--a-accent-soft)" : "#fff";
                 const border = d.status === "done" ? "1px solid var(--a-good)" : d.isExam ? "1px solid #F0DCB0" : d.tag === "ADDED" ? "1px dashed var(--a-accent)" : "1px solid var(--a-border)";
                 return (
-                  <div key={d.index} style={{ background: bg, border, borderRadius: 12, padding: 13, minHeight: 118, display: "flex", flexDirection: "column" }}>
+                  <div key={`${d.index}:${d.date}`} style={{ background: bg, border, borderRadius: 12, padding: 13, minHeight: 128, display: "flex", flexDirection: "column" }}>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 7 }}>
-                      <span style={{ fontWeight: 800, fontSize: 13 }}>{dateLabel(d.date)}</span>
-                      <span style={{ fontWeight: 700, fontSize: 11, color: "var(--a-faint)" }}>{weekday(d.date)}</span>
+                      <span style={{ fontWeight: 800, fontSize: 12, color: "var(--a-faint)" }}>{d.studyDayLabel}</span>
+                      <span style={{ fontWeight: 800, fontSize: 11, color: "var(--a-faint)" }}>{d.dayName ?? weekday(d.date)}</span>
                     </div>
+                    <div style={{ fontWeight: 900, fontSize: 15, color: "var(--a-ink)", marginBottom: 6 }}>{d.dateLabel ?? dateLabel(d.date)}</div>
                     <div style={{ fontWeight: 700, fontSize: 12.5, color: "var(--a-ink)", lineHeight: 1.3 }}>{d.title}</div>
                     <div style={{ fontWeight: 600, fontSize: 11, color: "var(--a-muted)", marginTop: 3 }}>
                       {d.status === "done" ? "✓ done" : d.subject || (d.isExam ? "all topics so far" : "")}
@@ -137,6 +145,9 @@ function PlanPage() {
                           <button onClick={() => mark(d.index, "off")} disabled={busy} style={{ border: "1px solid var(--a-border)", background: "#fff", cursor: "pointer", fontWeight: 800, fontSize: 10, color: "var(--a-muted)", padding: "3px 7px", borderRadius: 6 }}>Off</button>
                           <button onClick={() => mark(d.index, "sick")} disabled={busy} style={{ border: "1px solid var(--a-border)", background: "#fff", cursor: "pointer", fontWeight: 800, fontSize: 10, color: "var(--a-bad)", padding: "3px 7px", borderRadius: 6 }}>Sick</button>
                         </>
+                      )}
+                      {(d.status === "off" || d.status === "sick") && (
+                        <button onClick={() => unmark(d.index)} disabled={busy} style={{ border: "1px solid var(--a-border)", background: "#fff", cursor: "pointer", fontWeight: 800, fontSize: 10, color: "var(--a-muted)", padding: "3px 7px", borderRadius: 6 }}>Unmark</button>
                       )}
                     </div>
                   </div>

@@ -2,6 +2,8 @@ import { enrollmentsRepo } from "~/repositories/enrollments.js";
 import { programsRepo } from "~/repositories/programs.js";
 import { contentRepo } from "~/repositories/content.js";
 import { examSessionsRepo } from "~/repositories/examSessions.js";
+import { lessonsRepo } from "~/repositories/lessons.js";
+import { lessonProgressRepo } from "~/repositories/lessonProgress.js";
 import { responsesRepo } from "~/repositories/responses.js";
 import { robuxLedgerRepo } from "~/repositories/robuxLedger.js";
 import { masterySummary } from "~/server/mastery/mastery.js";
@@ -22,6 +24,28 @@ export type HeatmapCell = { code: string; label: string; state: "mastered" | "pa
 export type ExamTrendPoint = { label: string; score: number; color: "good" | "warn" | "bad" };
 export type ActivityRow = { date: string; type: "Exam" | "Practice" | "Robux"; detail: string; tag: string; good: boolean };
 export type RobuxHistoryRow = { desc: string; amount: number; type: "earn" | "penalty" | "redeem_fulfilled" };
+export type LessonProgressRow = {
+  enrollmentId: string;
+  programKey: string;
+  programTitle: string;
+  subject: string;
+  standardCode: string;
+  title: string;
+  completed: boolean;
+  needsWork: boolean;
+  completedAt: string | null;
+  masteryState: HeatmapCell["state"];
+  source: "authored" | "standard";
+};
+export type ReportSourceCounts = {
+  standards: number;
+  lessonCompletions: number;
+  masteryStates: number;
+  submittedExams: number;
+  practiceResponses: number;
+  robuxLedgerEntries: number;
+  generatedAt: string;
+};
 
 export type EnrollmentReport = {
   enrollmentId: string;
@@ -37,9 +61,11 @@ export type EnrollmentReport = {
   wallet: { available: number; lifetime: number };
   streak: number;
   heatmap: HeatmapCell[];
+  lessonProgress: LessonProgressRow[];
   examTrend: ExamTrendPoint[];
   activity: ActivityRow[];
   robuxHistory: RobuxHistoryRow[];
+  sourceCounts: ReportSourceCounts;
 };
 
 function pct(correct: number, total: number): number {
@@ -63,9 +89,41 @@ async function buildEnrollmentReport(actor: AuthContext, enrollmentId: string, p
   const allTopics = [...new Set((await contentRepo.listItems({ programKey })).flatMap((i) => i.standardCodes))];
   const standards = await Promise.all((program?.subjects ?? []).map((subject) => contentRepo.listStandards(programKey, subject)));
   const standardLabels = new Map(standards.flat().map((s) => [s.code, s.description || s.code]));
-  const summary = await masterySummary(enrollmentId, allTopics);
+  const [summary, lessonRows, authoredLessons] = await Promise.all([
+    masterySummary(enrollmentId, allTopics),
+    lessonProgressRepo.listForEnrollment(enrollmentId),
+    lessonsRepo.list(programKey),
+  ]);
   const wallet = await walletFor(enrollmentId);
   const stateByCode = new Map(summary.states.map((s) => [s.standardCode, s]));
+  const completedLessonByKey = new Map(lessonRows.map((row) => [`${row.subject}:${row.standardCode}`, row]));
+  const authoredByKey = new Map<string, (typeof authoredLessons)[number]>();
+  for (const lesson of authoredLessons.filter((entry) => entry.status !== "archived")) {
+    const key = `${lesson.subject}:${lesson.standardCode}`;
+    if (!authoredByKey.has(key)) authoredByKey.set(key, lesson);
+  }
+  const lessonProgress: LessonProgressRow[] = standards
+    .flat()
+    .sort((a, b) => a.subject.localeCompare(b.subject) || a.code.localeCompare(b.code))
+    .map((standard) => {
+      const key = `${standard.subject}:${standard.code}`;
+      const completed = completedLessonByKey.get(key);
+      const authored = authoredByKey.get(key);
+      const masteryState = stateByCode.get(standard.code)?.state ?? "not_started";
+      return {
+        enrollmentId,
+        programKey,
+        programTitle: program?.title ?? programKey,
+        subject: standard.subject,
+        standardCode: standard.code,
+        title: authored?.title ?? standard.description ?? standard.code,
+        completed: !!completed,
+        needsWork: masteryState === "partial" || masteryState === "not_mastered",
+        completedAt: toIso(completed?.completedAt) ?? null,
+        masteryState,
+        source: authored ? "authored" as const : "standard" as const,
+      };
+    });
 
   const submitted = await examSessionsRepo.listSubmitted(enrollmentId);
   let latestExam: EnrollmentReport["latestExam"] = null;
@@ -147,16 +205,26 @@ async function buildEnrollmentReport(actor: AuthContext, enrollmentId: string, p
         accuracy: s?.rollingAccuracy ?? 0,
       };
     }),
+    lessonProgress,
     examTrend,
     activity,
     robuxHistory,
+    sourceCounts: {
+      standards: allTopics.length,
+      lessonCompletions: lessonRows.length,
+      masteryStates: summary.states.length,
+      submittedExams: submitted.length,
+      practiceResponses: practice.length,
+      robuxLedgerEntries: ledger.length,
+      generatedAt: new Date().toISOString(),
+    },
   };
 }
 
 /** All enrollment reports for a student + an overall cross-program rollup. */
 export async function studentOverview(actor: AuthContext, studentId: string): Promise<{
   perProgram: EnrollmentReport[];
-  overall: { topicsCompleted: number; topicsTotal: number; lifetimeRobux: number; availableRobux: number };
+  overall: { topicsCompleted: number; topicsTotal: number; lifetimeRobux: number; availableRobux: number; sourceCounts: ReportSourceCounts };
 }> {
   const enrollments = await enrollmentsRepo.listForStudent(studentId);
   const perProgram: EnrollmentReport[] = [];
@@ -171,6 +239,15 @@ export async function studentOverview(actor: AuthContext, studentId: string): Pr
       topicsTotal: perProgram.reduce((n, r) => n + r.topicsTotal, 0),
       lifetimeRobux: perProgram.reduce((n, r) => n + r.wallet.lifetime, 0),
       availableRobux: perProgram.reduce((n, r) => n + r.wallet.available, 0),
+      sourceCounts: {
+        standards: perProgram.reduce((n, r) => n + r.sourceCounts.standards, 0),
+        lessonCompletions: perProgram.reduce((n, r) => n + r.sourceCounts.lessonCompletions, 0),
+        masteryStates: perProgram.reduce((n, r) => n + r.sourceCounts.masteryStates, 0),
+        submittedExams: perProgram.reduce((n, r) => n + r.sourceCounts.submittedExams, 0),
+        practiceResponses: perProgram.reduce((n, r) => n + r.sourceCounts.practiceResponses, 0),
+        robuxLedgerEntries: perProgram.reduce((n, r) => n + r.sourceCounts.robuxLedgerEntries, 0),
+        generatedAt: new Date().toISOString(),
+      },
     },
   };
 }

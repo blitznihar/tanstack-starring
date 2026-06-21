@@ -23,7 +23,7 @@ export async function createUser(actor: AuthContext, rawInput: CreateUserInput):
   const existing = await usersRepo.findByUsername(input.username);
   if (existing) throw new Error(`Username already exists: ${input.username}`);
 
-  const password = DEFAULT_INITIAL_PASSWORD;
+  const password = input.password?.trim() || DEFAULT_INITIAL_PASSWORD;
   const passwordHash = await hashPassword(password);
   const _id = randomUUID();
 

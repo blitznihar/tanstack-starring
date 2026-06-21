@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { assemblePractice, earnUpTo, practiceAward } from "~/domain/practice/practice.js";
+import { assembleFocusedPractice, assemblePractice, earnUpTo, practiceAward, sourceItemIdFromPracticeId } from "~/domain/practice/practice.js";
 import type { Item } from "~/schemas/item.js";
 
 function item(id: string, code: string): Item {
@@ -42,6 +42,23 @@ describe("assemblePractice", () => {
     const r = assemblePractice(bank, new Set(), { "3.2A": { q: 0, m: 0 }, "3.2D": { q: 2, m: 5 } });
     expect(r.questions.every((q) => q.standardCodes.includes("3.2D"))).toBe(true);
     expect(r.shownCount).toBe(2);
+  });
+});
+
+describe("assembleFocusedPractice", () => {
+  it("creates a 20-question focused set even when the topic bank is shallow", () => {
+    const r = assembleFocusedPractice(bank, "3.2A", []);
+    expect(r.slots).toHaveLength(20);
+    expect(r.slots.every((slot) => slot.standardCode === "3.2A")).toBe(true);
+    expect(new Set(r.slots.map((slot) => slot.practiceItemId)).size).toBe(20);
+    expect(r.slots.map((slot) => sourceItemIdFromPracticeId(slot.practiceItemId)).every((id) => id.startsWith("a"))).toBe(true);
+  });
+
+  it("adds a small review tail from previously completed lessons", () => {
+    const r = assembleFocusedPractice(bank, "3.4K", ["3.2A", "3.2D"], { focusCount: 20, reviewCount: 5, reviewPerStandard: 2 });
+    expect(r.slots.filter((slot) => slot.kind === "focus")).toHaveLength(20);
+    expect(r.slots.filter((slot) => slot.kind === "review")).toHaveLength(4);
+    expect(new Set(r.slots.filter((slot) => slot.kind === "review").map((slot) => slot.standardCode))).toEqual(new Set(["3.2A", "3.2D"]));
   });
 });
 

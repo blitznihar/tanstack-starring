@@ -43,7 +43,7 @@ export const studentHome = createServerFn({ method: "GET" }).handler(async () =>
     const program = programByKey.get(enrollment.programKey);
     for (const subject of program?.subjects ?? []) {
       const standards = await contentRepo.listStandards(enrollment.programKey, subject);
-      for (const standard of standards) standardLabels.set(standard.code, standard.description || standard.code);
+      for (const standard of standards) standardLabels.set(`${subject}:${standard.code}`, standard.description || standard.code);
     }
   }
 
@@ -64,6 +64,7 @@ export const studentHome = createServerFn({ method: "GET" }).handler(async () =>
         date: day.date,
         label: formatDate(day.date),
         title: day.tasks.find((task) => task.kind === "exam")?.title ?? "Progressive exam",
+        durationMinutes: day.tasks.find((task) => task.kind === "exam")?.durationMinutes ?? null,
         programTitle: program?.title ?? enrollment.programKey,
       }));
 
@@ -91,7 +92,7 @@ export const studentHome = createServerFn({ method: "GET" }).handler(async () =>
       rewards,
       earnedRewards: rewards.filter((reward) => reward.met).map((reward) => reward.prize),
       todayTasks: (currentDay?.tasks ?? []).map((task) => {
-        const label = task.topic ? standardLabels.get(task.topic) ?? task.topic : task.title;
+        const label = task.topic && task.subject ? standardLabels.get(`${task.subject}:${task.topic}`) ?? task.topic : task.title;
         return {
           id: task.id,
           kind: task.kind,
@@ -99,18 +100,20 @@ export const studentHome = createServerFn({ method: "GET" }).handler(async () =>
           subject: task.subject ? titleCase(task.subject) : "Exam",
           topic: task.topic ?? "",
           title: task.kind === "exam" ? task.title : label,
-          meta: task.topic ? task.topic : `${titleCase(task.kind)} task`,
+          meta: task.kind === "exam" && task.durationMinutes ? `${task.durationMinutes} minutes` : task.topic ? task.topic : `${titleCase(task.kind)} task`,
+          durationMinutes: task.durationMinutes ?? null,
         };
       }),
       week: upcomingDays.map((day) => {
         const firstTask = day.tasks[0];
         const exam = day.tasks.some((task) => task.kind === "exam");
         const topic = firstTask?.topic ?? "";
+        const subject = firstTask?.subject ?? "";
         return {
           index: day.index,
           dayLabel: new Date(`${day.date}T00:00:00Z`).toLocaleDateString("en-US", { weekday: "short", timeZone: "UTC" }),
           dateLabel: formatDate(day.date),
-          title: exam ? "Progressive exam" : (standardLabels.get(topic) ?? (topic || firstTask?.title || "Practice")),
+          title: exam ? (day.tasks.find((task) => task.kind === "exam")?.title ?? "Progressive exam") : (standardLabels.get(`${subject}:${topic}`) ?? (topic || firstTask?.title || "Practice")),
           type: exam ? "Exam" : titleCase(firstTask?.kind ?? "practice"),
           status: day.status,
           scoreLabel: day.status === "done" ? "Done" : `${Math.min(99, Math.max(0, progressPct(report?.topicsCompleted ?? 0, report?.topicsTotal ?? 1)))}%`,
