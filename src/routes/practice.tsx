@@ -35,6 +35,32 @@ function hasValue(v: AnswerValue | undefined): boolean {
   return Object.values(v).some((x) => String(x).trim() !== "");
 }
 
+function answerValue(v: unknown): AnswerValue | undefined {
+  if (typeof v === "string") return v;
+  if (Array.isArray(v)) return v.map(String);
+  if (v && typeof v === "object") {
+    return Object.fromEntries(Object.entries(v as Record<string, unknown>).map(([key, value]) => [key, String(value ?? "")]));
+  }
+  return undefined;
+}
+
+function initialFeedback(data: Data): Record<string, Feedback> {
+  return data.available ? (data.set.feedback as Record<string, Feedback>) : {};
+}
+
+function initialSelected(data: Data): Record<string, AnswerValue> {
+  if (!data.available) return {};
+  return Object.fromEntries(
+    Object.entries(data.set.feedback)
+      .map(([itemId, fb]) => [itemId, answerValue(fb.selected)] as const)
+      .filter((entry): entry is readonly [string, AnswerValue] => entry[1] !== undefined),
+  );
+}
+
+function formatRobuxDelta(value: number): string {
+  return `${value > 0 ? "+" : ""}${value} Robux`;
+}
+
 function PracticePage() {
   const initial = Route.useLoaderData();
   const search = Route.useSearch();
@@ -47,8 +73,8 @@ function PracticePage() {
   const data = initial;
   const subject = search.subject ?? "math";
   const [launching, setLaunching] = useState<string | null>(null);
-  const [selected, setSelected] = useState<Record<string, AnswerValue>>({});
-  const [feedback, setFeedback] = useState<Record<string, Feedback>>({});
+  const [selected, setSelected] = useState<Record<string, AnswerValue>>(() => initialSelected(initial));
+  const [feedback, setFeedback] = useState<Record<string, Feedback>>(() => initialFeedback(initial));
   const [wallet, setWallet] = useState(initial.available ? initial.wallet.available : 0);
   const [pending, setPending] = useState<string | null>(null);
   const [completingPractice, setCompletingPractice] = useState(false);
@@ -77,7 +103,9 @@ function PracticePage() {
     setPending(itemId);
     const fb = await doSubmit({ data: { enrollmentId, itemId, selected: sel } });
     setFeedback((f) => ({ ...f, [itemId]: fb }));
-    if (fb.awarded > 0) {
+    const persisted = answerValue(fb.selected);
+    if (persisted !== undefined) setSelected((s) => ({ ...s, [itemId]: persisted }));
+    if (fb.awarded !== 0) {
       setWallet(fb.wallet.available);
       setPop(fb.awarded);
       setTimeout(() => setPop(null), 1400);
@@ -94,7 +122,8 @@ function PracticePage() {
     try {
       const report = await doCompletePractice({ data: { enrollmentId: data.enrollmentId, subject, itemIds } });
       setWallet(report.wallet.available);
-      setCompleteMessage(`Practice submitted: ${report.right}/${report.solved} correct, +${report.earned} Robux. Report sent.`);
+      setCompleteMessage(`Practice submitted: ${report.right}/${report.solved} correct, ${formatRobuxDelta(report.earned)}. Report sent.`);
+      await navigate({ to: "/student" });
     } catch (e) {
       setCompleteMessage(e instanceof Error ? e.message : String(e));
     } finally {
@@ -249,7 +278,7 @@ function QuestionCard({ q, fb, value, subject, pending, onChange, onCheck }: {
       {fb && (
         <div style={{ marginTop: 14, borderRadius: 16, overflow: "hidden", border: "2px solid #EFEAF7", animation: "cometfade .15s ease" }}>
           <div style={{ padding: "11px 16px", fontWeight: 800, fontSize: 14.5, background: fb.correct ? "var(--s-success-soft)" : "var(--s-accent-soft)", color: fb.correct ? "#0E7A55" : "#C2491F" }}>
-            {fb.correct ? `Correct! 🎉  +${fb.awarded || fb.perCorrect} Robux` : "Not quite — let's see why"}
+            {fb.correct ? `Correct!${fb.awarded ? ` ${formatRobuxDelta(fb.awarded)}` : ""}` : `Not quite${fb.awarded ? ` ${formatRobuxDelta(fb.awarded)}` : ""}`}
           </div>
           <div style={{ padding: "14px 16px", display: "flex", flexDirection: "column", gap: 12 }}>
             {!fb.correct && fb.correctKeys.length === 0 && fb.correctText && (
@@ -289,7 +318,7 @@ function PracticeAnswer({ q, value, checked, fb, onChange }: {
     const sel = multi ? (Array.isArray(value) ? value : []) : typeof value === "string" ? [value] : [];
     return (
       <>
-        {multi && <div style={{ fontWeight: 800, fontSize: 12.5, color: "var(--s-muted)", marginBottom: 8 }}>Select TWO.</div>}
+        {multi && <div style={{ fontWeight: 800, fontSize: 12.5, color: "var(--s-muted)", marginBottom: 8 }}>{q.selectInstruction ?? "Select all that apply."}</div>}
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
           {q.options.map((o) => (
             <button key={o.key} onClick={() => {
@@ -416,7 +445,7 @@ function Shell({ children, wallet, pop, onSignOut }: { children: React.ReactNode
           <span style={{ width: 13, height: 13, borderRadius: "50%", background: "var(--s-robux)", display: "inline-block" }} />
           {wallet} Robux
           {pop != null && (
-            <span style={{ position: "absolute", top: -14, right: 8, color: "var(--s-success)", fontWeight: 800, fontSize: 14, animation: "cometfade .3s ease" }}>+{pop}</span>
+            <span style={{ position: "absolute", top: -14, right: 8, color: pop > 0 ? "var(--s-success)" : "var(--s-accent)", fontWeight: 800, fontSize: 14, animation: "cometfade .3s ease" }}>{pop > 0 ? "+" : ""}{pop}</span>
           )}
         </div>
         <button onClick={onSignOut} style={{ border: "1px solid #EFE7DA", background: "#fff", fontWeight: 700, fontSize: 13, padding: "7px 12px", borderRadius: 9, cursor: "pointer", color: "var(--s-ink)" }}>

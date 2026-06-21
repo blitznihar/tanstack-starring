@@ -17,7 +17,7 @@ export const Route = createFileRoute("/admin/rewards")({
 const STEPPERS: { key: "practiceCorrect" | "examCorrect" | "examWrong" | "lessonComplete"; label: string; sub: string }[] = [
   { key: "practiceCorrect", label: "Per correct practice answer", sub: "Awarded instantly while practicing" },
   { key: "examCorrect", label: "Per correct exam answer", sub: "Counts toward exam Robux" },
-  { key: "examWrong", label: "Wrong-answer penalty (exam only)", sub: "Deducted per wrong exam answer" },
+  { key: "examWrong", label: "Wrong-answer penalty", sub: "Deducted per wrong practice or exam answer" },
   { key: "lessonComplete", label: "Per lesson completed", sub: "Awarded on finishing a lesson" },
 ];
 

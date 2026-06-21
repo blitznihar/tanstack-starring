@@ -5,9 +5,12 @@ import { completeLesson, lessonForToday } from "~/server/rpc/lesson";
 import { logout } from "~/server/rpc/session";
 
 export const Route = createFileRoute("/lesson")({
-  validateSearch: (s: Record<string, unknown>): { subject?: string } => (typeof s.subject === "string" ? { subject: s.subject } : {}),
-  loaderDeps: ({ search }) => ({ subject: search.subject ?? "math" }),
-  loader: ({ deps }) => lessonForToday({ data: { subject: deps.subject } }),
+  validateSearch: (s: Record<string, unknown>): { subject?: string; standardCode?: string } => ({
+    subject: typeof s.subject === "string" ? s.subject : undefined,
+    standardCode: typeof s.standardCode === "string" ? s.standardCode : undefined,
+  }),
+  loaderDeps: ({ search }) => ({ subject: search.subject ?? "math", standardCode: search.standardCode }),
+  loader: ({ deps }) => lessonForToday({ data: { subject: deps.subject, standardCode: deps.standardCode } }),
   component: LessonPage,
 });
 

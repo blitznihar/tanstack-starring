@@ -148,37 +148,46 @@ function ProgramCard({ program, active }: { program: ProgramView; active: boolea
 
 function TodayPanel({ program, launchingExam, onStartExam }: { program: ProgramView; launchingExam: boolean; onStartExam: (program: ProgramView) => Promise<void> }) {
   const tasks = program.todayTasks;
-  const hasExam = tasks.some((task) => task.kind === "exam");
-  const lessonSubject = tasks.find((task) => task.kind !== "exam" && task.subjectKey)?.subjectKey ?? program.subjects[0] ?? "math";
+  const nextTask = program.nextIncompleteTask;
+  const hasExam = nextTask?.kind === "exam";
+  const pendingCount = tasks.filter((task) => !task.completed).length;
+  const headline = program.allTodayCompleted ? "Excellent work today" : `${pendingCount || tasks.length || 0} ${pendingCount === 1 ? "thing" : "things"} to finish today`;
+  const ctaText = program.allTodayCompleted ? "Continue with tomorrow's work" : program.hasStartedToday ? "Continue today's work" : "Start today's work";
+  const lessonSubject = nextTask?.subjectKey || program.subjects[0] || "math";
   return (
     <section style={{ position: "relative", overflow: "hidden", background: "linear-gradient(135deg,#6C4CE0,#7F61EC)", borderRadius: 28, padding: 28, color: "#fff", boxShadow: "0 18px 38px rgba(108,76,224,.22)", marginBottom: 18 }}>
       <div style={{ position: "absolute", width: 148, height: 148, borderRadius: "50%", right: -28, top: -36, background: "rgba(255,255,255,.14)" }} />
       <div style={{ position: "absolute", width: 124, height: 124, borderRadius: "50%", right: 64, bottom: -62, background: "rgba(255,255,255,.12)" }} />
       <span style={{ display: "inline-flex", background: "rgba(255,255,255,.18)", padding: "8px 14px", borderRadius: 999, fontWeight: 900, fontSize: 13, marginBottom: 18 }}>Today's plan</span>
-      <h2 style={{ fontFamily: "'Baloo 2', sans-serif", fontWeight: 800, fontSize: 28, margin: "0 0 22px" }}>{tasks.length || 0} {tasks.length === 1 ? "thing" : "things"} to finish today</h2>
+      <h2 style={{ fontFamily: "'Baloo 2', sans-serif", fontWeight: 800, fontSize: 28, margin: "0 0 22px" }}>{headline}</h2>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(160px,1fr))", gap: 12, position: "relative" }}>
-        {tasks.length === 0 ? <TaskCard title="All caught up" meta={program.title} kind="practice" /> : tasks.map((task) => <TaskCard key={task.id} title={task.title} meta={`${task.subject} · ${task.meta}`} kind={task.kind} />)}
+        {tasks.length === 0 ? <TaskCard title="All caught up" meta={program.title} kind="practice" completed /> : tasks.map((task) => <TaskCard key={task.id} title={task.title} meta={`${task.subject} · ${task.meta}`} kind={task.kind} completed={task.completed} />)}
       </div>
       {hasExam ? (
         <button onClick={() => onStartExam(program)} disabled={launchingExam} style={{ display: "inline-flex", marginTop: 22, background: "#fff", color: "var(--s-primary-ink)", border: "none", borderRadius: 16, padding: "16px 25px", fontWeight: 900, fontSize: 15, cursor: launchingExam ? "wait" : "pointer", fontFamily: "inherit" }}>
           {launchingExam ? "Starting exam..." : "Start today's exam"}
         </button>
+      ) : nextTask?.kind === "practice" ? (
+        <Link to="/practice" search={{ subject: lessonSubject, lesson: 1 }} style={{ display: "inline-flex", marginTop: 22, background: "#fff", color: "var(--s-primary-ink)", borderRadius: 16, padding: "16px 25px", fontWeight: 900, fontSize: 15 }}>
+          {ctaText}
+        </Link>
       ) : (
-        <Link to="/lesson" search={{ subject: lessonSubject }} style={{ display: "inline-flex", marginTop: 22, background: "#fff", color: "var(--s-primary-ink)", borderRadius: 16, padding: "16px 25px", fontWeight: 900, fontSize: 15 }}>
-          Start today's work
+        <Link to="/lesson" search={{ subject: lessonSubject, standardCode: nextTask?.topic || undefined }} style={{ display: "inline-flex", marginTop: 22, background: "#fff", color: "var(--s-primary-ink)", borderRadius: 16, padding: "16px 25px", fontWeight: 900, fontSize: 15 }}>
+          {ctaText}
         </Link>
       )}
     </section>
   );
 }
 
-function TaskCard({ title, meta, kind }: { title: string; meta: string; kind: string }) {
+function TaskCard({ title, meta, kind, completed }: { title: string; meta: string; kind: string; completed: boolean }) {
   const dot = kind === "exam" ? "var(--s-robux)" : kind === "practice" ? "#C9B9FF" : "var(--s-accent)";
   return (
-    <div style={{ background: "rgba(255,255,255,.15)", borderRadius: 14, padding: 15, minHeight: 106, color: "#120E24" }}>
+    <div style={{ background: completed ? "rgba(255,255,255,.28)" : "rgba(255,255,255,.15)", borderRadius: 14, padding: 15, minHeight: 106, color: "#120E24", border: completed ? "2px solid rgba(255,255,255,.45)" : "2px solid transparent" }}>
       <div style={{ display: "flex", alignItems: "center", gap: 8, color: "#160F30", fontWeight: 900, fontSize: 11, letterSpacing: ".05em", textTransform: "uppercase", marginBottom: 8 }}>
         <span style={{ width: 8, height: 8, borderRadius: "50%", background: dot }} />
         {kind}
+        {completed && <span style={{ marginLeft: "auto", color: "#0E7A55", background: "rgba(255,255,255,.7)", borderRadius: 999, padding: "2px 7px", fontSize: 10 }}>Done</span>}
       </div>
       <div style={{ fontWeight: 900, fontSize: 15.5, lineHeight: 1.25 }}>{title}</div>
       <div style={{ fontWeight: 800, fontSize: 12, marginTop: 5, opacity: .72 }}>{meta}</div>

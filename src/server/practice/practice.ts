@@ -27,6 +27,7 @@ function assertOwner(actor: AuthContext, enrollment: { studentId: string } | nul
 }
 
 type PracticePassage = { id: string; title: string; genre: string; level: string | null; paragraphs: string[] };
+type PracticeSelected = string | string[] | Record<string, string> | null;
 
 export type PracticeQuestion = {
   itemId: string;
@@ -34,6 +35,7 @@ export type PracticeQuestion = {
   teks: string;
   type: string;
   prompt: string;
+  selectInstruction: string | null;
   passage: PracticePassage | null;
   // NB: correct flag + rationale are intentionally NOT sent (revealed only after submit).
   options: { key: string; text: string }[];
@@ -49,6 +51,7 @@ export type PracticeSet = {
   earnUpTo: number;
   unlockedStandards: string[];
   questions: PracticeQuestion[];
+  feedback: Record<string, PracticeFeedback>;
 };
 
 function passageView(passage: Passage | null | undefined): PracticePassage | null {
@@ -66,6 +69,17 @@ function passageView(passage: Passage | null | undefined): PracticePassage | nul
 function subjectOrder(bank: Item[], configKeys: string[]): string[] {
   const present = new Set(bank.flatMap((i) => i.standardCodes));
   return configKeys.filter((k) => present.has(k));
+}
+
+function multiselectInstruction(item: Item): string | null {
+  if (item.type !== "multiselect") return null;
+  const promptText = richToText(item.prompt).toLowerCase();
+  if (promptText.includes("select all")) return "Select all that apply.";
+  const correctCount = (item.options ?? []).filter((option) => option.correct).length;
+  if (correctCount <= 0) return "Select all that apply.";
+  if (correctCount === 1) return "Select ONE.";
+  if (correctCount === 2) return "Select TWO.";
+  return `Select ${correctCount} answers.`;
 }
 
 export async function getPracticeSet(
@@ -91,6 +105,18 @@ export async function getPracticeSet(
   // Resolve any referenced reading passages once (RLA).
   const passages = await passagesRepo.list(enrollment!.programKey, input.subject);
   const passageById = new Map(passages.map((pg) => [pg.id, pg]));
+  const [practiceResponses, wallet] = await Promise.all([
+    responsesRepo.listPractice(input.enrollmentId),
+    walletFor(input.enrollmentId),
+  ]);
+  const responseByItem = new Map(practiceResponses.map((response) => [response.itemId, response]));
+  const feedback: Record<string, PracticeFeedback> = {};
+  for (const slot of assembled.slots) {
+    const response = responseByItem.get(slot.practiceItemId);
+    if (response) {
+      feedback[slot.practiceItemId] = buildFeedback(slot.item, response.selected, response.correct, response.awarded, perCorrect, wallet);
+    }
+  }
 
   return {
     subject: input.subject,
@@ -107,12 +133,14 @@ export async function getPracticeSet(
         teks: `${slot.kind === "review" ? "Review · " : ""}${it.standardCodes.map((c) => `TEKS ${c}`).join(", ")}`,
         type: it.type,
         prompt: richToText(it.prompt),
+        selectInstruction: multiselectInstruction(it),
         passage: it.passageRef ? passageView(passageById.get(it.passageRef)) : null,
         options: (it.options ?? []).map((o) => ({ key: o.key, text: o.text })),
         blankIds: it.blanks ? Object.keys(it.blanks) : [],
         tokens: (it.tokens ?? []).map((t) => ({ id: t.id, text: t.text })),
       };
     }),
+    feedback,
   };
 }
 
@@ -120,6 +148,8 @@ export type PracticeFeedback = {
   correct: boolean;
   awarded: number;
   perCorrect: number;
+  /** The persisted response value. Used to keep idempotent re-checks visually honest. */
+  selected: PracticeSelected;
   /** Option keys (MC/multiselect) for post-submit coloring. Empty for other types. */
   correctKeys: string[];
   selectedKeys: string[];
@@ -188,6 +218,16 @@ function keysOf(v: unknown): string[] {
   return [];
 }
 
+function selectedForClient(v: unknown): PracticeSelected {
+  if (v == null) return null;
+  if (typeof v === "string") return v;
+  if (Array.isArray(v)) return v.map((x) => String(x));
+  if (typeof v === "object") {
+    return Object.fromEntries(Object.entries(v as Record<string, unknown>).map(([key, value]) => [key, String(value ?? "")]));
+  }
+  return String(v);
+}
+
 function buildFeedback(
   item: Item,
   selected: unknown,
@@ -197,6 +237,7 @@ function buildFeedback(
   wallet: { available: number; lifetimeEarned: number },
 ): PracticeFeedback {
   const opts = item.options ?? [];
+  const selectedValue = selectedForClient(selected);
   const isOptionType = item.type === "multiple_choice" || item.type === "multiselect";
   const correctOpt = item.type === "multiple_choice" ? opts.find((o) => o.correct) : undefined;
   const selKey = item.type === "multiple_choice" && typeof selected === "string" ? selected : "";
@@ -205,6 +246,7 @@ function buildFeedback(
     correct,
     awarded,
     perCorrect,
+    selected: selectedValue,
     correctKeys: isOptionType ? opts.filter((o) => o.correct).map((o) => o.key) : [],
     selectedKeys: isOptionType ? keysOf(selected) : [],
     correctText: correctAnswerText(item),
@@ -255,6 +297,7 @@ export async function submitPracticeAnswer(
   }
   const program = await programsRepo.findByKey(enrollment!.programKey);
   const perCorrect = program?.robuxRules.practiceCorrect ?? 0;
+  const wrongPenalty = program?.robuxRules.examWrong ?? perCorrect;
 
   // Idempotent: a prior practice response means no re-award (§20.6).
   const prior = await responsesRepo.findPractice(input.enrollmentId, input.itemId);
@@ -264,7 +307,7 @@ export async function submitPracticeAnswer(
   }
 
   const result = scoreItem(item, input.selected);
-  const awarded = practiceAward(result.correct, false, perCorrect);
+  const awarded = practiceAward(result.correct, false, perCorrect, wrongPenalty);
   const resp = await responsesRepo.insertPractice({
     enrollmentId: input.enrollmentId,
     itemId: input.itemId,
@@ -282,11 +325,11 @@ export async function submitPracticeAnswer(
 
   await itemUsageRepo.record(input.enrollmentId, item._id, "practice");
   await recordAttempt(input.enrollmentId, item.standardCodes, result.correct);
-  if (awarded > 0) {
+  if (awarded !== 0) {
     await robuxLedgerRepo.add({
       enrollmentId: input.enrollmentId,
-      type: "earn",
-      amount: awarded,
+      type: awarded > 0 ? "earn" : "penalty",
+      amount: Math.abs(awarded),
       source: "practice",
       refId: input.itemId,
     });

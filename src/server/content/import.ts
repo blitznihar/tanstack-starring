@@ -5,6 +5,7 @@ import { passageSchema, type Passage } from "~/schemas/passage.js";
 import { contentRepo } from "~/repositories/content.js";
 import { passagesRepo } from "~/repositories/passages.js";
 import { requireCapability } from "~/server/auth/rbac.js";
+import { validateItemAuthoring } from "~/domain/content/itemValidation.js";
 import type { AuthContext } from "~/server/auth/session.js";
 
 export type ImportResult = {
@@ -78,6 +79,10 @@ export function prepareBundle(rawBundle: unknown): {
           );
         }
       }
+    }
+    const authoringIssues = validateItemAuthoring(item);
+    if (authoringIssues.length > 0) {
+      throw new Error(`Item ${item._id}: ${authoringIssues.join("; ")}`);
     }
     return item;
   });

@@ -132,10 +132,10 @@ export function earnUpTo(shownCount: number, perCorrect: number): number {
 }
 
 /**
- * Robux awarded for a practice answer. Idempotent: an already-awarded item yields
- * 0. Practice never applies negative Robux (penalties are exam-only — §11).
+ * Robux delta for a practice answer. Idempotent: an already-awarded item yields
+ * 0. Fresh wrong practice answers apply the configured practice penalty.
  */
-export function practiceAward(isCorrect: boolean, alreadyAwarded: boolean, perCorrect: number): number {
+export function practiceAward(isCorrect: boolean, alreadyAwarded: boolean, perCorrect: number, wrongPenalty = perCorrect): number {
   if (alreadyAwarded) return 0;
-  return isCorrect ? perCorrect : 0;
+  return isCorrect ? perCorrect : -wrongPenalty;
 }

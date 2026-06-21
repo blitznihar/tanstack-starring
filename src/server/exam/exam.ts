@@ -218,12 +218,23 @@ function hasAnswer(v: unknown): boolean {
 }
 
 function sanitizeItem(item: Item, response: unknown, passage: SanitizedPassage | null) {
+  const correctCount = item.type === "multiselect" ? (item.options ?? []).filter((option) => option.correct).length : 0;
+  const selectInstruction = item.type === "multiselect"
+    ? richToText(item.prompt).toLowerCase().includes("select all")
+      ? "Select all that apply."
+      : correctCount === 2
+        ? "Select TWO."
+        : correctCount > 0
+          ? `Select ${correctCount} answers.`
+          : "Select all that apply."
+    : null;
   // NEVER expose correct/answer/explanation/rationale/rubric/blanks values for a
   // live item (§7, §18). Only the render scaffolding the student needs.
   return {
     itemId: item._id,
     subject: item.subject,
     type: item.type,
+    selectInstruction,
     teks: item.standardCodes.map((c) => `TEKS ${c}`).join(", "),
     prompt: richToText(item.prompt),
     passage,

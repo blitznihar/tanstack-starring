@@ -68,12 +68,15 @@ describe("earnUpTo", () => {
   });
 });
 
-describe("practiceAward — instant + idempotent, no negatives", () => {
+describe("practiceAward — instant + idempotent signed deltas", () => {
   it("awards per-correct on a fresh correct answer", () => {
     expect(practiceAward(true, false, 10)).toBe(10);
   });
-  it("awards nothing for a wrong answer (no penalty)", () => {
-    expect(practiceAward(false, false, 10)).toBe(0);
+  it("deducts per-correct on a fresh wrong answer", () => {
+    expect(practiceAward(false, false, 10)).toBe(-10);
+  });
+  it("uses the configured wrong-answer penalty when provided", () => {
+    expect(practiceAward(false, false, 10, 3)).toBe(-3);
   });
   it("does not re-award an already-awarded item", () => {
     expect(practiceAward(true, true, 10)).toBe(0);

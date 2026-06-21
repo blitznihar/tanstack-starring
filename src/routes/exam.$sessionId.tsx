@@ -156,7 +156,7 @@ function ExamPlayer() {
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14 }}>
               <span style={{ background: "var(--s-primary)", color: "#fff", fontWeight: 800, fontSize: 13, width: 30, height: 30, borderRadius: 9, display: "flex", alignItems: "center", justifyContent: "center" }}>{view.currentNum}</span>
               <span style={{ fontWeight: 800, fontSize: 12, color: "var(--a-faint)" }}>{q?.teks}</span>
-              {q && <TypeTag type={q.type} />}
+              {q && <TypeTag item={q} />}
             </div>
             <div style={{ zoom: tool.zoom }}>
               <div style={{ fontWeight: 800, fontSize: 19, lineHeight: 1.45, marginBottom: 16 }}>{q?.prompt}</div>
@@ -248,7 +248,6 @@ function ExamPlayer() {
 const primaryBtn: React.CSSProperties = { border: "none", cursor: "pointer", background: "var(--s-primary)", color: "#fff", borderRadius: 12, padding: "13px 34px", fontWeight: 800, fontSize: 16 };
 
 const TYPE_LABELS: Record<string, string> = {
-  multiselect: "Select TWO",
   text_entry: "Type your answer",
   inline_choice: "Choose from the menu",
   hot_text: "Click the sentence",
@@ -256,8 +255,8 @@ const TYPE_LABELS: Record<string, string> = {
   scr: "Written · 2 pts",
   ecr: "Written · 5 pts",
 };
-function TypeTag({ type }: { type: string }) {
-  const label = TYPE_LABELS[type];
+function TypeTag({ item }: { item: Item }) {
+  const label = item.type === "multiselect" ? item.selectInstruction : TYPE_LABELS[item.type];
   if (!label) return null;
   return <span style={{ marginLeft: "auto", background: "#EEF1F6", color: "var(--a-muted)", fontWeight: 800, fontSize: 10.5, padding: "4px 10px", borderRadius: 7, letterSpacing: ".03em" }}>{label}</span>;
 }

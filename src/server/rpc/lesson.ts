@@ -81,13 +81,13 @@ function visualKind(description: string, subject: string): "number_line" | "frac
 }
 
 export const lessonForToday = createServerFn({ method: "GET" })
-  .validator((d?: { subject?: string }) => ({ subject: d?.subject ?? "math" }))
+  .validator((d?: { subject?: string; standardCode?: string }) => ({ subject: d?.subject ?? "math", standardCode: d?.standardCode }))
   .handler(async ({ data }) => {
     const auth = await requireAuth();
-    return lessonForStudent(auth, data.subject);
+    return lessonForStudent(auth, data.subject, data.standardCode);
   });
 
-async function lessonForStudent(auth: AuthContext, subject: string) {
+async function lessonForStudent(auth: AuthContext, subject: string, requestedStandardCode?: string) {
   if (!auth.roles.includes("student")) throw new Error("Forbidden: lessons are only available to student profiles");
   const enrollment = await resolvePracticeEnrollment(auth.userId, subject);
   if (!enrollment?._id) return { available: false as const, displayName: auth.displayName };
@@ -95,6 +95,7 @@ async function lessonForStudent(auth: AuthContext, subject: string) {
   const schedule = await getOrCreateSchedule(auth, enrollment._id);
   const currentDay = schedule.schedule.days[schedule.currentDay] ?? schedule.schedule.days.find((day) => day.status === "scheduled");
   const lessonTask =
+    currentDay?.tasks.find((task) => task.subject === subject && task.kind === "lesson" && task.topic && task.topic === requestedStandardCode) ??
     currentDay?.tasks.find((task) => task.subject === subject && task.kind === "lesson" && task.topic) ??
     currentDay?.tasks.find((task) => task.subject === subject && task.topic);
 
@@ -144,7 +145,7 @@ export const completeLesson = createServerFn({ method: "POST" })
   .validator((d: { subject: string; standardCode: string }) => d)
   .handler(async ({ data }) => {
     const auth = await requireAuth();
-    const lesson = await lessonForStudent(auth, data.subject);
+    const lesson = await lessonForStudent(auth, data.subject, data.standardCode);
     if (!lesson.available) throw new Error("No lesson is ready for this subject.");
     if (lesson.standardCode !== data.standardCode) throw new Error("Complete today's lesson before practicing.");
     await lessonProgressRepo.complete({

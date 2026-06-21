@@ -1,6 +1,8 @@
 import { createServerFn } from "@tanstack/react-start";
 import { contentRepo } from "~/repositories/content.js";
 import { enrollmentsRepo } from "~/repositories/enrollments.js";
+import { lessonProgressRepo } from "~/repositories/lessonProgress.js";
+import { practiceProgressRepo } from "~/repositories/practiceProgress.js";
 import { programsRepo } from "~/repositories/programs.js";
 import { rewardPanel } from "~/server/gamification/gamification.js";
 import { getOrCreateSchedule } from "~/server/scheduler/scheduler.js";
@@ -23,6 +25,18 @@ function formatDate(date: string): string {
 function progressPct(done: number, total: number): number {
   return total > 0 ? Math.round((done / total) * 100) : 0;
 }
+
+type TaskView = {
+  id: string;
+  kind: string;
+  subjectKey: string;
+  subject: string;
+  topic: string;
+  title: string;
+  meta: string;
+  durationMinutes: number | null;
+  completed: boolean;
+};
 
 /** Student landing page data: programs, progress, wallet, exams, and today/week tasks. */
 export const studentHome = createServerFn({ method: "GET" }).handler(async () => {
@@ -75,6 +89,31 @@ export const studentHome = createServerFn({ method: "GET" }).handler(async () =>
       rewards = [];
     }
 
+    const todayTasks: TaskView[] = [];
+    for (const task of currentDay?.tasks ?? []) {
+      const label = task.topic && task.subject ? standardLabels.get(`${task.subject}:${task.topic}`) ?? task.topic : task.title;
+      const completed =
+        currentDay?.status === "done" ||
+        (task.kind === "lesson" && task.subject && task.topic
+          ? await lessonProgressRepo.isComplete(enrollmentId, task.subject, task.topic)
+          : task.kind === "practice" && task.subject && task.topic
+            ? await practiceProgressRepo.isComplete(enrollmentId, task.subject, task.topic)
+            : false);
+      todayTasks.push({
+        id: task.id,
+        kind: task.kind,
+        subjectKey: task.subject ?? "",
+        subject: task.subject ? titleCase(task.subject) : "Exam",
+        topic: task.topic ?? "",
+        title: task.kind === "exam" ? task.title : label,
+        meta: task.kind === "exam" && task.durationMinutes ? `${task.durationMinutes} minutes` : task.topic ? task.topic : `${titleCase(task.kind)} task`,
+        durationMinutes: task.durationMinutes ?? null,
+        completed,
+      });
+    }
+    const nextIncompleteTask = todayTasks.find((task) => !task.completed) ?? null;
+    const completedTodayCount = todayTasks.filter((task) => task.completed).length;
+
     programViews.push({
       enrollmentId,
       programKey: enrollment.programKey,
@@ -91,19 +130,12 @@ export const studentHome = createServerFn({ method: "GET" }).handler(async () =>
       robuxLifetime: report?.wallet.lifetime ?? 0,
       rewards,
       earnedRewards: rewards.filter((reward) => reward.met).map((reward) => reward.prize),
-      todayTasks: (currentDay?.tasks ?? []).map((task) => {
-        const label = task.topic && task.subject ? standardLabels.get(`${task.subject}:${task.topic}`) ?? task.topic : task.title;
-        return {
-          id: task.id,
-          kind: task.kind,
-          subjectKey: task.subject ?? "",
-          subject: task.subject ? titleCase(task.subject) : "Exam",
-          topic: task.topic ?? "",
-          title: task.kind === "exam" ? task.title : label,
-          meta: task.kind === "exam" && task.durationMinutes ? `${task.durationMinutes} minutes` : task.topic ? task.topic : `${titleCase(task.kind)} task`,
-          durationMinutes: task.durationMinutes ?? null,
-        };
-      }),
+      todayDate: currentDay?.date ?? "",
+      todayTasks,
+      nextIncompleteTask,
+      completedTodayCount,
+      allTodayCompleted: todayTasks.length > 0 && completedTodayCount === todayTasks.length,
+      hasStartedToday: completedTodayCount > 0,
       week: upcomingDays.map((day) => {
         const firstTask = day.tasks[0];
         const exam = day.tasks.some((task) => task.kind === "exam");

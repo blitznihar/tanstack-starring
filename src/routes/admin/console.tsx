@@ -93,7 +93,7 @@ const ROLE_CHOICES: { key: Role; label: string }[] = [
 const STEPPERS: { key: keyof Rules; label: string; sub: string }[] = [
   { key: "practiceCorrect", label: "Practice correct", sub: "Awarded during practice" },
   { key: "examCorrect", label: "Exam correct", sub: "Awarded for correct exam items" },
-  { key: "examWrong", label: "Wrong penalty", sub: "Deducted on wrong exam items" },
+  { key: "examWrong", label: "Wrong penalty", sub: "Deducted on wrong practice or exam items" },
   { key: "lessonComplete", label: "Lesson complete", sub: "Awarded on completed lessons" },
 ];
 
