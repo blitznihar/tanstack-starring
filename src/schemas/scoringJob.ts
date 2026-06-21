@@ -3,14 +3,15 @@ import { z } from "zod";
 /**
  * A scoringJob (§8) — the async queue entry for a written response (SCR/ECR).
  * Submission NEVER blocks on scoring: deterministic items score immediately and a
- * job is enqueued per written item. A worker calls DMR (local model, the only
- * runtime LLM call); on failure or AI_ENABLED=false it routes to the manual queue.
+ * job is enqueued per written item. A worker calls the configured AI scorer
+ * (OpenAI in production, the only runtime LLM call); on failure or
+ * AI_ENABLED=false it routes to the manual queue.
  * A parent/admin can override the final score one click.
  *
  *   pending   → just enqueued, not yet attempted
- *   scoring   → a worker is calling DMR right now
- *   scored    → DMR returned a parsed score
- *   manual    → DMR unreachable/disabled/unparseable → awaits a human
+ *   scoring   → a worker is calling the AI scorer right now
+ *   scored    → AI returned a parsed score
+ *   manual    → AI unreachable/disabled/unparseable → awaits a human
  *   overridden→ a parent/admin set the final score (wins over any AI score)
  */
 export const scoringJobStatusSchema = z.enum(["pending", "scoring", "scored", "manual", "overridden"]);
@@ -19,7 +20,7 @@ export type ScoringJobStatus = z.infer<typeof scoringJobStatusSchema>;
 export const scoringSourceSchema = z.enum(["ai", "manual", "override"]);
 export type ScoringSource = z.infer<typeof scoringSourceSchema>;
 
-/** The strict JSON DMR must reply with (§8). Parsed defensively. */
+/** The strict JSON AI scorer must reply with (§8). Parsed defensively. */
 export const dmrReplySchema = z.object({
   score: z.number(),
   justification: z.string(),
@@ -42,7 +43,7 @@ export const scoringJobSchema = z.object({
   score: z.number().nullable().default(null),
   justification: z.string().default(""),
   tips: z.array(z.string()).default([]),
-  /** Last error if DMR failed — surfaced to the manual queue for context. */
+  /** Last error if AI failed — surfaced to the manual queue for context. */
   error: z.string().optional(),
   attempts: z.number().int().nonnegative().default(0),
   createdAt: z.date(),

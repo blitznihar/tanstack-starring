@@ -1,17 +1,57 @@
 import { createServerFn } from "@tanstack/react-start";
-import { setResponseHeader } from "@tanstack/react-start/server";
+import { getRequestHeader, setResponseHeader } from "@tanstack/react-start/server";
 import { usersRepo } from "~/repositories/users.js";
 import { sessionsRepo } from "~/repositories/sessions.js";
 import { enrollmentsRepo } from "~/repositories/enrollments.js";
 import { programsRepo } from "~/repositories/programs.js";
 import { DEFAULT_INITIAL_PASSWORD, generateToken, hashPassword, verifyPassword } from "~/server/auth/password.js";
 import { login as doLogin, logout as doLogout, sessionCookie, clearSessionCookie, SESSION_COOKIE } from "~/server/auth/session.js";
+import {
+  AUTH0_PENDING_COOKIE,
+  AUTH0_STATE_COOKIE,
+  auth0Enabled,
+  auth0PendingCookie,
+  auth0StateCookie,
+  buildAuth0AuthorizeUrl,
+  clearAuth0PendingCookie,
+  clearAuth0StateCookie,
+  completeAuth0Login,
+  newAuth0State,
+  readAuth0PendingCookie,
+  readAuth0StateCookie,
+  resolveAuth0CallbackUrl,
+  selectPendingAuth0Profile,
+} from "~/server/auth/auth0.js";
 import { roleSchema } from "~/schemas/common.js";
 import { queueEmailNotification } from "~/server/notifications/email.js";
 import { currentAuth } from "./context.js";
-import { getRequestHeader } from "@tanstack/react-start/server";
 
 const isProd = process.env.NODE_ENV === "production";
+
+function parseCookies(header: string | undefined): Record<string, string> {
+  const out: Record<string, string> = {};
+  if (!header) return out;
+  for (const part of header.split(";")) {
+    const idx = part.indexOf("=");
+    if (idx === -1) continue;
+    const key = part.slice(0, idx).trim();
+    const value = part.slice(idx + 1).trim();
+    if (key) out[key] = decodeURIComponent(value);
+  }
+  return out;
+}
+
+function requestOrigin(): string | undefined {
+  const origin = getRequestHeader("origin");
+  if (origin) return origin;
+  const referer = getRequestHeader("referer");
+  if (!referer) return undefined;
+  try {
+    return new URL(referer).origin;
+  } catch {
+    return undefined;
+  }
+}
 
 /** Current signed-in user (or null). */
 export const me = createServerFn({ method: "GET" }).handler(async () => {
@@ -31,6 +71,7 @@ export const me = createServerFn({ method: "GET" }).handler(async () => {
 export const login = createServerFn({ method: "POST" })
   .validator((d: { username: string; password: string }) => d)
   .handler(async ({ data }) => {
+    if (auth0Enabled()) return { ok: false as const, auth0Required: true as const };
     const result = await doLogin(data);
     if (!result) return { ok: false as const };
     setResponseHeader("Set-Cookie", sessionCookie(result.token, isProd));
@@ -39,6 +80,80 @@ export const login = createServerFn({ method: "POST" })
       roles: result.auth.roles,
       displayName: result.auth.displayName,
       needsAccountSetup: !result.auth.emailConfirmed || result.auth.forceChangeOnFirstLogin,
+    };
+  });
+
+export const auth0Status = createServerFn({ method: "GET" }).handler(async () => ({
+  enabled: auth0Enabled(),
+}));
+
+export const startAuth0Login = createServerFn({ method: "POST" }).handler(async () => {
+  const state = newAuth0State();
+  const origin = requestOrigin();
+  const callbackUrl = resolveAuth0CallbackUrl(origin ? `${origin}/callback` : undefined);
+  const url = buildAuth0AuthorizeUrl(state, callbackUrl);
+  setResponseHeader("Set-Cookie", auth0StateCookie(state, callbackUrl, isProd));
+  return { ok: true as const, url };
+});
+
+export const finishAuth0Login = createServerFn({ method: "POST" })
+  .validator((d: { code: string; state: string }) => ({
+    code: String(d.code ?? ""),
+    state: String(d.state ?? ""),
+  }))
+  .handler(async ({ data }) => {
+    const cookies = parseCookies(getRequestHeader("cookie"));
+    const result = await completeAuth0Login({
+      code: data.code,
+      state: data.state,
+      expectedState: readAuth0StateCookie(cookies[AUTH0_STATE_COOKIE]),
+    });
+
+    if (!result.ok) {
+      setResponseHeader("Set-Cookie", [clearAuth0StateCookie(isProd), clearAuth0PendingCookie(isProd)]);
+      return result;
+    }
+
+    if (result.mode === "select_profile") {
+      const email = (await usersRepo.findById(result.profiles[0]!.id))?.email.toLowerCase() ?? "";
+      setResponseHeader("Set-Cookie", [
+        clearAuth0StateCookie(isProd),
+        auth0PendingCookie(email, result.profiles.map((profile) => profile.id), isProd),
+      ]);
+      return result;
+    }
+
+    setResponseHeader("Set-Cookie", [
+      clearAuth0StateCookie(isProd),
+      clearAuth0PendingCookie(isProd),
+      sessionCookie(result.token, isProd),
+    ]);
+    return {
+      ok: true as const,
+      mode: "signed_in" as const,
+      roles: result.roles,
+      displayName: result.displayName,
+      destination: result.destination,
+    };
+  });
+
+export const selectAuth0Profile = createServerFn({ method: "POST" })
+  .validator((d: { userId: string }) => ({ userId: String(d.userId ?? "") }))
+  .handler(async ({ data }) => {
+    const cookies = parseCookies(getRequestHeader("cookie"));
+    const session = await selectPendingAuth0Profile({
+      userId: data.userId,
+      pending: readAuth0PendingCookie(cookies[AUTH0_PENDING_COOKIE]),
+    });
+    setResponseHeader("Set-Cookie", [
+      clearAuth0PendingCookie(isProd),
+      sessionCookie(session.token, isProd),
+    ]);
+    return {
+      ok: true as const,
+      roles: session.roles,
+      displayName: session.displayName,
+      destination: session.destination,
     };
   });
 
@@ -156,7 +271,7 @@ export const loginProfiles = createServerFn({ method: "GET" }).handler(async () 
 export const devLogin = createServerFn({ method: "POST" })
   .validator((d: { role: string }) => ({ role: roleSchema.parse(d.role) }))
   .handler(async ({ data }) => {
-    if (isProd) throw new Error("devLogin is disabled in production");
+    if (isProd || auth0Enabled()) throw new Error("devLogin is disabled when Auth0 login is configured");
     const user = await usersRepo.findByRole(data.role);
     if (!user || !user._id) throw new Error(`No seeded ${data.role} user — run \`bun run seed\``);
     const token = generateToken();
@@ -169,7 +284,7 @@ export const devLogin = createServerFn({ method: "POST" })
 export const devProfileLogin = createServerFn({ method: "POST" })
   .validator((d: { userId: string }) => ({ userId: String(d.userId) }))
   .handler(async ({ data }) => {
-    if (isProd) throw new Error("devProfileLogin is disabled in production");
+    if (isProd || auth0Enabled()) throw new Error("devProfileLogin is disabled when Auth0 login is configured");
     const user = await usersRepo.findById(data.userId);
     if (!user || !user._id || !user.active) throw new Error("Profile is not available");
     const token = generateToken();

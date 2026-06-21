@@ -1,0 +1,20 @@
+{
+  "name": "Comet Academy",
+  "short_name": "Comet Academy",
+  "description": "Comet Academy learning and practice platform",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/comet-academy-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#6c4ce0",
+  "background_color": "#ffffff",
+  "display": "standalone"
+}

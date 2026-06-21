@@ -19,7 +19,7 @@ import type { ScoringJobStatus, ScoringSource } from "~/schemas/scoringJob.js";
  *   finalize → enqueueWrittenJobs (one job per written item)
  *           → processSessionJobs (best-effort; also re-runnable from the client)
  *
- * Each job calls DMR (local model). DMR off/unreachable/unparseable → status
+ * Each job calls the configured AI scorer. AI off/unreachable/unparseable → status
  * `manual` (human queue). A parent/admin can `overrideScore` at any time, which
  * wins over any AI score. Stale `scoring` jobs (a crashed worker) are released
  * back to `pending` so they retry.
@@ -87,7 +87,7 @@ export async function enqueueWrittenJobs(
   return enqueued;
 }
 
-/** Score one claimed job via DMR; route to manual on any failure. */
+/** Score one claimed job via AI; route to manual on any failure. */
 async function scoreClaimedJob(job: ScoringJobDoc): Promise<void> {
   const item = await contentRepo.findItem(job.itemId);
   if (!item || !item.rubric) {
@@ -225,7 +225,7 @@ export type ManualQueueRow = WrittenScore & {
 
 /**
  * The human scoring queue (§8) for admin/parent: every written response that
- * needs attention — `manual` (DMR unavailable) first, then AI `scored` ones a
+ * needs attention — `manual` (AI unavailable) first, then AI `scored` ones a
  * human may want to confirm or override.
  */
 export async function manualQueue(actor: AuthContext): Promise<ManualQueueRow[]> {

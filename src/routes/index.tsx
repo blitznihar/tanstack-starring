@@ -1,59 +1,42 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { useState } from "react";
-import { forgotPassword, login } from "~/server/rpc/session";
+import { useEffect, useState } from "react";
+import { auth0Status, startAuth0Login } from "~/server/rpc/session";
 
 export const Route = createFileRoute("/")({
   component: LoginPage,
 });
 
-function destination(roles: string[]): "/admin/console" | "/student" | "/dashboard" {
-  if (roles.includes("admin") || roles.includes("super_admin")) return "/admin/console";
-  if (roles.includes("student")) return "/student";
-  return "/dashboard";
-}
-
 function LoginPage() {
-  const navigate = useNavigate();
-  const doLogin = useServerFn(login);
-  const doForgot = useServerFn(forgotPassword);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [forgot, setForgot] = useState("");
-  const [busy, setBusy] = useState<string | null>(null);
+  const beginAuth0 = useServerFn(startAuth0Login);
+  const getAuth0Status = useServerFn(auth0Status);
+  const [busy, setBusy] = useState(false);
+  const [auth0Ready, setAuth0Ready] = useState(true);
   const [message, setMessage] = useState<string | null>(null);
 
-  async function submitCredentials(event: React.FormEvent) {
-    event.preventDefault();
-    setBusy("login");
-    setMessage(null);
-    try {
-      const result = await doLogin({ data: { username, password } });
-      if (!result.ok) {
-        setMessage("Username or password did not match.");
-        setBusy(null);
-        return;
-      }
-      navigate({ to: result.needsAccountSetup ? "/account" : destination(result.roles) });
-    } catch (e) {
-      setMessage(e instanceof Error ? e.message : String(e));
-      setBusy(null);
-    }
-  }
+  useEffect(() => {
+    let mounted = true;
+    getAuth0Status({})
+      .then((status) => {
+        if (mounted) setAuth0Ready(status.enabled);
+      })
+      .catch(() => {
+        if (mounted) setAuth0Ready(false);
+      });
+    return () => {
+      mounted = false;
+    };
+  }, [getAuth0Status]);
 
-  async function submitForgot(event: React.FormEvent) {
-    event.preventDefault();
-    if (!forgot.trim()) return;
-    setBusy("forgot");
+  async function continueWithAuth0() {
+    setBusy(true);
     setMessage(null);
     try {
-      await doForgot({ data: { usernameOrEmail: forgot } });
-      setMessage("If that account exists, the password was reset and an email notification was queued.");
-      setForgot("");
+      const result = await beginAuth0({});
+      window.location.assign(result.url);
     } catch (e) {
       setMessage(e instanceof Error ? e.message : String(e));
-    } finally {
-      setBusy(null);
+      setBusy(false);
     }
   }
 
@@ -70,35 +53,18 @@ function LoginPage() {
           </div>
         </div>
 
-        <form onSubmit={submitCredentials} style={{ display: "grid", gap: 10 }}>
-          <input value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Username" autoComplete="username" style={loginInput} />
-          <input value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" type="password" autoComplete="current-password" style={loginInput} />
-          <button disabled={busy === "login" || !username.trim() || !password} style={loginButton}>
-            {busy === "login" ? "Signing in..." : "Sign in"}
+        <div style={{ display: "grid", gap: 12 }}>
+          <button disabled={busy || !auth0Ready} onClick={continueWithAuth0} style={loginButton}>
+            {busy ? "Opening secure login..." : "Continue with Google"}
           </button>
-        </form>
+        </div>
 
-        <form onSubmit={submitForgot} style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: 8, marginTop: 18 }}>
-          <input value={forgot} onChange={(e) => setForgot(e.target.value)} placeholder="Username or email" style={loginInput} />
-          <button disabled={busy === "forgot" || !forgot.trim()} style={secondaryButton}>
-            {busy === "forgot" ? "Resetting..." : "Forgot password"}
-          </button>
-        </form>
-
-        {message && <div style={{ marginTop: 14, color: message.includes("reset") || message.includes("queued") ? "var(--a-good)" : "var(--a-bad)", fontWeight: 900, fontSize: 13 }}>{message}</div>}
+        {!auth0Ready && <div style={{ marginTop: 14, color: "var(--a-bad)", fontWeight: 900, fontSize: 13 }}>Auth0 is not configured for this environment.</div>}
+        {message && <div style={{ marginTop: 14, color: "var(--a-bad)", fontWeight: 900, fontSize: 13 }}>{message}</div>}
       </main>
     </div>
   );
 }
-
-const loginInput: React.CSSProperties = {
-  border: "1px solid var(--a-border)",
-  borderRadius: 10,
-  padding: "12px 13px",
-  font: "inherit",
-  fontWeight: 700,
-  minWidth: 0,
-};
 
 const loginButton: React.CSSProperties = {
   border: "none",
@@ -109,16 +75,4 @@ const loginButton: React.CSSProperties = {
   font: "inherit",
   fontWeight: 900,
   cursor: "pointer",
-};
-
-const secondaryButton: React.CSSProperties = {
-  border: "1px solid var(--a-border)",
-  background: "#fff",
-  color: "var(--a-accent)",
-  borderRadius: 10,
-  padding: "12px 13px",
-  font: "inherit",
-  fontWeight: 900,
-  cursor: "pointer",
-  whiteSpace: "nowrap",
 };

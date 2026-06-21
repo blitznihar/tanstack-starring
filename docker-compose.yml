@@ -24,9 +24,16 @@ services:
       API_BASE_URL: ${API_BASE_URL:-http://localhost:3000}
       SESSION_SECRET: ${SESSION_SECRET:-change-me}
       AI_ENABLED: ${AI_ENABLED:-true}
-      AI_BASE_URL: ${AI_BASE_URL:-http://model-runner.docker.internal/engines/v1}
-      AI_MODEL: ${AI_MODEL:-ai/gemma3}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      AI_BASE_URL: ${AI_BASE_URL:-https://api.openai.com/v1}
+      AI_MODEL: ${AI_MODEL:-gpt-5.4-mini}
       AI_TIMEOUT_MS: ${AI_TIMEOUT_MS:-60000}
+      AUTH0_DOMAIN: ${AUTH0_DOMAIN:-}
+      AUTH0_CLIENT_ID: ${AUTH0_CLIENT_ID:-}
+      AUTH0_CLIENT_SECRET: ${AUTH0_CLIENT_SECRET:-}
+      AUTH0_CALLBACK_URL: ${AUTH0_CALLBACK_URL:-http://localhost:3000/callback}
+      AUTH0_LOGOUT_URL: ${AUTH0_LOGOUT_URL:-http://localhost:3000/logout}
+      AUTH0_CONNECTION: ${AUTH0_CONNECTION:-}
       WEEKLY_ROBUX_BUDGET: ${WEEKLY_ROBUX_BUDGET:-1000}
       EXAM_ROBUX_SHARE: ${EXAM_ROBUX_SHARE:-0.5}
       EXAM_WRONG_PENALTY: ${EXAM_WRONG_PENALTY:-10}

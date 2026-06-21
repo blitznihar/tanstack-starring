@@ -1,7 +1,8 @@
 {
-  "name": "comet",
+  "name": "comet-academy",
   "version": "0.1.0",
   "private": true,
+  "productName": "Comet Academy",
   "type": "module",
   "description": "Comet — multi-program practice platform (Grade 3 STAAR + extensible programs)",
   "scripts": {
@@ -28,11 +29,26 @@
   "overrides": {
     "vite": "7.3.5"
   },
+  "build": {
+    "appId": "academy.comet.desktop",
+    "productName": "Comet Academy",
+    "mac": {
+      "icon": "electron/assets/comet-academy-icon.icns"
+    },
+    "win": {
+      "icon": "electron/assets/comet-academy-icon.ico"
+    },
+    "linux": {
+      "icon": "electron/assets/comet-academy-icon.png"
+    }
+  },
   "dependencies": {
     "@tanstack/react-query": "^5.62.0",
     "@tanstack/react-router": "^1.95.0",
     "@tanstack/react-start": "^1.95.0",
     "argon2": "^0.41.1",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^4.2.1",
     "mongodb": "^6.12.0",
     "nodemailer": "^9.0.1",
     "react": "^18.3.1",

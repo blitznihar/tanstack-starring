@@ -1,6 +1,7 @@
 /**
  * Central environment access. Nothing else in the app reads `process.env` directly,
- * so swapping local Docker → Atlas (or DMR config) is a config change, not a code change.
+ * so swapping local Docker → Atlas or OpenAI-compatible AI providers is a config
+ * change, not a code change.
  */
 
 function str(key: string, fallback?: string): string {
@@ -36,9 +37,24 @@ export const env = {
   get ai() {
     return {
       enabled: bool("AI_ENABLED", true),
-      baseUrl: str("AI_BASE_URL", "http://localhost:12434/engines/v1"),
-      model: str("AI_MODEL", "ai/gemma3"),
+      baseUrl: str("AI_BASE_URL", "https://api.openai.com/v1"),
+      model: str("AI_MODEL", "gpt-5.4-mini"),
+      openaiApiKey: str("OPENAI_API_KEY", ""),
       timeoutMs: num("AI_TIMEOUT_MS", 60000),
+    };
+  },
+  get auth0() {
+    const domain = str("AUTH0_DOMAIN", "");
+    const clientId = str("AUTH0_CLIENT_ID", "");
+    const clientSecret = str("AUTH0_CLIENT_SECRET", "");
+    return {
+      enabled: domain.trim() !== "" && clientId.trim() !== "" && clientSecret.trim() !== "",
+      domain,
+      clientId,
+      clientSecret,
+      callbackUrl: str("AUTH0_CALLBACK_URL", "http://localhost:5173/callback"),
+      logoutUrl: str("AUTH0_LOGOUT_URL", "http://localhost:5173/logout"),
+      connection: str("AUTH0_CONNECTION", ""),
     };
   },
   get robux() {

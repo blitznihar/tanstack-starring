@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { completeLesson, lessonForToday } from "~/server/rpc/lesson";
 import { logout } from "~/server/rpc/session";
 
@@ -97,8 +97,70 @@ function StudentHeader({ active, displayName, onLogout }: { active: "lesson" | "
 function LessonCard({ lesson, completing, error, onComplete }: { lesson: Lesson; completing: boolean; error: string | null; onComplete: () => void }) {
   const hasAuthoredBody = lesson.body.length > 0;
   const hasAuthoredExamples = lesson.practiceExamples.length > 0;
+  const lessonRef = useRef<HTMLElement | null>(null);
+  const [pdfBusy, setPdfBusy] = useState(false);
+  const [pdfError, setPdfError] = useState<string | null>(null);
+
+  async function viewPdf() {
+    if (!lessonRef.current || pdfBusy) return;
+    setPdfBusy(true);
+    setPdfError(null);
+    const preview = window.open("", "_blank");
+    if (preview) {
+      preview.document.write("<!doctype html><title>Preparing lesson PDF...</title><body style=\"font-family:sans-serif;padding:24px;font-weight:700\">Preparing lesson PDF...</body>");
+      preview.document.close();
+    }
+
+    try {
+      await document.fonts?.ready;
+      const [{ default: html2canvas }, { jsPDF }] = await Promise.all([
+        import("html2canvas"),
+        import("jspdf"),
+      ]);
+      const source = lessonRef.current;
+      const canvas = await html2canvas(source, {
+        backgroundColor: "#ffffff",
+        scale: Math.max(2, window.devicePixelRatio || 1),
+        useCORS: true,
+        logging: false,
+        windowWidth: Math.max(document.documentElement.clientWidth, source.scrollWidth),
+        windowHeight: Math.max(document.documentElement.clientHeight, source.scrollHeight),
+      });
+      const pdf = new jsPDF({
+        orientation: canvas.width >= canvas.height ? "landscape" : "portrait",
+        unit: "px",
+        format: [canvas.width, canvas.height],
+        hotfixes: ["px_scaling"],
+      });
+      pdf.setProperties({
+        title: `${lesson.subjectLabel} ${lesson.standardCode} - ${lesson.title}`,
+        subject: "Comet Academy lesson",
+      });
+      pdf.addImage(canvas.toDataURL("image/png"), "PNG", 0, 0, canvas.width, canvas.height);
+      const blob = pdf.output("blob");
+      const url = URL.createObjectURL(blob);
+      if (preview) {
+        preview.location.href = url;
+      } else {
+        window.open(url, "_blank", "noopener,noreferrer");
+      }
+      window.setTimeout(() => URL.revokeObjectURL(url), 1000 * 60 * 10);
+    } catch (e) {
+      preview?.close();
+      setPdfError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setPdfBusy(false);
+    }
+  }
+
   return (
-    <section style={lessonCard}>
+    <>
+    <div style={lessonTools}>
+      <button onClick={viewPdf} disabled={pdfBusy} style={pdfButton}>
+        {pdfBusy ? "Preparing PDF..." : "View PDF"}
+      </button>
+    </div>
+    <section ref={lessonRef} style={lessonCard}>
       <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 14 }}>
         <span style={pill("var(--s-primary-soft)", "var(--s-primary-ink)")}>TEKS {lesson.standardCode}</span>
         <span style={pill("#D9F0FF", "#1B76A0")}>{lesson.subjectLabel} · Lesson</span>
@@ -167,10 +229,12 @@ function LessonCard({ lesson, completing, error, onComplete }: { lesson: Lesson;
       </div>
 
       {error && <div style={{ color: "#C2491F", fontWeight: 900, fontSize: 13.5, marginBottom: 12 }}>{error}</div>}
+      {pdfError && <div style={{ color: "#C2491F", fontWeight: 900, fontSize: 13.5, marginBottom: 12 }}>PDF could not be generated: {pdfError}</div>}
       <button onClick={onComplete} disabled={completing} style={{ ...practiceButton, border: "none", cursor: completing ? "wait" : "pointer" }}>
         {completing ? "Unlocking practice..." : lesson.completed ? "Practice this lesson →" : "Complete lesson and practice →"}
       </button>
     </section>
+    </>
   );
 }
 
@@ -426,6 +490,24 @@ const lessonCard: React.CSSProperties = {
   padding: 34,
   marginTop: 18,
   boxShadow: "0 18px 45px rgba(54,48,74,.08)",
+};
+
+const lessonTools: React.CSSProperties = {
+  display: "flex",
+  justifyContent: "flex-end",
+  marginTop: 16,
+};
+
+const pdfButton: React.CSSProperties = {
+  border: "1px solid #E2D8F7",
+  background: "#fff",
+  color: "var(--s-primary-ink)",
+  borderRadius: 13,
+  padding: "10px 15px",
+  fontWeight: 900,
+  fontSize: 13.5,
+  cursor: "pointer",
+  boxShadow: "0 8px 18px rgba(54,48,74,.06)",
 };
 
 const lessonTitle: React.CSSProperties = {

@@ -22,7 +22,7 @@ and [`Staar/`](Staar/) for the authoritative UI/UX prototype.
 | Database | **MongoDB** via the official driver behind a **repository layer** (env-only connection string) |
 | Validation | **Zod** at every boundary |
 | Auth | session cookie (HTTP-only, Secure) + **argon2id** |
-| Local AI (scoring only) | Docker Model Runner (OpenAI-compatible) |
+| AI (scoring only) | OpenAI Chat Completions (`gpt-5.4-mini`) |
 | Billing | **Stripe** (test mode) |
 | Desktop | optional **Electron** macOS shell |
 
@@ -119,18 +119,19 @@ bun run export-profile [studentId] [outFile]      # export one student's whole p
 bun run import-profile <file> [--dry-run]         # import a profile (last-write-wins by exportedAt)
 ```
 
-### AI scoring (SCR/ECR) — optional local model
+### AI scoring (SCR/ECR) — OpenAI
 
-Written responses are scored asynchronously by a local **Docker Model Runner** model
-(the only runtime LLM call, §8). It is **optional**: with no model reachable — or
+Written responses are scored asynchronously by OpenAI `gpt-5.4-mini`
+(the only runtime LLM call, §8). It is **optional**: with no API reachable — or
 `AI_ENABLED=false` — written items route to the **manual scoring queue** at `/scoring`,
 where a parent/admin sets the final score one click. Submission never blocks on scoring.
 
 ```bash
-# point at any OpenAI-compatible endpoint (defaults shown)
 AI_ENABLED=true
-AI_BASE_URL=http://localhost:12434/engines/v1
-AI_MODEL=ai/gemma3
+OPENAI_API_KEY=sk-...
+AI_BASE_URL=https://api.openai.com/v1
+AI_MODEL=gpt-5.4-mini
+AI_TIMEOUT_MS=120000
 ```
 
 ### Billing (§12) — demo mode by default, optional Stripe test mode
@@ -173,7 +174,7 @@ src/
                  content, itemUsage, sessions)
   server/        server-side services with RBAC — auth, content (import, browser,
                  promptgen), pools, programs (+ more per milestone)
-  ai/            DMR scoring client (M7)
+  ai/            OpenAI scoring client (M7)
   ui/  app/      React components + role-gated routes (M3+)
 content/         seeded bundles (grade3_math.json)
 scripts/         seed, build-content, demo, import-bundle, create-user
@@ -209,7 +210,7 @@ electron/        optional macOS shell (M8)
 | **M4** | Exam delivery — session state machine, STAAR tools, progressive assembly, scoring + negative Robux | ✅ **Done** |
 | **M5** | Results, mastery, scheduler — conversion reporting, remediation, off/sick re-fit, streaks, work-ahead | ✅ **Done** |
 | **M6** | Gamification & dashboards — ledger, redemptions, reward rules, dashboards | ✅ **Done** |
-| **M7** | RLA & AI scoring & portability — RLA bank (passages + full item-type range), DMR scorer (async/override/manual fallback), Math+RLA 50/50 exam + 5-min break, profile export/import (LWW) | ✅ **Done** |
+| **M7** | RLA & AI scoring & portability — RLA bank (passages + full item-type range), AI scorer (async/override/manual fallback), Math+RLA 50/50 exam + 5-min break, profile export/import (LWW) | ✅ **Done** |
 | **M8** | Billing & packaging — plans/subscriptions + super-admin pricing & demo/trial config, parent card payments, **demo mode by default / real Stripe (test) when configured**, program-access gating, docker-compose, optional Electron shell, Atlas-ready | ✅ **Done** |
 
 ---

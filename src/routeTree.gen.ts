@@ -14,8 +14,10 @@ import { Route as StudentRouteImport } from './routes/student'
 import { Route as ScoringRouteImport } from './routes/scoring'
 import { Route as PracticeRouteImport } from './routes/practice'
 import { Route as PlanRouteImport } from './routes/plan'
+import { Route as LogoutRouteImport } from './routes/logout'
 import { Route as LessonRouteImport } from './routes/lesson'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as CallbackRouteImport } from './routes/callback'
 import { Route as BillingRouteImport } from './routes/billing'
 import { Route as AccountRouteImport } from './routes/account'
 import { Route as IndexRouteImport } from './routes/index'
@@ -51,6 +53,11 @@ const PlanRoute = PlanRouteImport.update({
   path: '/plan',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LogoutRoute = LogoutRouteImport.update({
+  id: '/logout',
+  path: '/logout',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LessonRoute = LessonRouteImport.update({
   id: '/lesson',
   path: '/lesson',
@@ -59,6 +66,11 @@ const LessonRoute = LessonRouteImport.update({
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CallbackRoute = CallbackRouteImport.update({
+  id: '/callback',
+  path: '/callback',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BillingRoute = BillingRouteImport.update({
@@ -111,8 +123,10 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
   '/billing': typeof BillingRoute
+  '/callback': typeof CallbackRoute
   '/dashboard': typeof DashboardRoute
   '/lesson': typeof LessonRoute
+  '/logout': typeof LogoutRoute
   '/plan': typeof PlanRoute
   '/practice': typeof PracticeRoute
   '/scoring': typeof ScoringRoute
@@ -129,8 +143,10 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
   '/billing': typeof BillingRoute
+  '/callback': typeof CallbackRoute
   '/dashboard': typeof DashboardRoute
   '/lesson': typeof LessonRoute
+  '/logout': typeof LogoutRoute
   '/plan': typeof PlanRoute
   '/practice': typeof PracticeRoute
   '/scoring': typeof ScoringRoute
@@ -148,8 +164,10 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
   '/billing': typeof BillingRoute
+  '/callback': typeof CallbackRoute
   '/dashboard': typeof DashboardRoute
   '/lesson': typeof LessonRoute
+  '/logout': typeof LogoutRoute
   '/plan': typeof PlanRoute
   '/practice': typeof PracticeRoute
   '/scoring': typeof ScoringRoute
@@ -168,8 +186,10 @@ export interface FileRouteTypes {
     | '/'
     | '/account'
     | '/billing'
+    | '/callback'
     | '/dashboard'
     | '/lesson'
+    | '/logout'
     | '/plan'
     | '/practice'
     | '/scoring'
@@ -186,8 +206,10 @@ export interface FileRouteTypes {
     | '/'
     | '/account'
     | '/billing'
+    | '/callback'
     | '/dashboard'
     | '/lesson'
+    | '/logout'
     | '/plan'
     | '/practice'
     | '/scoring'
@@ -204,8 +226,10 @@ export interface FileRouteTypes {
     | '/'
     | '/account'
     | '/billing'
+    | '/callback'
     | '/dashboard'
     | '/lesson'
+    | '/logout'
     | '/plan'
     | '/practice'
     | '/scoring'
@@ -223,8 +247,10 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AccountRoute: typeof AccountRoute
   BillingRoute: typeof BillingRoute
+  CallbackRoute: typeof CallbackRoute
   DashboardRoute: typeof DashboardRoute
   LessonRoute: typeof LessonRoute
+  LogoutRoute: typeof LogoutRoute
   PlanRoute: typeof PlanRoute
   PracticeRoute: typeof PracticeRoute
   ScoringRoute: typeof ScoringRoute
@@ -275,6 +301,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlanRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/logout': {
+      id: '/logout'
+      path: '/logout'
+      fullPath: '/logout'
+      preLoaderRoute: typeof LogoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/lesson': {
       id: '/lesson'
       path: '/lesson'
@@ -287,6 +320,13 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/callback': {
+      id: '/callback'
+      path: '/callback'
+      fullPath: '/callback'
+      preLoaderRoute: typeof CallbackRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/billing': {
@@ -359,8 +399,10 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AccountRoute: AccountRoute,
   BillingRoute: BillingRoute,
+  CallbackRoute: CallbackRoute,
   DashboardRoute: DashboardRoute,
   LessonRoute: LessonRoute,
+  LogoutRoute: LogoutRoute,
   PlanRoute: PlanRoute,
   PracticeRoute: PracticeRoute,
   ScoringRoute: ScoringRoute,

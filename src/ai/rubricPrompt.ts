@@ -1,7 +1,7 @@
 import type { Rubric } from "~/schemas/item.js";
 
 /**
- * Build the DMR chat messages for scoring one written response (§8). The SYSTEM
+ * Build the AI chat messages for scoring one written response (§8). The SYSTEM
  * prompt IS the exact rubric. The model must reply with STRICT JSON
  * `{score, justification, tips}`. Kept pure so the prompt can be snapshot-tested.
  */
