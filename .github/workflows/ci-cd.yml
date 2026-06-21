@@ -71,11 +71,16 @@ jobs:
         if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
         run: find .vercel -maxdepth 1 -name ".env*.local" -type f -delete
 
+      - name: Verify Vercel function configs
+        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+        run: test -f .vercel/output/functions/__server.func/.vc-config.json
+
       - name: Upload immutable Vercel artifact
         if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
         uses: actions/upload-artifact@v6
         with:
           name: ${{ env.VERCEL_ARTIFACT_NAME }}
+          include-hidden-files: true
           if-no-files-found: error
           retention-days: 14
           path: |
