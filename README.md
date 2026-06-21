@@ -267,6 +267,8 @@ Deployments run only after `ci` passes:
 - Pushes to `main` deploy to the GitHub `production` environment with
   `vercel pull --environment=production`, `vercel build --prod`, and
   `vercel deploy --prebuilt --prod`.
+- The deploy jobs set `NITRO_PRESET=vercel` so Nitro writes Vercel Build Output
+  API artifacts to `.vercel/output` for `vercel deploy --prebuilt`.
 - Fork pull requests do not receive preview deploys, so repository secrets are
   not exposed to untrusted PRs.
 
