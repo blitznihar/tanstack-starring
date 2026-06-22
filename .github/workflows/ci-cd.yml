@@ -96,6 +96,8 @@ jobs:
       (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository) ||
       ((github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main')
     environment: preview
+    outputs:
+      deployment_url: ${{ steps.deploy.outputs.deployment_url }}
     env:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
@@ -110,7 +112,18 @@ jobs:
         run: npm install --global vercel@latest
 
       - name: Deploy Vercel preview artifact
-        run: vercel deploy --prebuilt --archive=tgz --token=${{ secrets.VERCEL_TOKEN }}
+        id: deploy
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          vercel deploy --prebuilt --archive=tgz --token="$VERCEL_TOKEN" > deployment-url.txt
+          deployment_url="$(tail -n 1 deployment-url.txt)"
+          if ! echo "$deployment_url" | grep -Eq '^https://'; then
+            echo "Expected Vercel deployment URL, got: $deployment_url" >&2
+            exit 1
+          fi
+          echo "deployment_url=$deployment_url" >> "$GITHUB_OUTPUT"
+          echo "Preview deployment: $deployment_url"
 
   deploy-production:
     name: Vercel Production
@@ -122,14 +135,16 @@ jobs:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
     steps:
-      - name: Download immutable Vercel artifact
-        uses: actions/download-artifact@v7
-        with:
-          name: ${{ env.VERCEL_ARTIFACT_NAME }}
-          path: .
-
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
 
-      - name: Deploy Vercel production artifact
-        run: vercel deploy --prebuilt --prod --archive=tgz --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Promote approved preview deployment to production
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          PREVIEW_DEPLOYMENT_URL: ${{ needs.deploy-preview.outputs.deployment_url }}
+        run: |
+          if [ -z "$PREVIEW_DEPLOYMENT_URL" ]; then
+            echo "Missing preview deployment URL from deploy-preview job." >&2
+            exit 1
+          fi
+          vercel promote "$PREVIEW_DEPLOYMENT_URL" --yes --token="$VERCEL_TOKEN"
