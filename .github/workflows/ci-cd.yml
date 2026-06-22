@@ -59,13 +59,13 @@ jobs:
         if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        run: vercel pull --yes --environment=preview --token="$VERCEL_TOKEN"
+        run: vercel pull --yes --environment=preview --scope="$VERCEL_ORG_ID" --token="$VERCEL_TOKEN"
 
       - name: Build immutable Vercel artifact
         if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        run: vercel build --target=preview --token="$VERCEL_TOKEN"
+        run: vercel build --target=preview --scope="$VERCEL_ORG_ID" --token="$VERCEL_TOKEN"
 
       - name: Remove local Vercel environment files
         if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
@@ -116,7 +116,7 @@ jobs:
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         run: |
-          vercel deploy --prebuilt --archive=tgz --token="$VERCEL_TOKEN" > deployment-url.txt
+          vercel deploy --prebuilt --archive=tgz --scope="$VERCEL_ORG_ID" --token="$VERCEL_TOKEN" > deployment-url.txt
           deployment_url="$(tail -n 1 deployment-url.txt)"
           if ! echo "$deployment_url" | grep -Eq '^https://'; then
             echo "Expected Vercel deployment URL, got: $deployment_url" >&2
@@ -147,4 +147,4 @@ jobs:
             echo "Missing preview deployment URL from deploy-preview job." >&2
             exit 1
           fi
-          vercel promote "$PREVIEW_DEPLOYMENT_URL" --yes --token="$VERCEL_TOKEN"
+          vercel promote "$PREVIEW_DEPLOYMENT_URL" --yes --scope="$VERCEL_ORG_ID" --token="$VERCEL_TOKEN"
