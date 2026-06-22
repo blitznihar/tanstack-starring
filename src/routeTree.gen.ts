@@ -16,6 +16,7 @@ import { Route as PracticeRouteImport } from './routes/practice'
 import { Route as PlanRouteImport } from './routes/plan'
 import { Route as LogoutRouteImport } from './routes/logout'
 import { Route as LessonRouteImport } from './routes/lesson'
+import { Route as HistoryRouteImport } from './routes/history'
 import { Route as HealthRouteImport } from './routes/health'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CallbackRouteImport } from './routes/callback'
@@ -28,6 +29,7 @@ import { Route as AdminRewardsRouteImport } from './routes/admin/rewards'
 import { Route as AdminProfileRouteImport } from './routes/admin/profile'
 import { Route as AdminContentRouteImport } from './routes/admin/content'
 import { Route as AdminConsoleRouteImport } from './routes/admin/console'
+import { Route as AdminReportsGrade3Staar45DayRouteImport } from './routes/admin/reports/grade3-staar-45-day'
 
 const WalletRoute = WalletRouteImport.update({
   id: '/wallet',
@@ -62,6 +64,11 @@ const LogoutRoute = LogoutRouteImport.update({
 const LessonRoute = LessonRouteImport.update({
   id: '/lesson',
   path: '/lesson',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HistoryRoute = HistoryRouteImport.update({
+  id: '/history',
+  path: '/history',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HealthRoute = HealthRouteImport.update({
@@ -124,6 +131,12 @@ const AdminConsoleRoute = AdminConsoleRouteImport.update({
   path: '/admin/console',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminReportsGrade3Staar45DayRoute =
+  AdminReportsGrade3Staar45DayRouteImport.update({
+    id: '/admin/reports/grade3-staar-45-day',
+    path: '/admin/reports/grade3-staar-45-day',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -132,6 +145,7 @@ export interface FileRoutesByFullPath {
   '/callback': typeof CallbackRoute
   '/dashboard': typeof DashboardRoute
   '/health': typeof HealthRoute
+  '/history': typeof HistoryRoute
   '/lesson': typeof LessonRoute
   '/logout': typeof LogoutRoute
   '/plan': typeof PlanRoute
@@ -145,6 +159,7 @@ export interface FileRoutesByFullPath {
   '/admin/rewards': typeof AdminRewardsRoute
   '/admin/scheduler': typeof AdminSchedulerRoute
   '/exam/$sessionId': typeof ExamSessionIdRoute
+  '/admin/reports/grade3-staar-45-day': typeof AdminReportsGrade3Staar45DayRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -153,6 +168,7 @@ export interface FileRoutesByTo {
   '/callback': typeof CallbackRoute
   '/dashboard': typeof DashboardRoute
   '/health': typeof HealthRoute
+  '/history': typeof HistoryRoute
   '/lesson': typeof LessonRoute
   '/logout': typeof LogoutRoute
   '/plan': typeof PlanRoute
@@ -166,6 +182,7 @@ export interface FileRoutesByTo {
   '/admin/rewards': typeof AdminRewardsRoute
   '/admin/scheduler': typeof AdminSchedulerRoute
   '/exam/$sessionId': typeof ExamSessionIdRoute
+  '/admin/reports/grade3-staar-45-day': typeof AdminReportsGrade3Staar45DayRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -175,6 +192,7 @@ export interface FileRoutesById {
   '/callback': typeof CallbackRoute
   '/dashboard': typeof DashboardRoute
   '/health': typeof HealthRoute
+  '/history': typeof HistoryRoute
   '/lesson': typeof LessonRoute
   '/logout': typeof LogoutRoute
   '/plan': typeof PlanRoute
@@ -188,6 +206,7 @@ export interface FileRoutesById {
   '/admin/rewards': typeof AdminRewardsRoute
   '/admin/scheduler': typeof AdminSchedulerRoute
   '/exam/$sessionId': typeof ExamSessionIdRoute
+  '/admin/reports/grade3-staar-45-day': typeof AdminReportsGrade3Staar45DayRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -198,6 +217,7 @@ export interface FileRouteTypes {
     | '/callback'
     | '/dashboard'
     | '/health'
+    | '/history'
     | '/lesson'
     | '/logout'
     | '/plan'
@@ -211,6 +231,7 @@ export interface FileRouteTypes {
     | '/admin/rewards'
     | '/admin/scheduler'
     | '/exam/$sessionId'
+    | '/admin/reports/grade3-staar-45-day'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -219,6 +240,7 @@ export interface FileRouteTypes {
     | '/callback'
     | '/dashboard'
     | '/health'
+    | '/history'
     | '/lesson'
     | '/logout'
     | '/plan'
@@ -232,6 +254,7 @@ export interface FileRouteTypes {
     | '/admin/rewards'
     | '/admin/scheduler'
     | '/exam/$sessionId'
+    | '/admin/reports/grade3-staar-45-day'
   id:
     | '__root__'
     | '/'
@@ -240,6 +263,7 @@ export interface FileRouteTypes {
     | '/callback'
     | '/dashboard'
     | '/health'
+    | '/history'
     | '/lesson'
     | '/logout'
     | '/plan'
@@ -253,6 +277,7 @@ export interface FileRouteTypes {
     | '/admin/rewards'
     | '/admin/scheduler'
     | '/exam/$sessionId'
+    | '/admin/reports/grade3-staar-45-day'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -262,6 +287,7 @@ export interface RootRouteChildren {
   CallbackRoute: typeof CallbackRoute
   DashboardRoute: typeof DashboardRoute
   HealthRoute: typeof HealthRoute
+  HistoryRoute: typeof HistoryRoute
   LessonRoute: typeof LessonRoute
   LogoutRoute: typeof LogoutRoute
   PlanRoute: typeof PlanRoute
@@ -275,6 +301,7 @@ export interface RootRouteChildren {
   AdminRewardsRoute: typeof AdminRewardsRoute
   AdminSchedulerRoute: typeof AdminSchedulerRoute
   ExamSessionIdRoute: typeof ExamSessionIdRoute
+  AdminReportsGrade3Staar45DayRoute: typeof AdminReportsGrade3Staar45DayRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -326,6 +353,13 @@ declare module '@tanstack/react-router' {
       path: '/lesson'
       fullPath: '/lesson'
       preLoaderRoute: typeof LessonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/history': {
+      id: '/history'
+      path: '/history'
+      fullPath: '/history'
+      preLoaderRoute: typeof HistoryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/health': {
@@ -412,6 +446,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminConsoleRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/reports/grade3-staar-45-day': {
+      id: '/admin/reports/grade3-staar-45-day'
+      path: '/admin/reports/grade3-staar-45-day'
+      fullPath: '/admin/reports/grade3-staar-45-day'
+      preLoaderRoute: typeof AdminReportsGrade3Staar45DayRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -422,6 +463,7 @@ const rootRouteChildren: RootRouteChildren = {
   CallbackRoute: CallbackRoute,
   DashboardRoute: DashboardRoute,
   HealthRoute: HealthRoute,
+  HistoryRoute: HistoryRoute,
   LessonRoute: LessonRoute,
   LogoutRoute: LogoutRoute,
   PlanRoute: PlanRoute,
@@ -435,6 +477,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRewardsRoute: AdminRewardsRoute,
   AdminSchedulerRoute: AdminSchedulerRoute,
   ExamSessionIdRoute: ExamSessionIdRoute,
+  AdminReportsGrade3Staar45DayRoute: AdminReportsGrade3Staar45DayRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

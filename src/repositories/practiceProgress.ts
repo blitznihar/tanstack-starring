@@ -38,6 +38,10 @@ export const practiceProgressRepo = {
     return !!(await (await col()).findOne({ enrollmentId, subject, standardCode }));
   },
 
+  async listForEnrollment(enrollmentId: string): Promise<PracticeProgressDoc[]> {
+    return (await col()).find({ enrollmentId }).sort({ subject: 1, standardCode: 1 }).toArray();
+  },
+
   async undo(enrollmentId: string, subject: string, standardCode: string): Promise<boolean> {
     const result = await (await col()).deleteOne({ enrollmentId, subject, standardCode });
     return result.deletedCount > 0;

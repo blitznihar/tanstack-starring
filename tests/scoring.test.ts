@@ -37,6 +37,10 @@ describe("scoreItem — multiple_choice", () => {
   it("awards zero for a wrong key", () => {
     expect(scoreItem(item, "A")).toMatchObject({ earned: 0, correct: false });
   });
+  it("requires the selected key to exactly match the correct option", () => {
+    expect(scoreItem(item, "D")).toMatchObject({ earned: 0, correct: false });
+    expect(scoreItem(item, "C")).toMatchObject({ earned: 1, correct: true });
+  });
   it("does not crash on a non-string response", () => {
     expect(scoreItem(item, ["C"]).earned).toBe(0);
     expect(scoreItem(item, { k: "C" }).earned).toBe(0);
@@ -54,6 +58,7 @@ describe("scoreItem — multiselect partial credit", () => {
     const item = base({ type: "multiselect", points: 2, options: opts });
     expect(scoreItem(item, ["A", "B"])).toMatchObject({ earned: 2, correct: true });
     expect(scoreItem(item, ["A"])).toMatchObject({ earned: 0, correct: false });
+    expect(scoreItem(item, ["A", "B", "C"])).toMatchObject({ earned: 0, correct: false });
   });
   it("gives partial credit, penalizing wrong picks", () => {
     const item = base({ type: "multiselect", points: 2, options: opts, allowPartialCredit: true });

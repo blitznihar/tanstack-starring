@@ -1,19 +1,22 @@
 import { createFileRoute, Link, redirect, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { completePractice, myPracticeSet, submitPractice } from "~/server/rpc/practice";
 import { startExam } from "~/server/rpc/exam";
 import { logout } from "~/server/rpc/session";
 
 export const Route = createFileRoute("/practice")({
-  validateSearch: (s: Record<string, unknown>): { subject?: string; lesson?: number } => ({
+  validateSearch: (s: Record<string, unknown>): { subject?: string; lesson?: number; standardCode?: string; workDate?: string; review?: number } => ({
     subject: typeof s.subject === "string" ? s.subject : undefined,
     lesson: s.lesson === "1" || s.lesson === 1 ? 1 : undefined,
+    standardCode: typeof s.standardCode === "string" ? s.standardCode : undefined,
+    workDate: typeof s.workDate === "string" ? s.workDate : undefined,
+    review: s.review === "1" || s.review === 1 ? 1 : undefined,
   }),
-  loaderDeps: ({ search }) => ({ subject: search.subject ?? "math", lesson: search.lesson }),
+  loaderDeps: ({ search }) => ({ subject: search.subject ?? "math", lesson: search.lesson, standardCode: search.standardCode }),
   loader: ({ deps }) => {
-    if (deps.lesson !== 1) throw redirect({ to: "/lesson", search: { subject: deps.subject } });
-    return myPracticeSet({ data: { subject: deps.subject } });
+    if (deps.lesson !== 1) throw redirect({ to: "/lesson", search: { subject: deps.subject, standardCode: deps.standardCode } });
+    return myPracticeSet({ data: { subject: deps.subject, standardCode: deps.standardCode } });
   },
   component: PracticePage,
 });
@@ -72,6 +75,8 @@ function PracticePage() {
 
   const data = initial;
   const subject = search.subject ?? "math";
+  const standardCode = search.standardCode;
+  const reviewMode = search.review === 1;
   const [launching, setLaunching] = useState<string | null>(null);
   const [selected, setSelected] = useState<Record<string, AnswerValue>>(() => initialSelected(initial));
   const [feedback, setFeedback] = useState<Record<string, Feedback>>(() => initialFeedback(initial));
@@ -80,6 +85,18 @@ function PracticePage() {
   const [completingPractice, setCompletingPractice] = useState(false);
   const [completeMessage, setCompleteMessage] = useState<string | null>(null);
   const [pop, setPop] = useState<number | null>(null);
+  const requiredItemIds = useMemo(() => (data.available ? data.set.questions.map((question) => question.itemId) : []), [data]);
+  const allAnswered = requiredItemIds.length > 0 && requiredItemIds.every((itemId) => !!feedback[itemId]);
+
+  useEffect(() => {
+    setSelected(initialSelected(initial));
+    setFeedback(initialFeedback(initial));
+    setWallet(initial.available ? initial.wallet.available : 0);
+    setPending(null);
+    setCompletingPractice(false);
+    setCompleteMessage(null);
+    setPop(null);
+  }, [initial]);
 
   async function switchSubject(s: string) {
     if (s === subject) return;
@@ -115,12 +132,12 @@ function PracticePage() {
 
   async function finishPractice() {
     if (!data.available || completingPractice) return;
-    const itemIds = data.set.questions.map((question) => question.itemId);
-    if (itemIds.length === 0 || itemIds.some((itemId) => !feedback[itemId])) return;
+    const itemIds = requiredItemIds;
+    if (!allAnswered) return;
     setCompletingPractice(true);
     setCompleteMessage(null);
     try {
-      const report = await doCompletePractice({ data: { enrollmentId: data.enrollmentId, subject, itemIds } });
+      const report = await doCompletePractice({ data: { enrollmentId: data.enrollmentId, subject, standardCode: standardCode ?? data.set.focusStandard, itemIds } });
       setWallet(report.wallet.available);
       setCompleteMessage(`Practice submitted: ${report.right}/${report.solved} correct, ${formatRobuxDelta(report.earned)}. Report sent.`);
       await navigate({ to: "/student" });
@@ -161,10 +178,10 @@ function PracticePage() {
     <Shell wallet={wallet} pop={pop} onSignOut={onSignOut}>
       <div style={{ maxWidth: 760, margin: "0 auto", padding: "24px 20px 60px" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
-          <h1 style={{ fontFamily: "'Baloo 2', sans-serif", fontWeight: 800, fontSize: 30, margin: 0, letterSpacing: "-.5px", color: "var(--s-ink)" }}>Practice 💡</h1>
+          <h1 style={{ fontFamily: "'Baloo 2', sans-serif", fontWeight: 800, fontSize: 30, margin: 0, letterSpacing: "-.5px", color: "var(--s-ink)" }}>{reviewMode ? "Practice review" : "Practice 💡"}</h1>
           {data.available && (
             <div style={{ background: "var(--s-robux-soft)", color: "#9C6A00", fontWeight: 800, fontSize: 13.5, padding: "8px 13px", borderRadius: 999 }}>
-              Earn up to {data.set.earnUpTo} Robux
+              {reviewMode ? "Past answers" : `Earn up to ${data.set.earnUpTo} Robux`}
             </div>
           )}
         </div>
@@ -199,37 +216,44 @@ function PracticePage() {
         ) : (
           <>
             <p style={{ margin: "0 0 18px", color: "var(--s-muted)", fontWeight: 700, fontSize: 13.5 }}>
-              Showing <b style={{ color: "var(--s-primary-ink)" }}>{data.set.shownCount}</b> practice questions today ·{" "}
+              Showing <b style={{ color: "var(--s-primary-ink)" }}>{data.set.shownCount}</b> practice questions {reviewMode ? "from this completed topic" : "today"} ·{" "}
               <b>{data.set.bankTotal}</b> source questions in the bank
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
               {data.set.questions.map((q) => (
                 <QuestionCard key={q.itemId} q={q} fb={feedback[q.itemId]} value={selected[q.itemId]}
                   subject={subject}
+                  readOnly={reviewMode}
                   pending={pending === q.itemId}
                   onChange={(v) => setSelected((s) => ({ ...s, [q.itemId]: v }))}
                   onCheck={() => check(q.itemId, data.enrollmentId)} />
               ))}
             </div>
             <div style={{ background: "var(--s-surface)", borderRadius: 22, padding: 22, boxShadow: "0 8px 22px rgba(54,48,74,.06)", marginTop: 16 }}>
-              <button
-                onClick={finishPractice}
-                disabled={completingPractice || data.set.questions.some((q) => !feedback[q.itemId])}
-                style={{
-                  width: "100%",
-                  border: "none",
-                  cursor: completingPractice ? "wait" : data.set.questions.some((q) => !feedback[q.itemId]) ? "default" : "pointer",
-                  background: data.set.questions.some((q) => !feedback[q.itemId]) ? "var(--s-bg)" : "var(--s-primary)",
-                  color: data.set.questions.some((q) => !feedback[q.itemId]) ? "var(--s-muted)" : "#fff",
-                  fontFamily: "'Baloo 2', sans-serif",
-                  fontWeight: 800,
-                  fontSize: 17,
-                  padding: 15,
-                  borderRadius: 16,
-                }}
-              >
-                {completingPractice ? "Submitting practice..." : "Complete Practice"}
-              </button>
+              {reviewMode ? (
+                <Link to="/history" style={{ display: "flex", justifyContent: "center", width: "100%", boxSizing: "border-box", background: "var(--s-primary)", color: "#fff", fontFamily: "'Baloo 2', sans-serif", fontWeight: 800, fontSize: 17, padding: 15, borderRadius: 16 }}>
+                  Back to history
+                </Link>
+              ) : (
+                <button
+                  onClick={finishPractice}
+                  disabled={completingPractice || !allAnswered}
+                  style={{
+                    width: "100%",
+                    border: "none",
+                    cursor: completingPractice ? "wait" : !allAnswered ? "default" : "pointer",
+                    background: !allAnswered ? "var(--s-bg)" : "var(--s-primary)",
+                    color: !allAnswered ? "var(--s-muted)" : "#fff",
+                    fontFamily: "'Baloo 2', sans-serif",
+                    fontWeight: 800,
+                    fontSize: 17,
+                    padding: 15,
+                    borderRadius: 16,
+                  }}
+                >
+                  {completingPractice ? "Submitting practice..." : "Complete Practice"}
+                </button>
+              )}
               {completeMessage && (
                 <div style={{ marginTop: 12, color: completeMessage.startsWith("Practice submitted") ? "#0E7A55" : "#C2491F", fontWeight: 900, fontSize: 13.5 }}>
                   {completeMessage}
@@ -245,16 +269,18 @@ function PracticePage() {
   );
 }
 
-function QuestionCard({ q, fb, value, subject, pending, onChange, onCheck }: {
+function QuestionCard({ q, fb, value, subject, readOnly, pending, onChange, onCheck }: {
   q: Question;
   fb: Feedback | undefined;
   value: AnswerValue | undefined;
   subject: string;
+  readOnly?: boolean;
   pending: boolean;
   onChange: (v: AnswerValue) => void;
   onCheck: () => void;
 }) {
   const checked = !!fb;
+  const locked = checked || !!readOnly;
   return (
     <div style={{ background: "var(--s-surface)", borderRadius: 22, padding: 24, boxShadow: "0 8px 22px rgba(54,48,74,.06)" }}>
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
@@ -273,7 +299,7 @@ function QuestionCard({ q, fb, value, subject, pending, onChange, onCheck }: {
 
       <div style={{ fontWeight: 800, fontSize: 18, marginBottom: 16, lineHeight: 1.4, color: "var(--s-ink)" }}>{q.prompt}</div>
 
-      <PracticeAnswer q={q} value={value} checked={checked} fb={fb} onChange={onChange} />
+      <PracticeAnswer q={q} value={value} checked={locked} fb={fb} onChange={onChange} />
 
       {fb && (
         <div style={{ marginTop: 14, borderRadius: 16, overflow: "hidden", border: "2px solid #EFEAF7", animation: "cometfade .15s ease" }}>
@@ -289,7 +315,7 @@ function QuestionCard({ q, fb, value, subject, pending, onChange, onCheck }: {
             )}
             <Why icon="✓" iconBg="var(--s-success-soft)" iconColor="#0E7A55" label={fb.whyRightLabel} text={fb.whyRight} labelColor="#0E7A55" />
             {!fb.correct && (
-              <Link to="/lesson" search={{ subject }} style={lessonReturnLink}>
+              <Link to="/lesson" search={{ subject, standardCode: q.standardCode }} style={lessonReturnLink}>
                 Do you want to go back to lesson?
               </Link>
             )}
@@ -297,10 +323,12 @@ function QuestionCard({ q, fb, value, subject, pending, onChange, onCheck }: {
         </div>
       )}
 
-      <button onClick={onCheck} disabled={checked || !hasValue(value) || pending}
-        style={{ marginTop: 16, border: "none", cursor: checked || !hasValue(value) ? "default" : "pointer", background: checked ? "var(--s-bg)" : hasValue(value) ? "var(--s-primary)" : "var(--s-bg)", color: checked ? "var(--s-muted)" : hasValue(value) ? "#fff" : "var(--s-muted)", fontWeight: 800, fontSize: 15, padding: "11px 22px", borderRadius: 12 }}>
-        {checked ? (fb!.correct ? "Got it ✓" : "Show me again") : pending ? "Checking…" : "Check answer"}
-      </button>
+      {!readOnly && (
+        <button onClick={onCheck} disabled={checked || !hasValue(value) || pending}
+          style={{ marginTop: 16, border: "none", cursor: checked || !hasValue(value) ? "default" : "pointer", background: checked ? "var(--s-bg)" : hasValue(value) ? "var(--s-primary)" : "var(--s-bg)", color: checked ? "var(--s-muted)" : hasValue(value) ? "#fff" : "var(--s-muted)", fontWeight: 800, fontSize: 15, padding: "11px 22px", borderRadius: 12 }}>
+          {checked ? (fb!.correct ? "Got it ✓" : "Show me again") : pending ? "Checking…" : "Check answer"}
+        </button>
+      )}
     </div>
   );
 }
@@ -437,6 +465,7 @@ function Shell({ children, wallet, pop, onSignOut }: { children: React.ReactNode
         <strong style={{ fontFamily: "'Baloo 2', sans-serif", fontSize: 17, color: "var(--s-ink)" }}>Comet Academy</strong>
         <nav style={{ display: "flex", gap: 14, marginLeft: 14, fontWeight: 800, fontSize: 13.5 }}>
           <Link to="/student" style={{ color: "var(--a-muted)" }}>Home</Link>
+          <Link to="/history" style={{ color: "var(--a-muted)" }}>History</Link>
           <span style={{ color: "var(--s-primary-ink)" }}>Topics</span>
           <Link to="/wallet" style={{ color: "var(--a-muted)" }}>Wallet</Link>
         </nav>

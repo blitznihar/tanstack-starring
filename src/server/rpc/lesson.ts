@@ -84,31 +84,40 @@ export const lessonForToday = createServerFn({ method: "GET" })
   .validator((d?: { subject?: string; standardCode?: string }) => ({ subject: d?.subject ?? "math", standardCode: d?.standardCode }))
   .handler(async ({ data }) => {
     const auth = await requireAuth();
-    return lessonForStudent(auth, data.subject, data.standardCode);
+    return lessonForStudent(auth, data.subject, data.standardCode, { preferRequested: true });
   });
 
-async function lessonForStudent(auth: AuthContext, subject: string, requestedStandardCode?: string) {
+async function lessonForStudent(auth: AuthContext, subject: string, requestedStandardCode?: string, options: { preferRequested?: boolean } = {}) {
   if (!auth.roles.includes("student")) throw new Error("Forbidden: lessons are only available to student profiles");
   const enrollment = await resolvePracticeEnrollment(auth.userId, subject);
   if (!enrollment?._id) return { available: false as const, displayName: auth.displayName };
 
   const schedule = await getOrCreateSchedule(auth, enrollment._id);
   const currentDay = schedule.schedule.days[schedule.currentDay] ?? schedule.schedule.days.find((day) => day.status === "scheduled");
+  const standards = await contentRepo.listStandards(enrollment.programKey, subject);
   const lessonTask =
     currentDay?.tasks.find((task) => task.subject === subject && task.kind === "lesson" && task.topic && task.topic === requestedStandardCode) ??
     currentDay?.tasks.find((task) => task.subject === subject && task.kind === "lesson" && task.topic) ??
     currentDay?.tasks.find((task) => task.subject === subject && task.topic);
 
-  const standards = await contentRepo.listStandards(enrollment.programKey, subject);
-  const standardCode = lessonTask?.topic ?? standards[0]?.code ?? "";
+  let standardCode = lessonTask?.topic ?? standards[0]?.code ?? "";
+  const requested = requestedStandardCode?.trim();
+  if (options.preferRequested && requested && standards.some((entry) => entry.code === requested)) {
+    const [completed, scheduled] = await Promise.all([
+      lessonProgressRepo.isComplete(enrollment._id, subject, requested),
+      Promise.resolve(schedule.schedule.days.some((day) => day.tasks.some((task) => task.kind === "lesson" && task.subject === subject && task.topic === requested))),
+    ]);
+    if (completed || scheduled) standardCode = requested;
+  }
   if (!standardCode) return { available: false as const, displayName: auth.displayName };
 
   const standard = standards.find((entry) => entry.code === standardCode);
   const description = standard?.description ?? standardCode;
-  const [items, authoredLesson, completed] = await Promise.all([
+  const [items, authoredLesson, completed, practiceCompleted] = await Promise.all([
     contentRepo.listItemsByStandard(enrollment.programKey, subject, standardCode),
     lessonsRepo.findAvailable(enrollment.programKey, subject, standardCode),
     lessonProgressRepo.isComplete(enrollment._id, subject, standardCode),
+    practiceProgressRepo.isComplete(enrollment._id, subject, standardCode),
   ]);
   const examples = items
     .filter((item) => item.type !== "scr" && item.type !== "ecr")
@@ -129,6 +138,7 @@ async function lessonForStudent(auth: AuthContext, subject: string, requestedSta
     subjectLabel: SUBJECT_LABELS[subject] ?? titleCase(subject),
     standardCode,
     completed,
+    practiceCompleted,
     source: authoredLesson ? "authored" as const : "generated" as const,
     title: authoredLesson?.title ?? description,
     reportingCategory: authoredLesson?.reportingCategory ?? standard?.reportingCategory ?? "Lesson",

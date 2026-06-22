@@ -19,7 +19,7 @@ export async function resolvePracticeEnrollment(studentId: string, subject: stri
 
 /** Today's practice set for the signed-in student (default subject: math). */
 export const myPracticeSet = createServerFn({ method: "GET" })
-  .validator((d?: { subject?: string }) => ({ subject: d?.subject ?? "math" }))
+  .validator((d?: { subject?: string; standardCode?: string }) => ({ subject: d?.subject ?? "math", standardCode: d?.standardCode }))
   .handler(async ({ data }) => {
     const auth = await requireAuth();
     const enrollment = await resolvePracticeEnrollment(auth.userId, data.subject);
@@ -28,7 +28,7 @@ export const myPracticeSet = createServerFn({ method: "GET" })
       return { available: false as const, displayName: auth.displayName };
     }
     const [set, wallet] = await Promise.all([
-      getPracticeSet(auth, { enrollmentId: enrollment._id, subject: data.subject }),
+      getPracticeSet(auth, { enrollmentId: enrollment._id, subject: data.subject, standardCode: data.standardCode }),
       walletFor(enrollment._id),
     ]);
     return {
@@ -53,7 +53,7 @@ export const submitPractice = createServerFn({ method: "POST" })
 
 /** Submit the whole visible practice set and send one progress report. */
 export const completePractice = createServerFn({ method: "POST" })
-  .validator((d: { enrollmentId: string; subject: string; itemIds: string[] }) => d)
+  .validator((d: { enrollmentId: string; subject: string; itemIds: string[]; standardCode?: string }) => d)
   .handler(async ({ data }) => {
     const auth = await requireAuth();
     const enrollment = await enrollmentsRepo.findById(data.enrollmentId);

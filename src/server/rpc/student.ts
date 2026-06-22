@@ -29,6 +29,7 @@ function progressPct(done: number, total: number): number {
 type TaskView = {
   id: string;
   kind: string;
+  workDate: string;
   subjectKey: string;
   subject: string;
   topic: string;
@@ -36,7 +37,62 @@ type TaskView = {
   meta: string;
   durationMinutes: number | null;
   completed: boolean;
+  completedAt: string | null;
 };
+
+type ProgressLookup = {
+  lessons: Map<string, Date>;
+  practices: Map<string, Date>;
+};
+
+function todayIso(): string {
+  return new Date().toLocaleDateString("en-CA", { timeZone: "America/Chicago" });
+}
+
+function progressKey(subject: string, standardCode: string): string {
+  return `${subject}:${standardCode}`;
+}
+
+async function buildTaskViews(input: {
+  enrollmentId: string;
+  day: { date: string; status: string; tasks: { id: string; kind: string; subject?: string; topic?: string; title: string; durationMinutes?: number }[] } | undefined;
+  standardLabels: Map<string, string>;
+  progress?: ProgressLookup;
+}): Promise<TaskView[]> {
+  const views: TaskView[] = [];
+  for (const task of input.day?.tasks ?? []) {
+    const label = task.topic && task.subject ? input.standardLabels.get(`${task.subject}:${task.topic}`) ?? task.topic : task.title;
+    const key = task.subject && task.topic ? progressKey(task.subject, task.topic) : "";
+    const completedAt =
+      task.kind === "lesson"
+        ? input.progress?.lessons.get(key) ?? null
+        : task.kind === "practice"
+          ? input.progress?.practices.get(key) ?? null
+          : null;
+    const completed =
+      input.day?.status === "done" ||
+      !!completedAt ||
+      (!input.progress && task.kind === "lesson" && task.subject && task.topic
+        ? await lessonProgressRepo.isComplete(input.enrollmentId, task.subject, task.topic)
+        : !input.progress && task.kind === "practice" && task.subject && task.topic
+          ? await practiceProgressRepo.isComplete(input.enrollmentId, task.subject, task.topic)
+          : false);
+    views.push({
+      id: task.id,
+      kind: task.kind,
+      workDate: input.day?.date ?? "",
+      subjectKey: task.subject ?? "",
+      subject: task.subject ? titleCase(task.subject) : "Exam",
+      topic: task.topic ?? "",
+      title: task.kind === "exam" ? task.title : label,
+      meta: task.kind === "exam" && task.durationMinutes ? `${task.durationMinutes} minutes` : task.topic ? task.topic : `${titleCase(task.kind)} task`,
+      durationMinutes: task.durationMinutes ?? null,
+      completed,
+      completedAt: completedAt?.toISOString() ?? null,
+    });
+  }
+  return views;
+}
 
 /** Student landing page data: programs, progress, wallet, exams, and today/week tasks. */
 export const studentHome = createServerFn({ method: "GET" }).handler(async () => {
@@ -67,9 +123,34 @@ export const studentHome = createServerFn({ method: "GET" }).handler(async () =>
     const program = programByKey.get(enrollment.programKey);
     const report = reportByEnrollment.get(enrollmentId);
     const schedule = await getOrCreateSchedule(auth, enrollmentId);
-    const currentDay = schedule.schedule.days[schedule.currentDay] ?? schedule.schedule.days.find((day) => day.status === "scheduled");
+    const calendarDate = todayIso();
+    const nextWorkDay = schedule.schedule.days[schedule.currentDay] ?? schedule.schedule.days.find((day) => day.status === "scheduled");
+    const [lessonProgress, practiceProgress] = await Promise.all([
+      lessonProgressRepo.listForEnrollment(enrollmentId),
+      practiceProgressRepo.listForEnrollment(enrollmentId),
+    ]);
+    const progress: ProgressLookup = {
+      lessons: new Map(lessonProgress.map((row) => [progressKey(row.subject, row.standardCode), row.completedAt])),
+      practices: new Map(practiceProgress.map((row) => [progressKey(row.subject, row.standardCode), row.completedAt])),
+    };
+    const taskViewsByDay = new Map<number, TaskView[]>();
+    for (const day of schedule.schedule.days) {
+      taskViewsByDay.set(day.index, await buildTaskViews({ enrollmentId, day, standardLabels, progress }));
+    }
+    const nextWorkTasks = nextWorkDay ? taskViewsByDay.get(nextWorkDay.index) ?? [] : [];
+    const nextWorkHasStarted = nextWorkTasks.some((task) => task.completed);
+    const latestFinishedDay = [...schedule.schedule.days]
+      .filter((day) => {
+        if (nextWorkDay && day.index >= nextWorkDay.index) return false;
+        const views = taskViewsByDay.get(day.index) ?? [];
+        return views.length > 0 && views.every((task) => task.completed);
+      })
+      .at(-1);
+    const currentDay = nextWorkHasStarted ? nextWorkDay : latestFinishedDay ?? nextWorkDay;
+    const todayTasks = currentDay ? taskViewsByDay.get(currentDay.index) ?? [] : [];
+    const weekStartIndex = currentDay?.index ?? schedule.currentDay;
     const upcomingDays = schedule.schedule.days
-      .filter((day) => day.index >= schedule.currentDay && day.status === "scheduled")
+      .filter((day) => day.index >= weekStartIndex && (day.status === "scheduled" || day.status === "done"))
       .slice(0, 5);
     const exams = schedule.schedule.days
       .filter((day) => day.index >= schedule.currentDay && day.tasks.some((task) => task.kind === "exam"))
@@ -89,30 +170,11 @@ export const studentHome = createServerFn({ method: "GET" }).handler(async () =>
       rewards = [];
     }
 
-    const todayTasks: TaskView[] = [];
-    for (const task of currentDay?.tasks ?? []) {
-      const label = task.topic && task.subject ? standardLabels.get(`${task.subject}:${task.topic}`) ?? task.topic : task.title;
-      const completed =
-        currentDay?.status === "done" ||
-        (task.kind === "lesson" && task.subject && task.topic
-          ? await lessonProgressRepo.isComplete(enrollmentId, task.subject, task.topic)
-          : task.kind === "practice" && task.subject && task.topic
-            ? await practiceProgressRepo.isComplete(enrollmentId, task.subject, task.topic)
-            : false);
-      todayTasks.push({
-        id: task.id,
-        kind: task.kind,
-        subjectKey: task.subject ?? "",
-        subject: task.subject ? titleCase(task.subject) : "Exam",
-        topic: task.topic ?? "",
-        title: task.kind === "exam" ? task.title : label,
-        meta: task.kind === "exam" && task.durationMinutes ? `${task.durationMinutes} minutes` : task.topic ? task.topic : `${titleCase(task.kind)} task`,
-        durationMinutes: task.durationMinutes ?? null,
-        completed,
-      });
-    }
     const nextIncompleteTask = todayTasks.find((task) => !task.completed) ?? null;
+    const nextWorkIncompleteTask = nextWorkTasks.find((task) => !task.completed) ?? null;
+    const nextWorkCompletedCount = nextWorkTasks.filter((task) => task.completed).length;
     const completedTodayCount = todayTasks.filter((task) => task.completed).length;
+    const finishedTodayTasks = todayTasks.filter((task) => task.completed);
 
     programViews.push({
       enrollmentId,
@@ -131,24 +193,35 @@ export const studentHome = createServerFn({ method: "GET" }).handler(async () =>
       rewards,
       earnedRewards: rewards.filter((reward) => reward.met).map((reward) => reward.prize),
       todayDate: currentDay?.date ?? "",
+      calendarDate,
+      nextWorkDate: nextWorkDay?.date ?? "",
       todayTasks,
-      nextIncompleteTask,
+      finishedTodayTasks,
+      nextWorkTasks,
+      nextIncompleteTask: nextIncompleteTask ?? nextWorkIncompleteTask,
+      nextWorkIncompleteTask,
+      nextWorkCompletedCount,
       completedTodayCount,
       allTodayCompleted: todayTasks.length > 0 && completedTodayCount === todayTasks.length,
       hasStartedToday: completedTodayCount > 0,
       week: upcomingDays.map((day) => {
+        const dayTasks = taskViewsByDay.get(day.index) ?? [];
+        const done = dayTasks.length > 0 && dayTasks.every((task) => task.completed);
         const firstTask = day.tasks[0];
         const exam = day.tasks.some((task) => task.kind === "exam");
         const topic = firstTask?.topic ?? "";
         const subject = firstTask?.subject ?? "";
+        const completedLessonTitles = dayTasks
+          .filter((task) => task.kind === "lesson")
+          .map((task) => task.title);
         return {
           index: day.index,
           dayLabel: new Date(`${day.date}T00:00:00Z`).toLocaleDateString("en-US", { weekday: "short", timeZone: "UTC" }),
           dateLabel: formatDate(day.date),
-          title: exam ? (day.tasks.find((task) => task.kind === "exam")?.title ?? "Progressive exam") : (standardLabels.get(`${subject}:${topic}`) ?? (topic || firstTask?.title || "Practice")),
-          type: exam ? "Exam" : titleCase(firstTask?.kind ?? "practice"),
-          status: day.status,
-          scoreLabel: day.status === "done" ? "Done" : `${Math.min(99, Math.max(0, progressPct(report?.topicsCompleted ?? 0, report?.topicsTotal ?? 1)))}%`,
+          title: done && completedLessonTitles.length > 0 ? completedLessonTitles.join(" • ") : exam ? (day.tasks.find((task) => task.kind === "exam")?.title ?? "Progressive exam") : (standardLabels.get(`${subject}:${topic}`) ?? (topic || firstTask?.title || "Practice")),
+          type: done ? `${dayTasks.length} completed` : exam ? "Exam" : titleCase(firstTask?.kind ?? "practice"),
+          status: done ? "done" : day.status,
+          scoreLabel: done ? "Done" : `${Math.min(99, Math.max(0, progressPct(report?.topicsCompleted ?? 0, report?.topicsTotal ?? 1)))}%`,
         };
       }),
       exams,
@@ -170,5 +243,64 @@ export const studentHome = createServerFn({ method: "GET" }).handler(async () =>
       topicsTotal: overview.overall.topicsTotal,
     },
     scheduledExams: programViews.flatMap((program) => program.exams).slice(0, 5),
+  };
+});
+
+/** Student history: completed lessons/practices grouped by schedule date. */
+export const studentHistory = createServerFn({ method: "GET" }).handler(async () => {
+  const auth = await requireAuth();
+  if (!auth.roles.includes("student")) throw new Error("Forbidden: history is only available to student profiles");
+
+  const [enrollments, programs] = await Promise.all([
+    enrollmentsRepo.listForStudent(auth.userId),
+    programsRepo.list(),
+  ]);
+  const activeEnrollments = enrollments.filter((enrollment) => enrollment.status === "active" && enrollment._id);
+  const programByKey = new Map(programs.map((program) => [program.key, program]));
+  const standardLabels = new Map<string, string>();
+  for (const enrollment of activeEnrollments) {
+    const program = programByKey.get(enrollment.programKey);
+    for (const subject of program?.subjects ?? []) {
+      const standards = await contentRepo.listStandards(enrollment.programKey, subject);
+      for (const standard of standards) standardLabels.set(`${subject}:${standard.code}`, standard.description || standard.code);
+    }
+  }
+
+  const programHistories = [];
+  for (const enrollment of activeEnrollments) {
+    const enrollmentId = String(enrollment._id);
+    const program = programByKey.get(enrollment.programKey);
+    const schedule = await getOrCreateSchedule(auth, enrollmentId);
+    const [lessonProgress, practiceProgress] = await Promise.all([
+      lessonProgressRepo.listForEnrollment(enrollmentId),
+      practiceProgressRepo.listForEnrollment(enrollmentId),
+    ]);
+    const progress: ProgressLookup = {
+      lessons: new Map(lessonProgress.map((row) => [progressKey(row.subject, row.standardCode), row.completedAt])),
+      practices: new Map(practiceProgress.map((row) => [progressKey(row.subject, row.standardCode), row.completedAt])),
+    };
+    const days = [];
+    for (const day of schedule.schedule.days) {
+      const tasks = (await buildTaskViews({ enrollmentId, day, standardLabels, progress })).filter((task) => task.completed);
+      if (tasks.length === 0) continue;
+      days.push({
+        index: day.index,
+        date: day.date,
+        dateLabel: formatDate(day.date),
+        tasks,
+      });
+    }
+    programHistories.push({
+      enrollmentId,
+      programKey: enrollment.programKey,
+      title: program?.title ?? enrollment.programKey,
+      days: days.sort((a, b) => b.date.localeCompare(a.date)),
+    });
+  }
+
+  return {
+    displayName: auth.displayName,
+    firstName: auth.displayName.split(/\s+/)[0] ?? auth.displayName,
+    programs: programHistories,
   };
 });

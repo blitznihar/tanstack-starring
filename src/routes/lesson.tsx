@@ -5,11 +5,12 @@ import { completeLesson, lessonForToday } from "~/server/rpc/lesson";
 import { logout } from "~/server/rpc/session";
 
 export const Route = createFileRoute("/lesson")({
-  validateSearch: (s: Record<string, unknown>): { subject?: string; standardCode?: string } => ({
+  validateSearch: (s: Record<string, unknown>): { subject?: string; standardCode?: string; workDate?: string } => ({
     subject: typeof s.subject === "string" ? s.subject : undefined,
     standardCode: typeof s.standardCode === "string" ? s.standardCode : undefined,
+    workDate: typeof s.workDate === "string" ? s.workDate : undefined,
   }),
-  loaderDeps: ({ search }) => ({ subject: search.subject ?? "math", standardCode: search.standardCode }),
+  loaderDeps: ({ search }) => ({ subject: search.subject ?? "math", standardCode: search.standardCode, workDate: search.workDate }),
   loader: ({ deps }) => lessonForToday({ data: { subject: deps.subject, standardCode: deps.standardCode } }),
   component: LessonPage,
 });
@@ -24,6 +25,7 @@ const SUBJECTS = [
 
 function LessonPage() {
   const data = Route.useLoaderData();
+  const search = Route.useSearch();
   const navigate = useNavigate();
   const doLogout = useServerFn(logout);
   const doCompleteLesson = useServerFn(completeLesson);
@@ -53,12 +55,25 @@ function LessonPage() {
             error={error}
             onComplete={async () => {
               if (!lessonData.available) return;
+              if (lessonData.completed) {
+                navigate({
+                  to: "/practice",
+                  search: {
+                    subject: lessonData.subject,
+                    standardCode: lessonData.standardCode,
+                    workDate: search.workDate,
+                    lesson: 1,
+                    review: lessonData.practiceCompleted ? 1 : undefined,
+                  },
+                });
+                return;
+              }
               setCompleting(true);
               setError(null);
               try {
                 const updated = await doCompleteLesson({ data: { subject: lessonData.subject, standardCode: lessonData.standardCode } });
                 setLessonData(updated);
-                navigate({ to: "/practice", search: { subject: lessonData.subject, lesson: 1 } });
+                navigate({ to: "/practice", search: { subject: lessonData.subject, standardCode: lessonData.standardCode, workDate: search.workDate, lesson: 1 } });
               } catch (e) {
                 setError(e instanceof Error ? e.message : String(e));
               } finally {
@@ -84,6 +99,7 @@ function StudentHeader({ active, displayName, onLogout }: { active: "lesson" | "
         </Link>
         <nav style={{ display: "flex", gap: 8, color: "var(--s-muted)", fontWeight: 900, fontSize: 14 }}>
           <Link to="/student" style={navLink(active === "home")}>Home</Link>
+          <Link to="/history" style={navLink(false)}>History</Link>
           <Link to="/practice" style={navLink(false)}>Topics</Link>
           <Link to="/wallet" style={navLink(false)}>Wallet</Link>
         </nav>
@@ -234,7 +250,7 @@ function LessonCard({ lesson, completing, error, onComplete }: { lesson: Lesson;
       {error && <div style={{ color: "#C2491F", fontWeight: 900, fontSize: 13.5, marginBottom: 12 }}>{error}</div>}
       {pdfError && <div style={{ color: "#C2491F", fontWeight: 900, fontSize: 13.5, marginBottom: 12 }}>PDF could not be generated: {pdfError}</div>}
       <button onClick={onComplete} disabled={completing} style={{ ...practiceButton, border: "none", cursor: completing ? "wait" : "pointer" }}>
-        {completing ? "Unlocking practice..." : lesson.completed ? "Practice this lesson →" : "Complete lesson and practice →"}
+        {completing ? "Unlocking practice..." : lesson.completed ? lesson.practiceCompleted ? "Review practice →" : "Practice this lesson →" : "Complete lesson and practice →"}
       </button>
     </section>
     </>

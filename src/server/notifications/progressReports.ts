@@ -71,6 +71,7 @@ function reportBody(input: {
   practiceEarned?: number;
   exam?: ReportExamSummary;
 }): string {
+  const robuxDelta = (value: number) => `${value > 0 ? "+" : ""}${value} Robux`;
   const lessons = input.lessons.length
     ? input.lessons.map((lesson) => `<li>${escapeHtml(lesson)}</li>`).join("")
     : "";
@@ -84,7 +85,7 @@ function reportBody(input: {
           <table style="width:100%;border-collapse:collapse;font-size:14px;">
             <tr><td style="padding:7px;border:1px solid #eee7f5;width:34%;">Student answer</td><td style="padding:7px;border:1px solid #eee7f5;"><strong>${escapeHtml(question.studentAnswer)}</strong></td></tr>
             <tr><td style="padding:7px;border:1px solid #eee7f5;">Correct answer</td><td style="padding:7px;border:1px solid #eee7f5;"><strong>${escapeHtml(question.correctAnswer)}</strong></td></tr>
-            <tr><td style="padding:7px;border:1px solid #eee7f5;">Result</td><td style="padding:7px;border:1px solid #eee7f5;color:${question.correct ? "#0b7a58" : "#c2491f"};"><strong>${question.correct ? "Correct" : "Incorrect"}</strong>${question.awarded ? ` · +${question.awarded} Robux` : ""}</td></tr>
+            <tr><td style="padding:7px;border:1px solid #eee7f5;">Result</td><td style="padding:7px;border:1px solid #eee7f5;color:${question.correct ? "#0b7a58" : "#c2491f"};"><strong>${question.correct ? "Correct" : "Incorrect"}</strong>${question.awarded ? ` · ${robuxDelta(question.awarded)}` : ""}</td></tr>
             ${question.whyWrong ? `<tr><td style="padding:7px;border:1px solid #eee7f5;">Why the wrong answer missed</td><td style="padding:7px;border:1px solid #eee7f5;">${escapeHtml(question.whyWrong)}</td></tr>` : ""}
             ${question.whyRight ? `<tr><td style="padding:7px;border:1px solid #eee7f5;">Student-screen explanation</td><td style="padding:7px;border:1px solid #eee7f5;">${escapeHtml(question.whyRight)}</td></tr>` : ""}
           </table>

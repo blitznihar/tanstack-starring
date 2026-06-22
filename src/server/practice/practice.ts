@@ -31,6 +31,7 @@ type PracticeSelected = string | string[] | Record<string, string> | null;
 
 export type PracticeQuestion = {
   itemId: string;
+  standardCode: string;
   num: number;
   teks: string;
   type: string;
@@ -45,6 +46,7 @@ export type PracticeQuestion = {
 
 export type PracticeSet = {
   subject: string;
+  focusStandard: string;
   shownCount: number;
   bankTotal: number;
   perCorrect: number;
@@ -84,7 +86,7 @@ function multiselectInstruction(item: Item): string | null {
 
 export async function getPracticeSet(
   actor: AuthContext,
-  input: { enrollmentId: string; subject: string },
+  input: { enrollmentId: string; subject: string; standardCode?: string },
 ): Promise<PracticeSet> {
   const enrollment = await enrollmentsRepo.findById(input.enrollmentId);
   assertOwner(actor, enrollment);
@@ -95,8 +97,12 @@ export async function getPracticeSet(
   const unlockedStandards = await lessonProgressRepo.completedCodes(input.enrollmentId, input.subject);
   const unlocked = unlockedStandards.filter((code) => bank.some((item) => item.standardCodes.includes(code)));
   const order = subjectOrder(bank, Object.keys(program.conceptConfig)).filter((code) => unlocked.includes(code));
-  const focusStandard = order.at(-1) ?? unlocked.at(-1) ?? "";
-  const priorStandards = order.filter((code) => code !== focusStandard);
+  const requestedStandard = input.standardCode?.trim() || "";
+  const focusStandard = requestedStandard
+    ? unlocked.includes(requestedStandard) ? requestedStandard : ""
+    : order.at(-1) || unlocked.at(-1) || "";
+  const focusIndex = order.indexOf(focusStandard);
+  const priorStandards = focusIndex >= 0 ? order.slice(0, focusIndex) : order.filter((code) => code !== focusStandard);
   const assembled = focusStandard
     ? assembleFocusedPractice(bank, focusStandard, priorStandards, { focusCount: 20, reviewCount: 5, reviewPerStandard: 2 })
     : { slots: [], bankTotal: bank.filter((item) => item.type !== "scr" && item.type !== "ecr").length };
@@ -120,6 +126,7 @@ export async function getPracticeSet(
 
   return {
     subject: input.subject,
+    focusStandard,
     shownCount: assembled.slots.length,
     bankTotal: assembled.bankTotal,
     perCorrect,
@@ -129,6 +136,7 @@ export async function getPracticeSet(
       const it = slot.item;
       return {
         itemId: slot.practiceItemId,
+        standardCode: slot.standardCode,
         num: i + 1,
         teks: `${slot.kind === "review" ? "Review · " : ""}${it.standardCodes.map((c) => `TEKS ${c}`).join(", ")}`,
         type: it.type,
@@ -362,7 +370,7 @@ export type PracticeCompletionReport = {
 
 export async function completePracticeSet(
   actor: AuthContext,
-  input: { enrollmentId: string; subject: string; itemIds: string[] },
+  input: { enrollmentId: string; subject: string; itemIds: string[]; standardCode?: string },
 ): Promise<PracticeCompletionReport> {
   const enrollment = await enrollmentsRepo.findById(input.enrollmentId);
   assertOwner(actor, enrollment);
@@ -387,7 +395,11 @@ export async function completePracticeSet(
     if (item.standardCodes.length === 0 || !item.standardCodes.every((code) => unlockedStandards.has(code))) {
       throw new Error("Complete the lesson for every practice topic before submitting this practice set.");
     }
-    for (const code of item.standardCodes) completedStandards.add(code);
+    if (input.standardCode) {
+      if (item.standardCodes.includes(input.standardCode)) completedStandards.add(input.standardCode);
+    } else {
+      for (const code of item.standardCodes) completedStandards.add(code);
+    }
     const selectedKey = typeof response.selected === "string" ? response.selected : "";
     const selectedOption = item.options?.find((option) => option.key === selectedKey);
     questions.push({
@@ -405,9 +417,13 @@ export async function completePracticeSet(
   }
 
   if (questions.length === 0) throw new Error("No completed practice answers were found.");
+  if (input.standardCode && !completedStandards.has(input.standardCode)) {
+    throw new Error("No completed practice answers were found for this topic.");
+  }
   const right = questions.filter((question) => question.correct).length;
   const earned = questions.reduce((sum, question) => sum + question.awarded, 0);
-  await Promise.all([...completedStandards].map((standardCode) => practiceProgressRepo.complete({
+  const standardsToComplete = input.standardCode ? [input.standardCode] : [...completedStandards];
+  await Promise.all(standardsToComplete.map((standardCode) => practiceProgressRepo.complete({
     enrollmentId: input.enrollmentId,
     programKey: enrollment!.programKey,
     subject: input.subject,
