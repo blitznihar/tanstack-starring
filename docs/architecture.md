@@ -131,7 +131,7 @@ Optional desktop shell and app icon packaging.
 
 ## Environment and Deployment
 
-- Local and preview DB: `comet-dev`.
+- Local and preview DB: `comet-dev` unless `MONGODB_DATABASE` overrides it.
 - Production DB: `comet`.
 - Vercel preview deploys validate changes before approval-gated production.
 - Docker can run local MongoDB and app services.

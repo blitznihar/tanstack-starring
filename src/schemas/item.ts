@@ -62,6 +62,7 @@ export const itemSchema = z.object({
   bundleId: z.string().min(1),
   programKey: z.string().min(1),
   subject: z.string().min(1),
+  source: z.string().trim().min(1).optional(),
   standardCodes: z.array(z.string().min(1)).min(1), // REQUIRED
   type: itemTypeSchema,
   difficulty: difficultySchema,

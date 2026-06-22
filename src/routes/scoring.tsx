@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import { AdminParentShell } from "~/components/AppShell";
+import { SourceBadge } from "~/components/SourceBadge";
 import { scoringQueue, setWrittenScore } from "~/server/rpc/scoring";
 import { me, logout } from "~/server/rpc/session";
 
@@ -68,6 +69,7 @@ function JobCard({ r, onOverride }: { r: Row; onOverride: (jobId: string, score:
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10, flexWrap: "wrap" }}>
         <span style={{ fontWeight: 800, fontSize: 14 }}>{r.studentName}</span>
         <span style={{ color: "var(--a-faint)", fontWeight: 700, fontSize: 12 }}>{r.programTitle} · {r.itemType.toUpperCase()} · {r.teks}</span>
+        <SourceBadge source={r.itemSource} />
         <span className="pill" style={{ marginLeft: "auto", background: st.bg, color: st.color }}>{st.label}</span>
       </div>
 

@@ -56,6 +56,7 @@ export type ExamItemReview = {
   itemId: string;
   subject: string;
   teks: string;
+  source: string;
   prompt: string;
   correct: boolean;
   pending: boolean;
@@ -234,6 +235,7 @@ function sanitizeItem(item: Item, response: unknown, passage: SanitizedPassage |
     itemId: item._id,
     subject: item.subject,
     type: item.type,
+    source: item.source ?? "generated",
     selectInstruction,
     teks: item.standardCodes.map((c) => `TEKS ${c}`).join(", "),
     prompt: richToText(item.prompt),
@@ -453,6 +455,7 @@ async function finalizeIfNeeded(sessionId: string, state: ExamSessionState, prio
       itemId: r.itemId,
       subject: r.subject,
       teks: item.standardCodes.join(", "),
+      source: item.source ?? "generated",
       prompt: richToText(item.prompt),
       correct: r.correct,
       pending: r.pending,

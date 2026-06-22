@@ -31,12 +31,18 @@ export function mongodbDatabaseNameForVercelEnv(vercelEnv = process.env.VERCEL_E
   return vercelEnv?.toLowerCase() === "production" ? "comet" : "comet-dev";
 }
 
+export function mongodbDatabaseNameForEnv(input: { mongodbDatabase?: string; vercelEnv?: string } = {}): string {
+  const override = input.mongodbDatabase ?? process.env.MONGODB_DATABASE;
+  const selected = override?.trim();
+  return selected || mongodbDatabaseNameForVercelEnv(input.vercelEnv);
+}
+
 export const env = {
   get mongodbUri() {
     return str("MONGODB_URI", "mongodb://localhost:27017/comet-dev");
   },
   get mongodbDatabaseName() {
-    return mongodbDatabaseNameForVercelEnv();
+    return mongodbDatabaseNameForEnv();
   },
   get sessionSecret() {
     return str("SESSION_SECRET", "change-me");

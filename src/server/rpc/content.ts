@@ -96,6 +96,7 @@ export const bundleDetail = createServerFn({ method: "GET" })
       _id: i._id,
       type: i.type,
       difficulty: i.difficulty,
+      source: i.source ?? "generated",
       standardCodes: i.standardCodes,
       prompt: richToText(i.prompt),
       usageCount: i.usageCount,

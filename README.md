@@ -37,7 +37,8 @@ and [`Staar/`](Staar/) for the authoritative UI/UX prototype.
 
 Switching local Docker → MongoDB Atlas is a `MONGODB_URI` change only — no code
 changes, because all DB access goes through `src/repositories/*`. The URI
-chooses the Mongo server/cluster; the app database is `comet-dev` everywhere
+chooses the Mongo server/cluster; `MONGODB_DATABASE` can override the database
+name locally. Without that override, the app database is `comet-dev` everywhere
 except Vercel Production, where it is `comet`.
 
 ---
@@ -320,7 +321,8 @@ values.
 Required/expected app environment variables:
 
 ```bash
-MONGODB_URI                  # Mongo server/cluster URI; DB name is comet-dev except Vercel production uses comet
+MONGODB_URI                  # Mongo server/cluster URI
+MONGODB_DATABASE             # optional DB override; defaults to comet-dev except Vercel production uses comet
 SESSION_SECRET
 AI_ENABLED
 OPENAI_API_KEY

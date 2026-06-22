@@ -2,6 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useMemo, useState } from "react";
 import { AdminParentShell } from "~/components/AppShell";
+import { SourceBadge } from "~/components/SourceBadge";
 import { billingOverview } from "~/server/rpc/billing";
 import {
   addProgram,
@@ -932,7 +933,10 @@ function ContentTab({ snapshot }: { snapshot: Snapshot }) {
                 {detail.items.map((item) => (
                   <div key={item._id} style={{ border: "1px solid var(--a-border2)", borderRadius: 10, padding: 12 }}>
                     <div style={{ display: "flex", justifyContent: "space-between", gap: 12, marginBottom: 6 }}>
-                      <span className="pill" style={{ background: "var(--a-accent-soft)", color: "var(--a-accent)" }}>{item.standardCodes.join(", ")}</span>
+                      <span style={{ display: "inline-flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                        <span className="pill" style={{ background: "var(--a-accent-soft)", color: "var(--a-accent)" }}>{item.standardCodes.join(", ")}</span>
+                        <SourceBadge source={item.source} />
+                      </span>
                       <span style={{ color: "var(--a-faint)", fontWeight: 800, fontSize: 11 }}>used {item.usageCount}x</span>
                     </div>
                     <div style={{ fontWeight: 800, fontSize: 13.5 }}>{item.prompt}</div>

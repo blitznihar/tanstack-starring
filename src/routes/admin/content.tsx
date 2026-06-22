@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
+import { SourceBadge } from "~/components/SourceBadge";
 import { contentTree, bundleDetail, lessonsDetail, lessonPrompt, refillPrompt, uploadContentJson, uploadLessonJson } from "~/server/rpc/content";
 import { me, logout } from "~/server/rpc/session";
 
@@ -237,8 +238,9 @@ function ContentBrowser() {
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {detail.items.map((it) => (
                   <div key={it._id} style={{ border: "1px solid var(--a-border2)", borderRadius: 10, padding: 12 }}>
-                    <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 6 }}>
+                    <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap", marginBottom: 6 }}>
                       <span className="pill" style={{ background: "var(--a-accent-soft)", color: "var(--a-accent)" }}>{it.standardCodes.join(", ")}</span>
+                      <SourceBadge source={it.source} />
                       <span style={{ color: "var(--a-faint)", fontWeight: 700, fontSize: 11 }}>{it.type} · {it.difficulty}</span>
                       <div style={{ flex: 1 }} />
                       <span style={{ color: "var(--a-faint)", fontWeight: 700, fontSize: 11 }}>used {it.usageCount}×</span>

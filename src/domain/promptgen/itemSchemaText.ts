@@ -14,6 +14,7 @@ type Figure = { id: string; kind: "svg"|"png"|"bar_graph"|"pictograph"|"dot_plot
 type Option = { key: string; text: string; correct?: boolean; rationale?: string };
 type Item = {
   standardCodes: string[];            // REQUIRED — TEKS/standard codes this item assesses
+  source?: string;                    // defaults to "generated" when omitted
   type: ItemType; difficulty: Difficulty;
   passageRef?: string;
   prompt: RichContent;                // array of strings or {kind,text,...} nodes

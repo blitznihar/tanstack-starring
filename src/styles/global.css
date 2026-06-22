@@ -104,6 +104,26 @@ button {
   background: var(--a-bad-soft);
   color: var(--a-bad);
 }
+.source-badge {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  max-width: 100%;
+  background: #eef1f6;
+  color: var(--a-muted);
+  border-radius: 999px;
+  padding: 4px 9px;
+  font-weight: 800;
+  font-size: 10.5px;
+  line-height: 1;
+  letter-spacing: 0;
+  white-space: nowrap;
+  opacity: 0.88;
+}
+.source-badge-student {
+  background: #edf0f5;
+  color: #778191;
+}
 .dot {
   width: 8px;
   height: 8px;

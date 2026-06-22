@@ -45,7 +45,16 @@ describe("prepareBundle", () => {
     expect(result.items[0]!._id).toBe("grade3_staar:math:v1#0");
     expect(result.items[0]!.programKey).toBe("grade3_staar");
     expect(result.items[0]!.subject).toBe("math");
+    expect(result.items[0]!.source).toBe("generated");
     expect(result.status).toBe("available");
+  });
+
+  it("preserves an authored item source", () => {
+    const result = prepareBundle({
+      ...goodBundle,
+      items: [{ ...goodBundle.items[0], source: "authored" }],
+    });
+    expect(result.items[0]!.source).toBe("authored");
   });
 
   it("rejects items missing standardCodes", () => {

@@ -1,6 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useRef, useState } from "react";
+import { SourceBadge } from "~/components/SourceBadge";
 import { completeLesson, lessonForToday } from "~/server/rpc/lesson";
 import { logout } from "~/server/rpc/session";
 
@@ -234,6 +235,7 @@ function LessonCard({ lesson, completing, error, onComplete }: { lesson: Lesson;
                 <ExampleRow
                   key={`${example.num}:${example.prompt}`}
                   num={example.num}
+                  source={example.source}
                   text={`${example.prompt}${example.solution ? ` - ${example.solution}` : ""}`}
                   tone={index === lesson.examples.length - 1 ? "success" : "primary"}
                 />
@@ -466,12 +468,15 @@ function StepsVisual() {
   );
 }
 
-function ExampleRow({ num, text, tone }: { num: number; text: string; tone: "primary" | "success" }) {
+function ExampleRow({ num, text, tone, source }: { num: number; text: string; tone: "primary" | "success"; source?: string }) {
   const color = tone === "success" ? "var(--s-success)" : "var(--s-primary)";
   return (
     <div style={{ background: "#FBF4EA", borderRadius: 14, padding: "14px 18px", display: "flex", gap: 14, alignItems: "flex-start" }}>
       <span style={{ width: 30, height: 30, borderRadius: "50%", background: color, color: "#fff", display: "grid", placeItems: "center", fontWeight: 900, flex: "none" }}>{num}</span>
-      <span style={{ fontWeight: 900, color: "#38304F", lineHeight: 1.45 }}>{text}</span>
+      <span style={{ display: "grid", gap: 7, minWidth: 0 }}>
+        {source && <SourceBadge source={source} tone="student" />}
+        <span style={{ fontWeight: 900, color: "#38304F", lineHeight: 1.45 }}>{text}</span>
+      </span>
     </div>
   );
 }

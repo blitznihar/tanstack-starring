@@ -1,6 +1,7 @@
 import { createFileRoute, Link, redirect, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useMemo, useState } from "react";
+import { SourceBadge } from "~/components/SourceBadge";
 import { completePractice, myPracticeSet, submitPractice } from "~/server/rpc/practice";
 import { startExam } from "~/server/rpc/exam";
 import { logout } from "~/server/rpc/session";
@@ -283,9 +284,10 @@ function QuestionCard({ q, fb, value, subject, readOnly, pending, onChange, onCh
   const locked = checked || !!readOnly;
   return (
     <div style={{ background: "var(--s-surface)", borderRadius: 22, padding: 24, boxShadow: "0 8px 22px rgba(54,48,74,.06)" }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", marginBottom: 12 }}>
         <span style={{ width: 28, height: 28, borderRadius: 9, background: "var(--s-primary-soft)", color: "var(--s-primary-ink)", fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14 }}>{q.num}</span>
         <span style={{ fontWeight: 800, fontSize: 12, color: "var(--s-muted)" }}>{q.teks}</span>
+        <SourceBadge source={q.source} tone="student" />
       </div>
 
       {q.passage && (

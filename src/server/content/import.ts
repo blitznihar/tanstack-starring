@@ -58,6 +58,7 @@ export function prepareBundle(rawBundle: unknown): {
       bundleId,
       programKey: raw.programKey ?? bundle.programKey,
       subject: raw.subject ?? bundle.subject,
+      source: raw.source ?? "generated",
     };
     // Full item validation (catches malformed answer keys, missing standardCodes, etc.).
     const item = itemSchema.parse(withDefaults);

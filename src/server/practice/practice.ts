@@ -35,6 +35,7 @@ export type PracticeQuestion = {
   num: number;
   teks: string;
   type: string;
+  source: string;
   prompt: string;
   selectInstruction: string | null;
   passage: PracticePassage | null;
@@ -140,6 +141,7 @@ export async function getPracticeSet(
         num: i + 1,
         teks: `${slot.kind === "review" ? "Review · " : ""}${it.standardCodes.map((c) => `TEKS ${c}`).join(", ")}`,
         type: it.type,
+        source: it.source ?? "generated",
         prompt: richToText(it.prompt),
         selectInstruction: multiselectInstruction(it),
         passage: it.passageRef ? passageView(passageById.get(it.passageRef)) : null,

@@ -124,6 +124,7 @@ async function lessonForStudent(auth: AuthContext, subject: string, requestedSta
     .slice(0, 3)
     .map((item, index) => ({
       num: index + 1,
+      source: item.source ?? "generated",
       prompt: richToText(item.prompt),
       solution: richToText(item.workedSolution) || richToText(item.explanation),
     }));

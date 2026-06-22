@@ -33,6 +33,7 @@ export type WrittenScore = {
   itemId: string;
   subject: string;
   teks: string;
+  itemSource: string;
   itemType: "scr" | "ecr";
   prompt: string;
   maxPoints: number;
@@ -161,6 +162,7 @@ function toWritten(job: ScoringJobDoc, item: Item | undefined): WrittenScore {
     itemId: job.itemId,
     subject: job.subject,
     teks: item ? item.standardCodes.join(", ") : "",
+    itemSource: item?.source ?? "generated",
     itemType: job.itemType,
     prompt: item ? richToText(item.prompt) : "",
     maxPoints: job.maxPoints,

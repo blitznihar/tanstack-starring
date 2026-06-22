@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useRef, useState } from "react";
+import { SourceBadge } from "~/components/SourceBadge";
 import { examState, examAction, examSubmit, examResult, examScoreWritten } from "~/server/rpc/exam";
 
 export const Route = createFileRoute("/exam/$sessionId")({
@@ -153,9 +154,10 @@ function ExamPlayer() {
         <div style={{ maxWidth: q?.passage ? 1120 : 700, margin: "0 auto", display: "flex", gap: 18, alignItems: "flex-start", flexWrap: "wrap" }}>
           {q?.passage && <PassagePane passage={q.passage} />}
           <div style={{ flex: 1, minWidth: 330, background: "#fff", border: "1px solid var(--a-border)", borderRadius: 14, padding: "26px 30px", boxShadow: "0 1px 3px rgba(0,0,0,.04)" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 14 }}>
               <span style={{ background: "var(--s-primary)", color: "#fff", fontWeight: 800, fontSize: 13, width: 30, height: 30, borderRadius: 9, display: "flex", alignItems: "center", justifyContent: "center" }}>{view.currentNum}</span>
               <span style={{ fontWeight: 800, fontSize: 12, color: "var(--a-faint)" }}>{q?.teks}</span>
+              {q && <SourceBadge source={q.source} />}
               {q && <TypeTag item={q} />}
             </div>
             <div style={{ zoom: tool.zoom }}>
@@ -534,7 +536,10 @@ function Results({ result, onHome }: { result: Result | null; onHome: () => void
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {r.itemReview.filter((m) => !m.correct && !m.pending).map((m, i) => (
               <div key={m.itemId} style={{ border: "2px solid #EFEAF7", borderRadius: 14, padding: 16 }}>
-                <div style={{ fontWeight: 800, fontSize: 14.5, marginBottom: 10 }}>{i + 1}. {m.prompt}</div>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 10 }}>
+                  <span style={{ fontWeight: 800, fontSize: 14.5 }}>{i + 1}. {m.prompt}</span>
+                  <SourceBadge source={m.source} tone="student" />
+                </div>
                 <div style={{ display: "flex", gap: 11, alignItems: "flex-start", background: "var(--s-accent-soft)", borderRadius: 12, padding: "12px 14px", marginBottom: 8 }}>
                   <span style={{ color: "#C2491F", fontWeight: 800 }}>✕</span>
                   <div><div style={{ fontWeight: 800, fontSize: 12.5, color: "#C2491F" }}>YOU ANSWERED: {m.yourAnswer}</div><div style={{ fontWeight: 600, fontSize: 14, color: "#7A3217", lineHeight: 1.5 }}>{m.whyWrong}</div></div>
@@ -563,8 +568,9 @@ function WrittenCard({ w }: { w: Written }) {
       : { text: `${w.score}/${w.maxPoints} pts${w.status === "overridden" ? " · set by grown-up" : ""}`, bg: "var(--s-success-soft)", color: "#0E7A55" };
   return (
     <div style={{ border: "2px solid #EFEAF7", borderRadius: 14, padding: 16 }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", marginBottom: 8 }}>
         <span style={{ fontWeight: 800, fontSize: 11, color: "var(--a-faint)" }}>{w.itemType.toUpperCase()} · {w.teks}</span>
+        <SourceBadge source={w.itemSource} tone="student" />
         <span style={{ marginLeft: "auto", background: badge.bg, color: badge.color, fontWeight: 800, fontSize: 12, padding: "4px 11px", borderRadius: 999 }}>{badge.text}</span>
       </div>
       <div style={{ fontWeight: 800, fontSize: 14.5, marginBottom: 8 }}>{w.prompt}</div>
