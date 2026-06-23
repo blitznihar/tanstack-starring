@@ -1,6 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
+import { NotificationBell } from "~/components/NotificationBell";
 import { studentHome } from "~/server/rpc/student";
 import { startExam } from "~/server/rpc/exam";
 import { logout } from "~/server/rpc/session";
@@ -64,6 +65,7 @@ function StudentDashboard() {
           <div style={{ flex: 1 }} />
           <StatusPill color="var(--s-accent)" bg="var(--s-accent-soft)" value={`${data.overall.maxStreak} day streak`} />
           <StatusPill color="#B47900" bg="var(--s-robux-soft)" value={`${data.overall.availableRobux} Robux`} coin />
+          <NotificationBell tone="student" />
           <button onClick={exit} style={{ border: "1px solid #EFE7DA", background: "#fff", boxShadow: "0 8px 18px rgba(54,48,74,.06)", color: "var(--s-muted)", borderRadius: 12, padding: "10px 15px", cursor: "pointer", fontWeight: 900 }}>
             Exit
           </button>

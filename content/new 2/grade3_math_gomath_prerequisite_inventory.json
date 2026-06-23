@@ -1,0 +1,1257 @@
+{
+  "programKey": "grade3_staar",
+  "subject": "math",
+  "version": 1,
+  "status": "available",
+  "title": "Grade 3 Math — Go Math Texas: Prerequisite Skills Inventory",
+  "exam": "Prerequisite Skills Inventory",
+  "standards": [
+    {
+      "code": "3.2A",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Numerical Representations",
+      "description": "Compose/decompose & place value to 100,000"
+    },
+    {
+      "code": "3.2C",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Numerical Representations",
+      "description": "Number line between multiples; rounding"
+    },
+    {
+      "code": "3.2D",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Numerical Representations",
+      "description": "Compare & order whole numbers"
+    },
+    {
+      "code": "3.3A",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Fractions",
+      "description": "Represent fractions with models / equal parts"
+    },
+    {
+      "code": "3.3D",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Fractions",
+      "description": "Compose/decompose fractions"
+    },
+    {
+      "code": "3.3H",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Fractions",
+      "description": "Compare fractions"
+    },
+    {
+      "code": "3.4A",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Computations & Algebraic Relationships",
+      "description": "Add & subtract within 1,000"
+    },
+    {
+      "code": "3.4C",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Data Analysis & Personal Financial Literacy",
+      "description": "Value of coins and bills"
+    },
+    {
+      "code": "3.4F",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Computations & Algebraic Relationships",
+      "description": "Multiplication & division facts"
+    },
+    {
+      "code": "3.4I",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Numerical Representations",
+      "description": "Even and odd numbers"
+    },
+    {
+      "code": "3.4K",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Computations & Algebraic Relationships",
+      "description": "Multiplication & division word problems"
+    },
+    {
+      "code": "3.5A",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Computations & Algebraic Relationships",
+      "description": "Model addition/subtraction problems"
+    },
+    {
+      "code": "3.6A",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Geometry & Measurement",
+      "description": "Classify 2D & 3D figures"
+    },
+    {
+      "code": "3.6C",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Geometry & Measurement",
+      "description": "Area of rectangles"
+    },
+    {
+      "code": "3.8B",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Data Analysis & Personal Financial Literacy",
+      "description": "Solve problems with categorical data"
+    },
+    {
+      "code": "2.9D",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Geometry & Measurement",
+      "description": "Linear measurement (length to nearest unit) — prerequisite"
+    },
+    {
+      "code": "2.9G",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Geometry & Measurement",
+      "description": "Tell time to the nearest minute — prerequisite"
+    }
+  ],
+  "items": [
+    {
+      "standardCodes": [
+        "3.2A"
+      ],
+      "type": "text_entry",
+      "difficulty": "easy",
+      "prompt": [
+        "What is another way to write 20 + 6?"
+      ],
+      "figures": [],
+      "answer": "26",
+      "blanks": {
+        "b1": "26"
+      },
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "20 + 6 in standard form is 26."
+      ],
+      "workedSolution": [
+        "20 + 6 = 26."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.2D"
+      ],
+      "type": "text_entry",
+      "difficulty": "easy",
+      "prompt": [
+        "Use the numbers 1,075, 950, and 876. Which number is greater than 1,000?"
+      ],
+      "figures": [],
+      "answer": "1,075",
+      "blanks": {
+        "b1": "1,075"
+      },
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Only 1,075 has a 1 in the thousands place, so it is greater than 1,000."
+      ],
+      "workedSolution": [
+        "1,075 > 1,000."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.2D"
+      ],
+      "type": "text_entry",
+      "difficulty": "easy",
+      "prompt": [
+        "Use the numbers 1,075, 950, and 876. Which number is less than 900?"
+      ],
+      "figures": [],
+      "answer": "876",
+      "blanks": {
+        "b1": "876"
+      },
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "876 has 8 hundreds, fewer than 900; 950 and 1,075 are both greater."
+      ],
+      "workedSolution": [
+        "876 < 900."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.2C"
+      ],
+      "type": "text_entry",
+      "difficulty": "easy",
+      "prompt": [
+        "What number names the point on the number line?"
+      ],
+      "figures": [
+        {
+          "id": "",
+          "kind": "number_line",
+          "svg": "<svg viewBox=\"0 0 380 80\" xmlns=\"http://www.w3.org/2000/svg\"><line x1=\"18\" y1=\"40\" x2=\"362\" y2=\"40\" stroke=\"black\" stroke-width=\"2\" marker-end=\"url(#a)\" marker-start=\"url(#b)\"/><defs><marker id=\"a\" markerWidth=\"10\" markerHeight=\"10\" refX=\"6\" refY=\"3\" orient=\"auto\"><path d=\"M0,0 L6,3 L0,6\" fill=\"black\"/></marker><marker id=\"b\" markerWidth=\"10\" markerHeight=\"10\" refX=\"0\" refY=\"3\" orient=\"auto\"><path d=\"M6,0 L0,3 L6,6\" fill=\"black\"/></marker></defs><line x1=\"30.0\" y1=\"33\" x2=\"30.0\" y2=\"47\" stroke=\"black\" stroke-width=\"2\"/><text x=\"30.0\" y=\"64\" font-size=\"13\" text-anchor=\"middle\">170</text><line x1=\"94.0\" y1=\"33\" x2=\"94.0\" y2=\"47\" stroke=\"black\" stroke-width=\"2\"/><text x=\"94.0\" y=\"64\" font-size=\"13\" text-anchor=\"middle\">180</text><line x1=\"158.0\" y1=\"33\" x2=\"158.0\" y2=\"47\" stroke=\"black\" stroke-width=\"2\"/><text x=\"158.0\" y=\"64\" font-size=\"13\" text-anchor=\"middle\">190</text><line x1=\"222.0\" y1=\"33\" x2=\"222.0\" y2=\"47\" stroke=\"black\" stroke-width=\"2\"/><text x=\"222.0\" y=\"64\" font-size=\"13\" text-anchor=\"middle\">200</text><line x1=\"286.0\" y1=\"33\" x2=\"286.0\" y2=\"47\" stroke=\"black\" stroke-width=\"2\"/><text x=\"286.0\" y=\"64\" font-size=\"13\" text-anchor=\"middle\">210</text><line x1=\"350.0\" y1=\"33\" x2=\"350.0\" y2=\"47\" stroke=\"black\" stroke-width=\"2\"/><text x=\"350.0\" y=\"64\" font-size=\"13\" text-anchor=\"middle\">220</text><circle cx=\"222.0\" cy=\"40\" r=\"6\" fill=\"black\"/></svg>",
+          "alt": "number line 170 to 220, point on 200"
+        }
+      ],
+      "answer": "200",
+      "blanks": {
+        "b1": "200"
+      },
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "The ticks count by tens: 170, 180, 190, 200, 210, 220. The dot is on the 4th tick after 170 — 200."
+      ],
+      "workedSolution": [
+        "Count by tens from 170; the point is at 200."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.2D"
+      ],
+      "type": "text_entry",
+      "difficulty": "medium",
+      "prompt": [
+        "Use the numbers 759, 1,043, and 1,069. Which number makes the comparison true?  1,183 > 986 > ___"
+      ],
+      "figures": [],
+      "answer": "759",
+      "blanks": {
+        "b1": "759"
+      },
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "The unknown must be less than 986. Only 759 is less than 986."
+      ],
+      "workedSolution": [
+        "759 < 986, so 1,183 > 986 > 759."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.2D"
+      ],
+      "type": "text_entry",
+      "difficulty": "medium",
+      "prompt": [
+        "Use the numbers 759, 1,043, and 1,069. Which could be the unknown number?  784 < 1,052 < ___"
+      ],
+      "figures": [],
+      "answer": "1,069",
+      "blanks": {
+        "b1": "1,069"
+      },
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "The unknown must be greater than 1,052. 1,043 < 1,052, but 1,069 > 1,052."
+      ],
+      "workedSolution": [
+        "1,069 > 1,052."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.3H"
+      ],
+      "type": "text_entry",
+      "difficulty": "medium",
+      "prompt": [
+        "Carmen has 3 same-size pizzas. The cheese pizza is cut into 6 equal slices, the mushroom into 4 equal slices, and the sausage into 12 equal slices. Which pizza has the largest slices?"
+      ],
+      "figures": [],
+      "answer": "the mushroom pizza",
+      "blanks": {
+        "b1": "the mushroom pizza"
+      },
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "The fewer equal pieces a whole is cut into, the larger each piece. 4 slices is the fewest, so the mushroom pizza has the largest slices."
+      ],
+      "workedSolution": [
+        "Fewest pieces (4) = largest slices → mushroom pizza."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.3A"
+      ],
+      "type": "text_entry",
+      "difficulty": "easy",
+      "prompt": [
+        "What is a name for the equal parts in the shape?"
+      ],
+      "figures": [
+        {
+          "id": "",
+          "kind": "shape",
+          "svg": "<svg viewBox=\"0 0 200 90\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"10.0\" y=\"10\" width=\"90.0\" height=\"70\" fill=\"white\" stroke=\"black\" stroke-width=\"2\"/><rect x=\"100.0\" y=\"10\" width=\"90.0\" height=\"70\" fill=\"white\" stroke=\"black\" stroke-width=\"2\"/></svg>",
+          "alt": "square divided into 2 equal parts"
+        }
+      ],
+      "answer": "halves",
+      "blanks": {
+        "b1": "halves"
+      },
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "The square is divided into 2 equal parts, which are called halves."
+      ],
+      "workedSolution": [
+        "2 equal parts = halves."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.3D"
+      ],
+      "type": "text_entry",
+      "difficulty": "medium",
+      "prompt": [
+        "Bristol has 2 loaves of bread that are the same size. She cuts each loaf into 4 equal pieces and uses 6 pieces. How much bread did Bristol use?"
+      ],
+      "figures": [
+        {
+          "id": "",
+          "kind": "fraction_strip",
+          "svg": "<svg viewBox=\"0 0 230 100\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"10.0\" y=\"10\" width=\"52.5\" height=\"34\" fill=\"#f4c542\" stroke=\"black\" stroke-width=\"2\"/><rect x=\"62.5\" y=\"10\" width=\"52.5\" height=\"34\" fill=\"#f4c542\" stroke=\"black\" stroke-width=\"2\"/><rect x=\"115.0\" y=\"10\" width=\"52.5\" height=\"34\" fill=\"#f4c542\" stroke=\"black\" stroke-width=\"2\"/><rect x=\"167.5\" y=\"10\" width=\"52.5\" height=\"34\" fill=\"#f4c542\" stroke=\"black\" stroke-width=\"2\"/><rect x=\"10.0\" y=\"56\" width=\"52.5\" height=\"34\" fill=\"#f4c542\" stroke=\"black\" stroke-width=\"2\"/><rect x=\"62.5\" y=\"56\" width=\"52.5\" height=\"34\" fill=\"#f4c542\" stroke=\"black\" stroke-width=\"2\"/><rect x=\"115.0\" y=\"56\" width=\"52.5\" height=\"34\" fill=\"white\" stroke=\"black\" stroke-width=\"2\"/><rect x=\"167.5\" y=\"56\" width=\"52.5\" height=\"34\" fill=\"white\" stroke=\"black\" stroke-width=\"2\"/></svg>",
+          "alt": "two bars each in 4 parts, 6 parts shaded",
+          "caption": "Each loaf is cut into 4 equal pieces."
+        }
+      ],
+      "answer": "6/4",
+      "blanks": {
+        "b1": "6/4"
+      },
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Each piece is 1/4 of a loaf. She used 6 pieces, so 6 × 1/4 = 6/4 (which is 1 1/2 loaves)."
+      ],
+      "workedSolution": [
+        "6 fourths = 6/4 = 1 1/2 loaves."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4A"
+      ],
+      "type": "text_entry",
+      "difficulty": "medium",
+      "prompt": [
+        "What number goes in the box?   26 = 20 + 6,   38 = 30 + 8,   so 26 + 38 = 50 + 14 = ___"
+      ],
+      "figures": [],
+      "answer": "64",
+      "blanks": {
+        "b1": "64"
+      },
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Add by place value: 20 + 30 = 50 and 6 + 8 = 14, then 50 + 14 = 64."
+      ],
+      "workedSolution": [
+        "50 + 14 = 64."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.3A"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Which shape shows thirds?"
+      ],
+      "figures": [
+        {
+          "id": "",
+          "kind": "shape",
+          "svg": "<svg viewBox=\"0 0 300 110\" xmlns=\"http://www.w3.org/2000/svg\"><text x=\"50\" y=\"18\" font-size=\"14\" text-anchor=\"middle\">A</text><circle cx=\"50\" cy=\"60\" r=\"38\" fill=\"white\" stroke=\"black\" stroke-width=\"2\"/><line x1=\"18\" y1=\"88\" x2=\"86\" y2=\"40\" stroke=\"black\" stroke-width=\"2\"/><line x1=\"12\" y1=\"66\" x2=\"34\" y2=\"96\" stroke=\"black\" stroke-width=\"2\"/><text x=\"150\" y=\"18\" font-size=\"14\" text-anchor=\"middle\">B</text><circle cx=\"150\" cy=\"60\" r=\"38\" fill=\"white\" stroke=\"black\" stroke-width=\"2\"/><line x1=\"150\" y1=\"60\" x2=\"150.0\" y2=\"22.0\" stroke=\"black\" stroke-width=\"2\"/><line x1=\"150\" y1=\"60\" x2=\"117.1\" y2=\"79.0\" stroke=\"black\" stroke-width=\"2\"/><line x1=\"150\" y1=\"60\" x2=\"182.9\" y2=\"79.0\" stroke=\"black\" stroke-width=\"2\"/><text x=\"250\" y=\"18\" font-size=\"14\" text-anchor=\"middle\">C</text><circle cx=\"250\" cy=\"60\" r=\"38\" fill=\"white\" stroke=\"black\" stroke-width=\"2\"/><line x1=\"250\" y1=\"60\" x2=\"269.0\" y2=\"27.1\" stroke=\"black\" stroke-width=\"2\"/><line x1=\"250\" y1=\"60\" x2=\"214.3\" y2=\"73.0\" stroke=\"black\" stroke-width=\"2\"/><line x1=\"250\" y1=\"60\" x2=\"269.0\" y2=\"92.9\" stroke=\"black\" stroke-width=\"2\"/></svg>",
+          "alt": "three circles A B C; B shows 3 equal parts"
+        }
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "A",
+          "rationale": "Shape A is split by chords into unequal parts, not 3 equal parts."
+        },
+        {
+          "key": "B",
+          "text": "B",
+          "correct": true
+        },
+        {
+          "key": "C",
+          "text": "C",
+          "rationale": "Shape C is split into 3 parts that are not equal."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Thirds means 3 equal parts. Circle B is divided into 3 equal parts."
+      ],
+      "workedSolution": [
+        "B shows 3 equal parts = thirds."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4F"
+      ],
+      "type": "text_entry",
+      "difficulty": "easy",
+      "prompt": [
+        "Jess saw 7 deer in the morning. In the afternoon, Jess saw double that number. How many deer did Jess see in the afternoon?"
+      ],
+      "figures": [],
+      "answer": "14",
+      "blanks": {
+        "b1": "14"
+      },
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Double means 2 times as many: 2 × 7 = 14."
+      ],
+      "workedSolution": [
+        "2 × 7 = 14."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4A"
+      ],
+      "type": "scr",
+      "difficulty": "medium",
+      "prompt": [
+        "What tens fact can you use to find 15 − 7?"
+      ],
+      "figures": [],
+      "answer": "15 − 5 = 10",
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          {
+            "id": "c1",
+            "description": "Correct number sentence/representation",
+            "points": 1
+          },
+          {
+            "id": "c2",
+            "description": "Correct solution",
+            "points": 1
+          }
+        ]
+      },
+      "points": 2,
+      "allowPartialCredit": true,
+      "explanation": [
+        "Make a ten: subtract 5 from 15 to reach the ten (15 − 5 = 10), then subtract 2 more to get 8."
+      ],
+      "workedSolution": [
+        "15 − 5 = 10, then 10 − 2 = 8, so 15 − 7 = 8."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.5A"
+      ],
+      "type": "text_entry",
+      "difficulty": "medium",
+      "prompt": [
+        "Pam has 44 bows. She makes 17 more bows and Betty gives her 35 bows. How many bows does Pam have now?"
+      ],
+      "figures": [],
+      "answer": "96",
+      "blanks": {
+        "b1": "96"
+      },
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Add all three amounts: 44 + 17 + 35 = 96."
+      ],
+      "workedSolution": [
+        "44 + 17 = 61; 61 + 35 = 96."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4A"
+      ],
+      "type": "text_entry",
+      "difficulty": "medium",
+      "prompt": [
+        "On Saturday, Kevin slept 9 hours. There are 24 hours in a day. How many hours was Kevin awake on Saturday?"
+      ],
+      "figures": [],
+      "answer": "15",
+      "blanks": {
+        "b1": "15"
+      },
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Subtract sleeping hours from the whole day: 24 − 9 = 15."
+      ],
+      "workedSolution": [
+        "24 − 9 = 15."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4A"
+      ],
+      "type": "text_entry",
+      "difficulty": "medium",
+      "prompt": [
+        "Mr. Brown has a box of 75 markers. He gives 18 markers to his students. How many markers does Mr. Brown have now?"
+      ],
+      "figures": [],
+      "answer": "57",
+      "blanks": {
+        "b1": "57"
+      },
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Subtract the markers given away: 75 − 18 = 57."
+      ],
+      "workedSolution": [
+        "75 − 18 = 57."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.5A"
+      ],
+      "type": "scr",
+      "difficulty": "medium",
+      "prompt": [
+        "There are 46 students on a playground. Of these, 28 are girls and the rest are boys. What number sentence can you use to find how many of the students are boys?"
+      ],
+      "figures": [],
+      "answer": "46 − 28 = 18",
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          {
+            "id": "c1",
+            "description": "Correct number sentence/representation",
+            "points": 1
+          },
+          {
+            "id": "c2",
+            "description": "Correct solution",
+            "points": 1
+          }
+        ]
+      },
+      "points": 2,
+      "allowPartialCredit": true,
+      "explanation": [
+        "The boys are the total minus the girls: 46 − 28 = 18."
+      ],
+      "workedSolution": [
+        "46 − 28 = 18 boys."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4A"
+      ],
+      "type": "text_entry",
+      "difficulty": "medium",
+      "prompt": [
+        "There are 245 hardcover books and 550 paperback books in a bookstore. More paperback books are delivered. Now there are 995 books. How many books were delivered?"
+      ],
+      "figures": [],
+      "answer": "200",
+      "blanks": {
+        "b1": "200"
+      },
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "First find the books already there: 245 + 550 = 795. Then 995 − 795 = 200 delivered."
+      ],
+      "workedSolution": [
+        "245 + 550 = 795; 995 − 795 = 200."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.5A"
+      ],
+      "type": "scr",
+      "difficulty": "medium",
+      "prompt": [
+        "There are 276 people at a dog show. Then 472 more people come. What number sentence can you use to find the number of people at the dog show now?"
+      ],
+      "figures": [],
+      "answer": "276 + 472 = 748",
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          {
+            "id": "c1",
+            "description": "Correct number sentence/representation",
+            "points": 1
+          },
+          {
+            "id": "c2",
+            "description": "Correct solution",
+            "points": 1
+          }
+        ]
+      },
+      "points": 2,
+      "allowPartialCredit": true,
+      "explanation": [
+        "Join the two groups by adding: 276 + 472 = 748."
+      ],
+      "workedSolution": [
+        "276 + 472 = 748 people."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.5A"
+      ],
+      "type": "scr",
+      "difficulty": "medium",
+      "prompt": [
+        "There are 322 fans at the soccer field on Wednesday and 228 fans on Thursday. What number sentence can you use to find the number of fans on both days?"
+      ],
+      "figures": [],
+      "answer": "322 + 228 = 550",
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          {
+            "id": "c1",
+            "description": "Correct number sentence/representation",
+            "points": 1
+          },
+          {
+            "id": "c2",
+            "description": "Correct solution",
+            "points": 1
+          }
+        ]
+      },
+      "points": 2,
+      "allowPartialCredit": true,
+      "explanation": [
+        "Add the two days together: 322 + 228 = 550."
+      ],
+      "workedSolution": [
+        "322 + 228 = 550 fans."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4C"
+      ],
+      "type": "text_entry",
+      "difficulty": "medium",
+      "prompt": [
+        "Amy buys a bag of popcorn with these coins and receives no change. How much does the popcorn cost?"
+      ],
+      "figures": [
+        {
+          "id": "",
+          "kind": "shape",
+          "svg": "<svg viewBox=\"0 0 316 90\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"42\" cy=\"40\" r=\"26\" fill=\"#d9c8a0\" stroke=\"#7a6a3a\" stroke-width=\"2\"/><text x=\"42\" y=\"45\" font-size=\"13\" text-anchor=\"middle\">25¢</text><circle cx=\"110\" cy=\"40\" r=\"26\" fill=\"#d9c8a0\" stroke=\"#7a6a3a\" stroke-width=\"2\"/><text x=\"110\" y=\"45\" font-size=\"13\" text-anchor=\"middle\">25¢</text><circle cx=\"178\" cy=\"40\" r=\"26\" fill=\"#d9c8a0\" stroke=\"#7a6a3a\" stroke-width=\"2\"/><text x=\"178\" y=\"45\" font-size=\"13\" text-anchor=\"middle\">25¢</text><circle cx=\"242\" cy=\"40\" r=\"22\" fill=\"#d9c8a0\" stroke=\"#7a6a3a\" stroke-width=\"2\"/><text x=\"242\" y=\"45\" font-size=\"13\" text-anchor=\"middle\">5¢</text><circle cx=\"302\" cy=\"40\" r=\"22\" fill=\"#d9c8a0\" stroke=\"#7a6a3a\" stroke-width=\"2\"/><text x=\"302\" y=\"45\" font-size=\"13\" text-anchor=\"middle\">5¢</text></svg>",
+          "alt": "coins: three quarters and two nickels"
+        }
+      ],
+      "answer": "85",
+      "blanks": {
+        "b1": "85"
+      },
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Add the coin values: 25 + 25 + 25 + 5 + 5 = 85 cents."
+      ],
+      "workedSolution": [
+        "Three quarters = 75¢ plus two nickels = 10¢ → 85¢."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4C"
+      ],
+      "type": "text_entry",
+      "difficulty": "medium",
+      "prompt": [
+        "Isabel has these coins. What is the total value of the coins (in cents)?"
+      ],
+      "figures": [
+        {
+          "id": "",
+          "kind": "shape",
+          "svg": "<svg viewBox=\"0 0 376 90\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"42\" cy=\"40\" r=\"26\" fill=\"#d9c8a0\" stroke=\"#7a6a3a\" stroke-width=\"2\"/><text x=\"42\" y=\"45\" font-size=\"13\" text-anchor=\"middle\">25¢</text><circle cx=\"110\" cy=\"40\" r=\"26\" fill=\"#d9c8a0\" stroke=\"#7a6a3a\" stroke-width=\"2\"/><text x=\"110\" y=\"45\" font-size=\"13\" text-anchor=\"middle\">25¢</text><circle cx=\"178\" cy=\"40\" r=\"26\" fill=\"#d9c8a0\" stroke=\"#7a6a3a\" stroke-width=\"2\"/><text x=\"178\" y=\"45\" font-size=\"13\" text-anchor=\"middle\">25¢</text><circle cx=\"242\" cy=\"40\" r=\"22\" fill=\"#d9c8a0\" stroke=\"#7a6a3a\" stroke-width=\"2\"/><text x=\"242\" y=\"45\" font-size=\"13\" text-anchor=\"middle\">5¢</text><circle cx=\"302\" cy=\"40\" r=\"22\" fill=\"#d9c8a0\" stroke=\"#7a6a3a\" stroke-width=\"2\"/><text x=\"302\" y=\"45\" font-size=\"13\" text-anchor=\"middle\">5¢</text><circle cx=\"362\" cy=\"40\" r=\"22\" fill=\"#d9c8a0\" stroke=\"#7a6a3a\" stroke-width=\"2\"/><text x=\"362\" y=\"45\" font-size=\"13\" text-anchor=\"middle\">5¢</text></svg>",
+          "alt": "coins: three quarters and three nickels"
+        }
+      ],
+      "answer": "90",
+      "blanks": {
+        "b1": "90"
+      },
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Add the coin values: 25 + 25 + 25 + 5 + 5 + 5 = 90 cents."
+      ],
+      "workedSolution": [
+        "Three quarters = 75¢ plus three nickels = 15¢ → 90¢."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4K"
+      ],
+      "type": "text_entry",
+      "difficulty": "easy",
+      "prompt": [
+        "Gary has 8 plates. He puts 3 waffles on each plate. How many waffles are on the plates?"
+      ],
+      "figures": [],
+      "answer": "24",
+      "blanks": {
+        "b1": "24"
+      },
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Equal groups: 8 plates × 3 waffles = 24."
+      ],
+      "workedSolution": [
+        "8 × 3 = 24."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4K"
+      ],
+      "type": "text_entry",
+      "difficulty": "easy",
+      "prompt": [
+        "There are 14 balloons. Each child gets 2 balloons. How many children are there?"
+      ],
+      "figures": [],
+      "answer": "7",
+      "blanks": {
+        "b1": "7"
+      },
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Divide into equal groups: 14 ÷ 2 = 7 children."
+      ],
+      "workedSolution": [
+        "14 ÷ 2 = 7."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4I"
+      ],
+      "type": "scr",
+      "difficulty": "medium",
+      "prompt": [
+        "There are an even number of kittens and an odd number of puppies in a pet store. Write a number of kittens and a number of puppies that might be at the pet store."
+      ],
+      "figures": [],
+      "answer": "4 kittens and 3 puppies",
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          {
+            "id": "c1",
+            "description": "Correct number sentence/representation",
+            "points": 1
+          },
+          {
+            "id": "c2",
+            "description": "Correct solution",
+            "points": 1
+          }
+        ]
+      },
+      "points": 2,
+      "allowPartialCredit": true,
+      "explanation": [
+        "Any even count works for kittens (2, 4, 6, …) and any odd count for puppies (1, 3, 5, …). For example, 4 kittens and 3 puppies."
+      ],
+      "workedSolution": [
+        "Even kittens (e.g., 4) and odd puppies (e.g., 3)."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4A"
+      ],
+      "type": "text_entry",
+      "difficulty": "easy",
+      "prompt": [
+        "There are 350 rubber bands in a bag. There are 100 fewer rubber bands in Mr. Stuart's desk. How many rubber bands are in Mr. Stuart's desk?"
+      ],
+      "figures": [],
+      "answer": "250",
+      "blanks": {
+        "b1": "250"
+      },
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "‘100 fewer’ means subtract: 350 − 100 = 250."
+      ],
+      "workedSolution": [
+        "350 − 100 = 250."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.5A"
+      ],
+      "type": "scr",
+      "difficulty": "medium",
+      "prompt": [
+        "Katy drew 25 hearts on a notebook. Rita drew some hearts too. They drew 39 hearts altogether. Write a number sentence with a box for the missing number, then solve: how many hearts did Rita draw?"
+      ],
+      "figures": [],
+      "answer": "25 + □ = 39; □ = 14",
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          {
+            "id": "c1",
+            "description": "Correct number sentence/representation",
+            "points": 1
+          },
+          {
+            "id": "c2",
+            "description": "Correct solution",
+            "points": 1
+          }
+        ]
+      },
+      "points": 2,
+      "allowPartialCredit": true,
+      "explanation": [
+        "The two amounts join to 39: 25 + □ = 39. Subtract to solve: 39 − 25 = 14."
+      ],
+      "workedSolution": [
+        "25 + □ = 39 → □ = 39 − 25 = 14."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.5A"
+      ],
+      "type": "scr",
+      "difficulty": "medium",
+      "prompt": [
+        "Mr. Troy's students made 43 pictures. Some were on the wall and 24 were in folders. Write a number sentence with a box for the missing number, then solve: how many pictures were on the wall?"
+      ],
+      "figures": [],
+      "answer": "□ + 24 = 43; □ = 19",
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          {
+            "id": "c1",
+            "description": "Correct number sentence/representation",
+            "points": 1
+          },
+          {
+            "id": "c2",
+            "description": "Correct solution",
+            "points": 1
+          }
+        ]
+      },
+      "points": 2,
+      "allowPartialCredit": true,
+      "explanation": [
+        "Wall pictures plus folder pictures make 43: □ + 24 = 43. Subtract: 43 − 24 = 19."
+      ],
+      "workedSolution": [
+        "□ + 24 = 43 → □ = 43 − 24 = 19."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.6A"
+      ],
+      "type": "text_entry",
+      "difficulty": "easy",
+      "prompt": [
+        "How many vertices does this shape have?"
+      ],
+      "figures": [
+        {
+          "id": "",
+          "kind": "shape",
+          "svg": "<svg viewBox=\"0 0 120 120\" xmlns=\"http://www.w3.org/2000/svg\"><polygon points=\"60.0,20.0 89.7,32.3 102.0,62.0 89.7,91.7 60.0,104.0 30.3,91.7 18.0,62.0 30.3,32.3\" fill=\"white\" stroke=\"black\" stroke-width=\"2\"/></svg>",
+          "alt": "octagon"
+        }
+      ],
+      "answer": "8",
+      "blanks": {
+        "b1": "8"
+      },
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "The shape is an octagon. An octagon has 8 vertices (corners)."
+      ],
+      "workedSolution": [
+        "Octagon → 8 vertices."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.6A"
+      ],
+      "type": "text_entry",
+      "difficulty": "medium",
+      "prompt": [
+        "A box has 6 faces, 12 edges, and 8 vertices. What could be the shape of the box?"
+      ],
+      "figures": [],
+      "answer": "rectangular prism",
+      "blanks": {
+        "b1": "rectangular prism"
+      },
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "A solid with 6 faces, 12 edges, and 8 vertices is a rectangular prism (a cube is a special rectangular prism)."
+      ],
+      "workedSolution": [
+        "6 faces, 12 edges, 8 vertices → rectangular prism."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.6A"
+      ],
+      "type": "text_entry",
+      "difficulty": "medium",
+      "prompt": [
+        "How many of these shapes have exactly 6 vertices?"
+      ],
+      "figures": [
+        {
+          "id": "",
+          "kind": "shape",
+          "svg": "<svg viewBox=\"0 0 240 240\" xmlns=\"http://www.w3.org/2000/svg\"><polygon points=\"60.0,20.0 94.6,40.0 94.6,80.0 60.0,100.0 25.4,80.0 25.4,40.0\" fill=\"white\" stroke=\"black\" stroke-width=\"2\"/><polygon points=\"180.0,20.0 208.3,31.7 220.0,60.0 208.3,88.3 180.0,100.0 151.7,88.3 140.0,60.0 151.7,31.7\" fill=\"white\" stroke=\"black\" stroke-width=\"2\"/><polygon points=\"15,138 95,132 100,225 20,220\" fill=\"white\" stroke=\"black\" stroke-width=\"2\"/><polygon points=\"180.0,150.0 206.0,165.0 206.0,195.0 180.0,210.0 154.0,195.0 154.0,165.0\" fill=\"white\" stroke=\"black\" stroke-width=\"2\"/></svg>",
+          "alt": "a hexagon, an octagon, a quadrilateral, and a smaller hexagon"
+        }
+      ],
+      "answer": "2",
+      "blanks": {
+        "b1": "2"
+      },
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Count vertices: hexagon (6), octagon (8), quadrilateral (4), small hexagon (6). Two shapes have exactly 6 vertices."
+      ],
+      "workedSolution": [
+        "Two hexagons have 6 vertices each → 2 shapes."
+      ]
+    },
+    {
+      "standardCodes": [
+        "2.9D"
+      ],
+      "type": "text_entry",
+      "difficulty": "easy",
+      "prompt": [
+        "Use an inch ruler. What is the length of the eraser to the nearest inch?"
+      ],
+      "figures": [
+        {
+          "id": "",
+          "kind": "shape",
+          "svg": "<svg viewBox=\"0 0 220 110\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"20\" y=\"20\" width=\"120\" height=\"30\" rx=\"4\" fill=\"#c9c9c9\" stroke=\"black\" stroke-width=\"2\"/><line x1=\"20\" y1=\"70\" x2=\"200\" y2=\"70\" stroke=\"black\" stroke-width=\"2\"/><line x1=\"20\" y1=\"70\" x2=\"20\" y2=\"82\" stroke=\"black\" stroke-width=\"2\"/><text x=\"20\" y=\"96\" font-size=\"12\" text-anchor=\"middle\">0</text><line x1=\"80\" y1=\"70\" x2=\"80\" y2=\"82\" stroke=\"black\" stroke-width=\"2\"/><text x=\"80\" y=\"96\" font-size=\"12\" text-anchor=\"middle\">1</text><line x1=\"140\" y1=\"70\" x2=\"140\" y2=\"82\" stroke=\"black\" stroke-width=\"2\"/><text x=\"140\" y=\"96\" font-size=\"12\" text-anchor=\"middle\">2</text><line x1=\"200\" y1=\"70\" x2=\"200\" y2=\"82\" stroke=\"black\" stroke-width=\"2\"/><text x=\"200\" y=\"96\" font-size=\"12\" text-anchor=\"middle\">3</text></svg>",
+          "alt": "an eraser measured on an inch ruler, about 2 inches"
+        }
+      ],
+      "answer": "2",
+      "blanks": {
+        "b1": "2"
+      },
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Lined up against the inch ruler, the eraser reaches the 2-inch mark, so it is about 2 inches long."
+      ],
+      "workedSolution": [
+        "Eraser ≈ 2 inches."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.6C"
+      ],
+      "type": "text_entry",
+      "difficulty": "medium",
+      "prompt": [
+        "Emily uses color tiles to make a rectangle. She uses 6 rows of tiles and 5 columns of tiles. How many tiles does Emily use?"
+      ],
+      "figures": [],
+      "answer": "30",
+      "blanks": {
+        "b1": "30"
+      },
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Rows × columns gives the total tiles: 6 × 5 = 30."
+      ],
+      "workedSolution": [
+        "6 × 5 = 30 tiles."
+      ]
+    },
+    {
+      "standardCodes": [
+        "2.9D"
+      ],
+      "type": "text_entry",
+      "difficulty": "medium",
+      "prompt": [
+        "Tamara has two colors of string. If the black string is 4 inches long, about how long is the gray string?"
+      ],
+      "figures": [
+        {
+          "id": "",
+          "kind": "shape",
+          "svg": "<svg viewBox=\"0 0 192 80\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"12\" y=\"18\" width=\"168\" height=\"12\" fill=\"#333\" stroke=\"black\"/><text x=\"12\" y=\"14\" font-size=\"11\">black</text><rect x=\"12\" y=\"48\" width=\"126\" height=\"12\" fill=\"#bbb\" stroke=\"black\"/><text x=\"12\" y=\"44\" font-size=\"11\">gray</text></svg>",
+          "alt": "black string 4 inches, gray string about 3 inches"
+        }
+      ],
+      "answer": "3",
+      "blanks": {
+        "b1": "3"
+      },
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "The gray string is a little shorter than the 4-inch black string — about 3 inches."
+      ],
+      "workedSolution": [
+        "Gray string ≈ 3 inches (one inch shorter than the black string)."
+      ]
+    },
+    {
+      "standardCodes": [
+        "2.9G"
+      ],
+      "type": "text_entry",
+      "difficulty": "medium",
+      "prompt": [
+        "Jan gets to school at the time shown on the clock. What time does Jan get to school?"
+      ],
+      "figures": [
+        {
+          "id": "",
+          "kind": "shape",
+          "svg": "<svg viewBox=\"0 0 140 140\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"70\" cy=\"70\" r=\"58\" fill=\"white\" stroke=\"black\" stroke-width=\"3\"/><text x=\"92.0\" y=\"36.9\" font-size=\"13\" text-anchor=\"middle\">1</text><text x=\"108.1\" y=\"53.0\" font-size=\"13\" text-anchor=\"middle\">2</text><text x=\"114.0\" y=\"75.0\" font-size=\"13\" text-anchor=\"middle\">3</text><text x=\"108.1\" y=\"97.0\" font-size=\"13\" text-anchor=\"middle\">4</text><text x=\"92.0\" y=\"113.1\" font-size=\"13\" text-anchor=\"middle\">5</text><text x=\"70.0\" y=\"119.0\" font-size=\"13\" text-anchor=\"middle\">6</text><text x=\"48.0\" y=\"113.1\" font-size=\"13\" text-anchor=\"middle\">7</text><text x=\"31.9\" y=\"97.0\" font-size=\"13\" text-anchor=\"middle\">8</text><text x=\"26.0\" y=\"75.0\" font-size=\"13\" text-anchor=\"middle\">9</text><text x=\"31.9\" y=\"53.0\" font-size=\"13\" text-anchor=\"middle\">10</text><text x=\"48.0\" y=\"36.9\" font-size=\"13\" text-anchor=\"middle\">11</text><text x=\"70.0\" y=\"31.0\" font-size=\"13\" text-anchor=\"middle\">12</text><line x1=\"70\" y1=\"70\" x2=\"110.0\" y2=\"70.0\" stroke=\"black\" stroke-width=\"2\"/><line x1=\"70\" y1=\"70\" x2=\"42.2\" y2=\"66.3\" stroke=\"black\" stroke-width=\"3\"/><circle cx=\"70\" cy=\"70\" r=\"3\" fill=\"black\"/></svg>",
+          "alt": "analog clock showing 9:15"
+        }
+      ],
+      "answer": "9:15",
+      "blanks": {
+        "b1": "9:15"
+      },
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "The hour hand points to 9 and the minute hand points to 3, which is 15 minutes. The time is 9:15."
+      ],
+      "workedSolution": [
+        "Hour hand 9, minute hand on 3 (15 min) → 9:15."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.8B"
+      ],
+      "type": "scr",
+      "difficulty": "medium",
+      "prompt": [
+        "What is a question that can be answered using the pictograph?"
+      ],
+      "figures": [],
+      "answer": "How many more dogs than snakes are there?",
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          {
+            "id": "c1",
+            "description": "Correct number sentence/representation",
+            "points": 1
+          },
+          {
+            "id": "c2",
+            "description": "Correct solution",
+            "points": 1
+          }
+        ]
+      },
+      "points": 2,
+      "allowPartialCredit": true,
+      "explanation": [
+        "Any question the data answers works, such as comparing or totaling categories. Example: 'How many more dogs than snakes are there?' (4 dogs vs 1 snake → 3 more, using the key of 2 each)."
+      ],
+      "workedSolution": [
+        "Example: 'How many more dogs than snakes?' — a question the pictograph data can answer."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.8B"
+      ],
+      "type": "scr",
+      "difficulty": "medium",
+      "prompt": [
+        "What is a question that can be answered using the bar graph?"
+      ],
+      "figures": [],
+      "answer": "How many children chose apples?",
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          {
+            "id": "c1",
+            "description": "Correct number sentence/representation",
+            "points": 1
+          },
+          {
+            "id": "c2",
+            "description": "Correct solution",
+            "points": 1
+          }
+        ]
+      },
+      "points": 2,
+      "allowPartialCredit": true,
+      "explanation": [
+        "Any question the bars answer works. Example: 'How many children chose apples?' or 'Which snack was most popular?'"
+      ],
+      "workedSolution": [
+        "Example: 'How many children chose apples?' — answerable from the bar graph."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.8B"
+      ],
+      "type": "text_entry",
+      "difficulty": "medium",
+      "prompt": [
+        "Use the bar graph. What is a good prediction for how many days Joe might practice the viola in week 5?"
+      ],
+      "figures": [
+        {
+          "id": "",
+          "kind": "bar_graph",
+          "svg": "<svg viewBox=\"0 0 300 152\" xmlns=\"http://www.w3.org/2000/svg\"><text x=\"150\" y=\"16\" font-size=\"12\" text-anchor=\"middle\" font-weight=\"bold\">Joe's Viola Practice</text><text x=\"64\" y=\"47\" font-size=\"11\" text-anchor=\"end\">Week 1</text><rect x=\"70\" y=\"36\" width=\"35.0\" height=\"15\" fill=\"#7aa6d6\" stroke=\"black\"/><text x=\"64\" y=\"69\" font-size=\"11\" text-anchor=\"end\">Week 2</text><rect x=\"70\" y=\"58\" width=\"70.0\" height=\"15\" fill=\"#7aa6d6\" stroke=\"black\"/><text x=\"64\" y=\"91\" font-size=\"11\" text-anchor=\"end\">Week 3</text><rect x=\"70\" y=\"80\" width=\"105.0\" height=\"15\" fill=\"#7aa6d6\" stroke=\"black\"/><text x=\"64\" y=\"113\" font-size=\"11\" text-anchor=\"end\">Week 4</text><rect x=\"70\" y=\"102\" width=\"140.0\" height=\"15\" fill=\"#7aa6d6\" stroke=\"black\"/><line x1=\"70\" y1=\"122\" x2=\"280.0\" y2=\"122\" stroke=\"black\"/><text x=\"70.0\" y=\"136\" font-size=\"10\" text-anchor=\"middle\">0</text><text x=\"105.0\" y=\"136\" font-size=\"10\" text-anchor=\"middle\">1</text><text x=\"140.0\" y=\"136\" font-size=\"10\" text-anchor=\"middle\">2</text><text x=\"175.0\" y=\"136\" font-size=\"10\" text-anchor=\"middle\">3</text><text x=\"210.0\" y=\"136\" font-size=\"10\" text-anchor=\"middle\">4</text><text x=\"245.0\" y=\"136\" font-size=\"10\" text-anchor=\"middle\">5</text><text x=\"280.0\" y=\"136\" font-size=\"10\" text-anchor=\"middle\">6</text></svg>",
+          "alt": "horizontal bar graph: Week 1=1, Week 2=2, Week 3=3, Week 4=4 days"
+        }
+      ],
+      "answer": "5",
+      "blanks": {
+        "b1": "5"
+      },
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "The pattern increases by 1 day each week: 1, 2, 3, 4. A good prediction for week 5 is 5 days."
+      ],
+      "workedSolution": [
+        "Pattern +1 each week → week 5 ≈ 5 days."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4A"
+      ],
+      "type": "text_entry",
+      "difficulty": "easy",
+      "prompt": [
+        "Jim has $19 in the bank. Then he withdraws $6. How much money does Jim have in the bank now?"
+      ],
+      "figures": [],
+      "answer": "13",
+      "blanks": {
+        "b1": "13"
+      },
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Withdraw means take away: 19 − 6 = 13 dollars."
+      ],
+      "workedSolution": [
+        "$19 − $6 = $13."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4A"
+      ],
+      "type": "text_entry",
+      "difficulty": "medium",
+      "prompt": [
+        "Jay wants to buy a ruler that costs 99¢. He has 65¢ right now. How much money would he need to borrow to pay for the ruler?"
+      ],
+      "figures": [],
+      "answer": "34",
+      "blanks": {
+        "b1": "34"
+      },
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Find the difference between the cost and what he has: 99 − 65 = 34 cents."
+      ],
+      "workedSolution": [
+        "99¢ − 65¢ = 34¢."
+      ]
+    }
+  ]
+}

@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
+import { NotificationBell } from "~/components/NotificationBell";
 import { SourceBadge } from "~/components/SourceBadge";
 import { contentTree, bundleDetail, lessonsDetail, lessonPrompt, refillPrompt, uploadContentJson, uploadLessonJson } from "~/server/rpc/content";
 import { me, logout } from "~/server/rpc/session";
@@ -115,10 +116,12 @@ function ContentBrowser() {
           <Link to="/admin/rewards" style={{ color: "var(--a-muted)" }}>Rewards</Link>
           <Link to="/scoring" style={{ color: "var(--a-muted)" }}>Scoring</Link>
           <Link to="/dashboard" style={{ color: "var(--a-muted)" }}>Reports</Link>
+          <Link to="/history" style={{ color: "var(--a-muted)" }}>History</Link>
           <Link to="/admin/profile" style={{ color: "var(--a-muted)" }}>Profile I/O</Link>
           <Link to="/billing" style={{ color: "var(--a-muted)" }}>Billing</Link>
         </nav>
         <div style={{ flex: 1 }} />
+        <NotificationBell tone="admin" />
         <span style={{ color: "var(--a-muted)", fontWeight: 600, fontSize: 13 }}>{user?.displayName} ({user?.roles.join(", ")})</span>
         <button onClick={async () => { await doLogout({}); navigate({ to: "/" }); }} style={{ border: "1px solid var(--a-border)", background: "#fff", fontWeight: 700, fontSize: 13, padding: "7px 12px", borderRadius: 9, cursor: "pointer" }}>
           Sign out

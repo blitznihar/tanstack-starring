@@ -1,11 +1,12 @@
 import { Link } from "@tanstack/react-router";
+import { NotificationBell } from "./NotificationBell";
 import type { Role } from "~/schemas/common";
 
 type UserLike = { displayName: string; roles: Role[] } | null;
 
 type AdminShellProps = {
   user: UserLike;
-  active: "console" | "reports" | "scoring" | "billing" | "content" | "rewards" | "profiles" | "scheduler";
+  active: "console" | "reports" | "history" | "scoring" | "billing" | "content" | "rewards" | "profiles" | "scheduler";
   children: React.ReactNode;
   onLogout: () => void | Promise<void>;
 };
@@ -28,6 +29,7 @@ export function AdminParentShell({ user, active, children, onLogout }: AdminShel
         { to: "/admin/console", label: "Console", key: "console" },
         { to: "/admin/scheduler", label: "Study Plan", key: "scheduler" },
         { to: "/dashboard", label: "Reports", key: "reports" },
+        { to: "/history", label: "History", key: "history" },
         { to: "/scoring", label: "Scoring", key: "scoring" },
         { to: "/billing", label: "Billing", key: "billing" },
         { to: "/admin/profile", label: "Profile I/O", key: "profiles" },
@@ -35,6 +37,7 @@ export function AdminParentShell({ user, active, children, onLogout }: AdminShel
     : [
         { to: "/dashboard", label: "Dashboard", key: "reports" },
         { to: "/admin/scheduler", label: "Study Plan", key: "scheduler" },
+        { to: "/history", label: "History", key: "history" },
         { to: "/billing", label: "Billing", key: "billing" },
         ...(parent ? [{ to: "/scoring", label: "Scoring", key: "scoring" }] : []),
       ];
@@ -59,6 +62,7 @@ export function AdminParentShell({ user, active, children, onLogout }: AdminShel
             })}
           </nav>
           <div className="topbar-spacer" />
+          <NotificationBell tone="admin" />
           <div className="student-context">
             <div>{user?.displayName ?? "Signed out"}</div>
             <span>{roleLabel} workspace</span>

@@ -1,0 +1,2291 @@
+{
+  "programKey": "grade3_staar",
+  "subject": "math",
+  "version": 1,
+  "status": "available",
+  "title": "Grade 3 Math — Go Math Texas: Middle-of-Year Test",
+  "exam": "Middle-of-Year Test",
+  "standards": [
+    {
+      "code": "3.2A",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Numerical Representations",
+      "description": "Compose/decompose & place value to 100,000"
+    },
+    {
+      "code": "3.2C",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Numerical Representations",
+      "description": "Number line between multiples; rounding"
+    },
+    {
+      "code": "3.2D",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Numerical Representations",
+      "description": "Compare & order whole numbers"
+    },
+    {
+      "code": "3.3A",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Fractions",
+      "description": "Represent fractions with models / equal parts"
+    },
+    {
+      "code": "3.3B",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Fractions",
+      "description": "Fractions on a number line"
+    },
+    {
+      "code": "3.3D",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Fractions",
+      "description": "Compose/decompose fractions"
+    },
+    {
+      "code": "3.3E",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Fractions",
+      "description": "Partitioning among recipients"
+    },
+    {
+      "code": "3.3H",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Fractions",
+      "description": "Compare fractions"
+    },
+    {
+      "code": "3.4A",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Computations & Algebraic Relationships",
+      "description": "Add & subtract within 1,000"
+    },
+    {
+      "code": "3.4C",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Data Analysis & Personal Financial Literacy",
+      "description": "Value of coins and bills"
+    },
+    {
+      "code": "3.4D",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Computations & Algebraic Relationships",
+      "description": "Equal groups & arrays"
+    },
+    {
+      "code": "3.4J",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Computations & Algebraic Relationships",
+      "description": "Quotient via multiplication/division relationship"
+    },
+    {
+      "code": "3.4I",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Numerical Representations",
+      "description": "Even and odd numbers"
+    },
+    {
+      "code": "3.4K",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Computations & Algebraic Relationships",
+      "description": "Multiplication & division word problems"
+    },
+    {
+      "code": "3.5A",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Computations & Algebraic Relationships",
+      "description": "Model addition/subtraction problems"
+    },
+    {
+      "code": "3.6A",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Geometry & Measurement",
+      "description": "Classify 2D & 3D figures"
+    },
+    {
+      "code": "3.6C",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Geometry & Measurement",
+      "description": "Area of rectangles"
+    },
+    {
+      "code": "3.7B",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Geometry & Measurement",
+      "description": "Perimeter & missing side lengths"
+    },
+    {
+      "code": "3.7D",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Geometry & Measurement",
+      "description": "Choose liquid volume or weight"
+    },
+    {
+      "code": "3.7E",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Geometry & Measurement",
+      "description": "Measure liquid volume or weight: units & tools"
+    },
+    {
+      "code": "3.8A",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Data Analysis & Personal Financial Literacy",
+      "description": "Summarize data sets"
+    },
+    {
+      "code": "3.8B",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Data Analysis & Personal Financial Literacy",
+      "description": "Solve problems with categorical data"
+    },
+    {
+      "code": "3.6B",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Geometry & Measurement",
+      "description": "Classify quadrilaterals"
+    },
+    {
+      "code": "3.3F",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Fractions",
+      "description": "Equivalent fractions"
+    },
+    {
+      "code": "3.4B",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Computations & Algebraic Relationships",
+      "description": "Estimate sums/differences"
+    },
+    {
+      "code": "3.5C",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Computations & Algebraic Relationships",
+      "description": "Multiplication as comparison"
+    },
+    {
+      "code": "3.9B",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Data Analysis & Personal Financial Literacy",
+      "description": "Scarcity of resources & cost"
+    },
+    {
+      "code": "3.9C",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Data Analysis & Personal Financial Literacy",
+      "description": "Spending and saving decisions"
+    },
+    {
+      "code": "2.9G",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Geometry & Measurement",
+      "description": "Tell time to the nearest minute — prerequisite"
+    }
+  ],
+  "items": [
+    {
+      "standardCodes": [
+        "3.4J"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Isabella has 40 paper clips. She places the same number of paper clips in each of 8 envelopes. Which related fact shows the number of paper clips in each envelope?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "8 × 5 = 40",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "40 ÷ 4 = 10",
+          "rationale": "There are 8 envelopes, not 4."
+        },
+        {
+          "key": "C",
+          "text": "40 ÷ 10 = 4",
+          "rationale": "That would be 10 envelopes."
+        },
+        {
+          "key": "D",
+          "text": "4 × 10 = 40",
+          "rationale": "That uses 4 and 10, not 8."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "40 ÷ 8 = 5, and the related fact is 8 × 5 = 40, so each envelope holds 5."
+      ],
+      "workedSolution": [
+        "40 ÷ 8 = 5 → 8 × 5 = 40."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.6C"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Angel is drawing a sketch for a painting. Each unit square is 1 square inch. The grid is 8 by 6. Which equation can be used to find the area of the painting?"
+      ],
+      "figures": [
+        {
+          "id": "",
+          "kind": "area_model",
+          "svg": "<svg viewBox=\"0 0 224 172\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"8\" y=\"8\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"34\" y=\"8\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"60\" y=\"8\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"86\" y=\"8\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"112\" y=\"8\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"138\" y=\"8\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"164\" y=\"8\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"190\" y=\"8\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"8\" y=\"34\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"34\" y=\"34\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"60\" y=\"34\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"86\" y=\"34\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"112\" y=\"34\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"138\" y=\"34\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"164\" y=\"34\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"190\" y=\"34\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"8\" y=\"60\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"34\" y=\"60\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"60\" y=\"60\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"86\" y=\"60\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"112\" y=\"60\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"138\" y=\"60\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"164\" y=\"60\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"190\" y=\"60\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"8\" y=\"86\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"34\" y=\"86\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"60\" y=\"86\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"86\" y=\"86\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"112\" y=\"86\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"138\" y=\"86\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"164\" y=\"86\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"190\" y=\"86\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"8\" y=\"112\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"34\" y=\"112\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"60\" y=\"112\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"86\" y=\"112\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"112\" y=\"112\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"138\" y=\"112\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"164\" y=\"112\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"190\" y=\"112\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"8\" y=\"138\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"34\" y=\"138\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"60\" y=\"138\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"86\" y=\"138\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"112\" y=\"138\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"138\" y=\"138\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"164\" y=\"138\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"190\" y=\"138\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/></svg>",
+          "alt": "8 by 6 grid of unit squares"
+        }
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "8 + 6 = 14",
+          "rationale": "Area uses multiplication, not addition."
+        },
+        {
+          "key": "B",
+          "text": "8 × 5 = 40",
+          "rationale": "The grid is 8 by 6, not 8 by 5."
+        },
+        {
+          "key": "C",
+          "text": "8 × 6 = 48",
+          "correct": true
+        },
+        {
+          "key": "D",
+          "text": "7 × 6 = 42",
+          "rationale": "The grid is 8 wide, not 7."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Area = length × width = 8 × 6 = 48 square inches."
+      ],
+      "workedSolution": [
+        "8 × 6 = 48."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.7B"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Ava is gluing a ribbon around a picture frame with side lengths of 5 inches and 8 inches. How many inches of ribbon will Ava use?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "12 inches",
+          "rationale": "That doubles only one side."
+        },
+        {
+          "key": "B",
+          "text": "40 inches",
+          "rationale": "40 is the area (5 × 8), not the perimeter."
+        },
+        {
+          "key": "C",
+          "text": "13 inches",
+          "rationale": "13 is just 5 + 8, one length and one width."
+        },
+        {
+          "key": "D",
+          "text": "26 inches",
+          "correct": true
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Perimeter = 2 × (5 + 8) = 26 inches."
+      ],
+      "workedSolution": [
+        "2 × (5 + 8) = 26."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.3A"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Joseph colored part of a circle that is divided into fourths. He colored 3 of the 4 parts. What fraction of the circle did he color?"
+      ],
+      "figures": [
+        {
+          "id": "",
+          "kind": "shape",
+          "svg": "<svg viewBox=\"0 0 120 120\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M60,60 L60.0,10.0 A50,50 0 0 1 110.0,60.0 Z\" fill=\"#cfcfcf\" stroke=\"black\" stroke-width=\"1.5\"/><path d=\"M60,60 L110.0,60.0 A50,50 0 0 1 60.0,110.0 Z\" fill=\"#cfcfcf\" stroke=\"black\" stroke-width=\"1.5\"/><path d=\"M60,60 L60.0,110.0 A50,50 0 0 1 10.0,60.0 Z\" fill=\"#cfcfcf\" stroke=\"black\" stroke-width=\"1.5\"/><path d=\"M60,60 L10.0,60.0 A50,50 0 0 1 60.0,10.0 Z\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/></svg>",
+          "alt": "circle in fourths with 3 parts shaded"
+        }
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "1/4",
+          "rationale": "More than one part is colored."
+        },
+        {
+          "key": "B",
+          "text": "3/4",
+          "correct": true
+        },
+        {
+          "key": "C",
+          "text": "4/4",
+          "rationale": "One part is left white."
+        },
+        {
+          "key": "D",
+          "text": "2/4",
+          "rationale": "Three parts are colored, not two."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "3 of 4 equal parts are colored, so 3/4."
+      ],
+      "workedSolution": [
+        "3 of 4 parts = 3/4."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4K"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Mr. Ortiz earns $9 per hour working at a restaurant. How much does he earn in 5 hours?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "$14",
+          "rationale": "That adds 9 + 5."
+        },
+        {
+          "key": "B",
+          "text": "$40",
+          "rationale": "That is not 9 × 5."
+        },
+        {
+          "key": "C",
+          "text": "$45",
+          "correct": true
+        },
+        {
+          "key": "D",
+          "text": "$4",
+          "rationale": "That subtracts 9 − 5."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Equal pay each hour: 9 × 5 = 45 dollars."
+      ],
+      "workedSolution": [
+        "$9 × 5 = $45."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.2A"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "The number of students in Kimberly's school is 1,154. Which shows another way to write 1,154?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "1,000 + 100 + 50 + 40",
+          "rationale": "That is 1,190, not 1,154."
+        },
+        {
+          "key": "B",
+          "text": "1,000 + 100 + 50 + 4",
+          "correct": true
+        },
+        {
+          "key": "C",
+          "text": "1,000 + 15 + 4",
+          "rationale": "That is 1,019."
+        },
+        {
+          "key": "D",
+          "text": "1,000 + 50 + 4",
+          "rationale": "That leaves out the hundreds (100)."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "1,154 = 1,000 + 100 + 50 + 4."
+      ],
+      "workedSolution": [
+        "Place values: 1,000 + 100 + 50 + 4."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4I"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Which set of numbers contains all even numbers?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "336, 484, 952",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "347, 188, 246",
+          "rationale": "347 is odd."
+        },
+        {
+          "key": "C",
+          "text": "178, 218, 345",
+          "rationale": "345 is odd."
+        },
+        {
+          "key": "D",
+          "text": "908, 955, 942",
+          "rationale": "955 is odd."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Even numbers end in 0, 2, 4, 6, or 8. All of 336, 484, 952 are even."
+      ],
+      "workedSolution": [
+        "336, 484, 952 all even."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.3B"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "On a number line from 0 to 1 marked in eighths, which fraction names the point closest to 0?"
+      ],
+      "figures": [
+        {
+          "id": "",
+          "kind": "number_line",
+          "svg": "<svg viewBox=\"0 0 380 80\" xmlns=\"http://www.w3.org/2000/svg\"><line x1=\"18\" y1=\"40\" x2=\"362\" y2=\"40\" stroke=\"black\" stroke-width=\"2\" marker-end=\"url(#a)\" marker-start=\"url(#b)\"/><defs><marker id=\"a\" markerWidth=\"10\" markerHeight=\"10\" refX=\"6\" refY=\"3\" orient=\"auto\"><path d=\"M0,0 L6,3 L0,6\" fill=\"black\"/></marker><marker id=\"b\" markerWidth=\"10\" markerHeight=\"10\" refX=\"0\" refY=\"3\" orient=\"auto\"><path d=\"M6,0 L0,3 L6,6\" fill=\"black\"/></marker></defs><line x1=\"30.0\" y1=\"33\" x2=\"30.0\" y2=\"47\" stroke=\"black\" stroke-width=\"2\"/><text x=\"30.0\" y=\"64\" font-size=\"13\" text-anchor=\"middle\">0</text><line x1=\"70.0\" y1=\"33\" x2=\"70.0\" y2=\"47\" stroke=\"black\" stroke-width=\"2\"/><text x=\"70.0\" y=\"64\" font-size=\"13\" text-anchor=\"middle\">1/8</text><line x1=\"110.0\" y1=\"33\" x2=\"110.0\" y2=\"47\" stroke=\"black\" stroke-width=\"2\"/><text x=\"110.0\" y=\"64\" font-size=\"13\" text-anchor=\"middle\">2/8</text><line x1=\"150.0\" y1=\"33\" x2=\"150.0\" y2=\"47\" stroke=\"black\" stroke-width=\"2\"/><text x=\"150.0\" y=\"64\" font-size=\"13\" text-anchor=\"middle\">3/8</text><line x1=\"190.0\" y1=\"33\" x2=\"190.0\" y2=\"47\" stroke=\"black\" stroke-width=\"2\"/><text x=\"190.0\" y=\"64\" font-size=\"13\" text-anchor=\"middle\">4/8</text><line x1=\"230.0\" y1=\"33\" x2=\"230.0\" y2=\"47\" stroke=\"black\" stroke-width=\"2\"/><text x=\"230.0\" y=\"64\" font-size=\"13\" text-anchor=\"middle\">5/8</text><line x1=\"270.0\" y1=\"33\" x2=\"270.0\" y2=\"47\" stroke=\"black\" stroke-width=\"2\"/><text x=\"270.0\" y=\"64\" font-size=\"13\" text-anchor=\"middle\">6/8</text><line x1=\"310.0\" y1=\"33\" x2=\"310.0\" y2=\"47\" stroke=\"black\" stroke-width=\"2\"/><text x=\"310.0\" y=\"64\" font-size=\"13\" text-anchor=\"middle\">7/8</text><line x1=\"350.0\" y1=\"33\" x2=\"350.0\" y2=\"47\" stroke=\"black\" stroke-width=\"2\"/><text x=\"350.0\" y=\"64\" font-size=\"13\" text-anchor=\"middle\">1</text></svg>",
+          "alt": "number line 0 to 1 in eighths"
+        }
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "6/8",
+          "rationale": "6/8 is close to 1."
+        },
+        {
+          "key": "B",
+          "text": "7/8",
+          "rationale": "7/8 is nearly 1."
+        },
+        {
+          "key": "C",
+          "text": "5/8",
+          "rationale": "5/8 is past the middle."
+        },
+        {
+          "key": "D",
+          "text": "4/8",
+          "correct": true
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Among the choices, 4/8 is the smallest, so it is closest to 0."
+      ],
+      "workedSolution": [
+        "Smallest = 4/8."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4K"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "There are 5 stands at a farmer's market. Each stand has 30 baskets of vegetables. How many baskets of vegetables are at the farmer's market?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "200",
+          "rationale": "That is not 5 × 30."
+        },
+        {
+          "key": "B",
+          "text": "150",
+          "correct": true
+        },
+        {
+          "key": "C",
+          "text": "160",
+          "rationale": "Recompute 5 × 30."
+        },
+        {
+          "key": "D",
+          "text": "80",
+          "rationale": "That is far too few."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Equal groups: 5 × 30 = 150 baskets."
+      ],
+      "workedSolution": [
+        "5 × 30 = 150."
+      ]
+    },
+    {
+      "standardCodes": [
+        "2.9G"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Emma leaves for school at 7:50 A.M. She eats breakfast 30 minutes before she leaves and wakes up 15 minutes before she eats breakfast. What time does Emma wake up?"
+      ],
+      "figures": [
+        {
+          "id": "",
+          "kind": "shape",
+          "svg": "<svg viewBox=\"0 0 140 140\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"70\" cy=\"70\" r=\"58\" fill=\"white\" stroke=\"black\" stroke-width=\"3\"/><text x=\"92.0\" y=\"36.9\" font-size=\"13\" text-anchor=\"middle\">1</text><text x=\"108.1\" y=\"53.0\" font-size=\"13\" text-anchor=\"middle\">2</text><text x=\"114.0\" y=\"75.0\" font-size=\"13\" text-anchor=\"middle\">3</text><text x=\"108.1\" y=\"97.0\" font-size=\"13\" text-anchor=\"middle\">4</text><text x=\"92.0\" y=\"113.1\" font-size=\"13\" text-anchor=\"middle\">5</text><text x=\"70.0\" y=\"119.0\" font-size=\"13\" text-anchor=\"middle\">6</text><text x=\"48.0\" y=\"113.1\" font-size=\"13\" text-anchor=\"middle\">7</text><text x=\"31.9\" y=\"97.0\" font-size=\"13\" text-anchor=\"middle\">8</text><text x=\"26.0\" y=\"75.0\" font-size=\"13\" text-anchor=\"middle\">9</text><text x=\"31.9\" y=\"53.0\" font-size=\"13\" text-anchor=\"middle\">10</text><text x=\"48.0\" y=\"36.9\" font-size=\"13\" text-anchor=\"middle\">11</text><text x=\"70.0\" y=\"31.0\" font-size=\"13\" text-anchor=\"middle\">12</text><line x1=\"70\" y1=\"70\" x2=\"35.4\" y2=\"50.0\" stroke=\"black\" stroke-width=\"2\"/><line x1=\"70\" y1=\"70\" x2=\"47.1\" y2=\"86.1\" stroke=\"black\" stroke-width=\"3\"/><circle cx=\"70\" cy=\"70\" r=\"3\" fill=\"black\"/></svg>",
+          "alt": "clock showing 7:50, Emma's leave time"
+        }
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "7:15 A.M.",
+          "rationale": "That is more than 45 minutes before 7:50."
+        },
+        {
+          "key": "B",
+          "text": "7:35 A.M.",
+          "rationale": "That is only 15 minutes before she leaves."
+        },
+        {
+          "key": "C",
+          "text": "7:05 A.M.",
+          "correct": true
+        },
+        {
+          "key": "D",
+          "text": "8:05 A.M.",
+          "rationale": "That is after she leaves."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Breakfast = 7:50 − 30 = 7:20. Wake up = 7:20 − 15 = 7:05 A.M."
+      ],
+      "workedSolution": [
+        "7:50 − 30 − 15 = 7:05."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.3D"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Which fraction is represented by the sum 1/4 + 1/4 + 1/4?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "3/4",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "2/4",
+          "rationale": "That is only two fourths."
+        },
+        {
+          "key": "C",
+          "text": "1/4",
+          "rationale": "That is one fourth."
+        },
+        {
+          "key": "D",
+          "text": "4/1",
+          "rationale": "Adding fourths keeps 4 on the bottom."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Three copies of 1/4 make 3/4."
+      ],
+      "workedSolution": [
+        "1/4 + 1/4 + 1/4 = 3/4."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4K"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Brianna earns $20 babysitting every week. She saves $5 each week. How much will she save in 6 weeks?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "$100",
+          "rationale": "That is 20 × 5, her total earnings."
+        },
+        {
+          "key": "B",
+          "text": "$15",
+          "rationale": "That is not $5 saved for 6 weeks."
+        },
+        {
+          "key": "C",
+          "text": "$25",
+          "rationale": "That is only 5 weeks of saving."
+        },
+        {
+          "key": "D",
+          "text": "$30",
+          "correct": true
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "She saves $5 each week: 5 × 6 = 30 dollars."
+      ],
+      "workedSolution": [
+        "$5 × 6 = $30."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.5A"
+      ],
+      "type": "text_entry",
+      "difficulty": "hard",
+      "prompt": [
+        "Davis wants to buy 8 songs online. Each song costs $2. He has $10 saved and will borrow the rest from his mother. He will pay her back $2 each week. How many weeks will it take to pay her back?"
+      ],
+      "figures": [],
+      "answer": "3",
+      "blanks": {
+        "b1": "3"
+      },
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "8 songs × $2 = $16. He borrows 16 − 10 = $6. At $2 per week, 6 ÷ 2 = 3 weeks."
+      ],
+      "workedSolution": [
+        "8×$2=$16; $16−$10=$6; $6÷$2=3 weeks."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4A"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Alex has 48 photos of a trip in one album and 36 photos of the trip in another album. How many photos of his trip does he have in the two albums?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "74",
+          "rationale": "Check the addition."
+        },
+        {
+          "key": "B",
+          "text": "84",
+          "correct": true
+        },
+        {
+          "key": "C",
+          "text": "82",
+          "rationale": "Recheck the regrouping."
+        },
+        {
+          "key": "D",
+          "text": "12",
+          "rationale": "That subtracts instead of adds."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Add the two albums: 48 + 36 = 84 photos."
+      ],
+      "workedSolution": [
+        "48 + 36 = 84."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4K"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Caleb has 35 stamps. He places 5 stamps on each page of a book. How many pages does he use?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "7",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "30",
+          "rationale": "That subtracts 35 − 5."
+        },
+        {
+          "key": "C",
+          "text": "8",
+          "rationale": "5 × 8 = 40, too many."
+        },
+        {
+          "key": "D",
+          "text": "6",
+          "rationale": "5 × 6 = 30, too few."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Divide into equal pages: 35 ÷ 5 = 7 pages."
+      ],
+      "workedSolution": [
+        "35 ÷ 5 = 7."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4K"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "prompt": [
+        "Ian has 1 basket. There are 8 apples in the basket. How many apples does Ian have?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "9",
+          "rationale": "That adds 1 + 8."
+        },
+        {
+          "key": "B",
+          "text": "8",
+          "correct": true
+        },
+        {
+          "key": "C",
+          "text": "7",
+          "rationale": "That subtracts."
+        },
+        {
+          "key": "D",
+          "text": "10",
+          "rationale": "There are 8 apples."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "One basket holds all 8 apples."
+      ],
+      "workedSolution": [
+        "1 × 8 = 8."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4C"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Trinity has two $5 bills and three $1 bills in her pocket. How much money does Trinity have?"
+      ],
+      "figures": [
+        {
+          "id": "",
+          "kind": "shape",
+          "svg": "<svg viewBox=\"0 0 320 150\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"10\" y=\"10\" width=\"66\" height=\"34\" rx=\"3\" fill=\"#d6ecd6\" stroke=\"#2a6b2a\" stroke-width=\"2\"/><text x=\"43\" y=\"32\" font-size=\"14\" text-anchor=\"middle\" fill=\"#1a4a1a\">$5</text><rect x=\"84\" y=\"10\" width=\"66\" height=\"34\" rx=\"3\" fill=\"#d6ecd6\" stroke=\"#2a6b2a\" stroke-width=\"2\"/><text x=\"117\" y=\"32\" font-size=\"14\" text-anchor=\"middle\" fill=\"#1a4a1a\">$5</text><rect x=\"158\" y=\"10\" width=\"66\" height=\"34\" rx=\"3\" fill=\"#d6ecd6\" stroke=\"#2a6b2a\" stroke-width=\"2\"/><text x=\"191\" y=\"32\" font-size=\"14\" text-anchor=\"middle\" fill=\"#1a4a1a\">$1</text><rect x=\"232\" y=\"10\" width=\"66\" height=\"34\" rx=\"3\" fill=\"#d6ecd6\" stroke=\"#2a6b2a\" stroke-width=\"2\"/><text x=\"265\" y=\"32\" font-size=\"14\" text-anchor=\"middle\" fill=\"#1a4a1a\">$1</text><rect x=\"10\" y=\"54\" width=\"66\" height=\"34\" rx=\"3\" fill=\"#d6ecd6\" stroke=\"#2a6b2a\" stroke-width=\"2\"/><text x=\"43\" y=\"76\" font-size=\"14\" text-anchor=\"middle\" fill=\"#1a4a1a\">$1</text></svg>",
+          "alt": "two $5 bills and three $1 bills"
+        }
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "$5",
+          "rationale": "That counts only one bill."
+        },
+        {
+          "key": "B",
+          "text": "$25",
+          "rationale": "Recount the bills."
+        },
+        {
+          "key": "C",
+          "text": "$13",
+          "correct": true
+        },
+        {
+          "key": "D",
+          "text": "$7",
+          "rationale": "That misses a $5 bill."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Two $5 bills = $10, three $1 bills = $3, total $13."
+      ],
+      "workedSolution": [
+        "$10 + $3 = $13."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.7D"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Which measurement unit should be used for the weight of a golf ball?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "pounds",
+          "rationale": "A golf ball is too light to measure best in pounds."
+        },
+        {
+          "key": "B",
+          "text": "liters",
+          "rationale": "Liters measure liquid volume, not weight."
+        },
+        {
+          "key": "C",
+          "text": "inches",
+          "rationale": "Inches measure length, not weight."
+        },
+        {
+          "key": "D",
+          "text": "ounces",
+          "correct": true
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "A small, light golf ball is best measured in ounces."
+      ],
+      "workedSolution": [
+        "Golf ball weight → ounces."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.6C"
+      ],
+      "type": "text_entry",
+      "difficulty": "medium",
+      "prompt": [
+        "The diagram shows the outline of a backyard pond made of unit squares. Each unit square is 1 square foot. What is the area of the backyard pond?"
+      ],
+      "figures": [
+        {
+          "id": "",
+          "kind": "area_model",
+          "svg": "<svg viewBox=\"0 0 250 224\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"8\" y=\"8\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"34\" y=\"8\" width=\"26\" height=\"26\" fill=\"#cfe0f0\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"60\" y=\"8\" width=\"26\" height=\"26\" fill=\"#cfe0f0\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"86\" y=\"8\" width=\"26\" height=\"26\" fill=\"#cfe0f0\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"112\" y=\"8\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"138\" y=\"8\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"164\" y=\"8\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"190\" y=\"8\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"216\" y=\"8\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"8\" y=\"34\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"34\" y=\"34\" width=\"26\" height=\"26\" fill=\"#cfe0f0\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"60\" y=\"34\" width=\"26\" height=\"26\" fill=\"#cfe0f0\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"86\" y=\"34\" width=\"26\" height=\"26\" fill=\"#cfe0f0\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"112\" y=\"34\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"138\" y=\"34\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"164\" y=\"34\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"190\" y=\"34\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"216\" y=\"34\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"8\" y=\"60\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"34\" y=\"60\" width=\"26\" height=\"26\" fill=\"#cfe0f0\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"60\" y=\"60\" width=\"26\" height=\"26\" fill=\"#cfe0f0\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"86\" y=\"60\" width=\"26\" height=\"26\" fill=\"#cfe0f0\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"112\" y=\"60\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"138\" y=\"60\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"164\" y=\"60\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"190\" y=\"60\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"216\" y=\"60\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"8\" y=\"86\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"34\" y=\"86\" width=\"26\" height=\"26\" fill=\"#cfe0f0\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"60\" y=\"86\" width=\"26\" height=\"26\" fill=\"#cfe0f0\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"86\" y=\"86\" width=\"26\" height=\"26\" fill=\"#cfe0f0\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"112\" y=\"86\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"138\" y=\"86\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"164\" y=\"86\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"190\" y=\"86\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"216\" y=\"86\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"8\" y=\"112\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"34\" y=\"112\" width=\"26\" height=\"26\" fill=\"#cfe0f0\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"60\" y=\"112\" width=\"26\" height=\"26\" fill=\"#cfe0f0\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"86\" y=\"112\" width=\"26\" height=\"26\" fill=\"#cfe0f0\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"112\" y=\"112\" width=\"26\" height=\"26\" fill=\"#cfe0f0\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"138\" y=\"112\" width=\"26\" height=\"26\" fill=\"#cfe0f0\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"164\" y=\"112\" width=\"26\" height=\"26\" fill=\"#cfe0f0\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"190\" y=\"112\" width=\"26\" height=\"26\" fill=\"#cfe0f0\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"216\" y=\"112\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"8\" y=\"138\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"34\" y=\"138\" width=\"26\" height=\"26\" fill=\"#cfe0f0\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"60\" y=\"138\" width=\"26\" height=\"26\" fill=\"#cfe0f0\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"86\" y=\"138\" width=\"26\" height=\"26\" fill=\"#cfe0f0\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"112\" y=\"138\" width=\"26\" height=\"26\" fill=\"#cfe0f0\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"138\" y=\"138\" width=\"26\" height=\"26\" fill=\"#cfe0f0\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"164\" y=\"138\" width=\"26\" height=\"26\" fill=\"#cfe0f0\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"190\" y=\"138\" width=\"26\" height=\"26\" fill=\"#cfe0f0\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"216\" y=\"138\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"8\" y=\"164\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"34\" y=\"164\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"60\" y=\"164\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"86\" y=\"164\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"112\" y=\"164\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"138\" y=\"164\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"164\" y=\"164\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"190\" y=\"164\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"216\" y=\"164\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"8\" y=\"190\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"34\" y=\"190\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"60\" y=\"190\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"86\" y=\"190\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"112\" y=\"190\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"138\" y=\"190\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"164\" y=\"190\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"190\" y=\"190\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"216\" y=\"190\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/></svg>",
+          "alt": "L-shaped pond on a grid, 26 unit squares"
+        }
+      ],
+      "answer": "26",
+      "blanks": {
+        "b1": "26"
+      },
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Count the unit squares inside the L-shaped outline: 26 squares, so the area is 26 square feet. [Counted from the scanned grid.]"
+      ],
+      "workedSolution": [
+        "L-shape = 26 unit squares → 26 square feet."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.5A"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Taya runs a 200-meter race. Len runs a 400-meter race. Sam runs 500 fewer meters than Taya and Len together. How many meters does Sam run?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "100",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "400",
+          "rationale": "That is just Len's distance."
+        },
+        {
+          "key": "C",
+          "text": "200",
+          "rationale": "That is just Taya's distance."
+        },
+        {
+          "key": "D",
+          "text": "600",
+          "rationale": "That is the total before subtracting 500."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Taya + Len = 200 + 400 = 600. Sam = 600 − 500 = 100 meters."
+      ],
+      "workedSolution": [
+        "(200 + 400) − 500 = 100."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4D"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Francisco has 3 puppies. Each puppy has 3 tags on its collar. Which expression shows how many tags the puppies have altogether?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "3 + 3",
+          "rationale": "That is only two groups added."
+        },
+        {
+          "key": "B",
+          "text": "2 × 3",
+          "rationale": "There are 3 puppies, not 2."
+        },
+        {
+          "key": "C",
+          "text": "3 × 3",
+          "correct": true
+        },
+        {
+          "key": "D",
+          "text": "3 + 1",
+          "rationale": "That does not show equal groups."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "3 puppies × 3 tags = 3 × 3 = 9 tags."
+      ],
+      "workedSolution": [
+        "3 × 3 = 9."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4D"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Christina has 12 pictures. Which describes one array Christina could make using all 12 pictures?"
+      ],
+      "figures": [
+        {
+          "id": "",
+          "kind": "array_model",
+          "svg": "<svg viewBox=\"0 0 88 72\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"16\" cy=\"16\" r=\"4\" fill=\"#333\"/><circle cx=\"32\" cy=\"16\" r=\"4\" fill=\"#333\"/><circle cx=\"48\" cy=\"16\" r=\"4\" fill=\"#333\"/><circle cx=\"64\" cy=\"16\" r=\"4\" fill=\"#333\"/><circle cx=\"16\" cy=\"32\" r=\"4\" fill=\"#333\"/><circle cx=\"32\" cy=\"32\" r=\"4\" fill=\"#333\"/><circle cx=\"48\" cy=\"32\" r=\"4\" fill=\"#333\"/><circle cx=\"64\" cy=\"32\" r=\"4\" fill=\"#333\"/><circle cx=\"16\" cy=\"48\" r=\"4\" fill=\"#333\"/><circle cx=\"32\" cy=\"48\" r=\"4\" fill=\"#333\"/><circle cx=\"48\" cy=\"48\" r=\"4\" fill=\"#333\"/><circle cx=\"64\" cy=\"48\" r=\"4\" fill=\"#333\"/></svg>",
+          "alt": "array of 3 rows of 4"
+        }
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "3 rows of 4",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "4 rows of 2",
+          "rationale": "That is only 8 pictures."
+        },
+        {
+          "key": "C",
+          "text": "6 rows of 6",
+          "rationale": "That is 36 pictures."
+        },
+        {
+          "key": "D",
+          "text": "4 rows of 8",
+          "rationale": "That is 32 pictures."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "3 × 4 = 12, so 3 rows of 4 uses all 12 pictures."
+      ],
+      "workedSolution": [
+        "3 rows × 4 = 12."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.7E"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Which tool would you use to measure the mass of a pineapple?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "measuring cup",
+          "rationale": "A measuring cup measures liquid volume."
+        },
+        {
+          "key": "B",
+          "text": "ruler",
+          "rationale": "A ruler measures length."
+        },
+        {
+          "key": "C",
+          "text": "balance",
+          "correct": true
+        },
+        {
+          "key": "D",
+          "text": "thermometer",
+          "rationale": "A thermometer measures temperature."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Mass is measured with a balance (or scale)."
+      ],
+      "workedSolution": [
+        "Mass → balance."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.3A"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Damian divides one wall of his room into 6 equal sections to paint. If he paints one section, what fraction of the wall does he paint?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "1/6",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "6/6",
+          "rationale": "That is the whole wall."
+        },
+        {
+          "key": "C",
+          "text": "1/12",
+          "rationale": "The wall has 6 sections, not 12."
+        },
+        {
+          "key": "D",
+          "text": "1/4",
+          "rationale": "There are 6 sections, not 4."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "One of 6 equal sections is 1/6 of the wall."
+      ],
+      "workedSolution": [
+        "1 of 6 = 1/6."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4K"
+      ],
+      "type": "text_entry",
+      "difficulty": "medium",
+      "prompt": [
+        "Molly has 36 stickers. She puts 9 stickers on each page in a sticker book. How many pages does she use?"
+      ],
+      "figures": [],
+      "answer": "4",
+      "blanks": {
+        "b1": "4"
+      },
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Divide into equal pages: 36 ÷ 9 = 4 pages."
+      ],
+      "workedSolution": [
+        "36 ÷ 9 = 4."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.3A"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Jesse divides a game board into 4 equal sections. What fraction names one section of the game board?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "1/4",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "2/4",
+          "rationale": "That is two sections."
+        },
+        {
+          "key": "C",
+          "text": "3/4",
+          "rationale": "That is three sections."
+        },
+        {
+          "key": "D",
+          "text": "4/4",
+          "rationale": "That is the whole board."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "One of 4 equal sections is 1/4."
+      ],
+      "workedSolution": [
+        "1 of 4 = 1/4."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4K"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Elijah has 40 pieces of paper. He takes 4 pieces. Then he hands 4 pieces to each classmate until they are gone. To how many classmates does Elijah give paper?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "8",
+          "rationale": "Subtract the 4 he takes first."
+        },
+        {
+          "key": "B",
+          "text": "4",
+          "rationale": "Recompute (40 − 4) ÷ 4."
+        },
+        {
+          "key": "C",
+          "text": "9",
+          "correct": true
+        },
+        {
+          "key": "D",
+          "text": "10",
+          "rationale": "That forgets the 4 pieces he took."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "After he takes 4: 40 − 4 = 36 pieces. At 4 per classmate: 36 ÷ 4 = 9 classmates."
+      ],
+      "workedSolution": [
+        "(40 − 4) ÷ 4 = 9."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.2A"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "The population of Mission, Texas, in 2011 was 79,368. Which digit in 79,368 is in the hundreds place?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "7",
+          "rationale": "7 is in the ten-thousands place."
+        },
+        {
+          "key": "B",
+          "text": "9",
+          "rationale": "9 is in the thousands place."
+        },
+        {
+          "key": "C",
+          "text": "6",
+          "rationale": "6 is in the tens place."
+        },
+        {
+          "key": "D",
+          "text": "3",
+          "correct": true
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "From the right: 8 ones, 6 tens, 3 hundreds, 9 thousands, 7 ten-thousands. The hundreds digit is 3."
+      ],
+      "workedSolution": [
+        "Hundreds digit of 79,368 is 3."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4K"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "It costs $8 to rent a bicycle for one hour. How much will it cost for Josie and her 4 friends to each rent a bicycle for one hour?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "$32",
+          "rationale": "That is only 4 people."
+        },
+        {
+          "key": "B",
+          "text": "$40",
+          "correct": true
+        },
+        {
+          "key": "C",
+          "text": "$13",
+          "rationale": "That adds 8 + 5."
+        },
+        {
+          "key": "D",
+          "text": "$12",
+          "rationale": "That adds 8 + 4."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Josie and 4 friends = 5 people: 5 × $8 = $40."
+      ],
+      "workedSolution": [
+        "5 × $8 = $40."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.3H"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Sadie and Ruby had equal-size pears. Sadie ate 3/4 of her pear and Ruby ate 2/4 of her pear. Which statement is true?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "Sadie ate more than Ruby.",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "Sadie and Ruby ate the same amount.",
+          "rationale": "3/4 and 2/4 are not equal."
+        },
+        {
+          "key": "C",
+          "text": "Ruby ate more than Sadie.",
+          "rationale": "2/4 is less than 3/4."
+        },
+        {
+          "key": "D",
+          "text": "There is no way to determine who ate more.",
+          "rationale": "Same-size pears and same denominator let us compare."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Same-size pears, same denominator: 3/4 > 2/4, so Sadie ate more."
+      ],
+      "workedSolution": [
+        "3/4 > 2/4 → Sadie ate more."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.3F"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Estella read for 1/2 hour. Using a number line marked in sixths, which fraction is equivalent to 1/2?"
+      ],
+      "figures": [
+        {
+          "id": "",
+          "kind": "number_line",
+          "svg": "<svg viewBox=\"0 0 380 80\" xmlns=\"http://www.w3.org/2000/svg\"><line x1=\"18\" y1=\"40\" x2=\"362\" y2=\"40\" stroke=\"black\" stroke-width=\"2\" marker-end=\"url(#a)\" marker-start=\"url(#b)\"/><defs><marker id=\"a\" markerWidth=\"10\" markerHeight=\"10\" refX=\"6\" refY=\"3\" orient=\"auto\"><path d=\"M0,0 L6,3 L0,6\" fill=\"black\"/></marker><marker id=\"b\" markerWidth=\"10\" markerHeight=\"10\" refX=\"0\" refY=\"3\" orient=\"auto\"><path d=\"M6,0 L0,3 L6,6\" fill=\"black\"/></marker></defs><line x1=\"30.0\" y1=\"33\" x2=\"30.0\" y2=\"47\" stroke=\"black\" stroke-width=\"2\"/><text x=\"30.0\" y=\"64\" font-size=\"13\" text-anchor=\"middle\">0</text><line x1=\"83.3\" y1=\"33\" x2=\"83.3\" y2=\"47\" stroke=\"black\" stroke-width=\"2\"/><text x=\"83.3\" y=\"64\" font-size=\"13\" text-anchor=\"middle\">1/6</text><line x1=\"136.7\" y1=\"33\" x2=\"136.7\" y2=\"47\" stroke=\"black\" stroke-width=\"2\"/><text x=\"136.7\" y=\"64\" font-size=\"13\" text-anchor=\"middle\">2/6</text><line x1=\"190.0\" y1=\"33\" x2=\"190.0\" y2=\"47\" stroke=\"black\" stroke-width=\"2\"/><text x=\"190.0\" y=\"64\" font-size=\"13\" text-anchor=\"middle\">3/6</text><line x1=\"243.3\" y1=\"33\" x2=\"243.3\" y2=\"47\" stroke=\"black\" stroke-width=\"2\"/><text x=\"243.3\" y=\"64\" font-size=\"13\" text-anchor=\"middle\">4/6</text><line x1=\"296.7\" y1=\"33\" x2=\"296.7\" y2=\"47\" stroke=\"black\" stroke-width=\"2\"/><text x=\"296.7\" y=\"64\" font-size=\"13\" text-anchor=\"middle\">5/6</text><line x1=\"350.0\" y1=\"33\" x2=\"350.0\" y2=\"47\" stroke=\"black\" stroke-width=\"2\"/><text x=\"350.0\" y=\"64\" font-size=\"13\" text-anchor=\"middle\">1</text><circle cx=\"190.0\" cy=\"40\" r=\"6\" fill=\"black\"/></svg>",
+          "alt": "number line in sixths with 3/6 marked"
+        }
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "3/6",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "2/6",
+          "rationale": "2/6 is less than half."
+        },
+        {
+          "key": "C",
+          "text": "1/6",
+          "rationale": "1/6 is much less than half."
+        },
+        {
+          "key": "D",
+          "text": "5/6",
+          "rationale": "5/6 is more than half."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "1/2 lines up with 3/6 on the number line."
+      ],
+      "workedSolution": [
+        "1/2 = 3/6."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4K"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Mariana has 3 bowls. Each bowl has 9 grapes. How many grapes does she have in all?"
+      ],
+      "figures": [
+        {
+          "id": "",
+          "kind": "array_model",
+          "svg": "<svg viewBox=\"0 0 168 72\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"16\" cy=\"16\" r=\"4\" fill=\"#333\"/><circle cx=\"32\" cy=\"16\" r=\"4\" fill=\"#333\"/><circle cx=\"48\" cy=\"16\" r=\"4\" fill=\"#333\"/><circle cx=\"64\" cy=\"16\" r=\"4\" fill=\"#333\"/><circle cx=\"80\" cy=\"16\" r=\"4\" fill=\"#333\"/><circle cx=\"96\" cy=\"16\" r=\"4\" fill=\"#333\"/><circle cx=\"112\" cy=\"16\" r=\"4\" fill=\"#333\"/><circle cx=\"128\" cy=\"16\" r=\"4\" fill=\"#333\"/><circle cx=\"144\" cy=\"16\" r=\"4\" fill=\"#333\"/><circle cx=\"16\" cy=\"32\" r=\"4\" fill=\"#333\"/><circle cx=\"32\" cy=\"32\" r=\"4\" fill=\"#333\"/><circle cx=\"48\" cy=\"32\" r=\"4\" fill=\"#333\"/><circle cx=\"64\" cy=\"32\" r=\"4\" fill=\"#333\"/><circle cx=\"80\" cy=\"32\" r=\"4\" fill=\"#333\"/><circle cx=\"96\" cy=\"32\" r=\"4\" fill=\"#333\"/><circle cx=\"112\" cy=\"32\" r=\"4\" fill=\"#333\"/><circle cx=\"128\" cy=\"32\" r=\"4\" fill=\"#333\"/><circle cx=\"144\" cy=\"32\" r=\"4\" fill=\"#333\"/><circle cx=\"16\" cy=\"48\" r=\"4\" fill=\"#333\"/><circle cx=\"32\" cy=\"48\" r=\"4\" fill=\"#333\"/><circle cx=\"48\" cy=\"48\" r=\"4\" fill=\"#333\"/><circle cx=\"64\" cy=\"48\" r=\"4\" fill=\"#333\"/><circle cx=\"80\" cy=\"48\" r=\"4\" fill=\"#333\"/><circle cx=\"96\" cy=\"48\" r=\"4\" fill=\"#333\"/><circle cx=\"112\" cy=\"48\" r=\"4\" fill=\"#333\"/><circle cx=\"128\" cy=\"48\" r=\"4\" fill=\"#333\"/><circle cx=\"144\" cy=\"48\" r=\"4\" fill=\"#333\"/></svg>",
+          "alt": "array of 3 rows of 9 dots"
+        }
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "12",
+          "rationale": "That adds 3 + 9."
+        },
+        {
+          "key": "B",
+          "text": "27",
+          "correct": true
+        },
+        {
+          "key": "C",
+          "text": "24",
+          "rationale": "That is 3 × 8."
+        },
+        {
+          "key": "D",
+          "text": "30",
+          "rationale": "That is more than 3 × 9."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Equal groups: 3 × 9 = 27 grapes."
+      ],
+      "workedSolution": [
+        "3 × 9 = 27."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.2D"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "The populations of three cities are 12,578, 12,534, and 12,509. Which shows these numbers in order from greatest to least?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "12,534; 12,578; 12,509",
+          "rationale": "12,578 is the greatest and should be first."
+        },
+        {
+          "key": "B",
+          "text": "12,509; 12,534; 12,578",
+          "rationale": "That is least to greatest."
+        },
+        {
+          "key": "C",
+          "text": "12,534; 12,509; 12,578",
+          "rationale": "Not in order."
+        },
+        {
+          "key": "D",
+          "text": "12,578; 12,534; 12,509",
+          "correct": true
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Compare the tens: 12,578 > 12,534 > 12,509."
+      ],
+      "workedSolution": [
+        "12,578 > 12,534 > 12,509."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.3F"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Brandon hiked 1/3 of a mile. Using a number line marked in thirds and sixths, which fraction is equivalent to 1/3?"
+      ],
+      "figures": [
+        {
+          "id": "",
+          "kind": "number_line",
+          "svg": "<svg viewBox=\"0 0 380 80\" xmlns=\"http://www.w3.org/2000/svg\"><line x1=\"18\" y1=\"40\" x2=\"362\" y2=\"40\" stroke=\"black\" stroke-width=\"2\" marker-end=\"url(#a)\" marker-start=\"url(#b)\"/><defs><marker id=\"a\" markerWidth=\"10\" markerHeight=\"10\" refX=\"6\" refY=\"3\" orient=\"auto\"><path d=\"M0,0 L6,3 L0,6\" fill=\"black\"/></marker><marker id=\"b\" markerWidth=\"10\" markerHeight=\"10\" refX=\"0\" refY=\"3\" orient=\"auto\"><path d=\"M6,0 L0,3 L6,6\" fill=\"black\"/></marker></defs><line x1=\"30.0\" y1=\"33\" x2=\"30.0\" y2=\"47\" stroke=\"black\" stroke-width=\"2\"/><text x=\"30.0\" y=\"64\" font-size=\"13\" text-anchor=\"middle\">0</text><line x1=\"83.3\" y1=\"33\" x2=\"83.3\" y2=\"47\" stroke=\"black\" stroke-width=\"2\"/><text x=\"83.3\" y=\"64\" font-size=\"13\" text-anchor=\"middle\">1/6</text><line x1=\"136.7\" y1=\"33\" x2=\"136.7\" y2=\"47\" stroke=\"black\" stroke-width=\"2\"/><text x=\"136.7\" y=\"64\" font-size=\"13\" text-anchor=\"middle\">2/6</text><line x1=\"190.0\" y1=\"33\" x2=\"190.0\" y2=\"47\" stroke=\"black\" stroke-width=\"2\"/><text x=\"190.0\" y=\"64\" font-size=\"13\" text-anchor=\"middle\">3/6</text><line x1=\"243.3\" y1=\"33\" x2=\"243.3\" y2=\"47\" stroke=\"black\" stroke-width=\"2\"/><text x=\"243.3\" y=\"64\" font-size=\"13\" text-anchor=\"middle\">4/6</text><line x1=\"296.7\" y1=\"33\" x2=\"296.7\" y2=\"47\" stroke=\"black\" stroke-width=\"2\"/><text x=\"296.7\" y=\"64\" font-size=\"13\" text-anchor=\"middle\">5/6</text><line x1=\"350.0\" y1=\"33\" x2=\"350.0\" y2=\"47\" stroke=\"black\" stroke-width=\"2\"/><text x=\"350.0\" y=\"64\" font-size=\"13\" text-anchor=\"middle\">1</text><circle cx=\"136.7\" cy=\"40\" r=\"6\" fill=\"black\"/></svg>",
+          "alt": "number line in sixths with 2/6 marked"
+        }
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "3/6",
+          "rationale": "3/6 equals 1/2, not 1/3."
+        },
+        {
+          "key": "B",
+          "text": "5/6",
+          "rationale": "5/6 is almost a whole."
+        },
+        {
+          "key": "C",
+          "text": "2/6",
+          "correct": true
+        },
+        {
+          "key": "D",
+          "text": "1/6",
+          "rationale": "1/6 is half of 1/3."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "1/3 lines up with 2/6 on the number line."
+      ],
+      "workedSolution": [
+        "1/3 = 2/6."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4B"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Edith has 87 animal stickers and 32 sports stickers. About how many stickers does she have in all?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "50",
+          "rationale": "That is too few."
+        },
+        {
+          "key": "B",
+          "text": "150",
+          "rationale": "That overestimates."
+        },
+        {
+          "key": "C",
+          "text": "130",
+          "rationale": "Round each to the nearest ten first."
+        },
+        {
+          "key": "D",
+          "text": "120",
+          "correct": true
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Round and add: 87 ≈ 90 and 32 ≈ 30, so about 90 + 30 = 120 stickers."
+      ],
+      "workedSolution": [
+        "≈ 90 + 30 = 120."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.3E"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Six friends share 2 oranges equally. Each orange is divided into thirds. What fraction of an orange does each friend get?"
+      ],
+      "figures": [
+        {
+          "id": "",
+          "kind": "shape",
+          "svg": "<svg viewBox=\"0 0 120 120\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M60,60 L60.0,10.0 A50,50 0 0 1 103.3,85.0 Z\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><path d=\"M60,60 L103.3,85.0 A50,50 0 0 1 16.7,85.0 Z\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><path d=\"M60,60 L16.7,85.0 A50,50 0 0 1 60.0,10.0 Z\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/></svg>",
+          "alt": "an orange divided into thirds"
+        }
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "1/3",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "1/4",
+          "rationale": "The oranges are split into thirds, not fourths."
+        },
+        {
+          "key": "C",
+          "text": "1/2",
+          "rationale": "Each friend gets less than half."
+        },
+        {
+          "key": "D",
+          "text": "1/6",
+          "rationale": "Each piece is a third of an orange."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "2 oranges = 6 thirds, shared among 6 friends = 1 third each."
+      ],
+      "workedSolution": [
+        "2 ÷ 6 = 2/6 = 1/3."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4A"
+      ],
+      "type": "text_entry",
+      "difficulty": "medium",
+      "prompt": [
+        "Angela reads 36 pages. Ivan reads 45 pages. How many pages do Angela and Ivan read altogether?"
+      ],
+      "figures": [],
+      "answer": "81",
+      "blanks": {
+        "b1": "81"
+      },
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Add the pages: 36 + 45 = 81."
+      ],
+      "workedSolution": [
+        "36 + 45 = 81."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.5C"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Madeline plays 4 songs on the piano. Jonathan plays twice as many songs. Which expression represents the number of songs Jonathan plays?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "4 + 2",
+          "rationale": "\"Twice as many\" means multiply by 2."
+        },
+        {
+          "key": "B",
+          "text": "3 × 4",
+          "rationale": "That is 3 times, not 2 times."
+        },
+        {
+          "key": "C",
+          "text": "4 + 4 + 4",
+          "rationale": "That is 3 groups of 4."
+        },
+        {
+          "key": "D",
+          "text": "4 × 2",
+          "correct": true
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "\"Twice as many as 4\" = 4 × 2 = 8."
+      ],
+      "workedSolution": [
+        "4 × 2 = 8."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4J"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Marty has 3 cups that each have 6 marbles. Which fact in the same fact family helps you check how many marbles Marty has in all?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "18 ÷ 6",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "18 ÷ 9",
+          "rationale": "9 is not a factor here."
+        },
+        {
+          "key": "C",
+          "text": "24 ÷ 3",
+          "rationale": "3 × 6 = 18, not 24."
+        },
+        {
+          "key": "D",
+          "text": "24 ÷ 8",
+          "rationale": "These numbers are not in the fact family of 3 × 6."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "3 × 6 = 18 marbles. The related division fact is 18 ÷ 6 = 3."
+      ],
+      "workedSolution": [
+        "3 × 6 = 18 ↔ 18 ÷ 6 = 3."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.6A"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Which three-dimensional solid has exactly 1 vertex?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "triangular prism",
+          "rationale": "A triangular prism has 6 vertices."
+        },
+        {
+          "key": "B",
+          "text": "cone",
+          "correct": true
+        },
+        {
+          "key": "C",
+          "text": "cube",
+          "rationale": "A cube has 8 vertices."
+        },
+        {
+          "key": "D",
+          "text": "cylinder",
+          "rationale": "A cylinder has 0 vertices."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "A cone has 1 vertex — the point at its top."
+      ],
+      "workedSolution": [
+        "Cone → 1 vertex."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.2C"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Mabel's mom biked 4,187 miles in one year. What is 4,187 rounded to the nearest thousand?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "5,000",
+          "rationale": "The hundreds digit is 1, so round down."
+        },
+        {
+          "key": "B",
+          "text": "4,000",
+          "correct": true
+        },
+        {
+          "key": "C",
+          "text": "3,000",
+          "rationale": "4,187 is closer to 4,000."
+        },
+        {
+          "key": "D",
+          "text": "2,000",
+          "rationale": "Far too low."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "The hundreds digit is 1 (less than 5), so 4,187 rounds down to 4,000."
+      ],
+      "workedSolution": [
+        "4,187 → 4,000."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.2D"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Mr. Carson has 158 red, 241 green, 197 yellow, and 207 orange pieces of paper. Of which color does he have the most?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "orange",
+          "rationale": "207 < 241."
+        },
+        {
+          "key": "B",
+          "text": "red",
+          "rationale": "158 is the least."
+        },
+        {
+          "key": "C",
+          "text": "green",
+          "correct": true
+        },
+        {
+          "key": "D",
+          "text": "yellow",
+          "rationale": "197 < 241."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Compare: 241 (green) is the greatest count."
+      ],
+      "workedSolution": [
+        "Green = 241 is most."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.9C"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Miranda gives money to a food bank. Which word describes this decision?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "saving",
+          "rationale": "She is not keeping the money."
+        },
+        {
+          "key": "B",
+          "text": "spending",
+          "rationale": "She is not buying something."
+        },
+        {
+          "key": "C",
+          "text": "credit",
+          "rationale": "She is not borrowing."
+        },
+        {
+          "key": "D",
+          "text": "giving",
+          "correct": true
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Donating money to a food bank is giving."
+      ],
+      "workedSolution": [
+        "Donating = giving."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.6B"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Aaliya drew an isosceles trapezoid, a right trapezoid, a rectangle, and a square. How many of these quadrilaterals are trapezoids?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "3",
+          "rationale": "The rectangle and square are not trapezoids."
+        },
+        {
+          "key": "B",
+          "text": "1",
+          "rationale": "Both trapezoids count."
+        },
+        {
+          "key": "C",
+          "text": "2",
+          "correct": true
+        },
+        {
+          "key": "D",
+          "text": "4",
+          "rationale": "The rectangle and square have two pairs of parallel sides."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "A trapezoid has exactly one pair of parallel sides. The two trapezoids qualify; the rectangle and square do not. That is 2."
+      ],
+      "workedSolution": [
+        "2 trapezoids."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4K"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Keesha has 32 foam balls. She takes 4 balls to play a game. She places the rest in bags that each hold 4 balls. How many bags does she use?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "7",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "8",
+          "rationale": "That forgets the 4 balls she took."
+        },
+        {
+          "key": "C",
+          "text": "4",
+          "rationale": "Recompute (32 − 4) ÷ 4."
+        },
+        {
+          "key": "D",
+          "text": "16",
+          "rationale": "That divides by 2, not 4."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "After she takes 4: 32 − 4 = 28 balls. At 4 per bag: 28 ÷ 4 = 7 bags."
+      ],
+      "workedSolution": [
+        "(32 − 4) ÷ 4 = 7."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.3B"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Helena drew a number line from 0 to 1 marked in sixths. Point Q is between 1/6 and 3/6. Which fraction names point Q?"
+      ],
+      "figures": [
+        {
+          "id": "",
+          "kind": "number_line",
+          "svg": "<svg viewBox=\"0 0 380 80\" xmlns=\"http://www.w3.org/2000/svg\"><line x1=\"18\" y1=\"40\" x2=\"362\" y2=\"40\" stroke=\"black\" stroke-width=\"2\" marker-end=\"url(#a)\" marker-start=\"url(#b)\"/><defs><marker id=\"a\" markerWidth=\"10\" markerHeight=\"10\" refX=\"6\" refY=\"3\" orient=\"auto\"><path d=\"M0,0 L6,3 L0,6\" fill=\"black\"/></marker><marker id=\"b\" markerWidth=\"10\" markerHeight=\"10\" refX=\"0\" refY=\"3\" orient=\"auto\"><path d=\"M6,0 L0,3 L6,6\" fill=\"black\"/></marker></defs><line x1=\"30.0\" y1=\"33\" x2=\"30.0\" y2=\"47\" stroke=\"black\" stroke-width=\"2\"/><text x=\"30.0\" y=\"64\" font-size=\"13\" text-anchor=\"middle\">0</text><line x1=\"83.3\" y1=\"33\" x2=\"83.3\" y2=\"47\" stroke=\"black\" stroke-width=\"2\"/><text x=\"83.3\" y=\"64\" font-size=\"13\" text-anchor=\"middle\">1/6</text><line x1=\"136.7\" y1=\"33\" x2=\"136.7\" y2=\"47\" stroke=\"black\" stroke-width=\"2\"/><text x=\"136.7\" y=\"64\" font-size=\"13\" text-anchor=\"middle\">Q</text><line x1=\"190.0\" y1=\"33\" x2=\"190.0\" y2=\"47\" stroke=\"black\" stroke-width=\"2\"/><text x=\"190.0\" y=\"64\" font-size=\"13\" text-anchor=\"middle\">3/6</text><line x1=\"243.3\" y1=\"33\" x2=\"243.3\" y2=\"47\" stroke=\"black\" stroke-width=\"2\"/><text x=\"243.3\" y=\"64\" font-size=\"13\" text-anchor=\"middle\">4/6</text><line x1=\"296.7\" y1=\"33\" x2=\"296.7\" y2=\"47\" stroke=\"black\" stroke-width=\"2\"/><text x=\"296.7\" y=\"64\" font-size=\"13\" text-anchor=\"middle\">5/6</text><line x1=\"350.0\" y1=\"33\" x2=\"350.0\" y2=\"47\" stroke=\"black\" stroke-width=\"2\"/><text x=\"350.0\" y=\"64\" font-size=\"13\" text-anchor=\"middle\">1</text><circle cx=\"136.7\" cy=\"40\" r=\"6\" fill=\"black\"/></svg>",
+          "alt": "number line in sixths with point Q at 2/6"
+        }
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "3/6",
+          "rationale": "Q is before 3/6."
+        },
+        {
+          "key": "B",
+          "text": "2/6",
+          "correct": true
+        },
+        {
+          "key": "C",
+          "text": "1/6",
+          "rationale": "Q is past 1/6."
+        },
+        {
+          "key": "D",
+          "text": "4/6",
+          "rationale": "Q is before the middle."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Point Q is 2 sixths from 0, so it is 2/6."
+      ],
+      "workedSolution": [
+        "Point Q = 2/6."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.9C"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Kyle has $12. He wants to save $18 to buy an art set. He spends $5 on a book. How much more money does he need to save to buy the art set?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "$13",
+          "rationale": "He already has some money toward the set."
+        },
+        {
+          "key": "B",
+          "text": "$30",
+          "rationale": "He does not need to save $30."
+        },
+        {
+          "key": "C",
+          "text": "$7",
+          "rationale": "$7 is what he has left, not what he still needs."
+        },
+        {
+          "key": "D",
+          "text": "$11",
+          "correct": true
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "After the book he has 12 − 5 = $7. He needs $18, so 18 − 7 = $11 more."
+      ],
+      "workedSolution": [
+        "$12 − $5 = $7; $18 − $7 = $11."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.9B"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "A store has fewer of some granola bar flavors and charges more for them. Prices: Chocolate $3, Peanut butter $4, Coconut $6, Almond $4. Of which flavor does the store have the most?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "Chocolate",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "Peanut butter",
+          "rationale": "$4 is not the lowest price."
+        },
+        {
+          "key": "C",
+          "text": "Coconut",
+          "rationale": "$6 is the highest price, so the fewest in stock."
+        },
+        {
+          "key": "D",
+          "text": "Almond",
+          "rationale": "$4 is not the lowest price."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Lower price means more in stock. Chocolate is cheapest ($3), so the store has the most chocolate bars."
+      ],
+      "workedSolution": [
+        "Lowest price ($3) = most in stock."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.8B"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Use the Baskets of Berries Picked dot plot (5→3 people, 6→5, 7→2, 8→1, 9→3). How many more people picked 6 baskets than picked 7 or 8 baskets combined?"
+      ],
+      "figures": [
+        {
+          "id": "",
+          "kind": "dot_plot",
+          "svg": "<svg viewBox=\"0 0 304 175\" xmlns=\"http://www.w3.org/2000/svg\"><line x1=\"20\" y1=\"150\" x2=\"264\" y2=\"150\" stroke=\"black\" stroke-width=\"2\"/><line x1=\"30\" y1=\"145\" x2=\"30\" y2=\"155\" stroke=\"black\" stroke-width=\"2\"/><text x=\"30\" y=\"170\" font-size=\"13\" text-anchor=\"middle\">5</text><circle cx=\"30\" cy=\"136\" r=\"7\" fill=\"black\"/><circle cx=\"30\" cy=\"120\" r=\"7\" fill=\"black\"/><circle cx=\"30\" cy=\"104\" r=\"7\" fill=\"black\"/><line x1=\"86\" y1=\"145\" x2=\"86\" y2=\"155\" stroke=\"black\" stroke-width=\"2\"/><text x=\"86\" y=\"170\" font-size=\"13\" text-anchor=\"middle\">6</text><circle cx=\"86\" cy=\"136\" r=\"7\" fill=\"black\"/><circle cx=\"86\" cy=\"120\" r=\"7\" fill=\"black\"/><circle cx=\"86\" cy=\"104\" r=\"7\" fill=\"black\"/><circle cx=\"86\" cy=\"88\" r=\"7\" fill=\"black\"/><circle cx=\"86\" cy=\"72\" r=\"7\" fill=\"black\"/><line x1=\"142\" y1=\"145\" x2=\"142\" y2=\"155\" stroke=\"black\" stroke-width=\"2\"/><text x=\"142\" y=\"170\" font-size=\"13\" text-anchor=\"middle\">7</text><circle cx=\"142\" cy=\"136\" r=\"7\" fill=\"black\"/><circle cx=\"142\" cy=\"120\" r=\"7\" fill=\"black\"/><line x1=\"198\" y1=\"145\" x2=\"198\" y2=\"155\" stroke=\"black\" stroke-width=\"2\"/><text x=\"198\" y=\"170\" font-size=\"13\" text-anchor=\"middle\">8</text><circle cx=\"198\" cy=\"136\" r=\"7\" fill=\"black\"/><line x1=\"254\" y1=\"145\" x2=\"254\" y2=\"155\" stroke=\"black\" stroke-width=\"2\"/><text x=\"254\" y=\"170\" font-size=\"13\" text-anchor=\"middle\">9</text><circle cx=\"254\" cy=\"136\" r=\"7\" fill=\"black\"/><circle cx=\"254\" cy=\"120\" r=\"7\" fill=\"black\"/><circle cx=\"254\" cy=\"104\" r=\"7\" fill=\"black\"/></svg>",
+          "alt": "dot plot of baskets of berries picked"
+        }
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "3",
+          "rationale": "7 and 8 together is 3; compare with 6."
+        },
+        {
+          "key": "B",
+          "text": "2",
+          "correct": true
+        },
+        {
+          "key": "C",
+          "text": "4",
+          "rationale": "Recount the dots above 6."
+        },
+        {
+          "key": "D",
+          "text": "5",
+          "rationale": "That is the count for 6 alone."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "6 baskets = 5 people. 7 (2) + 8 (1) = 3. Difference = 5 − 3 = 2."
+      ],
+      "workedSolution": [
+        "5 − (2 + 1) = 2."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.8A"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Use the Baskets of Berries Picked dot plot (5→3 people, 6→5, 7→2, 8→1, 9→3). What number of baskets was picked by the least number of people?"
+      ],
+      "figures": [
+        {
+          "id": "",
+          "kind": "dot_plot",
+          "svg": "<svg viewBox=\"0 0 304 175\" xmlns=\"http://www.w3.org/2000/svg\"><line x1=\"20\" y1=\"150\" x2=\"264\" y2=\"150\" stroke=\"black\" stroke-width=\"2\"/><line x1=\"30\" y1=\"145\" x2=\"30\" y2=\"155\" stroke=\"black\" stroke-width=\"2\"/><text x=\"30\" y=\"170\" font-size=\"13\" text-anchor=\"middle\">5</text><circle cx=\"30\" cy=\"136\" r=\"7\" fill=\"black\"/><circle cx=\"30\" cy=\"120\" r=\"7\" fill=\"black\"/><circle cx=\"30\" cy=\"104\" r=\"7\" fill=\"black\"/><line x1=\"86\" y1=\"145\" x2=\"86\" y2=\"155\" stroke=\"black\" stroke-width=\"2\"/><text x=\"86\" y=\"170\" font-size=\"13\" text-anchor=\"middle\">6</text><circle cx=\"86\" cy=\"136\" r=\"7\" fill=\"black\"/><circle cx=\"86\" cy=\"120\" r=\"7\" fill=\"black\"/><circle cx=\"86\" cy=\"104\" r=\"7\" fill=\"black\"/><circle cx=\"86\" cy=\"88\" r=\"7\" fill=\"black\"/><circle cx=\"86\" cy=\"72\" r=\"7\" fill=\"black\"/><line x1=\"142\" y1=\"145\" x2=\"142\" y2=\"155\" stroke=\"black\" stroke-width=\"2\"/><text x=\"142\" y=\"170\" font-size=\"13\" text-anchor=\"middle\">7</text><circle cx=\"142\" cy=\"136\" r=\"7\" fill=\"black\"/><circle cx=\"142\" cy=\"120\" r=\"7\" fill=\"black\"/><line x1=\"198\" y1=\"145\" x2=\"198\" y2=\"155\" stroke=\"black\" stroke-width=\"2\"/><text x=\"198\" y=\"170\" font-size=\"13\" text-anchor=\"middle\">8</text><circle cx=\"198\" cy=\"136\" r=\"7\" fill=\"black\"/><line x1=\"254\" y1=\"145\" x2=\"254\" y2=\"155\" stroke=\"black\" stroke-width=\"2\"/><text x=\"254\" y=\"170\" font-size=\"13\" text-anchor=\"middle\">9</text><circle cx=\"254\" cy=\"136\" r=\"7\" fill=\"black\"/><circle cx=\"254\" cy=\"120\" r=\"7\" fill=\"black\"/><circle cx=\"254\" cy=\"104\" r=\"7\" fill=\"black\"/></svg>",
+          "alt": "dot plot of baskets of berries picked"
+        }
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "7",
+          "rationale": "7 baskets has 2 people."
+        },
+        {
+          "key": "B",
+          "text": "4",
+          "rationale": "4 is not on the plot."
+        },
+        {
+          "key": "C",
+          "text": "5",
+          "rationale": "5 baskets has 3 people."
+        },
+        {
+          "key": "D",
+          "text": "8",
+          "correct": true
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "8 baskets has only 1 dot — the fewest people."
+      ],
+      "workedSolution": [
+        "8 baskets = 1 person (least)."
+      ]
+    }
+  ]
+}

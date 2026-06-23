@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
+import { NotificationBell } from "~/components/NotificationBell";
 import { myWallet, requestRedeem } from "~/server/rpc/gamification";
 import { logout } from "~/server/rpc/session";
 
@@ -43,6 +44,7 @@ function WalletPage() {
           <span style={{ color: "var(--s-primary-ink)" }}>Wallet</span>
         </nav>
         <div style={{ flex: 1 }} />
+        <NotificationBell tone="student" />
         <button onClick={async () => { await doLogout({}); navigate({ to: "/" }); }} style={{ border: "1px solid #EFE7DA", background: "#fff", fontWeight: 700, fontSize: 13, padding: "7px 12px", borderRadius: 9, cursor: "pointer", color: "var(--s-ink)" }}>Sign out</button>
       </header>
 

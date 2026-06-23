@@ -14,8 +14,8 @@ import { toIso } from "~/lib/dates.js";
 import { masterySummary } from "~/server/mastery/mastery.js";
 import { getOrCreateSchedule } from "~/server/scheduler/scheduler.js";
 import { requireCapability } from "~/server/auth/rbac.js";
-import { queueStudentAndParentEmails } from "~/server/notifications/email.js";
-import { visibleStudentsFor, userId } from "~/server/users/associations.js";
+import { queueInAppNotification, queueStudentAndParentEmails } from "~/server/notifications/email.js";
+import { staffForStudent, visibleStudentsFor, userId } from "~/server/users/associations.js";
 import type { AuthContext } from "~/server/auth/session.js";
 
 function assertOwner(actor: AuthContext, enrollment: { studentId: string } | null): void {
@@ -70,6 +70,13 @@ export async function requestRedemption(actor: AuthContext, enrollmentId: string
     subject: "Redemption request received",
     body: `We received the request for ${item}. The admin team is reviewing it and will cash the Robux into the account once approved.`,
   });
+  const staff = await staffForStudent(enrollment!.studentId);
+  await Promise.all(staff.map((recipient) => queueInAppNotification({
+    userId: userId(recipient),
+    kind: "redemption_requested",
+    subject: "Redemption request needs review",
+    body: `${actor.displayName} requested ${item} for ${amount} Robux. Review it from the rewards queue.`,
+  })));
   return redemption;
 }
 

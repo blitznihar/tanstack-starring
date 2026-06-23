@@ -23,6 +23,10 @@ export async function queueEmailNotification(input: EmailInput) {
   return notification;
 }
 
+export async function queueInAppNotification(input: EmailInput) {
+  return notificationsRepo.queue({ ...input, channel: "in_app", status: "sent" });
+}
+
 export async function queueStudentAndParentEmails(
   studentId: string,
   message: Omit<EmailInput, "userId">,

@@ -135,6 +135,21 @@ export async function parentsForStudent(studentId: string): Promise<UserDoc[]> {
   return activeUsersByRole(users, "parent").filter((parent) => parentStudentIds(parent, students).includes(studentId));
 }
 
+export async function staffForStudent(studentId: string): Promise<UserDoc[]> {
+  const users = await usersRepo.list();
+  const students = activeUsersByRole(users, "student");
+  const parents = activeUsersByRole(users, "parent");
+  const parentIds = new Set(parents.filter((parent) => parentStudentIds(parent, students).includes(studentId)).map(userId));
+  const admins = activeUsersByRole(users, "admin").filter((admin) => {
+    const directStudentIds = storedIds(admin, "studentIds") ?? [];
+    if (directStudentIds.includes(studentId)) return true;
+    return adminParentIds(admin, parents).some((parentId) => parentIds.has(parentId));
+  });
+  const superAdmins = activeUsersByRole(users, "super_admin");
+  const byId = new Map([...admins, ...superAdmins].map((user) => [userId(user), user]));
+  return [...byId.values()];
+}
+
 export function publicUserOption(user: UserDoc): { id: string; displayName: string; username: string } {
   return { id: userId(user), displayName: user.displayName, username: user.username };
 }

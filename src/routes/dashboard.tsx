@@ -100,7 +100,10 @@ function Dashboard() {
                 <h1 style={{ fontSize: 27, fontWeight: 800, margin: 0, letterSpacing: 0 }}>{overview.studentName || "Student"}'s progress</h1>
                 <p style={{ margin: "3px 0 0", color: "var(--a-muted)", fontWeight: 600, fontSize: 14 }}>A calm look at how things are going.</p>
               </div>
-              <ReportSourceSummary counts={overview.overall.sourceCounts} />
+              <div style={{ display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap", justifyContent: "flex-end" }}>
+                <Link to="/history" search={{ studentId: overview.studentId }} style={secondaryLink}>View history</Link>
+                <ReportSourceSummary counts={overview.overall.sourceCounts} />
+              </div>
             </div>
 
             <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 14, marginBottom: 16 }}>
@@ -496,6 +499,16 @@ const secondaryButton: React.CSSProperties = {
   padding: "9px 13px",
   borderRadius: 9,
   fontFamily: "inherit",
+};
+
+const secondaryLink: React.CSSProperties = {
+  border: "1px solid var(--a-border)",
+  background: "#fff",
+  color: "var(--a-ink)",
+  fontWeight: 900,
+  fontSize: 12.5,
+  padding: "8px 12px",
+  borderRadius: 9,
 };
 
 function studentCardButton(active: boolean): React.CSSProperties {

@@ -1,6 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useRef, useState } from "react";
+import { NotificationBell } from "~/components/NotificationBell";
 import { SourceBadge } from "~/components/SourceBadge";
 import { completeLesson, lessonForToday } from "~/server/rpc/lesson";
 import { logout } from "~/server/rpc/session";
@@ -106,6 +107,7 @@ function StudentHeader({ active, displayName, onLogout }: { active: "lesson" | "
         </nav>
         <div style={{ flex: 1 }} />
         <span style={{ color: "var(--s-muted)", fontWeight: 900, fontSize: 13 }}>{displayName}</span>
+        <NotificationBell tone="student" />
         <button onClick={onLogout} style={{ border: "1px solid #EFE7DA", background: "#fff", boxShadow: "0 8px 18px rgba(54,48,74,.06)", color: "var(--s-muted)", borderRadius: 12, padding: "10px 15px", cursor: "pointer", fontWeight: 900 }}>
           Exit
         </button>

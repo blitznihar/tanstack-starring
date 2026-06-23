@@ -4,8 +4,8 @@ import { lessonProgressRepo } from "~/repositories/lessonProgress.js";
 import { programsRepo } from "~/repositories/programs.js";
 import { responsesRepo } from "~/repositories/responses.js";
 import { usersRepo } from "~/repositories/users.js";
-import { parentsForStudent, userId } from "~/server/users/associations.js";
-import { queueEmailNotification } from "./email.js";
+import { parentsForStudent, staffForStudent, userId } from "~/server/users/associations.js";
+import { queueEmailNotification, queueInAppNotification } from "./email.js";
 import type { PracticeCompletionQuestion } from "~/server/practice/practice.js";
 
 type ReportExamSummary = {
@@ -171,6 +171,14 @@ export async function queuePracticeProgressReport(
     subject: `Practice report for ${student.displayName}`,
     body,
   })));
+  const emailedIds = new Set(recipients.map(userId));
+  const staff = (await staffForStudent(enrollment.studentId)).filter((recipient) => !emailedIds.has(userId(recipient)));
+  await Promise.all(staff.map((recipient) => queueInAppNotification({
+    userId: userId(recipient),
+    kind: "practice_report",
+    subject: `Practice report for ${student.displayName}`,
+    body,
+  })));
 }
 
 export async function queueExamProgressReport(enrollmentId: string, exam: ReportExamSummary): Promise<void> {
@@ -186,6 +194,14 @@ export async function queueExamProgressReport(enrollmentId: string, exam: Report
   if (!student || !program || recipients.length === 0) return;
   const body = reportBody({ studentName: student.displayName, programTitle: program.title, lessons, practice, exam });
   await Promise.all(recipients.map((recipient) => queueEmailNotification({
+    userId: userId(recipient),
+    kind: "exam_report",
+    subject: `Exam report for ${student.displayName}`,
+    body,
+  })));
+  const emailedIds = new Set(recipients.map(userId));
+  const staff = (await staffForStudent(enrollment.studentId)).filter((recipient) => !emailedIds.has(userId(recipient)));
+  await Promise.all(staff.map((recipient) => queueInAppNotification({
     userId: userId(recipient),
     kind: "exam_report",
     subject: `Exam report for ${student.displayName}`,

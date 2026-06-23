@@ -1,6 +1,7 @@
 import { createFileRoute, Link, redirect, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useMemo, useState } from "react";
+import { NotificationBell } from "~/components/NotificationBell";
 import { SourceBadge } from "~/components/SourceBadge";
 import { completePractice, myPracticeSet, submitPractice } from "~/server/rpc/practice";
 import { startExam } from "~/server/rpc/exam";
@@ -479,6 +480,7 @@ function Shell({ children, wallet, pop, onSignOut }: { children: React.ReactNode
             <span style={{ position: "absolute", top: -14, right: 8, color: pop > 0 ? "var(--s-success)" : "var(--s-accent)", fontWeight: 800, fontSize: 14, animation: "cometfade .3s ease" }}>{pop > 0 ? "+" : ""}{pop}</span>
           )}
         </div>
+        <NotificationBell tone="student" />
         <button onClick={onSignOut} style={{ border: "1px solid #EFE7DA", background: "#fff", fontWeight: 700, fontSize: 13, padding: "7px 12px", borderRadius: 9, cursor: "pointer", color: "var(--s-ink)" }}>
           Sign out
         </button>

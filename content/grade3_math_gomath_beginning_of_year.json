@@ -1,0 +1,891 @@
+{
+  "programKey": "grade3_staar",
+  "subject": "math",
+  "version": 1,
+  "status": "available",
+  "title": "Grade 3 Math — Go Math Texas: Beginning-of-Year Test",
+  "exam": "Beginning-of-Year Test",
+  "standards": [
+    {
+      "code": "3.2A",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Numerical Representations",
+      "description": "Compose/decompose & place value to 100,000"
+    },
+    {
+      "code": "3.3A",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Fractions",
+      "description": "Represent fractions with models / equal parts"
+    },
+    {
+      "code": "3.3B",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Fractions",
+      "description": "Fractions on a number line"
+    },
+    {
+      "code": "3.3D",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Fractions",
+      "description": "Compose/decompose fractions"
+    },
+    {
+      "code": "3.4A",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Computations & Algebraic Relationships",
+      "description": "Add & subtract within 1,000"
+    },
+    {
+      "code": "3.4C",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Data Analysis & Personal Financial Literacy",
+      "description": "Value of coins and bills"
+    },
+    {
+      "code": "3.4D",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Computations & Algebraic Relationships",
+      "description": "Equal groups & arrays"
+    },
+    {
+      "code": "3.4J",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Computations & Algebraic Relationships",
+      "description": "Quotient via multiplication/division relationship"
+    },
+    {
+      "code": "3.4I",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Numerical Representations",
+      "description": "Even and odd numbers"
+    },
+    {
+      "code": "3.4K",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Computations & Algebraic Relationships",
+      "description": "Multiplication & division word problems"
+    },
+    {
+      "code": "3.5A",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Computations & Algebraic Relationships",
+      "description": "Model addition/subtraction problems"
+    },
+    {
+      "code": "3.6C",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Geometry & Measurement",
+      "description": "Area of rectangles"
+    },
+    {
+      "code": "3.7B",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Geometry & Measurement",
+      "description": "Perimeter & missing side lengths"
+    },
+    {
+      "code": "3.7D",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Geometry & Measurement",
+      "description": "Choose liquid volume or weight"
+    },
+    {
+      "code": "2.9G",
+      "programKey": "grade3_staar",
+      "subject": "math",
+      "reportingCategory": "Geometry & Measurement",
+      "description": "Tell time to the nearest minute — prerequisite"
+    }
+  ],
+  "items": [
+    {
+      "standardCodes": [
+        "3.4J"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Evan has 54 pencils. He places the same number of pencils in each of 6 pencil cases. Which related fact shows the number of pencils in each pencil case?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "3 × 18 = 54",
+          "rationale": "18 pencils per case would not split 54 into 6 equal groups."
+        },
+        {
+          "key": "B",
+          "text": "50 − 5 = 10",
+          "rationale": "This is subtraction, not the related multiplication/division fact."
+        },
+        {
+          "key": "C",
+          "text": "54 − 18 = 36",
+          "rationale": "Subtraction does not show equal groups of 6."
+        },
+        {
+          "key": "D",
+          "text": "9 × 6 = 54",
+          "correct": true
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "54 ÷ 6 = 9, and the related multiplication fact is 9 × 6 = 54, so each case holds 9 pencils."
+      ],
+      "workedSolution": [
+        "54 ÷ 6 = 9 → 9 × 6 = 54."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.6C"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Mari is drawing a sketch for a flower garden. Each unit square is 1 square foot. Which multiplication equation can be used to find the area of the flower garden?"
+      ],
+      "figures": [
+        {
+          "id": "",
+          "kind": "area_model",
+          "svg": "<svg viewBox=\"0 0 172 120\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"8\" y=\"8\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"34\" y=\"8\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"60\" y=\"8\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"86\" y=\"8\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"112\" y=\"8\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"138\" y=\"8\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"8\" y=\"34\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"34\" y=\"34\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"60\" y=\"34\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"86\" y=\"34\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"112\" y=\"34\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"138\" y=\"34\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"8\" y=\"60\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"34\" y=\"60\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"60\" y=\"60\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"86\" y=\"60\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"112\" y=\"60\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"138\" y=\"60\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"8\" y=\"86\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"34\" y=\"86\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"60\" y=\"86\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"86\" y=\"86\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"112\" y=\"86\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"138\" y=\"86\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/></svg>",
+          "alt": "4 by 6 grid of unit squares"
+        }
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "4 + 5 = 9",
+          "rationale": "Area is found by multiplying, not adding, the side lengths."
+        },
+        {
+          "key": "B",
+          "text": "4 × 5 = 20",
+          "rationale": "The grid is 4 by 6, not 4 by 5."
+        },
+        {
+          "key": "C",
+          "text": "4 × 4 = 16",
+          "rationale": "The grid is not 4 by 4."
+        },
+        {
+          "key": "D",
+          "text": "4 × 6 = 24",
+          "correct": true
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "The garden is 4 rows by 6 columns of unit squares, so area = 4 × 6 = 24 square feet."
+      ],
+      "workedSolution": [
+        "4 × 6 = 24 square feet."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.7B"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Carmen is putting tape around the edge of a poster. The poster has side lengths of 3 feet and 4 feet. How many feet of tape will Carmen need?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "14 feet",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "7 feet",
+          "rationale": "7 is just 3 + 4 (one length and one width); a rectangle has two of each."
+        },
+        {
+          "key": "C",
+          "text": "6 feet",
+          "rationale": "That doubles only one side."
+        },
+        {
+          "key": "D",
+          "text": "12 feet",
+          "rationale": "12 is the area (3 × 4), not the distance around."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Perimeter of a rectangle = 2 × (length + width) = 2 × (3 + 4) = 14 feet."
+      ],
+      "workedSolution": [
+        "2 × (3 + 4) = 14 feet."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.3A"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Mr. Bonta ate the part of a pie that is shaded. What fraction of the pie did he eat?"
+      ],
+      "figures": [
+        {
+          "id": "",
+          "kind": "shape",
+          "svg": "<svg viewBox=\"0 0 120 120\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M60,60 L60.0,10.0 A50,50 0 0 1 103.3,35.0 Z\" fill=\"#cfcfcf\" stroke=\"black\" stroke-width=\"1.5\"/><path d=\"M60,60 L103.3,35.0 A50,50 0 0 1 103.3,85.0 Z\" fill=\"#cfcfcf\" stroke=\"black\" stroke-width=\"1.5\"/><path d=\"M60,60 L103.3,85.0 A50,50 0 0 1 60.0,110.0 Z\" fill=\"#cfcfcf\" stroke=\"black\" stroke-width=\"1.5\"/><path d=\"M60,60 L60.0,110.0 A50,50 0 0 1 16.7,85.0 Z\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><path d=\"M60,60 L16.7,85.0 A50,50 0 0 1 16.7,35.0 Z\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><path d=\"M60,60 L16.7,35.0 A50,50 0 0 1 60.0,10.0 Z\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/></svg>",
+          "alt": "pie in 6 equal parts with 3 shaded"
+        }
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "1/6",
+          "rationale": "More than one part is shaded."
+        },
+        {
+          "key": "B",
+          "text": "5/6",
+          "rationale": "Fewer than five parts are shaded."
+        },
+        {
+          "key": "C",
+          "text": "3/6",
+          "correct": true
+        },
+        {
+          "key": "D",
+          "text": "4/6",
+          "rationale": "Count the shaded parts again."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "The pie has 6 equal parts and 3 are shaded, so 3/6 of the pie was eaten. [Figure shading is faint in the original scan; 3/6 (half the pie) is the most defensible reading.]"
+      ],
+      "workedSolution": [
+        "3 of 6 equal parts shaded → 3/6."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4K"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Devin earns $8 per hour at a bakery. How much does he earn in 9 hours?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "$64",
+          "rationale": "That is 8 × 8; he works 9 hours."
+        },
+        {
+          "key": "B",
+          "text": "$17",
+          "rationale": "That adds 8 + 9 instead of multiplying."
+        },
+        {
+          "key": "C",
+          "text": "$81",
+          "rationale": "That is 9 × 9; he earns $8 per hour."
+        },
+        {
+          "key": "D",
+          "text": "$72",
+          "correct": true
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Equal pay each hour: 8 × 9 = 72 dollars."
+      ],
+      "workedSolution": [
+        "$8 × 9 = $72."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.2A"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "The number of people attending a baseball game is 1,402. Which base-ten model shows the number 1,402?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "1 thousand, 5 hundreds, 2 ones",
+          "rationale": "1,402 has 4 hundreds, not 5."
+        },
+        {
+          "key": "B",
+          "text": "1 thousand, 4 hundreds, 2 ones",
+          "correct": true
+        },
+        {
+          "key": "C",
+          "text": "1 thousand, 4 hundreds, 1 ten, 2 ones",
+          "rationale": "1,402 has 0 tens; this shows a ten."
+        },
+        {
+          "key": "D",
+          "text": "1 thousand, 5 hundreds, 2 tens",
+          "rationale": "Wrong number of hundreds and tens."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "1,402 = 1 thousand + 4 hundreds + 0 tens + 2 ones, so the model has 1 large cube, 4 flats, no rods, and 2 small cubes. [The original shows block pictures; the correct one has no tens rods.]"
+      ],
+      "workedSolution": [
+        "1,402 → 1 thousand, 4 hundreds, 0 tens, 2 ones."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4I"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Which set of numbers contains all odd numbers?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "211, 469, 788",
+          "rationale": "788 is even (ends in 8)."
+        },
+        {
+          "key": "B",
+          "text": "331, 977, 456",
+          "rationale": "456 is even (ends in 6)."
+        },
+        {
+          "key": "C",
+          "text": "323, 542, 901",
+          "rationale": "542 is even (ends in 2)."
+        },
+        {
+          "key": "D",
+          "text": "503, 217, 851",
+          "correct": true
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "A number is odd if its ones digit is 1, 3, 5, 7, or 9. Only 503, 217, 851 are all odd."
+      ],
+      "workedSolution": [
+        "503, 217, 851 all end in odd digits."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.3B"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Which fraction names the point closest to 0 on the number line?"
+      ],
+      "figures": [
+        {
+          "id": "",
+          "kind": "number_line",
+          "svg": "<svg viewBox=\"0 0 380 80\" xmlns=\"http://www.w3.org/2000/svg\"><line x1=\"18\" y1=\"40\" x2=\"362\" y2=\"40\" stroke=\"black\" stroke-width=\"2\" marker-end=\"url(#a)\" marker-start=\"url(#b)\"/><defs><marker id=\"a\" markerWidth=\"10\" markerHeight=\"10\" refX=\"6\" refY=\"3\" orient=\"auto\"><path d=\"M0,0 L6,3 L0,6\" fill=\"black\"/></marker><marker id=\"b\" markerWidth=\"10\" markerHeight=\"10\" refX=\"0\" refY=\"3\" orient=\"auto\"><path d=\"M6,0 L0,3 L6,6\" fill=\"black\"/></marker></defs><line x1=\"30.0\" y1=\"33\" x2=\"30.0\" y2=\"47\" stroke=\"black\" stroke-width=\"2\"/><text x=\"30.0\" y=\"64\" font-size=\"13\" text-anchor=\"middle\">0</text><line x1=\"110.0\" y1=\"33\" x2=\"110.0\" y2=\"47\" stroke=\"black\" stroke-width=\"2\"/><text x=\"110.0\" y=\"64\" font-size=\"13\" text-anchor=\"middle\"></text><line x1=\"190.0\" y1=\"33\" x2=\"190.0\" y2=\"47\" stroke=\"black\" stroke-width=\"2\"/><text x=\"190.0\" y=\"64\" font-size=\"13\" text-anchor=\"middle\"></text><line x1=\"270.0\" y1=\"33\" x2=\"270.0\" y2=\"47\" stroke=\"black\" stroke-width=\"2\"/><text x=\"270.0\" y=\"64\" font-size=\"13\" text-anchor=\"middle\"></text><line x1=\"350.0\" y1=\"33\" x2=\"350.0\" y2=\"47\" stroke=\"black\" stroke-width=\"2\"/><text x=\"350.0\" y=\"64\" font-size=\"13\" text-anchor=\"middle\">1</text></svg>",
+          "alt": "number line 0 to 1 divided into 4 equal parts"
+        }
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "2/4",
+          "rationale": "2/4 is halfway, not closest to 0."
+        },
+        {
+          "key": "B",
+          "text": "4/4",
+          "rationale": "4/4 is at 1, the farthest from 0."
+        },
+        {
+          "key": "C",
+          "text": "1/4",
+          "correct": true
+        },
+        {
+          "key": "D",
+          "text": "3/4",
+          "rationale": "3/4 is close to 1, not 0."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "The line from 0 to 1 is split into 4 equal parts. The mark closest to 0 is one part from 0, which is 1/4."
+      ],
+      "workedSolution": [
+        "Closest to 0 = smallest = 1/4."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4D"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "There are 2 barns on a horse ranch. Each barn has 4 rows of horse stalls. There are 20 stalls in each row. Which equation shows the Commutative Property of multiplication?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "2 × 4 × 20 = (2 × 4) × 20",
+          "rationale": "That shows grouping (Associative Property)."
+        },
+        {
+          "key": "B",
+          "text": "2 × 4 × 20 = 2 × 4 × 20",
+          "rationale": "Both sides are identical; no property is shown."
+        },
+        {
+          "key": "C",
+          "text": "2 × 4 × 20 = 2 × 20 × 4",
+          "correct": true
+        },
+        {
+          "key": "D",
+          "text": "2 × 4 × 20 = (4 × 2) × 20",
+          "rationale": "That groups factors (Associative Property)."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "The Commutative Property changes the order of factors: 2 × 4 × 20 = 2 × 20 × 4."
+      ],
+      "workedSolution": [
+        "Order changes → Commutative Property: 2 × 20 × 4."
+      ]
+    },
+    {
+      "standardCodes": [
+        "2.9G"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Carter starts practicing piano at 3:45 P.M. He finishes 30 minutes later. At what time does he finish?"
+      ],
+      "figures": [
+        {
+          "id": "",
+          "kind": "shape",
+          "svg": "<svg viewBox=\"0 0 140 140\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"70\" cy=\"70\" r=\"58\" fill=\"white\" stroke=\"black\" stroke-width=\"3\"/><text x=\"92.0\" y=\"36.9\" font-size=\"13\" text-anchor=\"middle\">1</text><text x=\"108.1\" y=\"53.0\" font-size=\"13\" text-anchor=\"middle\">2</text><text x=\"114.0\" y=\"75.0\" font-size=\"13\" text-anchor=\"middle\">3</text><text x=\"108.1\" y=\"97.0\" font-size=\"13\" text-anchor=\"middle\">4</text><text x=\"92.0\" y=\"113.1\" font-size=\"13\" text-anchor=\"middle\">5</text><text x=\"70.0\" y=\"119.0\" font-size=\"13\" text-anchor=\"middle\">6</text><text x=\"48.0\" y=\"113.1\" font-size=\"13\" text-anchor=\"middle\">7</text><text x=\"31.9\" y=\"97.0\" font-size=\"13\" text-anchor=\"middle\">8</text><text x=\"26.0\" y=\"75.0\" font-size=\"13\" text-anchor=\"middle\">9</text><text x=\"31.9\" y=\"53.0\" font-size=\"13\" text-anchor=\"middle\">10</text><text x=\"48.0\" y=\"36.9\" font-size=\"13\" text-anchor=\"middle\">11</text><text x=\"70.0\" y=\"31.0\" font-size=\"13\" text-anchor=\"middle\">12</text><line x1=\"70\" y1=\"70\" x2=\"30.0\" y2=\"70.0\" stroke=\"black\" stroke-width=\"2\"/><line x1=\"70\" y1=\"70\" x2=\"95.9\" y2=\"80.7\" stroke=\"black\" stroke-width=\"3\"/><circle cx=\"70\" cy=\"70\" r=\"3\" fill=\"black\"/></svg>",
+          "alt": "analog clock showing 3:45"
+        }
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "4:15 P.M.",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "3:15 P.M.",
+          "rationale": "That goes back 30 minutes instead of forward."
+        },
+        {
+          "key": "C",
+          "text": "3:10 P.M.",
+          "rationale": "That is not 30 minutes after 3:45."
+        },
+        {
+          "key": "D",
+          "text": "4:45 P.M.",
+          "rationale": "That adds a whole hour, not 30 minutes."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "30 minutes after 3:45 is 4:15 (15 minutes to 4:00, then 15 more)."
+      ],
+      "workedSolution": [
+        "3:45 + 0:30 = 4:15 P.M."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.3D"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Jack finished 3/8 of his math problems. Which shows 3/8 written as a sum of unit fractions?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "1/8 + 2/8",
+          "rationale": "2/8 is not a unit fraction."
+        },
+        {
+          "key": "B",
+          "text": "1/8 + 1/8 + 1/8",
+          "correct": true
+        },
+        {
+          "key": "C",
+          "text": "3/8 + 3/8 + 3/8",
+          "rationale": "That equals 9/8, and 3/8 is not a unit fraction."
+        },
+        {
+          "key": "D",
+          "text": "1/4 + 1/8",
+          "rationale": "These have different denominators and do not total 3/8."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "A unit fraction has 1 on top. 3/8 = 1/8 + 1/8 + 1/8."
+      ],
+      "workedSolution": [
+        "Three copies of 1/8 = 3/8."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4K"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Deena gets a $20 allowance every month. She saves $7 of her allowance each month. How much will she save in 5 months?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "$27",
+          "rationale": "That adds 20 + 7 once."
+        },
+        {
+          "key": "B",
+          "text": "$65",
+          "rationale": "That is not 7 saved each of 5 months."
+        },
+        {
+          "key": "C",
+          "text": "$35",
+          "correct": true
+        },
+        {
+          "key": "D",
+          "text": "$100",
+          "rationale": "That is 20 × 5, her whole allowance, not her savings."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "She saves the same amount each month: 7 × 5 = 35 dollars."
+      ],
+      "workedSolution": [
+        "$7 × 5 = $35."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.5A"
+      ],
+      "type": "text_entry",
+      "difficulty": "hard",
+      "prompt": [
+        "Katherine wants to buy 2 books. Each book costs $14. She has $20 saved and will borrow the rest from her sister. She will pay her sister back $4 each week. How many weeks will it take to pay back her sister?"
+      ],
+      "figures": [],
+      "answer": "2",
+      "blanks": {
+        "b1": "2"
+      },
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Two books cost 2 × 14 = $28. She borrows 28 − 20 = $8. At $4 per week, 8 ÷ 4 = 2 weeks."
+      ],
+      "workedSolution": [
+        "2×$14=$28; $28−$20=$8; $8÷$4=2 weeks."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4A"
+      ],
+      "type": "text_entry",
+      "difficulty": "medium",
+      "prompt": [
+        "Drew has 53 trading cards. He gives 18 to his brother. How many trading cards does he have left?"
+      ],
+      "figures": [
+        {
+          "id": "",
+          "kind": "shape",
+          "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"8\" y=\"8\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/></svg>",
+          "alt": "strip diagram: 53 total, 18 given away, ? left"
+        }
+      ],
+      "answer": "35",
+      "blanks": {
+        "b1": "35"
+      },
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Subtract the cards given away: 53 − 18 = 35."
+      ],
+      "workedSolution": [
+        "53 − 18 = 35."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4K"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Brett stacked 15 boxes of markers. He places his stacks in 3 rows with the same number of boxes in each row. How many boxes are in each row?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "4",
+          "rationale": "4 × 3 = 12, not 15."
+        },
+        {
+          "key": "B",
+          "text": "3",
+          "rationale": "That is the number of rows, not boxes per row."
+        },
+        {
+          "key": "C",
+          "text": "5",
+          "correct": true
+        },
+        {
+          "key": "D",
+          "text": "6",
+          "rationale": "6 × 3 = 18, too many."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Share equally into 3 rows: 15 ÷ 3 = 5 boxes per row."
+      ],
+      "workedSolution": [
+        "15 ÷ 3 = 5."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4K"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Brooke folds her socks in sets of 2. She folds 18 socks. How many sets of socks does she fold?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "10",
+          "rationale": "10 sets would be 20 socks."
+        },
+        {
+          "key": "B",
+          "text": "8",
+          "rationale": "8 sets would be 16 socks."
+        },
+        {
+          "key": "C",
+          "text": "16",
+          "rationale": "That subtracts 18 − 2 instead of dividing."
+        },
+        {
+          "key": "D",
+          "text": "9",
+          "correct": true
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Each set has 2 socks: 18 ÷ 2 = 9 sets."
+      ],
+      "workedSolution": [
+        "18 ÷ 2 = 9."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.4C"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Ricardo has two $10 bills, four $1 bills, two quarters, and one dime. How much money does Ricardo have?"
+      ],
+      "figures": [
+        {
+          "id": "",
+          "kind": "shape",
+          "svg": "<svg viewBox=\"0 0 320 150\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"10\" y=\"10\" width=\"66\" height=\"34\" rx=\"3\" fill=\"#d6ecd6\" stroke=\"#2a6b2a\" stroke-width=\"2\"/><text x=\"43\" y=\"32\" font-size=\"14\" text-anchor=\"middle\" fill=\"#1a4a1a\">$10</text><rect x=\"84\" y=\"10\" width=\"66\" height=\"34\" rx=\"3\" fill=\"#d6ecd6\" stroke=\"#2a6b2a\" stroke-width=\"2\"/><text x=\"117\" y=\"32\" font-size=\"14\" text-anchor=\"middle\" fill=\"#1a4a1a\">$10</text><rect x=\"158\" y=\"10\" width=\"66\" height=\"34\" rx=\"3\" fill=\"#d6ecd6\" stroke=\"#2a6b2a\" stroke-width=\"2\"/><text x=\"191\" y=\"32\" font-size=\"14\" text-anchor=\"middle\" fill=\"#1a4a1a\">$1</text><rect x=\"232\" y=\"10\" width=\"66\" height=\"34\" rx=\"3\" fill=\"#d6ecd6\" stroke=\"#2a6b2a\" stroke-width=\"2\"/><text x=\"265\" y=\"32\" font-size=\"14\" text-anchor=\"middle\" fill=\"#1a4a1a\">$1</text><rect x=\"10\" y=\"54\" width=\"66\" height=\"34\" rx=\"3\" fill=\"#d6ecd6\" stroke=\"#2a6b2a\" stroke-width=\"2\"/><text x=\"43\" y=\"76\" font-size=\"14\" text-anchor=\"middle\" fill=\"#1a4a1a\">$1</text><rect x=\"84\" y=\"54\" width=\"66\" height=\"34\" rx=\"3\" fill=\"#d6ecd6\" stroke=\"#2a6b2a\" stroke-width=\"2\"/><text x=\"117\" y=\"76\" font-size=\"14\" text-anchor=\"middle\" fill=\"#1a4a1a\">$1</text><circle cx=\"44\" cy=\"128\" r=\"22\" fill=\"#d9c8a0\" stroke=\"#7a6a3a\" stroke-width=\"2\"/><text x=\"44\" y=\"132\" font-size=\"11\" text-anchor=\"middle\">25¢</text><circle cx=\"102\" cy=\"128\" r=\"22\" fill=\"#d9c8a0\" stroke=\"#7a6a3a\" stroke-width=\"2\"/><text x=\"102\" y=\"132\" font-size=\"11\" text-anchor=\"middle\">25¢</text><circle cx=\"153\" cy=\"128\" r=\"15\" fill=\"#d9c8a0\" stroke=\"#7a6a3a\" stroke-width=\"2\"/><text x=\"153\" y=\"132\" font-size=\"11\" text-anchor=\"middle\">10¢</text></svg>",
+          "alt": "two $10 bills, four $1 bills, two quarters, one dime"
+        }
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "$20.40",
+          "rationale": "That misses some of the bills and coins."
+        },
+        {
+          "key": "B",
+          "text": "$24.40",
+          "rationale": "Recount the coins: two quarters and a dime are 60¢."
+        },
+        {
+          "key": "C",
+          "text": "$24.60",
+          "correct": true
+        },
+        {
+          "key": "D",
+          "text": "$24.55",
+          "rationale": "Two quarters and a dime make 60¢, not 55¢."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Bills: 2 × $10 + 4 × $1 = $24. Coins: 25 + 25 + 10 = 60¢. Total = $24.60."
+      ],
+      "workedSolution": [
+        "$24 in bills + $0.60 in coins = $24.60."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.7D"
+      ],
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "prompt": [
+        "Which measurement should be used for the volume of a container?"
+      ],
+      "figures": [],
+      "options": [
+        {
+          "key": "A",
+          "text": "pounds",
+          "rationale": "Pounds measure weight, not volume."
+        },
+        {
+          "key": "B",
+          "text": "liters",
+          "correct": true
+        },
+        {
+          "key": "C",
+          "text": "inches",
+          "rationale": "Inches measure length, not volume."
+        },
+        {
+          "key": "D",
+          "text": "grams",
+          "rationale": "Grams measure mass/weight, not liquid volume."
+        }
+      ],
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Liquid volume (capacity) of a container is measured in liters."
+      ],
+      "workedSolution": [
+        "Volume → liters."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.6C"
+      ],
+      "type": "text_entry",
+      "difficulty": "medium",
+      "prompt": [
+        "The diagram shows the outline of a vegetable garden. Each unit square is 1 square foot. What is the area of the vegetable garden in square feet?"
+      ],
+      "figures": [
+        {
+          "id": "",
+          "kind": "area_model",
+          "svg": "<svg viewBox=\"0 0 146 146\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"8\" y=\"8\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"34\" y=\"8\" width=\"26\" height=\"26\" fill=\"#cfe0f0\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"60\" y=\"8\" width=\"26\" height=\"26\" fill=\"#cfe0f0\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"86\" y=\"8\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"112\" y=\"8\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"8\" y=\"34\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"34\" y=\"34\" width=\"26\" height=\"26\" fill=\"#cfe0f0\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"60\" y=\"34\" width=\"26\" height=\"26\" fill=\"#cfe0f0\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"86\" y=\"34\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"112\" y=\"34\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"8\" y=\"60\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"34\" y=\"60\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"60\" y=\"60\" width=\"26\" height=\"26\" fill=\"#cfe0f0\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"86\" y=\"60\" width=\"26\" height=\"26\" fill=\"#cfe0f0\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"112\" y=\"60\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"8\" y=\"86\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"34\" y=\"86\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"60\" y=\"86\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"86\" y=\"86\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"112\" y=\"86\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"8\" y=\"112\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"34\" y=\"112\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"60\" y=\"112\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"86\" y=\"112\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/><rect x=\"112\" y=\"112\" width=\"26\" height=\"26\" fill=\"white\" stroke=\"black\" stroke-width=\"1.5\"/></svg>",
+          "alt": "garden outline covering 6 unit squares"
+        }
+      ],
+      "answer": "6",
+      "blanks": {
+        "b1": "6"
+      },
+      "points": 1,
+      "allowPartialCredit": false,
+      "explanation": [
+        "Count the unit squares inside the garden outline: 6 squares, so the area is 6 square feet. [Counted from the shaded grid in the original.]"
+      ],
+      "workedSolution": [
+        "6 unit squares → 6 square feet."
+      ]
+    }
+  ]
+}

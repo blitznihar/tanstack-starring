@@ -7,6 +7,7 @@ import { programsRepo } from "~/repositories/programs.js";
 import { rewardPanel } from "~/server/gamification/gamification.js";
 import { getOrCreateSchedule } from "~/server/scheduler/scheduler.js";
 import { studentOverview } from "~/server/reporting/reporting.js";
+import { assertCanSeeStudent, publicUserOption, userId, visibleStudentsFor } from "~/server/users/associations.js";
 import { requireAuth } from "./context.js";
 
 function titleCase(value: string): string {
@@ -247,12 +248,38 @@ export const studentHome = createServerFn({ method: "GET" }).handler(async () =>
 });
 
 /** Student history: completed lessons/practices grouped by schedule date. */
-export const studentHistory = createServerFn({ method: "GET" }).handler(async () => {
+export const studentHistory = createServerFn({ method: "GET" })
+  .validator((d?: { studentId?: string }) => ({
+    studentId: typeof d?.studentId === "string" && d.studentId.trim() ? d.studentId.trim() : undefined,
+  }))
+  .handler(async ({ data }) => {
   const auth = await requireAuth();
-  if (!auth.roles.includes("student")) throw new Error("Forbidden: history is only available to student profiles");
+  const students = await visibleStudentsFor(auth);
+  const viewerIsStudent = auth.roles.includes("student");
+  const viewerIsParent = auth.roles.includes("parent") && !auth.roles.some((role) => role === "admin" || role === "super_admin");
+  const selectedStudentId = viewerIsStudent
+    ? auth.userId
+    : data.studentId ?? (viewerIsParent && students[0] ? userId(students[0]) : "");
+
+  if (!selectedStudentId) {
+    return {
+      available: false as const,
+      viewer: { displayName: auth.displayName, roles: auth.roles },
+      displayName: auth.displayName,
+      firstName: auth.displayName.split(/\s+/)[0] ?? auth.displayName,
+      studentId: "",
+      studentName: "",
+      students: students.map(publicUserOption),
+      programs: [],
+    };
+  }
+
+  await assertCanSeeStudent(auth, selectedStudentId);
+  const student = students.find((entry) => userId(entry) === selectedStudentId);
+  const studentName = student?.displayName ?? (viewerIsStudent ? auth.displayName : "Student");
 
   const [enrollments, programs] = await Promise.all([
-    enrollmentsRepo.listForStudent(auth.userId),
+    enrollmentsRepo.listForStudent(selectedStudentId),
     programsRepo.list(),
   ]);
   const activeEnrollments = enrollments.filter((enrollment) => enrollment.status === "active" && enrollment._id);
@@ -299,8 +326,13 @@ export const studentHistory = createServerFn({ method: "GET" }).handler(async ()
   }
 
   return {
-    displayName: auth.displayName,
-    firstName: auth.displayName.split(/\s+/)[0] ?? auth.displayName,
+    available: true as const,
+    viewer: { displayName: auth.displayName, roles: auth.roles },
+    displayName: viewerIsStudent ? auth.displayName : studentName,
+    firstName: studentName.split(/\s+/)[0] ?? studentName,
+    studentId: selectedStudentId,
+    studentName,
+    students: students.map(publicUserOption),
     programs: programHistories,
   };
 });
