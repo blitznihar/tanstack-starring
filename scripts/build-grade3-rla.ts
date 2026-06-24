@@ -416,6 +416,422 @@ written("scr", "3.9D", "bats", "medium",
   [["idea", "States the central idea (bats are helpful).", 1], ["detail", "Gives one accurate supporting detail.", 1]],
   "The central idea is that bats are helpful animals. For example, one little brown bat can eat more than a thousand insects, including mosquitoes, in a single hour, which keeps yards more comfortable for people.");
 
+// ===========================================================================
+// FOCUSED RLA PRACTICE EXPANSION
+// ===========================================================================
+// Practice sessions require 20 unique auto-scorable questions for the assigned
+// TEKS. These deepen 3.9D and 3.10A without changing written-response coverage.
+const centralIdeaPractice = [
+  {
+    passage: "garden", diff: "medium" as const,
+    prompt: "Which sentence BEST states the central idea of \"The Class Garden\"?",
+    correct: "A class turns hard ground into a garden by working patiently together",
+    distractors: [
+      "Students learn how to cook vegetables for lunch",
+      "A teacher takes a class on a trip to a farm",
+      "A school decides to stop planting vegetables",
+    ],
+    why: "The passage focuses on the class working patiently to create a successful garden.",
+  },
+  {
+    passage: "garden", diff: "medium" as const,
+    prompt: "Which detail supports the idea that preparing the garden took effort?",
+    correct: "By recess, the students' hands were sore from working the dirt",
+    distractors: [
+      "The tomatoes turned from green to red",
+      "The garden was behind the school",
+      "The vegetables went to the school kitchen",
+    ],
+    why: "Sore hands are direct evidence that the garden work was difficult.",
+  },
+  {
+    passage: "garden", diff: "easy" as const,
+    prompt: "What is paragraph 3 of \"The Class Garden\" mainly about?",
+    correct: "How compost helped improve the soil",
+    distractors: [
+      "How the students shared the harvest",
+      "Why tomatoes turn red",
+      "Where Mr. Diaz kept the notebooks",
+    ],
+    why: "Paragraph 3 explains compost and how it changed the soil.",
+  },
+  {
+    passage: "garden", diff: "medium" as const,
+    prompt: "Which sentence belongs in a short summary of \"The Class Garden\"?",
+    correct: "The students prepared soil, planted vegetables, cared for them, and shared the harvest",
+    distractors: [
+      "The class spent the day learning several soup recipes",
+      "The students watched a storm destroy their garden",
+      "Mr. Diaz bought baskets of vegetables from a store",
+    ],
+    why: "A summary should include the main steps in the passage, not unrelated details.",
+  },
+  {
+    passage: "garden", diff: "medium" as const,
+    prompt: "Which idea is MOST important to understanding \"The Class Garden\"?",
+    correct: "The students' steady work changed the garden over time",
+    distractors: [
+      "The school kitchen had three baskets",
+      "Tomatoes are always red in May",
+      "Every student owned a shovel",
+    ],
+    why: "The passage is centered on the students' steady work and the change it caused.",
+  },
+  {
+    passage: "garden", diff: "easy" as const,
+    prompt: "Why is \"The Class Garden\" an informational text?",
+    correct: "It gives real-sounding facts and steps about growing a garden",
+    distractors: [
+      "It is written as a poem with rhyming lines",
+      "It tells about magical vegetables",
+      "It gives directions for a board game",
+    ],
+    why: "The passage explains a real process with factual details.",
+  },
+  {
+    passage: "garden", diff: "medium" as const,
+    prompt: "Which detail shows the result of the class's work in the garden?",
+    correct: "The harvest filled three big baskets",
+    distractors: [
+      "The ground began as a weedy strip",
+      "The students used small shovels",
+      "Mr. Diaz warned them before they began",
+    ],
+    why: "The baskets of vegetables show what the class produced.",
+  },
+  {
+    passage: "garden", diff: "medium" as const,
+    prompt: "Which statement tells what \"The Class Garden\" is mostly about without listing every detail?",
+    correct: "A class works together to grow a vegetable garden",
+    distractors: [
+      "A notebook has many blank pages",
+      "A school kitchen needs three baskets",
+      "A teacher smiles at the end of May",
+    ],
+    why: "This statement captures the whole passage in a broad way.",
+  },
+  {
+    passage: "garden", diff: "hard" as const,
+    prompt: "Which detail BEST supports the idea that the garden became successful?",
+    correct: "The garden was bursting with green by the end of May",
+    distractors: [
+      "The dirt was hard and dry at first",
+      "The class worked behind the school",
+      "The students pulled weeds before recess",
+    ],
+    why: "A garden 'bursting with green' shows success after the earlier work.",
+  },
+  {
+    passage: "bats", diff: "medium" as const,
+    prompt: "Which sentence BEST states the central idea of \"Backyard Bats\"?",
+    correct: "Bats help people and plants in several important ways",
+    distractors: [
+      "Bats are mostly spooky animals that should be avoided",
+      "Bats only live in caves far away from people",
+      "Bats spend all night looking for bananas",
+    ],
+    why: "The passage gives several ways bats help people and plants.",
+  },
+  {
+    passage: "bats", diff: "medium" as const,
+    prompt: "Which detail supports the central idea that bats help people?",
+    correct: "A little brown bat can eat more than a thousand insects in one hour",
+    distractors: [
+      "People often imagine bats as spooky",
+      "Flowers contain a sweet liquid called nectar",
+      "Echoes can sound like a shout in a canyon",
+    ],
+    why: "Eating many insects is one way bats help people.",
+  },
+  {
+    passage: "bats", diff: "easy" as const,
+    prompt: "What is paragraph 4 of \"Backyard Bats\" mainly about?",
+    correct: "How bats use sound and echoes to find food",
+    distractors: [
+      "Why people should plant tomatoes",
+      "How bats help bananas and mangoes grow",
+      "Where old trees should be planted",
+    ],
+    why: "Paragraph 4 explains echolocation, the way bats use sound and echoes.",
+  },
+  {
+    passage: "bats", diff: "medium" as const,
+    prompt: "Which sentence belongs in a short summary of \"Backyard Bats\"?",
+    correct: "Bats eat insects, help plants, and can be protected by people",
+    distractors: [
+      "Bats write notebook entries about their food",
+      "A class plants carrots behind the school",
+      "A fishing boat sounds three short blasts",
+    ],
+    why: "A summary should include the passage's main helpful facts about bats.",
+  },
+  {
+    passage: "bats", diff: "medium" as const,
+    prompt: "Which idea is MOST important to understanding \"Backyard Bats\"?",
+    correct: "Bats are useful, so people should protect them",
+    distractors: [
+      "All flowers become bananas and mangoes",
+      "Mosquitoes are the only insects in yards",
+      "Old trees should always be removed",
+    ],
+    why: "The passage explains that bats help us and ends by telling how to protect them.",
+  },
+  {
+    passage: "bats", diff: "easy" as const,
+    prompt: "Why is \"Backyard Bats\" an informational text?",
+    correct: "It gives facts about what bats do and how they help",
+    distractors: [
+      "It tells a make-believe story with characters",
+      "It is a poem about a spooky night",
+      "It gives a recipe using fruit",
+    ],
+    why: "The passage gives factual information about bats.",
+  },
+  {
+    passage: "bats", diff: "medium" as const,
+    prompt: "Which detail shows that bats can help plants?",
+    correct: "They carry pollen as they fly from flower to flower",
+    distractors: [
+      "They imagine spooky neighborhoods",
+      "They make old trees fall down",
+      "They turn mosquitoes into flowers",
+    ],
+    why: "Carrying pollen helps fruits grow, so it supports the idea that bats help plants.",
+  },
+  {
+    passage: "bats", diff: "medium" as const,
+    prompt: "Which detail explains why bats are useful in yards?",
+    correct: "They eat mosquitoes and other pesky insects",
+    distractors: [
+      "They leave old trees standing",
+      "They listen to notebook pages",
+      "They paint flowers yellow",
+    ],
+    why: "Eating mosquitoes and other insects is useful in yards and gardens.",
+  },
+  {
+    passage: "bats", diff: "hard" as const,
+    prompt: "Which statement tells what \"Backyard Bats\" is mostly about without giving every fact?",
+    correct: "Bats are helpful neighbors that deserve protection",
+    distractors: [
+      "Bats are too spooky to learn about",
+      "Bananas and mangoes grow only in backyards",
+      "People should remove old trees near gardens",
+    ],
+    why: "This broad statement captures the whole passage's central idea.",
+  },
+];
+
+for (const q of centralIdeaPractice) {
+  const [firstDistractor, secondDistractor, thirdDistractor] = q.distractors;
+  mc("3.9D", q.passage, q.diff, q.prompt, [
+    { k: "A", t: q.correct, correct: true },
+    { k: "B", t: firstDistractor ?? "", why: "This detail does not state or support the main idea of the passage." },
+    { k: "C", t: secondDistractor ?? "", why: "This answer is too narrow or is not supported by the passage." },
+    { k: "D", t: thirdDistractor ?? "", why: "This answer does not match what the passage is mostly about." },
+  ], q.why);
+}
+
+const authorPurposePractice = [
+  {
+    passage: "garden", diff: "medium" as const,
+    prompt: "Why did the author include the detail that the students' hands were sore?",
+    correct: "To show that preparing the garden required hard work",
+    distractors: [
+      "To explain why the students stopped caring for the garden",
+      "To persuade readers that shovels are unsafe",
+      "To show that recess should be shorter",
+    ],
+    why: "The detail helps readers understand the effort behind the garden's success.",
+  },
+  {
+    passage: "garden", diff: "medium" as const,
+    prompt: "Why did the author explain what compost is in paragraph 3?",
+    correct: "To help readers understand how the soil became better for plants",
+    distractors: [
+      "To tell readers how to cook vegetable scraps",
+      "To show that compost is a kind of notebook",
+      "To explain why the class stopped planting seeds",
+    ],
+    why: "The author defines compost because it is important to the garden process.",
+  },
+  {
+    passage: "garden", diff: "hard" as const,
+    prompt: "What message does the author share through Mr. Diaz's final comment?",
+    correct: "Working patiently can help people grow as much as plants do",
+    distractors: [
+      "Vegetables should never be shared with others",
+      "Students should avoid difficult jobs",
+      "Gardens are successful only when teachers do all the work",
+    ],
+    why: "Mr. Diaz connects the harvest with the students learning patience.",
+  },
+  {
+    passage: "garden", diff: "easy" as const,
+    prompt: "The author's main purpose in paragraph 4 is to —",
+    correct: "describe how the students planted and cared for the rows",
+    distractors: [
+      "explain why the school kitchen was closed",
+      "tell a joke about bean vines",
+      "persuade readers to stop watering plants",
+    ],
+    why: "Paragraph 4 explains the planting and daily care.",
+  },
+  {
+    passage: "garden", diff: "medium" as const,
+    prompt: "Why did the author include the notebook detail?",
+    correct: "To show that the students carefully tracked the garden's growth",
+    distractors: [
+      "To show that the students forgot where the garden was",
+      "To explain how to write a recipe",
+      "To prove that tomatoes cannot grow in gardens",
+    ],
+    why: "The notebook detail shows careful observation and responsibility.",
+  },
+  {
+    passage: "garden", diff: "hard" as const,
+    prompt: "What does the author want readers to understand about patience?",
+    correct: "Patience helped the class keep working until the garden grew",
+    distractors: [
+      "Patience means quitting when work is slow",
+      "Patience is useful only during recess",
+      "Patience kept the class from sharing the vegetables",
+    ],
+    why: "The passage shows students continuing through slow work until harvest.",
+  },
+  {
+    passage: "garden", diff: "medium" as const,
+    prompt: "Which sentence best describes the author's purpose for writing \"The Class Garden\"?",
+    correct: "To explain how a class grew a garden and learned patience",
+    distractors: [
+      "To entertain readers with a fantasy about talking vegetables",
+      "To persuade readers that gardens should be removed",
+      "To list every vegetable sold in a store",
+    ],
+    why: "The passage explains the garden process and the lesson about patience.",
+  },
+  {
+    passage: "garden", diff: "medium" as const,
+    prompt: "Why did the author organize \"The Class Garden\" in time order?",
+    correct: "To show each step from preparing the dirt to sharing the harvest",
+    distractors: [
+      "To compare two different schools",
+      "To hide the ending from the reader",
+      "To explain how bats find food at night",
+    ],
+    why: "Time order helps readers follow the garden from start to harvest.",
+  },
+  {
+    passage: "bats", diff: "medium" as const,
+    prompt: "Why did the author begin by saying people often think bats are spooky?",
+    correct: "To introduce a common idea before explaining that bats are helpful",
+    distractors: [
+      "To prove that bats cannot help anyone",
+      "To begin a make-believe mystery story",
+      "To explain why flowers need water",
+    ],
+    why: "The author contrasts a common fear with facts about helpful bats.",
+  },
+  {
+    passage: "bats", diff: "medium" as const,
+    prompt: "Why did the author include the fact that one bat can eat more than a thousand insects?",
+    correct: "To show one way bats help yards and gardens",
+    distractors: [
+      "To explain why bats never fly at night",
+      "To persuade readers to collect mosquitoes",
+      "To tell readers how to count flower petals",
+    ],
+    why: "The insect fact supports the author's message that bats are helpful.",
+  },
+  {
+    passage: "bats", diff: "medium" as const,
+    prompt: "Why did the author explain echolocation?",
+    correct: "To help readers understand how bats find food in the dark",
+    distractors: [
+      "To show how bats plant old trees",
+      "To explain why bananas are yellow",
+      "To tell a story about a canyon trip",
+    ],
+    why: "The explanation teaches readers how bats use sound and echoes.",
+  },
+  {
+    passage: "bats", diff: "hard" as const,
+    prompt: "What message does the author share in paragraph 5?",
+    correct: "People can protect bats so bats can keep helping us",
+    distractors: [
+      "People should be afraid of every bat they see",
+      "Old trees should always be cut down",
+      "Bats stop helping when people build gardens",
+    ],
+    why: "Paragraph 5 gives actions people can take to help bats.",
+  },
+  {
+    passage: "bats", diff: "medium" as const,
+    prompt: "Why did the author mention bananas and mangoes?",
+    correct: "To give examples of fruits that can grow when bats move pollen",
+    distractors: [
+      "To list foods that bats cook",
+      "To prove that bats only live in fruit trees",
+      "To explain why mosquitoes are fruits",
+    ],
+    why: "The fruit examples make the plant-helping detail clearer.",
+  },
+  {
+    passage: "bats", diff: "medium" as const,
+    prompt: "Which sentence best describes the author's purpose for writing \"Backyard Bats\"?",
+    correct: "To inform readers that bats are useful and worth protecting",
+    distractors: [
+      "To entertain readers with a story about a lost pet",
+      "To persuade readers to stay away from every garden",
+      "To explain how to harvest vegetables in May",
+    ],
+    why: "The passage gives facts about how bats help and how people can protect them.",
+  },
+  {
+    passage: "bats", diff: "hard" as const,
+    prompt: "Why did the author call bats \"some of the most helpful animals\"?",
+    correct: "To emphasize that bats do useful things for people and plants",
+    distractors: [
+      "To show that bats do not need food",
+      "To suggest that bats are imaginary",
+      "To explain that all insects are helpful",
+    ],
+    why: "The phrase highlights the author's positive message about bats.",
+  },
+  {
+    passage: "bats", diff: "medium" as const,
+    prompt: "What does the author want readers to understand after reading \"Backyard Bats\"?",
+    correct: "Bats may seem spooky, but they are helpful neighbors",
+    distractors: [
+      "Bats should be kept away from every plant",
+      "Bats are useful only in stories",
+      "Bats can grow vegetables without soil",
+    ],
+    why: "The passage changes the reader's view from spooky to helpful.",
+  },
+  {
+    passage: "bats", diff: "medium" as const,
+    prompt: "Why did the author tell readers they can leave old trees standing and put up a bat house?",
+    correct: "To suggest simple ways people can help bats",
+    distractors: [
+      "To explain how to stop fruit from growing",
+      "To tell readers how to build a school kitchen",
+      "To show that bats do not need shelter",
+    ],
+    why: "Those details are actions people can take to protect bats.",
+  },
+];
+
+for (const q of authorPurposePractice) {
+  const [firstDistractor, secondDistractor, thirdDistractor] = q.distractors;
+  mc("3.10A", q.passage, q.diff, q.prompt, [
+    { k: "A", t: q.correct, correct: true },
+    { k: "B", t: firstDistractor ?? "", why: "This does not match the author's purpose or message." },
+    { k: "C", t: secondDistractor ?? "", why: "This idea is not supported by the passage." },
+    { k: "D", t: thirdDistractor ?? "", why: "This answer is unrelated to why the author included the detail." },
+  ], q.why);
+}
+
 // ---------------------------------------------------------------------------
 // Standards + bundle
 // ---------------------------------------------------------------------------

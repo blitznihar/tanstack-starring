@@ -1910,6 +1910,1476 @@
       "workedSolution": [
         "The central idea is that bats are helpful animals. For example, one little brown bat can eat more than a thousand insects, including mosquitoes, in a single hour, which keeps yards more comfortable for people."
       ]
+    },
+    {
+      "standardCodes": [
+        "3.9D"
+      ],
+      "difficulty": "medium",
+      "passageRef": "garden",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "Which sentence BEST states the central idea of \"The Class Garden\"?"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "A class turns hard ground into a garden by working patiently together",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "Students learn how to cook vegetables for lunch",
+          "rationale": "This detail does not state or support the main idea of the passage."
+        },
+        {
+          "key": "C",
+          "text": "A teacher takes a class on a trip to a farm",
+          "rationale": "This answer is too narrow or is not supported by the passage."
+        },
+        {
+          "key": "D",
+          "text": "A school decides to stop planting vegetables",
+          "rationale": "This answer does not match what the passage is mostly about."
+        }
+      ],
+      "explanation": [
+        "The passage focuses on the class working patiently to create a successful garden."
+      ],
+      "workedSolution": [
+        "The passage focuses on the class working patiently to create a successful garden."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.9D"
+      ],
+      "difficulty": "medium",
+      "passageRef": "garden",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "Which detail supports the idea that preparing the garden took effort?"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "By recess, the students' hands were sore from working the dirt",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "The tomatoes turned from green to red",
+          "rationale": "This detail does not state or support the main idea of the passage."
+        },
+        {
+          "key": "C",
+          "text": "The garden was behind the school",
+          "rationale": "This answer is too narrow or is not supported by the passage."
+        },
+        {
+          "key": "D",
+          "text": "The vegetables went to the school kitchen",
+          "rationale": "This answer does not match what the passage is mostly about."
+        }
+      ],
+      "explanation": [
+        "Sore hands are direct evidence that the garden work was difficult."
+      ],
+      "workedSolution": [
+        "Sore hands are direct evidence that the garden work was difficult."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.9D"
+      ],
+      "difficulty": "easy",
+      "passageRef": "garden",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "What is paragraph 3 of \"The Class Garden\" mainly about?"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "How compost helped improve the soil",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "How the students shared the harvest",
+          "rationale": "This detail does not state or support the main idea of the passage."
+        },
+        {
+          "key": "C",
+          "text": "Why tomatoes turn red",
+          "rationale": "This answer is too narrow or is not supported by the passage."
+        },
+        {
+          "key": "D",
+          "text": "Where Mr. Diaz kept the notebooks",
+          "rationale": "This answer does not match what the passage is mostly about."
+        }
+      ],
+      "explanation": [
+        "Paragraph 3 explains compost and how it changed the soil."
+      ],
+      "workedSolution": [
+        "Paragraph 3 explains compost and how it changed the soil."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.9D"
+      ],
+      "difficulty": "medium",
+      "passageRef": "garden",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "Which sentence belongs in a short summary of \"The Class Garden\"?"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "The students prepared soil, planted vegetables, cared for them, and shared the harvest",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "The class spent the day learning several soup recipes",
+          "rationale": "This detail does not state or support the main idea of the passage."
+        },
+        {
+          "key": "C",
+          "text": "The students watched a storm destroy their garden",
+          "rationale": "This answer is too narrow or is not supported by the passage."
+        },
+        {
+          "key": "D",
+          "text": "Mr. Diaz bought baskets of vegetables from a store",
+          "rationale": "This answer does not match what the passage is mostly about."
+        }
+      ],
+      "explanation": [
+        "A summary should include the main steps in the passage, not unrelated details."
+      ],
+      "workedSolution": [
+        "A summary should include the main steps in the passage, not unrelated details."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.9D"
+      ],
+      "difficulty": "medium",
+      "passageRef": "garden",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "Which idea is MOST important to understanding \"The Class Garden\"?"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "The students' steady work changed the garden over time",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "The school kitchen had three baskets",
+          "rationale": "This detail does not state or support the main idea of the passage."
+        },
+        {
+          "key": "C",
+          "text": "Tomatoes are always red in May",
+          "rationale": "This answer is too narrow or is not supported by the passage."
+        },
+        {
+          "key": "D",
+          "text": "Every student owned a shovel",
+          "rationale": "This answer does not match what the passage is mostly about."
+        }
+      ],
+      "explanation": [
+        "The passage is centered on the students' steady work and the change it caused."
+      ],
+      "workedSolution": [
+        "The passage is centered on the students' steady work and the change it caused."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.9D"
+      ],
+      "difficulty": "easy",
+      "passageRef": "garden",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "Why is \"The Class Garden\" an informational text?"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "It gives real-sounding facts and steps about growing a garden",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "It is written as a poem with rhyming lines",
+          "rationale": "This detail does not state or support the main idea of the passage."
+        },
+        {
+          "key": "C",
+          "text": "It tells about magical vegetables",
+          "rationale": "This answer is too narrow or is not supported by the passage."
+        },
+        {
+          "key": "D",
+          "text": "It gives directions for a board game",
+          "rationale": "This answer does not match what the passage is mostly about."
+        }
+      ],
+      "explanation": [
+        "The passage explains a real process with factual details."
+      ],
+      "workedSolution": [
+        "The passage explains a real process with factual details."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.9D"
+      ],
+      "difficulty": "medium",
+      "passageRef": "garden",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "Which detail shows the result of the class's work in the garden?"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "The harvest filled three big baskets",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "The ground began as a weedy strip",
+          "rationale": "This detail does not state or support the main idea of the passage."
+        },
+        {
+          "key": "C",
+          "text": "The students used small shovels",
+          "rationale": "This answer is too narrow or is not supported by the passage."
+        },
+        {
+          "key": "D",
+          "text": "Mr. Diaz warned them before they began",
+          "rationale": "This answer does not match what the passage is mostly about."
+        }
+      ],
+      "explanation": [
+        "The baskets of vegetables show what the class produced."
+      ],
+      "workedSolution": [
+        "The baskets of vegetables show what the class produced."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.9D"
+      ],
+      "difficulty": "medium",
+      "passageRef": "garden",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "Which statement tells what \"The Class Garden\" is mostly about without listing every detail?"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "A class works together to grow a vegetable garden",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "A notebook has many blank pages",
+          "rationale": "This detail does not state or support the main idea of the passage."
+        },
+        {
+          "key": "C",
+          "text": "A school kitchen needs three baskets",
+          "rationale": "This answer is too narrow or is not supported by the passage."
+        },
+        {
+          "key": "D",
+          "text": "A teacher smiles at the end of May",
+          "rationale": "This answer does not match what the passage is mostly about."
+        }
+      ],
+      "explanation": [
+        "This statement captures the whole passage in a broad way."
+      ],
+      "workedSolution": [
+        "This statement captures the whole passage in a broad way."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.9D"
+      ],
+      "difficulty": "hard",
+      "passageRef": "garden",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "Which detail BEST supports the idea that the garden became successful?"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "The garden was bursting with green by the end of May",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "The dirt was hard and dry at first",
+          "rationale": "This detail does not state or support the main idea of the passage."
+        },
+        {
+          "key": "C",
+          "text": "The class worked behind the school",
+          "rationale": "This answer is too narrow or is not supported by the passage."
+        },
+        {
+          "key": "D",
+          "text": "The students pulled weeds before recess",
+          "rationale": "This answer does not match what the passage is mostly about."
+        }
+      ],
+      "explanation": [
+        "A garden 'bursting with green' shows success after the earlier work."
+      ],
+      "workedSolution": [
+        "A garden 'bursting with green' shows success after the earlier work."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.9D"
+      ],
+      "difficulty": "medium",
+      "passageRef": "bats",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "Which sentence BEST states the central idea of \"Backyard Bats\"?"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "Bats help people and plants in several important ways",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "Bats are mostly spooky animals that should be avoided",
+          "rationale": "This detail does not state or support the main idea of the passage."
+        },
+        {
+          "key": "C",
+          "text": "Bats only live in caves far away from people",
+          "rationale": "This answer is too narrow or is not supported by the passage."
+        },
+        {
+          "key": "D",
+          "text": "Bats spend all night looking for bananas",
+          "rationale": "This answer does not match what the passage is mostly about."
+        }
+      ],
+      "explanation": [
+        "The passage gives several ways bats help people and plants."
+      ],
+      "workedSolution": [
+        "The passage gives several ways bats help people and plants."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.9D"
+      ],
+      "difficulty": "medium",
+      "passageRef": "bats",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "Which detail supports the central idea that bats help people?"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "A little brown bat can eat more than a thousand insects in one hour",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "People often imagine bats as spooky",
+          "rationale": "This detail does not state or support the main idea of the passage."
+        },
+        {
+          "key": "C",
+          "text": "Flowers contain a sweet liquid called nectar",
+          "rationale": "This answer is too narrow or is not supported by the passage."
+        },
+        {
+          "key": "D",
+          "text": "Echoes can sound like a shout in a canyon",
+          "rationale": "This answer does not match what the passage is mostly about."
+        }
+      ],
+      "explanation": [
+        "Eating many insects is one way bats help people."
+      ],
+      "workedSolution": [
+        "Eating many insects is one way bats help people."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.9D"
+      ],
+      "difficulty": "easy",
+      "passageRef": "bats",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "What is paragraph 4 of \"Backyard Bats\" mainly about?"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "How bats use sound and echoes to find food",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "Why people should plant tomatoes",
+          "rationale": "This detail does not state or support the main idea of the passage."
+        },
+        {
+          "key": "C",
+          "text": "How bats help bananas and mangoes grow",
+          "rationale": "This answer is too narrow or is not supported by the passage."
+        },
+        {
+          "key": "D",
+          "text": "Where old trees should be planted",
+          "rationale": "This answer does not match what the passage is mostly about."
+        }
+      ],
+      "explanation": [
+        "Paragraph 4 explains echolocation, the way bats use sound and echoes."
+      ],
+      "workedSolution": [
+        "Paragraph 4 explains echolocation, the way bats use sound and echoes."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.9D"
+      ],
+      "difficulty": "medium",
+      "passageRef": "bats",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "Which sentence belongs in a short summary of \"Backyard Bats\"?"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "Bats eat insects, help plants, and can be protected by people",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "Bats write notebook entries about their food",
+          "rationale": "This detail does not state or support the main idea of the passage."
+        },
+        {
+          "key": "C",
+          "text": "A class plants carrots behind the school",
+          "rationale": "This answer is too narrow or is not supported by the passage."
+        },
+        {
+          "key": "D",
+          "text": "A fishing boat sounds three short blasts",
+          "rationale": "This answer does not match what the passage is mostly about."
+        }
+      ],
+      "explanation": [
+        "A summary should include the passage's main helpful facts about bats."
+      ],
+      "workedSolution": [
+        "A summary should include the passage's main helpful facts about bats."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.9D"
+      ],
+      "difficulty": "medium",
+      "passageRef": "bats",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "Which idea is MOST important to understanding \"Backyard Bats\"?"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "Bats are useful, so people should protect them",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "All flowers become bananas and mangoes",
+          "rationale": "This detail does not state or support the main idea of the passage."
+        },
+        {
+          "key": "C",
+          "text": "Mosquitoes are the only insects in yards",
+          "rationale": "This answer is too narrow or is not supported by the passage."
+        },
+        {
+          "key": "D",
+          "text": "Old trees should always be removed",
+          "rationale": "This answer does not match what the passage is mostly about."
+        }
+      ],
+      "explanation": [
+        "The passage explains that bats help us and ends by telling how to protect them."
+      ],
+      "workedSolution": [
+        "The passage explains that bats help us and ends by telling how to protect them."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.9D"
+      ],
+      "difficulty": "easy",
+      "passageRef": "bats",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "Why is \"Backyard Bats\" an informational text?"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "It gives facts about what bats do and how they help",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "It tells a make-believe story with characters",
+          "rationale": "This detail does not state or support the main idea of the passage."
+        },
+        {
+          "key": "C",
+          "text": "It is a poem about a spooky night",
+          "rationale": "This answer is too narrow or is not supported by the passage."
+        },
+        {
+          "key": "D",
+          "text": "It gives a recipe using fruit",
+          "rationale": "This answer does not match what the passage is mostly about."
+        }
+      ],
+      "explanation": [
+        "The passage gives factual information about bats."
+      ],
+      "workedSolution": [
+        "The passage gives factual information about bats."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.9D"
+      ],
+      "difficulty": "medium",
+      "passageRef": "bats",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "Which detail shows that bats can help plants?"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "They carry pollen as they fly from flower to flower",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "They imagine spooky neighborhoods",
+          "rationale": "This detail does not state or support the main idea of the passage."
+        },
+        {
+          "key": "C",
+          "text": "They make old trees fall down",
+          "rationale": "This answer is too narrow or is not supported by the passage."
+        },
+        {
+          "key": "D",
+          "text": "They turn mosquitoes into flowers",
+          "rationale": "This answer does not match what the passage is mostly about."
+        }
+      ],
+      "explanation": [
+        "Carrying pollen helps fruits grow, so it supports the idea that bats help plants."
+      ],
+      "workedSolution": [
+        "Carrying pollen helps fruits grow, so it supports the idea that bats help plants."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.9D"
+      ],
+      "difficulty": "medium",
+      "passageRef": "bats",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "Which detail explains why bats are useful in yards?"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "They eat mosquitoes and other pesky insects",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "They leave old trees standing",
+          "rationale": "This detail does not state or support the main idea of the passage."
+        },
+        {
+          "key": "C",
+          "text": "They listen to notebook pages",
+          "rationale": "This answer is too narrow or is not supported by the passage."
+        },
+        {
+          "key": "D",
+          "text": "They paint flowers yellow",
+          "rationale": "This answer does not match what the passage is mostly about."
+        }
+      ],
+      "explanation": [
+        "Eating mosquitoes and other insects is useful in yards and gardens."
+      ],
+      "workedSolution": [
+        "Eating mosquitoes and other insects is useful in yards and gardens."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.9D"
+      ],
+      "difficulty": "hard",
+      "passageRef": "bats",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "Which statement tells what \"Backyard Bats\" is mostly about without giving every fact?"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "Bats are helpful neighbors that deserve protection",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "Bats are too spooky to learn about",
+          "rationale": "This detail does not state or support the main idea of the passage."
+        },
+        {
+          "key": "C",
+          "text": "Bananas and mangoes grow only in backyards",
+          "rationale": "This answer is too narrow or is not supported by the passage."
+        },
+        {
+          "key": "D",
+          "text": "People should remove old trees near gardens",
+          "rationale": "This answer does not match what the passage is mostly about."
+        }
+      ],
+      "explanation": [
+        "This broad statement captures the whole passage's central idea."
+      ],
+      "workedSolution": [
+        "This broad statement captures the whole passage's central idea."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.10A"
+      ],
+      "difficulty": "medium",
+      "passageRef": "garden",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "Why did the author include the detail that the students' hands were sore?"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "To show that preparing the garden required hard work",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "To explain why the students stopped caring for the garden",
+          "rationale": "This does not match the author's purpose or message."
+        },
+        {
+          "key": "C",
+          "text": "To persuade readers that shovels are unsafe",
+          "rationale": "This idea is not supported by the passage."
+        },
+        {
+          "key": "D",
+          "text": "To show that recess should be shorter",
+          "rationale": "This answer is unrelated to why the author included the detail."
+        }
+      ],
+      "explanation": [
+        "The detail helps readers understand the effort behind the garden's success."
+      ],
+      "workedSolution": [
+        "The detail helps readers understand the effort behind the garden's success."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.10A"
+      ],
+      "difficulty": "medium",
+      "passageRef": "garden",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "Why did the author explain what compost is in paragraph 3?"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "To help readers understand how the soil became better for plants",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "To tell readers how to cook vegetable scraps",
+          "rationale": "This does not match the author's purpose or message."
+        },
+        {
+          "key": "C",
+          "text": "To show that compost is a kind of notebook",
+          "rationale": "This idea is not supported by the passage."
+        },
+        {
+          "key": "D",
+          "text": "To explain why the class stopped planting seeds",
+          "rationale": "This answer is unrelated to why the author included the detail."
+        }
+      ],
+      "explanation": [
+        "The author defines compost because it is important to the garden process."
+      ],
+      "workedSolution": [
+        "The author defines compost because it is important to the garden process."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.10A"
+      ],
+      "difficulty": "hard",
+      "passageRef": "garden",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "What message does the author share through Mr. Diaz's final comment?"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "Working patiently can help people grow as much as plants do",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "Vegetables should never be shared with others",
+          "rationale": "This does not match the author's purpose or message."
+        },
+        {
+          "key": "C",
+          "text": "Students should avoid difficult jobs",
+          "rationale": "This idea is not supported by the passage."
+        },
+        {
+          "key": "D",
+          "text": "Gardens are successful only when teachers do all the work",
+          "rationale": "This answer is unrelated to why the author included the detail."
+        }
+      ],
+      "explanation": [
+        "Mr. Diaz connects the harvest with the students learning patience."
+      ],
+      "workedSolution": [
+        "Mr. Diaz connects the harvest with the students learning patience."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.10A"
+      ],
+      "difficulty": "easy",
+      "passageRef": "garden",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "The author's main purpose in paragraph 4 is to —"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "describe how the students planted and cared for the rows",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "explain why the school kitchen was closed",
+          "rationale": "This does not match the author's purpose or message."
+        },
+        {
+          "key": "C",
+          "text": "tell a joke about bean vines",
+          "rationale": "This idea is not supported by the passage."
+        },
+        {
+          "key": "D",
+          "text": "persuade readers to stop watering plants",
+          "rationale": "This answer is unrelated to why the author included the detail."
+        }
+      ],
+      "explanation": [
+        "Paragraph 4 explains the planting and daily care."
+      ],
+      "workedSolution": [
+        "Paragraph 4 explains the planting and daily care."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.10A"
+      ],
+      "difficulty": "medium",
+      "passageRef": "garden",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "Why did the author include the notebook detail?"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "To show that the students carefully tracked the garden's growth",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "To show that the students forgot where the garden was",
+          "rationale": "This does not match the author's purpose or message."
+        },
+        {
+          "key": "C",
+          "text": "To explain how to write a recipe",
+          "rationale": "This idea is not supported by the passage."
+        },
+        {
+          "key": "D",
+          "text": "To prove that tomatoes cannot grow in gardens",
+          "rationale": "This answer is unrelated to why the author included the detail."
+        }
+      ],
+      "explanation": [
+        "The notebook detail shows careful observation and responsibility."
+      ],
+      "workedSolution": [
+        "The notebook detail shows careful observation and responsibility."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.10A"
+      ],
+      "difficulty": "hard",
+      "passageRef": "garden",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "What does the author want readers to understand about patience?"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "Patience helped the class keep working until the garden grew",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "Patience means quitting when work is slow",
+          "rationale": "This does not match the author's purpose or message."
+        },
+        {
+          "key": "C",
+          "text": "Patience is useful only during recess",
+          "rationale": "This idea is not supported by the passage."
+        },
+        {
+          "key": "D",
+          "text": "Patience kept the class from sharing the vegetables",
+          "rationale": "This answer is unrelated to why the author included the detail."
+        }
+      ],
+      "explanation": [
+        "The passage shows students continuing through slow work until harvest."
+      ],
+      "workedSolution": [
+        "The passage shows students continuing through slow work until harvest."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.10A"
+      ],
+      "difficulty": "medium",
+      "passageRef": "garden",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "Which sentence best describes the author's purpose for writing \"The Class Garden\"?"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "To explain how a class grew a garden and learned patience",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "To entertain readers with a fantasy about talking vegetables",
+          "rationale": "This does not match the author's purpose or message."
+        },
+        {
+          "key": "C",
+          "text": "To persuade readers that gardens should be removed",
+          "rationale": "This idea is not supported by the passage."
+        },
+        {
+          "key": "D",
+          "text": "To list every vegetable sold in a store",
+          "rationale": "This answer is unrelated to why the author included the detail."
+        }
+      ],
+      "explanation": [
+        "The passage explains the garden process and the lesson about patience."
+      ],
+      "workedSolution": [
+        "The passage explains the garden process and the lesson about patience."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.10A"
+      ],
+      "difficulty": "medium",
+      "passageRef": "garden",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "Why did the author organize \"The Class Garden\" in time order?"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "To show each step from preparing the dirt to sharing the harvest",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "To compare two different schools",
+          "rationale": "This does not match the author's purpose or message."
+        },
+        {
+          "key": "C",
+          "text": "To hide the ending from the reader",
+          "rationale": "This idea is not supported by the passage."
+        },
+        {
+          "key": "D",
+          "text": "To explain how bats find food at night",
+          "rationale": "This answer is unrelated to why the author included the detail."
+        }
+      ],
+      "explanation": [
+        "Time order helps readers follow the garden from start to harvest."
+      ],
+      "workedSolution": [
+        "Time order helps readers follow the garden from start to harvest."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.10A"
+      ],
+      "difficulty": "medium",
+      "passageRef": "bats",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "Why did the author begin by saying people often think bats are spooky?"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "To introduce a common idea before explaining that bats are helpful",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "To prove that bats cannot help anyone",
+          "rationale": "This does not match the author's purpose or message."
+        },
+        {
+          "key": "C",
+          "text": "To begin a make-believe mystery story",
+          "rationale": "This idea is not supported by the passage."
+        },
+        {
+          "key": "D",
+          "text": "To explain why flowers need water",
+          "rationale": "This answer is unrelated to why the author included the detail."
+        }
+      ],
+      "explanation": [
+        "The author contrasts a common fear with facts about helpful bats."
+      ],
+      "workedSolution": [
+        "The author contrasts a common fear with facts about helpful bats."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.10A"
+      ],
+      "difficulty": "medium",
+      "passageRef": "bats",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "Why did the author include the fact that one bat can eat more than a thousand insects?"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "To show one way bats help yards and gardens",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "To explain why bats never fly at night",
+          "rationale": "This does not match the author's purpose or message."
+        },
+        {
+          "key": "C",
+          "text": "To persuade readers to collect mosquitoes",
+          "rationale": "This idea is not supported by the passage."
+        },
+        {
+          "key": "D",
+          "text": "To tell readers how to count flower petals",
+          "rationale": "This answer is unrelated to why the author included the detail."
+        }
+      ],
+      "explanation": [
+        "The insect fact supports the author's message that bats are helpful."
+      ],
+      "workedSolution": [
+        "The insect fact supports the author's message that bats are helpful."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.10A"
+      ],
+      "difficulty": "medium",
+      "passageRef": "bats",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "Why did the author explain echolocation?"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "To help readers understand how bats find food in the dark",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "To show how bats plant old trees",
+          "rationale": "This does not match the author's purpose or message."
+        },
+        {
+          "key": "C",
+          "text": "To explain why bananas are yellow",
+          "rationale": "This idea is not supported by the passage."
+        },
+        {
+          "key": "D",
+          "text": "To tell a story about a canyon trip",
+          "rationale": "This answer is unrelated to why the author included the detail."
+        }
+      ],
+      "explanation": [
+        "The explanation teaches readers how bats use sound and echoes."
+      ],
+      "workedSolution": [
+        "The explanation teaches readers how bats use sound and echoes."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.10A"
+      ],
+      "difficulty": "hard",
+      "passageRef": "bats",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "What message does the author share in paragraph 5?"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "People can protect bats so bats can keep helping us",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "People should be afraid of every bat they see",
+          "rationale": "This does not match the author's purpose or message."
+        },
+        {
+          "key": "C",
+          "text": "Old trees should always be cut down",
+          "rationale": "This idea is not supported by the passage."
+        },
+        {
+          "key": "D",
+          "text": "Bats stop helping when people build gardens",
+          "rationale": "This answer is unrelated to why the author included the detail."
+        }
+      ],
+      "explanation": [
+        "Paragraph 5 gives actions people can take to help bats."
+      ],
+      "workedSolution": [
+        "Paragraph 5 gives actions people can take to help bats."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.10A"
+      ],
+      "difficulty": "medium",
+      "passageRef": "bats",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "Why did the author mention bananas and mangoes?"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "To give examples of fruits that can grow when bats move pollen",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "To list foods that bats cook",
+          "rationale": "This does not match the author's purpose or message."
+        },
+        {
+          "key": "C",
+          "text": "To prove that bats only live in fruit trees",
+          "rationale": "This idea is not supported by the passage."
+        },
+        {
+          "key": "D",
+          "text": "To explain why mosquitoes are fruits",
+          "rationale": "This answer is unrelated to why the author included the detail."
+        }
+      ],
+      "explanation": [
+        "The fruit examples make the plant-helping detail clearer."
+      ],
+      "workedSolution": [
+        "The fruit examples make the plant-helping detail clearer."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.10A"
+      ],
+      "difficulty": "medium",
+      "passageRef": "bats",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "Which sentence best describes the author's purpose for writing \"Backyard Bats\"?"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "To inform readers that bats are useful and worth protecting",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "To entertain readers with a story about a lost pet",
+          "rationale": "This does not match the author's purpose or message."
+        },
+        {
+          "key": "C",
+          "text": "To persuade readers to stay away from every garden",
+          "rationale": "This idea is not supported by the passage."
+        },
+        {
+          "key": "D",
+          "text": "To explain how to harvest vegetables in May",
+          "rationale": "This answer is unrelated to why the author included the detail."
+        }
+      ],
+      "explanation": [
+        "The passage gives facts about how bats help and how people can protect them."
+      ],
+      "workedSolution": [
+        "The passage gives facts about how bats help and how people can protect them."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.10A"
+      ],
+      "difficulty": "hard",
+      "passageRef": "bats",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "Why did the author call bats \"some of the most helpful animals\"?"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "To emphasize that bats do useful things for people and plants",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "To show that bats do not need food",
+          "rationale": "This does not match the author's purpose or message."
+        },
+        {
+          "key": "C",
+          "text": "To suggest that bats are imaginary",
+          "rationale": "This idea is not supported by the passage."
+        },
+        {
+          "key": "D",
+          "text": "To explain that all insects are helpful",
+          "rationale": "This answer is unrelated to why the author included the detail."
+        }
+      ],
+      "explanation": [
+        "The phrase highlights the author's positive message about bats."
+      ],
+      "workedSolution": [
+        "The phrase highlights the author's positive message about bats."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.10A"
+      ],
+      "difficulty": "medium",
+      "passageRef": "bats",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "What does the author want readers to understand after reading \"Backyard Bats\"?"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "Bats may seem spooky, but they are helpful neighbors",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "Bats should be kept away from every plant",
+          "rationale": "This does not match the author's purpose or message."
+        },
+        {
+          "key": "C",
+          "text": "Bats are useful only in stories",
+          "rationale": "This idea is not supported by the passage."
+        },
+        {
+          "key": "D",
+          "text": "Bats can grow vegetables without soil",
+          "rationale": "This answer is unrelated to why the author included the detail."
+        }
+      ],
+      "explanation": [
+        "The passage changes the reader's view from spooky to helpful."
+      ],
+      "workedSolution": [
+        "The passage changes the reader's view from spooky to helpful."
+      ]
+    },
+    {
+      "standardCodes": [
+        "3.10A"
+      ],
+      "difficulty": "medium",
+      "passageRef": "bats",
+      "figures": [],
+      "points": 1,
+      "allowPartialCredit": false,
+      "type": "multiple_choice",
+      "prompt": [
+        "Why did the author tell readers they can leave old trees standing and put up a bat house?"
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "To suggest simple ways people can help bats",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "To explain how to stop fruit from growing",
+          "rationale": "This does not match the author's purpose or message."
+        },
+        {
+          "key": "C",
+          "text": "To tell readers how to build a school kitchen",
+          "rationale": "This idea is not supported by the passage."
+        },
+        {
+          "key": "D",
+          "text": "To show that bats do not need shelter",
+          "rationale": "This answer is unrelated to why the author included the detail."
+        }
+      ],
+      "explanation": [
+        "Those details are actions people can take to protect bats."
+      ],
+      "workedSolution": [
+        "Those details are actions people can take to protect bats."
+      ]
     }
   ]
 }

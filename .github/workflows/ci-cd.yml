@@ -3,8 +3,6 @@ name: CI/CD
 on:
   pull_request:
   push:
-    branches:
-      - main
   workflow_dispatch:
 
 concurrency:
@@ -94,8 +92,10 @@ jobs:
     needs: ci
     if: >
       (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository) ||
-      ((github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main')
-    environment: preview
+      ((github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref_name == github.event.repository.default_branch)
+    environment:
+      name: preview
+      url: ${{ steps.deploy.outputs.deployment_url }}
     outputs:
       deployment_url: ${{ steps.deploy.outputs.deployment_url }}
     env:
@@ -129,22 +129,99 @@ jobs:
     name: Vercel Production
     runs-on: ubuntu-latest
     needs: deploy-preview
-    if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
-    environment: production
+    if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref_name == github.event.repository.default_branch
+    environment:
+      name: production
+      url: ${{ steps.deploy.outputs.deployment_url }}
+    outputs:
+      deployment_url: ${{ steps.deploy.outputs.deployment_url }}
     env:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
     steps:
+      - name: Download immutable Vercel artifact
+        uses: actions/download-artifact@v7
+        with:
+          name: ${{ env.VERCEL_ARTIFACT_NAME }}
+          path: .
+
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
 
-      - name: Promote approved preview deployment to production
+      - name: Deploy approved artifact to Vercel production
+        id: deploy
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          PREVIEW_DEPLOYMENT_URL: ${{ needs.deploy-preview.outputs.deployment_url }}
         run: |
-          if [ -z "$PREVIEW_DEPLOYMENT_URL" ]; then
-            echo "Missing preview deployment URL from deploy-preview job." >&2
+          vercel deploy --prebuilt --prod --archive=tgz --scope="$VERCEL_ORG_ID" --token="$VERCEL_TOKEN" > deployment-url.txt
+          deployment_url="$(tail -n 1 deployment-url.txt)"
+          if ! echo "$deployment_url" | grep -Eq '^https://'; then
+            echo "Expected Vercel production deployment URL, got: $deployment_url" >&2
             exit 1
           fi
-          vercel promote "$PREVIEW_DEPLOYMENT_URL" --yes --scope="$VERCEL_ORG_ID" --token="$VERCEL_TOKEN"
+          echo "deployment_url=$deployment_url" >> "$GITHUB_OUTPUT"
+          echo "Production deployment: $deployment_url"
+
+  create-release:
+    name: GitHub Release
+    runs-on: ubuntu-latest
+    needs: deploy-production
+    if: success()
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      PRODUCTION_DEPLOYMENT_URL: ${{ needs.deploy-production.outputs.deployment_url }}
+    steps:
+      - name: Create unique release tag
+        id: tag
+        run: |
+          date_part="$(date -u +%Y%m%d)"
+          base_tag="golden${date_part}-${GITHUB_RUN_NUMBER}"
+          tag="$base_tag"
+
+          tag_exists() {
+            gh api "repos/${GITHUB_REPOSITORY}/git/ref/tags/$1" >/dev/null 2>&1
+          }
+
+          if tag_exists "$tag"; then
+            tag="${base_tag}-${GITHUB_RUN_ATTEMPT}"
+          fi
+
+          if tag_exists "$tag"; then
+            tag="${base_tag}-${GITHUB_RUN_ATTEMPT}-${GITHUB_SHA::7}"
+          fi
+
+          if tag_exists "$tag"; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "Tag already exists after fallback attempts: $tag"
+            exit 0
+          fi
+
+          echo "skip=false" >> "$GITHUB_OUTPUT"
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+
+      - name: Write release notes
+        if: steps.tag.outputs.skip != 'true'
+        env:
+          RELEASE_TAG: ${{ steps.tag.outputs.tag }}
+        run: |
+          cat > release-notes.md <<EOF
+          Production deployment ${RELEASE_TAG}
+
+          - Commit SHA: ${GITHUB_SHA}
+          - Branch: ${GITHUB_REF_NAME}
+          - Workflow run: ${GITHUB_RUN_NUMBER}
+          - Production URL: ${PRODUCTION_DEPLOYMENT_URL}
+          EOF
+
+      - name: Create GitHub release
+        if: steps.tag.outputs.skip != 'true'
+        env:
+          RELEASE_TAG: ${{ steps.tag.outputs.tag }}
+        run: |
+          gh release create "$RELEASE_TAG" \
+            --repo "$GITHUB_REPOSITORY" \
+            --target "$GITHUB_SHA" \
+            --title "Golden deployment ${RELEASE_TAG}" \
+            --notes-file release-notes.md

@@ -2,6 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import { NotificationBell } from "~/components/NotificationBell";
+import { planSectionLabel, workCtaLabel, workDateRelation } from "~/domain/student/dashboardPlan";
 import { studentHome } from "~/server/rpc/student";
 import { startExam } from "~/server/rpc/exam";
 import { logout } from "~/server/rpc/session";
@@ -156,15 +157,14 @@ function TodayPanel({ program, launchingExam, onStartExam }: { program: ProgramV
   const nextTask = program.nextIncompleteTask;
   const hasExam = nextTask?.kind === "exam";
   const pendingCount = tasks.filter((task) => !task.completed).length;
-  const planIsFuture = !!program.nextWorkDate && program.nextWorkDate > program.calendarDate;
-  const headline = program.allTodayCompleted ? "Excellent work today" : `${pendingCount || tasks.length || 0} ${pendingCount === 1 ? "thing" : "things"} to finish ${planIsFuture ? "tomorrow" : "today"}`;
-  const ctaText = program.allTodayCompleted
-    ? program.nextWorkCompletedCount > 0 ? "Continue tomorrow's work" : "Start tomorrow's work"
-    : planIsFuture
-      ? program.nextWorkCompletedCount > 0 ? "Continue tomorrow's work" : "Start tomorrow's work"
-    : program.hasStartedToday
-      ? "Continue today's work"
-      : "Start today's work";
+  const planRelation = workDateRelation(program.todayDate, program.calendarDate);
+  const planTimeText = planRelation === "tomorrow" ? "tomorrow" : planRelation === "future" ? "next work day" : "today";
+  const headline = program.allTodayCompleted ? "Excellent work today" : `${pendingCount || tasks.length || 0} ${pendingCount === 1 ? "thing" : "things"} to finish ${planTimeText}`;
+  const ctaAction = program.allTodayCompleted
+    ? program.nextWorkCompletedCount > 0 ? "Continue" : "Start"
+    : program.hasStartedToday ? "Continue" : "Start";
+  const ctaDate = program.allTodayCompleted ? program.nextWorkDate || program.todayDate : program.todayDate;
+  const ctaText = workCtaLabel(ctaAction, ctaDate, program.calendarDate);
   const lessonSubject = nextTask?.subjectKey || program.subjects[0] || "math";
   const taskSearch = {
     subject: lessonSubject,
@@ -175,7 +175,7 @@ function TodayPanel({ program, launchingExam, onStartExam }: { program: ProgramV
     <section style={{ position: "relative", overflow: "hidden", background: "linear-gradient(135deg,#6C4CE0,#7F61EC)", borderRadius: 28, padding: 28, color: "#fff", boxShadow: "0 18px 38px rgba(108,76,224,.22)", marginBottom: 18 }}>
       <div style={{ position: "absolute", width: 148, height: 148, borderRadius: "50%", right: -28, top: -36, background: "rgba(255,255,255,.14)" }} />
       <div style={{ position: "absolute", width: 124, height: 124, borderRadius: "50%", right: 64, bottom: -62, background: "rgba(255,255,255,.12)" }} />
-      <span style={{ display: "inline-flex", background: "rgba(255,255,255,.18)", padding: "8px 14px", borderRadius: 999, fontWeight: 900, fontSize: 13, marginBottom: 18 }}>{program.todayDate > program.calendarDate ? "Tomorrow's plan" : "Today's plan"}</span>
+      <span style={{ display: "inline-flex", background: "rgba(255,255,255,.18)", padding: "8px 14px", borderRadius: 999, fontWeight: 900, fontSize: 13, marginBottom: 18 }}>{planSectionLabel(program.todayDate, program.calendarDate)}</span>
       <h2 style={{ fontFamily: "'Baloo 2', sans-serif", fontWeight: 800, fontSize: 28, margin: "0 0 22px" }}>{headline}</h2>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(160px,1fr))", gap: 12, position: "relative" }}>
         {tasks.length === 0 ? <TaskCard title="All caught up" meta={program.title} kind="practice" completed /> : tasks.map((task) => <TaskCard key={task.id} task={task} title={task.title} meta={`${task.subject} · ${task.meta}`} kind={task.kind} completed={task.completed} />)}
@@ -256,8 +256,11 @@ function CompletedRow({ task }: { task: ProgramView["finishedTodayTasks"][number
 
 function TomorrowPlanPanel({ program }: { program: ProgramView }) {
   const tasks = program.nextWorkTasks ?? [];
-  if (!program.allTodayCompleted || !program.nextWorkDate || program.nextWorkDate === program.todayDate || tasks.length === 0) return null;
+  const relation = workDateRelation(program.nextWorkDate, program.calendarDate);
+  if (!program.allTodayCompleted || !program.nextWorkDate || program.nextWorkDate === program.todayDate || relation === "today" || tasks.length === 0) return null;
   const nextTask = program.nextWorkIncompleteTask ?? tasks.find((task) => !task.completed) ?? null;
+  const sectionLabel = planSectionLabel(program.nextWorkDate, program.calendarDate);
+  const cta = workCtaLabel("Start", program.nextWorkDate, program.calendarDate);
   const lessonSubject = nextTask?.subjectKey || program.subjects[0] || "math";
   const taskSearch = {
     subject: lessonSubject,
@@ -268,13 +271,13 @@ function TomorrowPlanPanel({ program }: { program: ProgramView }) {
     <section style={{ background: "#fff", borderRadius: 20, padding: 20, boxShadow: "0 10px 24px rgba(54,48,74,.06)", marginBottom: 18 }}>
       <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 12, marginBottom: 14, flexWrap: "wrap" }}>
         <div>
-          <h2 style={{ margin: 0, fontWeight: 900, fontSize: 18 }}>Tomorrow's plan</h2>
+          <h2 style={{ margin: 0, fontWeight: 900, fontSize: 18 }}>{sectionLabel}</h2>
           <div style={{ color: "var(--s-muted)", fontWeight: 800, fontSize: 12, marginTop: 3 }}>{tasks.length} things queued for the next work day</div>
         </div>
         {nextTask?.kind === "practice" ? (
-          <Link to="/practice" search={{ ...taskSearch, lesson: 1 }} style={smallPrimaryButton}>Start tomorrow's work</Link>
+          <Link to="/practice" search={{ ...taskSearch, lesson: 1 }} style={smallPrimaryButton}>{cta}</Link>
         ) : (
-          <Link to="/lesson" search={taskSearch} style={smallPrimaryButton}>Start tomorrow's work</Link>
+          <Link to="/lesson" search={taskSearch} style={smallPrimaryButton}>{cta}</Link>
         )}
       </div>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(155px,1fr))", gap: 10 }}>

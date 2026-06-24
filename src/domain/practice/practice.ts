@@ -1,5 +1,6 @@
 import type { Item } from "~/schemas/item.js";
 import type { ConceptConfig } from "~/schemas/program.js";
+import { richToText } from "~/lib/richText.js";
 
 /**
  * Practice assembly (§6, §20.6). The day's practice draws UNUSED items (no
@@ -30,6 +31,34 @@ export function sourceItemIdFromPracticeId(itemId: string): string {
 
 function practiceInstanceId(item: Item, standardCode: string, kind: "focus" | "review", slot: number): string {
   return `${item._id}${PRACTICE_ID_MARKER}${kind}:${standardCode}:${slot}`;
+}
+
+function normalizePracticeText(value: string): string {
+  return value
+    .normalize("NFKC")
+    .replace(/[“”]/g, "\"")
+    .replace(/[‘’]/g, "'")
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLowerCase();
+}
+
+export function practiceQuestionKey(item: Item, standardCode = item.standardCodes[0] ?? ""): string {
+  const options = (item.options ?? []).map((option) => `${option.key}:${normalizePracticeText(option.text)}`).join("|");
+  const parts = (item.parts ?? []).map((part) => {
+    const partOptions = (part.options ?? []).map((option) => `${option.key}:${normalizePracticeText(option.text)}`).join("|");
+    return `${part.id}:${normalizePracticeText(richToText(part.prompt))}:${partOptions}`;
+  }).join("|");
+  const tokens = (item.tokens ?? []).map((token) => `${token.id}:${normalizePracticeText(token.text)}`).join("|");
+  return [
+    standardCode,
+    item.passageRef ?? "",
+    item.type,
+    normalizePracticeText(richToText(item.prompt)),
+    options,
+    parts,
+    tokens,
+  ].join("\u001f");
 }
 
 /**
@@ -91,6 +120,33 @@ function cycleTopic(
   });
 }
 
+function uniqueTopic(
+  pool: Item[],
+  standardCode: string,
+  kind: "focus" | "review",
+  count: number,
+  startSlot = 1,
+  seenKeys = new Set<string>(),
+): FocusedPracticeSlot[] {
+  if (count <= 0 || pool.length === 0) return [];
+  const slots: FocusedPracticeSlot[] = [];
+  for (const item of pool) {
+    if (slots.length >= count) break;
+    const key = practiceQuestionKey(item, standardCode);
+    if (seenKeys.has(key)) continue;
+    seenKeys.add(key);
+    const slot = startSlot + slots.length;
+    slots.push({
+      item,
+      practiceItemId: practiceInstanceId(item, standardCode, kind, slot),
+      sourceItemId: item._id,
+      standardCode,
+      kind,
+    });
+  }
+  return slots;
+}
+
 /**
  * Lesson-gated practice: after a lesson, give a substantial focused set for the
  * just-completed topic, plus a small spaced-review tail from older lessons.
@@ -103,22 +159,33 @@ export function assembleFocusedPractice(
   bank: Item[],
   focusStandard: string,
   previousStandards: string[],
-  options: { focusCount?: number; reviewCount?: number; reviewPerStandard?: number } = {},
+  options: { focusCount?: number; reviewCount?: number; reviewPerStandard?: number; allowRepeats?: boolean } = {},
 ): { slots: FocusedPracticeSlot[]; bankTotal: number } {
   const practiceable = practiceableItems(bank);
   const focusCount = options.focusCount ?? 20;
   const reviewCount = options.reviewCount ?? 5;
   const reviewPerStandard = options.reviewPerStandard ?? 2;
+  const allowRepeats = options.allowRepeats ?? true;
   const byStandard = (code: string) => practiceable.filter((item) => item.standardCodes.includes(code));
+  const seenKeys = new Set<string>();
+  const topicSlots = (
+    pool: Item[],
+    standardCode: string,
+    kind: "focus" | "review",
+    count: number,
+    startSlot = 1,
+  ) => allowRepeats
+    ? cycleTopic(pool, standardCode, kind, count, startSlot)
+    : uniqueTopic(pool, standardCode, kind, count, startSlot, seenKeys);
 
-  const focus = cycleTopic(byStandard(focusStandard), focusStandard, "focus", focusCount);
+  const focus = topicSlots(byStandard(focusStandard), focusStandard, "focus", focusCount);
   const review: FocusedPracticeSlot[] = [];
   const prior = previousStandards.filter((code) => code !== focusStandard);
   let reviewSlot = 1;
   for (const code of prior) {
     if (review.length >= reviewCount) break;
     const take = Math.min(reviewPerStandard, reviewCount - review.length);
-    const slots = cycleTopic(byStandard(code), code, "review", take, reviewSlot);
+    const slots = topicSlots(byStandard(code), code, "review", take, reviewSlot);
     review.push(...slots);
     reviewSlot += slots.length;
   }

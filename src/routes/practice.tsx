@@ -139,7 +139,9 @@ function PracticePage() {
     setCompletingPractice(true);
     setCompleteMessage(null);
     try {
-      const report = await doCompletePractice({ data: { enrollmentId: data.enrollmentId, subject, standardCode: standardCode ?? data.set.focusStandard, itemIds } });
+      const report = await doCompletePractice({
+        data: { enrollmentId: data.enrollmentId, subject, standardCode: standardCode ?? data.set.focusStandard, itemIds, workDate: search.workDate },
+      });
       setWallet(report.wallet.available);
       setCompleteMessage(`Practice submitted: ${report.right}/${report.solved} correct, ${formatRobuxDelta(report.earned)}. Report sent.`);
       await navigate({ to: "/student" });

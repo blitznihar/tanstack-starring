@@ -4,6 +4,7 @@ import { enrollmentsRepo } from "~/repositories/enrollments.js";
 import { lessonProgressRepo } from "~/repositories/lessonProgress.js";
 import { practiceProgressRepo } from "~/repositories/practiceProgress.js";
 import { programsRepo } from "~/repositories/programs.js";
+import { selectDashboardWorkDay } from "~/domain/student/dashboardPlan.js";
 import { rewardPanel } from "~/server/gamification/gamification.js";
 import { getOrCreateSchedule } from "~/server/scheduler/scheduler.js";
 import { studentOverview } from "~/server/reporting/reporting.js";
@@ -125,7 +126,6 @@ export const studentHome = createServerFn({ method: "GET" }).handler(async () =>
     const report = reportByEnrollment.get(enrollmentId);
     const schedule = await getOrCreateSchedule(auth, enrollmentId);
     const calendarDate = todayIso();
-    const nextWorkDay = schedule.schedule.days[schedule.currentDay] ?? schedule.schedule.days.find((day) => day.status === "scheduled");
     const [lessonProgress, practiceProgress] = await Promise.all([
       lessonProgressRepo.listForEnrollment(enrollmentId),
       practiceProgressRepo.listForEnrollment(enrollmentId),
@@ -138,16 +138,13 @@ export const studentHome = createServerFn({ method: "GET" }).handler(async () =>
     for (const day of schedule.schedule.days) {
       taskViewsByDay.set(day.index, await buildTaskViews({ enrollmentId, day, standardLabels, progress }));
     }
+    const { currentDay, nextWorkDay } = selectDashboardWorkDay({
+      days: schedule.schedule.days,
+      scheduleCurrentDay: schedule.currentDay,
+      calendarDate,
+      taskViewsByDay,
+    });
     const nextWorkTasks = nextWorkDay ? taskViewsByDay.get(nextWorkDay.index) ?? [] : [];
-    const nextWorkHasStarted = nextWorkTasks.some((task) => task.completed);
-    const latestFinishedDay = [...schedule.schedule.days]
-      .filter((day) => {
-        if (nextWorkDay && day.index >= nextWorkDay.index) return false;
-        const views = taskViewsByDay.get(day.index) ?? [];
-        return views.length > 0 && views.every((task) => task.completed);
-      })
-      .at(-1);
-    const currentDay = nextWorkHasStarted ? nextWorkDay : latestFinishedDay ?? nextWorkDay;
     const todayTasks = currentDay ? taskViewsByDay.get(currentDay.index) ?? [] : [];
     const weekStartIndex = currentDay?.index ?? schedule.currentDay;
     const upcomingDays = schedule.schedule.days

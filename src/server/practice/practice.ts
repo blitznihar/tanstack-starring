@@ -105,8 +105,17 @@ export async function getPracticeSet(
   const focusIndex = order.indexOf(focusStandard);
   const priorStandards = focusIndex >= 0 ? order.slice(0, focusIndex) : order.filter((code) => code !== focusStandard);
   const assembled = focusStandard
-    ? assembleFocusedPractice(bank, focusStandard, priorStandards, { focusCount: 20, reviewCount: 5, reviewPerStandard: 2 })
+    ? assembleFocusedPractice(bank, focusStandard, priorStandards, {
+      focusCount: 20,
+      reviewCount: input.subject === "rla" ? 0 : 5,
+      reviewPerStandard: 2,
+      allowRepeats: input.subject !== "rla",
+    })
     : { slots: [], bankTotal: bank.filter((item) => item.type !== "scr" && item.type !== "ecr").length };
+  const focusShown = assembled.slots.filter((slot) => slot.kind === "focus").length;
+  if (input.subject === "rla" && focusStandard && focusShown < 20) {
+    throw new Error(`Not enough unique RLA practice questions for TEKS ${focusStandard}. Need 20, found ${focusShown}.`);
+  }
   const perCorrect = program.robuxRules.practiceCorrect;
 
   // Resolve any referenced reading passages once (RLA).
@@ -372,7 +381,7 @@ export type PracticeCompletionReport = {
 
 export async function completePracticeSet(
   actor: AuthContext,
-  input: { enrollmentId: string; subject: string; itemIds: string[]; standardCode?: string },
+  input: { enrollmentId: string; subject: string; itemIds: string[]; standardCode?: string; workDate?: string },
 ): Promise<PracticeCompletionReport> {
   const enrollment = await enrollmentsRepo.findById(input.enrollmentId);
   assertOwner(actor, enrollment);
@@ -434,6 +443,7 @@ export async function completePracticeSet(
   await completeCurrentScheduleDayIfReady(input.enrollmentId);
   await queuePracticeProgressReport(input.enrollmentId, {
     subject: input.subject,
+    workDate: input.workDate,
     questions,
     summary: { solved: questions.length, right, wrong: questions.length - right, earned },
   });

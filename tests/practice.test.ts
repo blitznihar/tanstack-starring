@@ -1,5 +1,8 @@
+import { readFileSync } from "node:fs";
 import { describe, it, expect } from "vitest";
-import { assembleFocusedPractice, assemblePractice, earnUpTo, practiceAward, sourceItemIdFromPracticeId } from "~/domain/practice/practice.js";
+import { assembleFocusedPractice, assemblePractice, earnUpTo, practiceAward, practiceQuestionKey, sourceItemIdFromPracticeId } from "~/domain/practice/practice.js";
+import { richToText } from "~/lib/richText.js";
+import { prepareBundle } from "~/server/content/import.js";
 import type { Item } from "~/schemas/item.js";
 
 function item(id: string, code: string): Item {
@@ -9,6 +12,26 @@ function item(id: string, code: string): Item {
     prompt: [`q${id}`], figures: [], points: 1, allowPartialCredit: false,
     explanation: [], workedSolution: [],
   };
+}
+
+function rlaItem(id: string, code: string, passageRef: string, prompt: string): Item {
+  return {
+    _id: id, bundleId: "rla", programKey: "grade3_staar", subject: "rla",
+    standardCodes: [code], type: "multiple_choice", difficulty: "medium",
+    passageRef, prompt: [prompt], figures: [], points: 1, allowPartialCredit: false,
+    options: [
+      { key: "A", text: "Correct answer", correct: true },
+      { key: "B", text: "Distractor one", rationale: "Not supported." },
+      { key: "C", text: "Distractor two", rationale: "Too narrow." },
+      { key: "D", text: "Distractor three", rationale: "Unrelated." },
+    ],
+    explanation: ["Because."], workedSolution: ["Because."],
+  };
+}
+
+function grade3RlaItems(): Item[] {
+  const raw = JSON.parse(readFileSync(new URL("../content/grade3_rla.json", import.meta.url), "utf8"));
+  return prepareBundle(raw).items;
 }
 
 // Bank mirroring the seeded Grade 3 Math pool sizes.
@@ -59,6 +82,39 @@ describe("assembleFocusedPractice", () => {
     expect(r.slots.filter((slot) => slot.kind === "focus")).toHaveLength(20);
     expect(r.slots.filter((slot) => slot.kind === "review")).toHaveLength(4);
     expect(new Set(r.slots.filter((slot) => slot.kind === "review").map((slot) => slot.standardCode))).toEqual(new Set(["3.2A", "3.2D"]));
+  });
+
+  it("can disable cycling and skip duplicate RLA passage-question pairs", () => {
+    const duplicateA = rlaItem("rla-a", "3.9D", "garden", "Which sentence BEST states the central idea?");
+    const duplicateB = { ...duplicateA, _id: "rla-b" };
+    const unique = rlaItem("rla-c", "3.9D", "garden", "Which detail supports the central idea?");
+
+    const r = assembleFocusedPractice([duplicateA, duplicateB, unique], "3.9D", [], {
+      focusCount: 20,
+      reviewCount: 0,
+      allowRepeats: false,
+    });
+
+    expect(r.slots).toHaveLength(2);
+    expect(new Set(r.slots.map((slot) => practiceQuestionKey(slot.item, slot.standardCode))).size).toBe(2);
+    expect(r.slots.map((slot) => slot.sourceItemId)).toEqual(["rla-a", "rla-c"]);
+  });
+
+  it.each(["3.9D", "3.10A"])("assembles 20 unique Grade 3 RLA %s practice questions", (standardCode) => {
+    const r = assembleFocusedPractice(grade3RlaItems(), standardCode, [], {
+      focusCount: 20,
+      reviewCount: 0,
+      allowRepeats: false,
+    });
+    const prompts = r.slots.map((slot) => richToText(slot.item.prompt));
+    const passageQuestionPairs = r.slots.map((slot) => `${slot.item.passageRef ?? ""}:${richToText(slot.item.prompt)}`);
+    const stableKeys = r.slots.map((slot) => practiceQuestionKey(slot.item, slot.standardCode));
+
+    expect(r.slots).toHaveLength(20);
+    expect(r.slots.every((slot) => slot.kind === "focus" && slot.standardCode === standardCode)).toBe(true);
+    expect(new Set(prompts).size).toBe(20);
+    expect(new Set(passageQuestionPairs).size).toBe(20);
+    expect(new Set(stableKeys).size).toBe(20);
   });
 });
 

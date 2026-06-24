@@ -20,6 +20,14 @@ function todayIso(): string {
   return new Date().toISOString().slice(0, 10);
 }
 
+export function compactReportDate(workDate: string): string {
+  return workDate.replace(/\D/g, "").slice(0, 8);
+}
+
+export function practiceReportSubject(studentName: string, workDate: string): string {
+  return `Practice report for ${studentName} - ${compactReportDate(workDate)}`;
+}
+
 function sameDay(value: Date | string | undefined, day: string): boolean {
   if (!value) return false;
   return new Date(value).toISOString().slice(0, 10) === day;
@@ -69,6 +77,7 @@ function reportBody(input: {
   practice: { solved: number; right: number; wrong: number };
   practiceDetail?: PracticeCompletionQuestion[];
   practiceEarned?: number;
+  reportDate?: string;
   exam?: ReportExamSummary;
 }): string {
   const robuxDelta = (value: number) => `${value > 0 ? "+" : ""}${value} Robux`;
@@ -106,7 +115,7 @@ function reportBody(input: {
   return `
     <div style="font-family:Inter,Arial,sans-serif;max-width:680px;color:#3a344d;">
       <h2 style="margin:0 0 6px;color:#2f2943;">Comet Academy Progress Report</h2>
-      <p style="margin:0 0 18px;color:#746b88;">${escapeHtml(input.studentName)} - ${escapeHtml(input.programTitle)} - ${todayIso()}</p>
+      <p style="margin:0 0 18px;color:#746b88;">${escapeHtml(input.studentName)} - ${escapeHtml(input.programTitle)} - ${escapeHtml(input.reportDate ?? todayIso())}</p>
 
       <h3 style="margin:0 0 8px;color:#2f2943;">Summary</h3>
       <table style="width:100%;border-collapse:collapse;margin:0 0 18px;">
@@ -143,6 +152,7 @@ export async function queuePracticeProgressReport(
   enrollmentId: string,
   detail?: {
     subject: string;
+    workDate?: string;
     questions: PracticeCompletionQuestion[];
     summary: { solved: number; right: number; wrong: number; earned: number };
   },
@@ -157,6 +167,8 @@ export async function queuePracticeProgressReport(
     reportRecipients(enrollment.studentId),
   ]);
   if (!student || !program || recipients.length === 0) return;
+  const reportDate = detail?.workDate || todayIso();
+  const subject = practiceReportSubject(student.displayName, reportDate);
   const body = reportBody({
     studentName: student.displayName,
     programTitle: program.title,
@@ -164,11 +176,12 @@ export async function queuePracticeProgressReport(
     practice: detail?.summary ?? practice,
     practiceDetail: detail?.questions,
     practiceEarned: detail?.summary.earned,
+    reportDate,
   });
   await Promise.all(recipients.map((recipient) => queueEmailNotification({
     userId: userId(recipient),
     kind: "practice_report",
-    subject: `Practice report for ${student.displayName}`,
+    subject,
     body,
   })));
   const emailedIds = new Set(recipients.map(userId));
@@ -176,7 +189,7 @@ export async function queuePracticeProgressReport(
   await Promise.all(staff.map((recipient) => queueInAppNotification({
     userId: userId(recipient),
     kind: "practice_report",
-    subject: `Practice report for ${student.displayName}`,
+    subject,
     body,
   })));
 }

@@ -53,7 +53,7 @@ export const submitPractice = createServerFn({ method: "POST" })
 
 /** Submit the whole visible practice set and send one progress report. */
 export const completePractice = createServerFn({ method: "POST" })
-  .validator((d: { enrollmentId: string; subject: string; itemIds: string[]; standardCode?: string }) => d)
+  .validator((d: { enrollmentId: string; subject: string; itemIds: string[]; standardCode?: string; workDate?: string }) => d)
   .handler(async ({ data }) => {
     const auth = await requireAuth();
     const enrollment = await enrollmentsRepo.findById(data.enrollmentId);
