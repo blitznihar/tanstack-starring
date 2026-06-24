@@ -115,6 +115,7 @@ jobs:
         id: deploy
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_TELEMETRY_DISABLED: 1
         run: |
           vercel deploy --prebuilt --archive=tgz --scope="$VERCEL_ORG_ID" --token="$VERCEL_TOKEN" > deployment-url.txt
           deployment_url="$(tail -n 1 deployment-url.txt)"
@@ -139,24 +140,27 @@ jobs:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
     steps:
-      - name: Download immutable Vercel artifact
-        uses: actions/download-artifact@v7
-        with:
-          name: ${{ env.VERCEL_ARTIFACT_NAME }}
-          path: .
-
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
 
-      - name: Deploy approved artifact to Vercel production
+      - name: Promote approved preview deployment to Vercel production
         id: deploy
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_TELEMETRY_DISABLED: 1
+          PREVIEW_DEPLOYMENT_URL: ${{ needs.deploy-preview.outputs.deployment_url }}
         run: |
-          vercel deploy --prebuilt --prod --archive=tgz --scope="$VERCEL_ORG_ID" --token="$VERCEL_TOKEN" > deployment-url.txt
-          deployment_url="$(tail -n 1 deployment-url.txt)"
+          if [ -z "$PREVIEW_DEPLOYMENT_URL" ]; then
+            echo "Missing preview deployment URL from deploy-preview job." >&2
+            exit 1
+          fi
+
+          set -o pipefail
+          vercel promote "$PREVIEW_DEPLOYMENT_URL" --yes --scope="$VERCEL_ORG_ID" --token="$VERCEL_TOKEN" 2>&1 | tee promote-output.txt
+          deployment_url="$(grep -Eo 'https://[^[:space:]]+' promote-output.txt | grep -Ev 'vercel.com/docs|vercel.link' | tail -n 1 || true)"
+          deployment_url="${deployment_url:-$PREVIEW_DEPLOYMENT_URL}"
           if ! echo "$deployment_url" | grep -Eq '^https://'; then
-            echo "Expected Vercel production deployment URL, got: $deployment_url" >&2
+            echo "Expected Vercel promoted deployment URL, got: $deployment_url" >&2
             exit 1
           fi
           echo "deployment_url=$deployment_url" >> "$GITHUB_OUTPUT"
