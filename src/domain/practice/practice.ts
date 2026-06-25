@@ -29,8 +29,9 @@ export function sourceItemIdFromPracticeId(itemId: string): string {
   return itemId.includes(PRACTICE_ID_MARKER) ? itemId.slice(0, itemId.indexOf(PRACTICE_ID_MARKER)) : itemId;
 }
 
-function practiceInstanceId(item: Item, standardCode: string, kind: "focus" | "review", slot: number): string {
-  return `${item._id}${PRACTICE_ID_MARKER}${kind}:${standardCode}:${slot}`;
+function practiceInstanceId(item: Item, standardCode: string, kind: "focus" | "review", slot: number, focusStandard = standardCode): string {
+  const context = kind === "review" ? `${focusStandard}:` : "";
+  return `${item._id}${PRACTICE_ID_MARKER}${kind}:${context}${standardCode}:${slot}`;
 }
 
 function normalizePracticeText(value: string): string {
@@ -105,6 +106,7 @@ function cycleTopic(
   kind: "focus" | "review",
   count: number,
   startSlot = 1,
+  focusStandard = standardCode,
 ): FocusedPracticeSlot[] {
   if (count <= 0 || pool.length === 0) return [];
   return Array.from({ length: count }, (_, index) => {
@@ -112,7 +114,7 @@ function cycleTopic(
     const slot = startSlot + index;
     return {
       item,
-      practiceItemId: practiceInstanceId(item, standardCode, kind, slot),
+      practiceItemId: practiceInstanceId(item, standardCode, kind, slot, focusStandard),
       sourceItemId: item._id,
       standardCode,
       kind,
@@ -127,6 +129,7 @@ function uniqueTopic(
   count: number,
   startSlot = 1,
   seenKeys = new Set<string>(),
+  focusStandard = standardCode,
 ): FocusedPracticeSlot[] {
   if (count <= 0 || pool.length === 0) return [];
   const slots: FocusedPracticeSlot[] = [];
@@ -138,7 +141,7 @@ function uniqueTopic(
     const slot = startSlot + slots.length;
     slots.push({
       item,
-      practiceItemId: practiceInstanceId(item, standardCode, kind, slot),
+      practiceItemId: practiceInstanceId(item, standardCode, kind, slot, focusStandard),
       sourceItemId: item._id,
       standardCode,
       kind,
@@ -175,8 +178,8 @@ export function assembleFocusedPractice(
     count: number,
     startSlot = 1,
   ) => allowRepeats
-    ? cycleTopic(pool, standardCode, kind, count, startSlot)
-    : uniqueTopic(pool, standardCode, kind, count, startSlot, seenKeys);
+    ? cycleTopic(pool, standardCode, kind, count, startSlot, focusStandard)
+    : uniqueTopic(pool, standardCode, kind, count, startSlot, seenKeys, focusStandard);
 
   const focus = topicSlots(byStandard(focusStandard), focusStandard, "focus", focusCount);
   const review: FocusedPracticeSlot[] = [];

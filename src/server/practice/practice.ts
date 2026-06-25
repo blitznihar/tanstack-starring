@@ -37,6 +37,14 @@ export type PracticeQuestion = {
   type: string;
   source: string;
   prompt: string;
+  figures: {
+    id: string;
+    kind: string;
+    svg: string | null;
+    alt: string;
+    caption: string | null;
+    dataJson: string | null;
+  }[];
   selectInstruction: string | null;
   passage: PracticePassage | null;
   // NB: correct flag + rationale are intentionally NOT sent (revealed only after submit).
@@ -152,6 +160,14 @@ export async function getPracticeSet(
         type: it.type,
         source: it.source ?? "generated",
         prompt: richToText(it.prompt),
+        figures: it.figures.map((f) => ({
+          id: f.id,
+          kind: f.kind,
+          svg: f.svg ?? null,
+          alt: f.alt,
+          caption: f.caption ?? null,
+          dataJson: f.data ? JSON.stringify(f.data) : null,
+        })),
         selectInstruction: multiselectInstruction(it),
         passage: it.passageRef ? passageView(passageById.get(it.passageRef)) : null,
         options: (it.options ?? []).map((o) => ({ key: o.key, text: o.text })),

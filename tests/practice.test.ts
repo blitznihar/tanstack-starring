@@ -84,6 +84,19 @@ describe("assembleFocusedPractice", () => {
     expect(new Set(r.slots.filter((slot) => slot.kind === "review").map((slot) => slot.standardCode))).toEqual(new Set(["3.2A", "3.2D"]));
   });
 
+  it("scopes review IDs to the current focus topic", () => {
+    const first = assembleFocusedPractice(bank, "3.4K", ["3.2A"], { focusCount: 1, reviewCount: 1, reviewPerStandard: 1 });
+    const second = assembleFocusedPractice(bank, "3.3F", ["3.2A"], { focusCount: 1, reviewCount: 1, reviewPerStandard: 1 });
+    const firstReview = first.slots.find((slot) => slot.kind === "review")!;
+    const secondReview = second.slots.find((slot) => slot.kind === "review")!;
+
+    expect(firstReview.sourceItemId).toBe(secondReview.sourceItemId);
+    expect(firstReview.standardCode).toBe(secondReview.standardCode);
+    expect(firstReview.practiceItemId).not.toBe(secondReview.practiceItemId);
+    expect(firstReview.practiceItemId).toContain("::practice:review:3.4K:3.2A:");
+    expect(secondReview.practiceItemId).toContain("::practice:review:3.3F:3.2A:");
+  });
+
   it("can disable cycling and skip duplicate RLA passage-question pairs", () => {
     const duplicateA = rlaItem("rla-a", "3.9D", "garden", "Which sentence BEST states the central idea?");
     const duplicateB = { ...duplicateA, _id: "rla-b" };

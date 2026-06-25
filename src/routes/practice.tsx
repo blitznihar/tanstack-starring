@@ -304,6 +304,8 @@ function QuestionCard({ q, fb, value, subject, readOnly, pending, onChange, onCh
 
       <div style={{ fontWeight: 800, fontSize: 18, marginBottom: 16, lineHeight: 1.4, color: "var(--s-ink)" }}>{q.prompt}</div>
 
+      {q.figures.length > 0 && <PracticeFigures figures={q.figures} />}
+
       <PracticeAnswer q={q} value={value} checked={locked} fb={fb} onChange={onChange} />
 
       {fb && (
@@ -334,6 +336,25 @@ function QuestionCard({ q, fb, value, subject, readOnly, pending, onChange, onCh
           {checked ? (fb!.correct ? "Got it ✓" : "Show me again") : pending ? "Checking…" : "Check answer"}
         </button>
       )}
+    </div>
+  );
+}
+
+function PracticeFigures({ figures }: { figures: Question["figures"] }) {
+  const visibleFigures = figures.filter((figure) => figure.svg);
+  if (visibleFigures.length === 0) return null;
+  return (
+    <div style={{ display: "grid", gap: 12, margin: "-2px 0 18px" }}>
+      {visibleFigures.map((figure) => (
+        <figure key={figure.id} style={practiceFigure}>
+          <img
+            src={`data:image/svg+xml;utf8,${encodeURIComponent(figure.svg ?? "")}`}
+            alt={figure.alt}
+            style={{ display: "block", maxWidth: "100%", height: "auto", margin: "0 auto" }}
+          />
+          {figure.caption && <figcaption style={practiceFigureCaption}>{figure.caption}</figcaption>}
+        </figure>
+      ))}
     </div>
   );
 }
@@ -458,6 +479,23 @@ const lessonReturnLink: React.CSSProperties = {
   padding: "10px 13px",
   fontWeight: 900,
   fontSize: 13.5,
+};
+
+const practiceFigure: React.CSSProperties = {
+  margin: 0,
+  background: "#FBF9F4",
+  border: "1px solid #ECE2CF",
+  borderRadius: 14,
+  padding: "14px 16px",
+  overflow: "hidden",
+};
+
+const practiceFigureCaption: React.CSSProperties = {
+  marginTop: 8,
+  color: "var(--s-muted)",
+  fontWeight: 800,
+  fontSize: 12.5,
+  textAlign: "center",
 };
 
 function Shell({ children, wallet, pop, onSignOut }: { children: React.ReactNode; wallet: number; pop?: number | null; onSignOut: () => void }) {

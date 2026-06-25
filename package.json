@@ -23,6 +23,8 @@
     "export-profile": "bun run scripts/export-profile.ts",
     "import-profile": "bun run scripts/import-profile.ts",
     "send-test-notifications": "bun run scripts/send-test-notifications.ts",
+    "generate:rla-expansion": "bun run scripts/grade3-staar/generate-rla-practice-expansion.ts",
+    "import:rla-expansion": "bun run scripts/grade3-staar/import-rla-practice-expansion.ts",
     "validate:grade3:student": "bun run scripts/grade3-staar/run-student-e2e-validation.ts",
     "validate:grade3:45day": "bun run scripts/grade3-staar/run-45-day-validation.ts",
     "validate:grade3:reports-ui": "bun run scripts/grade3-staar/check-ui-reports.ts",
