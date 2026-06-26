@@ -8,6 +8,7 @@ import { robuxLedgerRepo } from "~/repositories/robuxLedger.js";
 import { examsRepo, type ExamDoc } from "~/repositories/exams.js";
 import { examSessionsRepo, type ExamSessionDoc } from "~/repositories/examSessions.js";
 import { assembleExam, type ExamKind } from "~/domain/exam/assemble.js";
+import { resolveExamTotalItems } from "~/domain/exam/itemCount.js";
 import {
   createSession,
   settle,
@@ -106,6 +107,15 @@ export async function buildExam(actor: AuthContext, input: BuildExamInput): Prom
   const { completed, weak } = await deriveProgress(input.enrollmentId, enrollment!.programKey);
   if (completed.length === 0) throw new Error("Complete at least one lesson before starting an exam.");
   const usedIds = await itemUsageRepo.usedItemIds(input.enrollmentId);
+  const splitPct = input.splitPct ?? program.examBlueprint.defaultSplitPct;
+  const durationSeconds = input.durationSeconds ?? program.examBlueprint.defaultDurationMinutes * 60;
+  const totalItems = resolveExamTotalItems({
+    requestedTotalItems: input.totalItems,
+    fallbackTotalItems: 10,
+    subjects,
+    splitPct,
+    durationSeconds,
+  });
 
   const assembled = assembleExam({
     subjects,
@@ -113,9 +123,9 @@ export async function buildExam(actor: AuthContext, input: BuildExamInput): Prom
     completedTopics: completed,
     weakTopics: weak,
     usedIds,
-    splitPct: input.splitPct ?? program.examBlueprint.defaultSplitPct,
-    totalItems: input.totalItems ?? 10,
-    durationSeconds: input.durationSeconds ?? program.examBlueprint.defaultDurationMinutes * 60,
+    splitPct,
+    totalItems,
+    durationSeconds,
     breakSeconds: program.examBlueprint.breakSeconds,
   });
   if (assembled.itemIds.length === 0) throw new Error("No exam questions are available for the completed lessons yet.");
