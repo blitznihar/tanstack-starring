@@ -1,5 +1,5 @@
 ---
-applyTo: "README.md,INSTRUCTION.md,INSTRUCTIONS.md,docs/**/*.md,.github/**/*.md"
+applyTo: "README.md,INSTRUCTION.md,docs/**/*.md,.github/**/*.md"
 ---
 
 # Documentation Instructions

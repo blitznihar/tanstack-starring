@@ -6,6 +6,127 @@ Coding-agent instructions for **Claude Code**. Read this entire file before gene
 
 ---
 
+## Agent workflow guide
+
+This is the single canonical instruction file for agents working in this repository. It contains both the product specification and the safe coding workflow.
+
+### Repository map
+
+```text
+.
+├── .github/
+│   ├── workflow-instructions.md
+│   ├── instructions/
+│   │   ├── frontend.instructions.md
+│   │   ├── backend.instructions.md
+│   │   ├── tests.instructions.md
+│   │   └── docs.instructions.md
+│   └── prompts/
+├── docs/
+│   ├── product-spec.md
+│   ├── architecture.md
+│   ├── api-contract.md
+│   └── definition-of-done.md
+├── src/
+│   ├── routes/
+│   ├── server/
+│   ├── repositories/
+│   ├── domain/
+│   ├── schemas/
+│   ├── ai/
+│   ├── components/
+│   └── styles/
+├── scripts/
+├── tests/
+├── content/
+├── electron/
+├── README.md
+└── INSTRUCTION.md
+```
+
+### First steps for any task
+
+1. Run `git status --short`.
+2. Identify existing user changes and preserve them.
+3. Read the nearest relevant code before editing.
+4. Keep changes scoped to the user request.
+5. Use the existing stack and local patterns.
+6. Never read, print, copy, or commit secrets from `.env`.
+
+### Architecture boundaries
+
+- Pure logic belongs in `src/domain`.
+- MongoDB calls belong in `src/repositories`.
+- Authenticated server workflows belong in `src/server`.
+- Route-facing server functions belong in `src/server/rpc`.
+- Pages belong in `src/routes`.
+- Shared components belong in `src/components`.
+- Shared schemas belong in `src/schemas`.
+- Keep MongoDB, Auth0, Stripe, OpenAI, SMTP, and New Relic out of browser bundles.
+
+### Student workflow quick rules
+
+- A lesson unlocks its matching practice.
+- Practice completion requires all visible required questions to be answered.
+- Correct practice answers award the configured `practiceCorrect` Robux value once.
+- Wrong practice answers deduct the configured `examWrong` Robux value once.
+- Exam Robux uses `min(correctCount * practiceCorrect, examCorrect) - wrongCount * examWrong`, then applies `EXAM_AWARD_FLOOR`.
+- The admin label for `examCorrect` is "Exam max reward"; it is a per-attempt positive cap, not a per-question value.
+- Repeated submit, refresh, review, History, Dashboard, Wallet, and email/report views must not change Robux again.
+- Completed lessons, practices, and submitted exams remain visible in dashboard and history.
+- History practice opens in read-only review mode.
+- History completed exams open read-only Exam Details after submission only.
+- Completed exam History rows and Exam Details must calculate Robux from the same formula.
+- Dashboard shows completed current work and next scheduled work separately.
+
+### Development commands
+
+```bash
+bun install
+bun run dev
+bun run lint
+bun run typecheck
+bun run test:coverage
+bun run build
+```
+
+### Local run rules
+
+- Use `bun run dev -- --host 0.0.0.0 --port 5173 --strictPort` when manual browser testing should use port `5173`.
+- Local database is `comet-dev` by default.
+- Docker exposes the app on `3000` and `5174`; set `SESSION_COOKIE_SECURE=false` for local HTTP Docker sessions.
+- `MONGODB_DATABASE` may override the derived DB name. Do not point local commands at production unless the user explicitly asks.
+- Do not modify production data unless the user explicitly requests it.
+
+### Verification standard
+
+For meaningful feature work, run:
+
+```bash
+bun run lint
+bun run typecheck
+bun run test:coverage
+bun run build
+```
+
+Report existing warnings separately from new failures.
+
+### Documentation standard
+
+When behavior changes, update relevant docs:
+
+- `README.md` for user-facing setup or deployment.
+- `docs/product-spec.md` for product behavior.
+- `docs/architecture.md` for structural changes.
+- `docs/api-contract.md` for server-function contracts.
+- `docs/definition-of-done.md` for completion expectations.
+
+### Final response standard
+
+Summarize what changed, files changed, checks run, and anything the user must configure manually.
+
+---
+
 ## 0. What you are building
 
 A web/desktop app that teaches concepts and delivers exam-style practice across multiple programs. Pillars:
