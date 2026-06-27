@@ -222,14 +222,14 @@ function ExamPlayer() {
       {/* Review grid */}
       {reviewOpen && (
         <div onClick={() => setReviewOpen(false)} style={{ position: "fixed", inset: 0, background: "rgba(19,26,42,.55)", display: "flex", alignItems: "center", justifyContent: "center", padding: 24, zIndex: 71 }}>
-          <div onClick={(e) => e.stopPropagation()} style={{ background: "#fff", borderRadius: 20, padding: 30, width: "100%", maxWidth: 560, boxShadow: "0 30px 70px rgba(0,0,0,.4)" }}>
+          <div onClick={(e) => e.stopPropagation()} style={{ background: "#fff", borderRadius: 20, padding: 30, width: "100%", maxWidth: 560, maxHeight: "calc(100vh - 48px)", display: "flex", flexDirection: "column", overflow: "hidden", boxShadow: "0 30px 70px rgba(0,0,0,.4)" }}>
             <h2 style={{ fontSize: 22, fontWeight: 800, margin: "0 0 6px" }}>Review your answers</h2>
             <div style={{ display: "flex", gap: 16, marginBottom: 20, fontWeight: 800, fontSize: 13, color: "var(--a-muted)" }}>
               <span><span style={{ color: "var(--s-primary)" }}>●</span> {view.answeredCount} answered</span>
               <span><span style={{ color: "#C4CCDA" }}>●</span> {view.total - view.answeredCount} blank</span>
               <span><span style={{ color: "var(--a-warn)" }}>▣</span> {view.flagged.length} flagged</span>
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(5,1fr)", gap: 12, marginBottom: 24 }}>
+            <div data-testid="exam-review-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(58px,1fr))", gap: 12, marginBottom: 24, minHeight: 0, flex: "1 1 auto", overflowY: "auto", paddingRight: 4 }}>
               {view.review.map((r) => (
                 <button key={r.itemId} onClick={() => { void fire({ kind: "goto", index: r.num - 1 }); setReviewOpen(false); }}
                   style={{ position: "relative", aspectRatio: "1", border: r.flagged ? "2px solid var(--a-warn)" : r.answered ? "2px solid var(--s-primary)" : "2px solid #DCE2EC", background: r.answered ? "var(--s-primary-soft)" : "#fff", color: "var(--a-ink)", borderRadius: 12, fontWeight: 800, fontSize: 17, cursor: "pointer" }}>
@@ -238,8 +238,10 @@ function ExamPlayer() {
                 </button>
               ))}
             </div>
-            <button onClick={submit} style={{ width: "100%", border: "none", cursor: "pointer", background: "var(--s-success)", color: "#fff", borderRadius: 14, padding: 15, fontWeight: 800, fontSize: 17, boxShadow: "0 10px 24px rgba(22,176,122,.3)" }}>Submit exam</button>
-            <button onClick={() => setReviewOpen(false)} style={{ width: "100%", border: "none", cursor: "pointer", background: "none", color: "var(--a-muted)", padding: 12, fontWeight: 800, fontSize: 14, marginTop: 4 }}>Keep working</button>
+            <div style={{ flex: "none" }}>
+              <button onClick={submit} style={{ width: "100%", border: "none", cursor: "pointer", background: "var(--s-success)", color: "#fff", borderRadius: 14, padding: 15, fontWeight: 800, fontSize: 17, boxShadow: "0 10px 24px rgba(22,176,122,.3)" }}>Submit exam</button>
+              <button onClick={() => setReviewOpen(false)} style={{ width: "100%", border: "none", cursor: "pointer", background: "none", color: "var(--a-muted)", padding: 12, fontWeight: 800, fontSize: 14, marginTop: 4 }}>Keep working</button>
+            </div>
           </div>
         </div>
       )}
@@ -505,7 +507,8 @@ function Results({ result, onHome }: { result: Result | null; onHome: () => void
             <div style={{ fontWeight: 800, fontSize: 14, opacity: 0.92 }}>ROBUX THIS EXAM</div>
             <div style={{ fontFamily: "'Baloo 2',sans-serif", fontWeight: 800, fontSize: 44, lineHeight: 1, margin: "4px 0 12px" }}>{r.robux.net}</div>
             <div style={{ display: "flex", flexDirection: "column", gap: 6, background: "rgba(255,255,255,.16)", borderRadius: 13, padding: "12px 14px" }}>
-              <Row a={`${r.overall.correctCount} correct × +${r.perCorrect}`} b={`${r.robux.gross}`} />
+              <Row a={`${r.overall.correctCount} correct × +${r.perCorrect}`} b={`+${r.robux.gross}`} />
+              {typeof r.robux.capAdjustment === "number" && r.robux.capAdjustment !== 0 && <Row a={`Exam max reward ${r.examMaxReward}`} b={`${r.robux.capAdjustment}`} />}
               <Row a={`${r.overall.wrongCount} wrong × −${r.perWrong}`} b={`−${r.robux.penalty}`} />
               <div style={{ height: 1, background: "rgba(255,255,255,.3)", margin: "2px 0" }} />
               <Row a="Net to wallet" b={`${r.robux.net}`} />

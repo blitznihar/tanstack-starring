@@ -22,8 +22,10 @@ services:
       # Uses Atlas when MONGODB_URI is set in .env; falls back to the local Mongo container.
       # The app selects database "comet-dev" locally and "comet" only in Vercel production.
       MONGODB_URI: ${MONGODB_URI:-mongodb://mongo:27017/comet-dev}
+      MONGODB_DATABASE: ${MONGODB_DATABASE:-comet-dev}
       API_BASE_URL: ${API_BASE_URL:-http://localhost:3000}
       SESSION_SECRET: ${SESSION_SECRET:-change-me}
+      SESSION_COOKIE_SECURE: ${SESSION_COOKIE_SECURE:-false}
       AI_ENABLED: ${AI_ENABLED:-true}
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
       AI_BASE_URL: ${AI_BASE_URL:-https://api.openai.com/v1}

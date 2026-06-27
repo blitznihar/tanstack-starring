@@ -90,14 +90,19 @@ Primary function: `studentHistory`
 
 Purpose:
 
-- returns completed lessons/practices grouped by program day/date
+- returns completed lessons, practices, and submitted exams grouped by program day/date
 - supports history tab
 - provides links back to completed lessons and read-only practice review
+- provides completed exam rows with score, final Robux, and `examSessionId`
 
 Rules:
 
-- Only student owner can access their history.
+- Student owners can access their own history.
+- Linked parents, authorized admins, and super admins can access associated student history by `studentId`.
 - Practice review links should include `review=1`.
+- Exam rows link with `examSessionId` and open read-only submitted Exam Details.
+- History list summaries must use the same exam award formula as Exam Details.
+- History loading must not hydrate full question details for every exam row; full details load only for the selected exam.
 
 ## Lesson Functions
 
@@ -149,12 +154,20 @@ Responsibilities:
 - submit exams
 - score auto-scorable items
 - queue written scoring jobs
+- return completed exam details
 
 Rules:
 
 - Written SCR/ECR scoring must not block submission.
 - OpenAI failures should route to manual scoring.
+- Exam item counts must honor `src/domain/exam/itemCount.ts` minimums for duration and subject split.
+- Exam correct-question credit uses `practiceCorrect`.
+- `examCorrect` is the exam max reward cap for one completed exam attempt.
+- Exam award formula is `min(correctCount * practiceCorrect, examCorrect) - wrongCount * examWrong`, then floored by `EXAM_AWARD_FLOOR`.
 - Exam wrong penalties and awards must be ledger-backed.
+- Final exam ledger writes happen once per submitted/finalized session, keyed by `source: "exam"` and `refId: examSessionId`.
+- `examDetail` returns submitted-only summary and question-level details for the student, linked parent, authorized admin, or super admin.
+- `examResult`, `examDetail`, History, Dashboard, Wallet, and notifications are read-only after finalization and must not create ledger entries.
 
 ## Admin Console Functions
 

@@ -27,6 +27,8 @@ Use these instructions for Comet Academy React and TanStack Start UI work.
   - `workDate`
   - `lesson`
   - `review`
+  - `studentId`
+  - `examSessionId`
 
 ## UI Experience Rules
 
@@ -36,7 +38,7 @@ Use these instructions for Comet Academy React and TanStack Start UI work.
   - tomorrow or next work-day preview
   - history access
 - Completed lesson/practice cards should be clickable when safe.
-- Practice review must be read-only.
+- Practice review and completed-exam detail panels must be read-only.
 - Avoid hidden state that resets on refresh, logout/login, route change, or returning later.
 - Keep primary workflows direct. Do not add marketing-style landing pages inside app surfaces.
 - Use existing colors, typography, spacing, and rounded-card style before adding new visual language.
@@ -52,6 +54,10 @@ Use these instructions for Comet Academy React and TanStack Start UI work.
 - Lessons auto-route to matching practice after completion.
 - Practice completion returns to `/student`.
 - Completed practice review links should include `review=1`.
+- History groups completed lessons, practices, and submitted exams by program/date.
+- Completed exam rows link back to `/history?examSessionId=...` and render the full Exam Details panel for submitted attempts.
+- Student History may show only the current student; parent/admin History uses `studentId` selection and must rely on server-side visibility.
+- Exam Review All uses a bounded, scrollable modal/grid so large exams remain usable on desktop and mobile.
 
 ## Forms and Controls
 

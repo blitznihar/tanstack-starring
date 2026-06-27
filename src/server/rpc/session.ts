@@ -53,6 +53,26 @@ function requestOrigin(): string | undefined {
   }
 }
 
+function secureCookiesForRequest(): boolean {
+  const configured = process.env.SESSION_COOKIE_SECURE?.trim().toLowerCase();
+  if (configured === "true" || configured === "1") return true;
+  if (configured === "false" || configured === "0") return false;
+
+  const forwardedProto = getRequestHeader("x-forwarded-proto")?.split(",")[0]?.trim().toLowerCase();
+  if (forwardedProto) return forwardedProto === "https";
+
+  const origin = requestOrigin();
+  if (origin) {
+    try {
+      return new URL(origin).protocol === "https:";
+    } catch {
+      // Fall through to the deployment default.
+    }
+  }
+
+  return isProd;
+}
+
 /** Current signed-in user (or null). */
 export const me = createServerFn({ method: "GET" }).handler(async () => {
   const auth = await currentAuth();
@@ -74,7 +94,7 @@ export const login = createServerFn({ method: "POST" })
     if (auth0Enabled()) return { ok: false as const, auth0Required: true as const };
     const result = await doLogin(data);
     if (!result) return { ok: false as const };
-    setResponseHeader("Set-Cookie", sessionCookie(result.token, isProd));
+    setResponseHeader("Set-Cookie", sessionCookie(result.token, secureCookiesForRequest()));
     return {
       ok: true as const,
       roles: result.auth.roles,
@@ -92,7 +112,7 @@ export const startAuth0Login = createServerFn({ method: "POST" }).handler(async 
   const origin = requestOrigin();
   const callbackUrl = resolveAuth0CallbackUrl(origin ? `${origin}/callback` : undefined);
   const url = buildAuth0AuthorizeUrl(state, callbackUrl);
-  setResponseHeader("Set-Cookie", auth0StateCookie(state, callbackUrl, isProd));
+  setResponseHeader("Set-Cookie", auth0StateCookie(state, callbackUrl, secureCookiesForRequest()));
   return { ok: true as const, url };
 });
 
@@ -110,23 +130,26 @@ export const finishAuth0Login = createServerFn({ method: "POST" })
     });
 
     if (!result.ok) {
-      setResponseHeader("Set-Cookie", [clearAuth0StateCookie(isProd), clearAuth0PendingCookie(isProd)]);
+      const secureCookies = secureCookiesForRequest();
+      setResponseHeader("Set-Cookie", [clearAuth0StateCookie(secureCookies), clearAuth0PendingCookie(secureCookies)]);
       return result;
     }
 
     if (result.mode === "select_profile") {
       const email = (await usersRepo.findById(result.profiles[0]!.id))?.email.toLowerCase() ?? "";
+      const secureCookies = secureCookiesForRequest();
       setResponseHeader("Set-Cookie", [
-        clearAuth0StateCookie(isProd),
-        auth0PendingCookie(email, result.profiles.map((profile) => profile.id), isProd),
+        clearAuth0StateCookie(secureCookies),
+        auth0PendingCookie(email, result.profiles.map((profile) => profile.id), secureCookies),
       ]);
       return result;
     }
 
+    const secureCookies = secureCookiesForRequest();
     setResponseHeader("Set-Cookie", [
-      clearAuth0StateCookie(isProd),
-      clearAuth0PendingCookie(isProd),
-      sessionCookie(result.token, isProd),
+      clearAuth0StateCookie(secureCookies),
+      clearAuth0PendingCookie(secureCookies),
+      sessionCookie(result.token, secureCookies),
     ]);
     return {
       ok: true as const,
@@ -145,9 +168,10 @@ export const selectAuth0Profile = createServerFn({ method: "POST" })
       userId: data.userId,
       pending: readAuth0PendingCookie(cookies[AUTH0_PENDING_COOKIE]),
     });
+    const secureCookies = secureCookiesForRequest();
     setResponseHeader("Set-Cookie", [
-      clearAuth0PendingCookie(isProd),
-      sessionCookie(session.token, isProd),
+      clearAuth0PendingCookie(secureCookies),
+      sessionCookie(session.token, secureCookies),
     ]);
     return {
       ok: true as const,
@@ -276,7 +300,7 @@ export const devLogin = createServerFn({ method: "POST" })
     if (!user || !user._id) throw new Error(`No seeded ${data.role} user — run \`bun run seed\``);
     const token = generateToken();
     await sessionsRepo.create(token, String(user._id), 1000 * 60 * 60 * 24 * 7);
-    setResponseHeader("Set-Cookie", sessionCookie(token, isProd));
+    setResponseHeader("Set-Cookie", sessionCookie(token, secureCookiesForRequest()));
     return { ok: true as const, roles: user.roles, displayName: user.displayName };
   });
 
@@ -289,7 +313,7 @@ export const devProfileLogin = createServerFn({ method: "POST" })
     if (!user || !user._id || !user.active) throw new Error("Profile is not available");
     const token = generateToken();
     await sessionsRepo.create(token, String(user._id), 1000 * 60 * 60 * 24 * 7);
-    setResponseHeader("Set-Cookie", sessionCookie(token, isProd));
+    setResponseHeader("Set-Cookie", sessionCookie(token, secureCookiesForRequest()));
     return { ok: true as const, roles: user.roles, displayName: user.displayName };
   });
 
@@ -301,6 +325,6 @@ export const logout = createServerFn({ method: "POST" }).handler(async () => {
     .find((p) => p.startsWith(`${SESSION_COOKIE}=`))
     ?.slice(SESSION_COOKIE.length + 1);
   await doLogout(token);
-  setResponseHeader("Set-Cookie", clearSessionCookie(isProd));
+  setResponseHeader("Set-Cookie", clearSessionCookie(secureCookiesForRequest()));
   return { ok: true as const };
 });

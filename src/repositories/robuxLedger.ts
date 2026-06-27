@@ -10,6 +10,9 @@ export type RobuxLedgerDoc = {
   amount: number; // positive magnitude
   source: string; // "practice" | "exam" | "redemption" | ...
   refId?: string; // e.g. itemId / examSessionId — used for idempotency
+  reason?: string;
+  createdBy?: string;
+  metadata?: Record<string, unknown>;
   at: Date;
 };
 

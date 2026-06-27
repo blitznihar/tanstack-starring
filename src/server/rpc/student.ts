@@ -4,11 +4,15 @@ import { enrollmentsRepo } from "~/repositories/enrollments.js";
 import { lessonProgressRepo } from "~/repositories/lessonProgress.js";
 import { practiceProgressRepo } from "~/repositories/practiceProgress.js";
 import { programsRepo } from "~/repositories/programs.js";
+import { examsRepo } from "~/repositories/exams.js";
+import { examSessionsRepo } from "~/repositories/examSessions.js";
 import { selectDashboardWorkDay } from "~/domain/student/dashboardPlan.js";
+import { computeExamAward } from "~/domain/ledger/ledger.js";
 import { rewardPanel } from "~/server/gamification/gamification.js";
 import { getOrCreateSchedule } from "~/server/scheduler/scheduler.js";
 import { studentOverview } from "~/server/reporting/reporting.js";
 import { assertCanSeeStudent, publicUserOption, userId, visibleStudentsFor } from "~/server/users/associations.js";
+import { env } from "~/lib/env.js";
 import { requireAuth } from "./context.js";
 
 function titleCase(value: string): string {
@@ -40,11 +44,18 @@ type TaskView = {
   durationMinutes: number | null;
   completed: boolean;
   completedAt: string | null;
+  examSessionId?: string;
+  scorePct?: number | null;
+  robuxEarned?: number | null;
 };
 
 type ProgressLookup = {
   lessons: Map<string, Date>;
   practices: Map<string, Date>;
+};
+
+type ExamResultSummaryLike = {
+  overall?: { correctCount?: number; wrongCount?: number; total?: number };
 };
 
 function todayIso(): string {
@@ -295,9 +306,10 @@ export const studentHistory = createServerFn({ method: "GET" })
     const enrollmentId = String(enrollment._id);
     const program = programByKey.get(enrollment.programKey);
     const schedule = await getOrCreateSchedule(auth, enrollmentId);
-    const [lessonProgress, practiceProgress] = await Promise.all([
+    const [lessonProgress, practiceProgress, submittedExams] = await Promise.all([
       lessonProgressRepo.listForEnrollment(enrollmentId),
       practiceProgressRepo.listForEnrollment(enrollmentId),
+      examSessionsRepo.listSubmitted(enrollmentId),
     ]);
     const progress: ProgressLookup = {
       lessons: new Map(lessonProgress.map((row) => [progressKey(row.subject, row.standardCode), row.completedAt])),
@@ -313,6 +325,60 @@ export const studentHistory = createServerFn({ method: "GET" })
         dateLabel: formatDate(day.date),
         tasks,
       });
+    }
+    const dayByDate = new Map(days.map((day) => [day.date, day]));
+    for (const session of submittedExams) {
+      const result = session.result as ExamResultSummaryLike | undefined;
+      const correctCount = Number(result?.overall?.correctCount ?? 0);
+      const wrongCount = Number(result?.overall?.wrongCount ?? 0);
+      const total = Number(result?.overall?.total ?? correctCount + wrongCount);
+      const award = computeExamAward({
+        correctCount,
+        wrongCount,
+        correctQuestionReward: program?.robuxRules.practiceCorrect ?? 0,
+        examMaxReward: program?.robuxRules.examCorrect ?? 0,
+        perWrongPenalty: program?.robuxRules.examWrong ?? 0,
+        floor: env.robux.examAwardFloor,
+      });
+      const completedAt = session.submittedAt ? new Date(session.submittedAt) : session.updatedAt ?? session.createdAt;
+      const date = completedAt.toISOString().slice(0, 10);
+      const existingDay = dayByDate.get(date);
+      const exam = await examsRepo.findById(session.examId);
+      const scorePct = total > 0 ? Math.round((correctCount / total) * 100) : 0;
+      const robuxEarned = award.net;
+      const task: TaskView = {
+        id: `exam:${session._id}`,
+        kind: "exam",
+        workDate: date,
+        subjectKey: "",
+        subject: "Exam",
+        topic: "",
+        title: program?.title ?? "Exam",
+        meta: [
+          "Completed exam",
+          scorePct == null ? "" : `${scorePct}%`,
+          robuxEarned == null ? "" : `${robuxEarned} Robux`,
+        ].filter(Boolean).join(" · "),
+        durationMinutes: exam ? Math.round(exam.durationSeconds / 60) : null,
+        completed: true,
+        completedAt: completedAt.toISOString(),
+        examSessionId: session._id,
+        scorePct,
+        robuxEarned,
+      };
+      if (existingDay) {
+        if (!existingDay.tasks.some((entry) => entry.examSessionId === session._id)) existingDay.tasks.push(task);
+      } else {
+        const dayIndex = schedule.schedule.days.find((day) => day.date === date)?.index ?? -1;
+        const newDay = {
+          index: dayIndex,
+          date,
+          dateLabel: formatDate(date),
+          tasks: [task],
+        };
+        days.push(newDay);
+        dayByDate.set(date, newDay);
+      }
     }
     programHistories.push({
       enrollmentId,

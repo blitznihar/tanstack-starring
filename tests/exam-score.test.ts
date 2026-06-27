@@ -42,7 +42,7 @@ describe("scoreExamSession", () => {
       items,
       responses: { m1: "A", m2: "A", m3: "B", r1: "an essay" }, // 2 correct, 1 wrong
       conversionTables: { math: mathTable },
-      robuxRules: { examCorrect: 20, examWrong: 10 },
+      robuxRules: { correctQuestionReward: 20, examMaxReward: 400, examWrong: 10 },
     });
     const math = result.perSubject.find((s) => s.subject === "math")!;
     expect(math.correctCount).toBe(2);
@@ -62,9 +62,35 @@ describe("scoreExamSession", () => {
       items: [mc("m1", "math", "A"), mc("m2", "math", "A")],
       responses: { m1: "A", m2: "B" }, // 1 correct, 1 wrong
       conversionTables: { math: mathTable },
-      robuxRules: { examCorrect: 20, examWrong: 10 },
+      robuxRules: { correctQuestionReward: 20, examMaxReward: 400, examWrong: 10 },
     });
-    expect(result.robux).toEqual({ gross: 20, penalty: 10, net: 10 });
+    expect(result.robux).toEqual({ gross: 20, cappedGross: 20, capAdjustment: 0, penalty: 10, net: 10 });
+  });
+
+  it("uses the configured exam value as a max cap, not a per-question reward", () => {
+    const correct = Array.from({ length: 57 }, (_, index) => mc(`c${index}`, "math", "A"));
+    const wrong = Array.from({ length: 18 }, (_, index) => mc(`w${index}`, "math", "A"));
+    const all = [...correct, ...wrong];
+    const result = scoreExamSession({
+      items: all,
+      responses: Object.fromEntries(all.map((item) => [item._id, item._id.startsWith("c") ? "A" : "B"])),
+      conversionTables: {},
+      robuxRules: { correctQuestionReward: 5, examMaxReward: 400, examWrong: 5 },
+    });
+    expect(result.robux.net).toBe(195);
+    expect(result.robux.net).not.toBe(22710);
+  });
+
+  it("caps an 85-correct perfect exam at the exam max reward", () => {
+    const all = Array.from({ length: 85 }, (_, index) => mc(`m${index}`, "math", "A"));
+    const result = scoreExamSession({
+      items: all,
+      responses: Object.fromEntries(all.map((item) => [item._id, "A"])),
+      conversionTables: {},
+      robuxRules: { correctQuestionReward: 5, examMaxReward: 400, examWrong: 5 },
+    });
+    expect(result.robux.net).toBe(400);
+    expect(result.robux.capAdjustment).toBe(-25);
   });
 
   it("does not penalize blank (unanswered) items", () => {
@@ -72,7 +98,7 @@ describe("scoreExamSession", () => {
       items: [mc("m1", "math", "A"), mc("m2", "math", "A")],
       responses: { m1: "A" }, // m2 blank
       conversionTables: { math: mathTable },
-      robuxRules: { examCorrect: 20, examWrong: 10 },
+      robuxRules: { correctQuestionReward: 20, examMaxReward: 400, examWrong: 10 },
     });
     const math = result.perSubject.find((s) => s.subject === "math")!;
     expect(math.correctCount).toBe(1);

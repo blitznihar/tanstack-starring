@@ -22,19 +22,40 @@ describe("computeWallet", () => {
 
 describe("computeExamAward — negative Robux + floor", () => {
   it("subtracts wrong-answer penalties from gross", () => {
-    expect(computeExamAward({ correctCount: 8, wrongCount: 2, perCorrect: 20, perWrongPenalty: 10 })).toEqual({
+    expect(computeExamAward({ correctCount: 8, wrongCount: 2, correctQuestionReward: 20, examMaxReward: 400, perWrongPenalty: 10 })).toEqual({
       gross: 160,
+      cappedGross: 160,
+      capAdjustment: 0,
       penalty: 20,
       net: 140,
     });
   });
+  it("caps the positive correct-question reward at the exam max reward", () => {
+    expect(computeExamAward({ correctCount: 85, wrongCount: 0, correctQuestionReward: 5, examMaxReward: 400, perWrongPenalty: 5 })).toEqual({
+      gross: 425,
+      cappedGross: 400,
+      capAdjustment: -25,
+      penalty: 0,
+      net: 400,
+    });
+  });
+  it("does not treat the exam max reward as a per-question reward", () => {
+    const result = computeExamAward({ correctCount: 57, wrongCount: 18, correctQuestionReward: 5, examMaxReward: 400, perWrongPenalty: 5 });
+    expect(result.net).toBe(195);
+    expect(result.net).not.toBe(22710);
+  });
   it("floors the net award (default 0)", () => {
-    expect(computeExamAward({ correctCount: 1, wrongCount: 10, perCorrect: 20, perWrongPenalty: 10 }).net).toBe(0);
+    expect(computeExamAward({ correctCount: 1, wrongCount: 10, correctQuestionReward: 20, examMaxReward: 400, perWrongPenalty: 10 }).net).toBe(0);
   });
   it("respects a configurable floor", () => {
     expect(
-      computeExamAward({ correctCount: 0, wrongCount: 5, perCorrect: 20, perWrongPenalty: 10, floor: 25 }).net,
+      computeExamAward({ correctCount: 0, wrongCount: 5, correctQuestionReward: 20, examMaxReward: 400, perWrongPenalty: 10, floor: 25 }).net,
     ).toBe(25);
+  });
+  it("can preserve negative exam penalties when the caller allows negative nets", () => {
+    expect(
+      computeExamAward({ correctCount: 0, wrongCount: 10, correctQuestionReward: 5, examMaxReward: 400, perWrongPenalty: 5, floor: Number.NEGATIVE_INFINITY }).net,
+    ).toBe(-50);
   });
 });
 

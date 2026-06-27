@@ -43,9 +43,11 @@ Use these instructions for Comet Academy server functions, repositories, schemas
 
 - Local, Vercel preview, Docker, and development use `comet-dev`.
 - Vercel production uses `comet`.
+- `MONGODB_DATABASE` can explicitly override the derived name for Docker, scripts, and controlled debugging.
 - Do not hardcode production database names in feature code.
 - Do not run destructive data migrations without explicit user approval.
 - Data repair scripts must print summaries, not secrets or full student records.
+- Do not keep one-time production repair scripts in production-bound code unless the user explicitly asks for an ongoing operational tool.
 
 ## Scheduling and Progress
 
@@ -67,6 +69,19 @@ Use these instructions for Comet Academy server functions, repositories, schemas
 - Multi-select correct answer: selected key set exactly equals correct key set.
 - Wrong practice answers deduct the configured practice/wrong penalty only once.
 - Written SCR/ECR items are exam-only and require AI/manual scoring.
+
+## Exam and Robux
+
+- Exam assembly must respect the program blueprint, requested duration, subject split, and the minimum item-count policy in `src/domain/exam/itemCount.ts`.
+- Minimum exam counts for one-hour-or-longer pure exams are rate-based: Math uses 90 seconds per item with a 45-question floor at 60 minutes; English/RLA uses 216 seconds per item.
+- `program.robuxRules.practiceCorrect` is the per-question reward for both practice correct answers and exam correct-question credit.
+- `program.robuxRules.examCorrect` is "Exam max reward": the maximum positive correct-question reward for one completed exam attempt.
+- `program.robuxRules.examWrong` is the wrong-answer penalty used by practice and exam answer scoring.
+- Exam award formula: `min(correctCount * practiceCorrect, examCorrect) - wrongCount * examWrong`, then apply `EXAM_AWARD_FLOOR`.
+- Final exam ledger writes happen only when an exam session is submitted/finalized, with `source: "exam"` and `refId: examSessionId`.
+- Exam submission, result polling, History, Exam Details, Dashboard, Wallet, and notification rendering must be idempotent/read-only after the first finalized ledger write.
+- Completed exam details are available only after submission and must enforce student ownership, linked-parent visibility, or authorized admin/super-admin visibility.
+- Shared exam-detail data should come from `src/server/exam/detail.ts` so History and email reports do not drift.
 
 ## OpenAI
 

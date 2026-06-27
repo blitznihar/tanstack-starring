@@ -7,14 +7,7 @@ import { usersRepo } from "~/repositories/users.js";
 import { parentsForStudent, staffForStudent, userId } from "~/server/users/associations.js";
 import { queueEmailNotification, queueInAppNotification } from "./email.js";
 import type { PracticeCompletionQuestion } from "~/server/practice/practice.js";
-
-type ReportExamSummary = {
-  title: string;
-  correctCount: number;
-  wrongCount: number;
-  scorePct?: number;
-  robuxNet?: number;
-};
+import type { ExamDetailReport } from "~/server/exam/detail.js";
 
 function todayIso(): string {
   return new Date().toISOString().slice(0, 10);
@@ -70,7 +63,7 @@ async function reportRecipients(studentId: string) {
   return [...byId.values()];
 }
 
-function reportBody(input: {
+export function reportBody(input: {
   studentName: string;
   programTitle: string;
   lessons: string[];
@@ -78,9 +71,13 @@ function reportBody(input: {
   practiceDetail?: PracticeCompletionQuestion[];
   practiceEarned?: number;
   reportDate?: string;
-  exam?: ReportExamSummary;
+  exam?: ExamDetailReport;
 }): string {
   const robuxDelta = (value: number) => `${value > 0 ? "+" : ""}${value} Robux`;
+  const examSummary = input.exam?.summary;
+  const totalSolved = input.practice.solved + (examSummary?.questionsSolved ?? 0);
+  const totalRight = input.practice.right + (examSummary?.correctCount ?? 0);
+  const totalWrong = input.practice.wrong + (examSummary?.wrongCount ?? 0);
   const lessons = input.lessons.length
     ? input.lessons.map((lesson) => `<li>${escapeHtml(lesson)}</li>`).join("")
     : "";
@@ -101,15 +98,33 @@ function reportBody(input: {
         </div>
       `).join("")}`
     : "";
-  const exam = input.exam
+  const exam = input.exam && examSummary
     ? `
       <h3 style="margin:20px 0 8px;color:#2f2943;">Exam</h3>
       <table style="width:100%;border-collapse:collapse;">
-        <tr><td style="padding:8px;border:1px solid #e4dced;">Exam</td><td style="padding:8px;border:1px solid #e4dced;"><strong>${escapeHtml(input.exam.title)}</strong></td></tr>
-        <tr><td style="padding:8px;border:1px solid #e4dced;">Right / Wrong</td><td style="padding:8px;border:1px solid #e4dced;"><strong>${input.exam.correctCount}</strong> right, <strong>${input.exam.wrongCount}</strong> wrong</td></tr>
-        ${input.exam.scorePct == null ? "" : `<tr><td style="padding:8px;border:1px solid #e4dced;">Score</td><td style="padding:8px;border:1px solid #e4dced;"><strong>${input.exam.scorePct}%</strong></td></tr>`}
-        ${input.exam.robuxNet == null ? "" : `<tr><td style="padding:8px;border:1px solid #e4dced;">Robux</td><td style="padding:8px;border:1px solid #e4dced;"><strong>${input.exam.robuxNet}</strong></td></tr>`}
-      </table>`
+        <tr><td style="padding:8px;border:1px solid #e4dced;">Exam</td><td style="padding:8px;border:1px solid #e4dced;"><strong>${escapeHtml(examSummary.examName)}</strong></td></tr>
+        <tr><td style="padding:8px;border:1px solid #e4dced;">Questions solved</td><td style="padding:8px;border:1px solid #e4dced;"><strong>${examSummary.questionsSolved}</strong></td></tr>
+        <tr><td style="padding:8px;border:1px solid #e4dced;">Right / Wrong</td><td style="padding:8px;border:1px solid #e4dced;"><strong>${examSummary.correctCount}</strong> right, <strong>${examSummary.wrongCount}</strong> wrong</td></tr>
+        <tr><td style="padding:8px;border:1px solid #e4dced;">Score</td><td style="padding:8px;border:1px solid #e4dced;"><strong>${examSummary.scorePct}%</strong></td></tr>
+        <tr><td style="padding:8px;border:1px solid #e4dced;">Raw correct reward</td><td style="padding:8px;border:1px solid #e4dced;"><strong>+${examSummary.rawCorrectReward}</strong></td></tr>
+        <tr><td style="padding:8px;border:1px solid #e4dced;">Wrong penalties</td><td style="padding:8px;border:1px solid #e4dced;"><strong>${examSummary.wrongPenaltyTotal ? `-${examSummary.wrongPenaltyTotal}` : "0"}</strong></td></tr>
+        <tr><td style="padding:8px;border:1px solid #e4dced;">Cap adjustment</td><td style="padding:8px;border:1px solid #e4dced;"><strong>${examSummary.capAdjustment}</strong></td></tr>
+        <tr><td style="padding:8px;border:1px solid #e4dced;">Final Exam Robux earned</td><td style="padding:8px;border:1px solid #e4dced;"><strong>${examSummary.finalRobux}</strong></td></tr>
+      </table>
+      <h3 style="margin:20px 0 8px;color:#2f2943;">Exam Details</h3>
+      ${input.exam.questions.map((question) => `
+        <div style="border:1px solid #e4dced;border-radius:10px;padding:12px;margin:0 0 10px;">
+          <div style="font-weight:800;color:#2f2943;margin-bottom:6px;">${question.num}. ${escapeHtml(question.prompt)}</div>
+          <div style="font-size:12px;color:#746b88;margin-bottom:8px;">${escapeHtml(question.teks)}</div>
+          <table style="width:100%;border-collapse:collapse;font-size:14px;">
+            <tr><td style="padding:7px;border:1px solid #eee7f5;width:34%;">Student answer</td><td style="padding:7px;border:1px solid #eee7f5;"><strong>${escapeHtml(question.studentAnswer)}</strong></td></tr>
+            <tr><td style="padding:7px;border:1px solid #eee7f5;">Correct answer</td><td style="padding:7px;border:1px solid #eee7f5;"><strong>${escapeHtml(question.correctAnswer)}</strong></td></tr>
+            <tr><td style="padding:7px;border:1px solid #eee7f5;">Result</td><td style="padding:7px;border:1px solid #eee7f5;color:${question.correct ? "#0b7a58" : question.pending ? "#9c6a00" : "#c2491f"};"><strong>${question.result}</strong> · ${robuxDelta(question.robuxImpact)}</td></tr>
+            ${question.whyWrong ? `<tr><td style="padding:7px;border:1px solid #eee7f5;">Why the wrong answer missed</td><td style="padding:7px;border:1px solid #eee7f5;">${escapeHtml(question.whyWrong)}</td></tr>` : ""}
+            ${question.explanation ? `<tr><td style="padding:7px;border:1px solid #eee7f5;">Student-screen explanation</td><td style="padding:7px;border:1px solid #eee7f5;">${escapeHtml(question.explanation)}</td></tr>` : ""}
+          </table>
+        </div>
+      `).join("")}`
     : "";
 
   return `
@@ -121,13 +136,14 @@ function reportBody(input: {
       <table style="width:100%;border-collapse:collapse;margin:0 0 18px;">
         <tr>
           <td style="padding:8px;border:1px solid #e4dced;">Questions solved</td>
-          <td style="padding:8px;border:1px solid #e4dced;"><strong>${input.practice.solved}</strong></td>
+          <td style="padding:8px;border:1px solid #e4dced;"><strong>${totalSolved}</strong></td>
         </tr>
         <tr>
           <td style="padding:8px;border:1px solid #e4dced;">Right / Wrong</td>
-          <td style="padding:8px;border:1px solid #e4dced;"><strong>${input.practice.right}</strong> right, <strong>${input.practice.wrong}</strong> wrong</td>
+          <td style="padding:8px;border:1px solid #e4dced;"><strong>${totalRight}</strong> right, <strong>${totalWrong}</strong> wrong</td>
         </tr>
         ${input.practiceEarned == null ? "" : `<tr><td style="padding:8px;border:1px solid #e4dced;">Practice Robux earned</td><td style="padding:8px;border:1px solid #e4dced;"><strong>${input.practiceEarned}</strong></td></tr>`}
+        ${examSummary == null ? "" : `<tr><td style="padding:8px;border:1px solid #e4dced;">Exam Robux earned</td><td style="padding:8px;border:1px solid #e4dced;"><strong>${examSummary.finalRobux}</strong></td></tr>`}
       </table>
 
       ${lessons ? `<h3 style="margin:0 0 8px;color:#2f2943;">Lessons Completed Today</h3><ul style="margin:0 0 18px;padding-left:20px;">${lessons}</ul>` : ""}
@@ -194,7 +210,7 @@ export async function queuePracticeProgressReport(
   })));
 }
 
-export async function queueExamProgressReport(enrollmentId: string, exam: ReportExamSummary): Promise<void> {
+export async function queueExamProgressReport(enrollmentId: string, exam: ExamDetailReport): Promise<void> {
   const enrollment = await enrollmentsRepo.findById(enrollmentId);
   if (!enrollment) return;
   const [student, program, lessons, practice, recipients] = await Promise.all([

@@ -7,7 +7,7 @@
   "description": "Comet — multi-program practice platform (Grade 3 STAAR + extensible programs)",
   "scripts": {
     "dev": "vite dev",
-    "build": "vite build",
+    "build": "rm -rf .output dist .vinxi .tanstack .nitro && vite build",
     "start": "bun scripts/serve-dist.mjs",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",

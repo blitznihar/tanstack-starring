@@ -29,6 +29,7 @@ import { scoreExamSession, type ExamResult } from "~/domain/exam/scoreExam.js";
 import { walletFor } from "~/server/gamification/wallet.js";
 import { recordAttempt, masterySummary } from "~/server/mastery/mastery.js";
 import { queueExamProgressReport } from "~/server/notifications/progressReports.js";
+import { buildExamDetailReport, type ExamDetailReport } from "~/server/exam/detail.js";
 import {
   enqueueWrittenJobs,
   processSessionJobs,
@@ -39,6 +40,7 @@ import {
 import { passagesRepo } from "~/repositories/passages.js";
 import { richToText } from "~/lib/richText.js";
 import { env } from "~/lib/env.js";
+import { assertCanSeeStudent } from "~/server/users/associations.js";
 import type { AuthContext } from "~/server/auth/session.js";
 import type { Item } from "~/schemas/item.js";
 import type { Passage } from "~/schemas/passage.js";
@@ -69,6 +71,8 @@ export type ExamResultPayload = ExamResult & {
   itemReview: ExamItemReview[];
   perCorrect: number;
   perWrong: number;
+  examMaxReward: number;
+  detail: ExamDetailReport;
 };
 
 /** Derive completed + weak topics for assembly. Exams only cover completed lessons. */
@@ -149,7 +153,7 @@ export async function buildExam(actor: AuthContext, input: BuildExamInput): Prom
     examId,
     coverage: assembled.coverage,
     itemCount: assembled.itemIds.length,
-    earnUpTo: assembled.itemIds.length * program.robuxRules.examCorrect,
+    earnUpTo: Math.min(assembled.itemIds.length * program.robuxRules.practiceCorrect, program.robuxRules.examCorrect),
   };
 }
 
@@ -422,7 +426,8 @@ async function finalizeIfNeeded(sessionId: string, state: ExamSessionState, prio
   const exam = await examsRepo.findById(state.examId);
   if (!exam) return;
   const enrollment = await enrollmentsRepo.findById(state.enrollmentId);
-  const program = await programsRepo.findByKey(enrollment!.programKey);
+  if (!enrollment) return;
+  const program = await programsRepo.findByKey(enrollment.programKey);
   if (!program) return;
 
   const items = (await contentRepo.listItems({ programKey: program.key })).filter((i) => state.itemIds.includes(i._id));
@@ -435,7 +440,11 @@ async function finalizeIfNeeded(sessionId: string, state: ExamSessionState, prio
     items,
     responses: state.responses,
     conversionTables,
-    robuxRules: { examCorrect: program.robuxRules.examCorrect, examWrong: program.robuxRules.examWrong },
+    robuxRules: {
+      correctQuestionReward: program.robuxRules.practiceCorrect,
+      examMaxReward: program.robuxRules.examCorrect,
+      examWrong: program.robuxRules.examWrong,
+    },
     examFloor: env.robux.examAwardFloor,
   });
 
@@ -449,8 +458,14 @@ async function finalizeIfNeeded(sessionId: string, state: ExamSessionState, prio
     if (item) await recordAttempt(state.enrollmentId, item.standardCodes, r.correct);
   }
   // Book the net award (idempotent via refId = sessionId).
-  if (result.robux.net > 0) {
-    await robuxLedgerRepo.add({ enrollmentId: state.enrollmentId, type: "earn", amount: result.robux.net, source: "exam", refId: sessionId });
+  if (result.robux.net !== 0) {
+    await robuxLedgerRepo.add({
+      enrollmentId: state.enrollmentId,
+      type: result.robux.net > 0 ? "earn" : "penalty",
+      amount: Math.abs(result.robux.net),
+      source: "exam",
+      refId: sessionId,
+    });
   }
 
   // Build the post-submit results payload (now safe to include solutions).
@@ -474,15 +489,32 @@ async function finalizeIfNeeded(sessionId: string, state: ExamSessionState, prio
       solution: richToText(item.workedSolution) || richToText(item.explanation),
     };
   });
-
-  await examSessionsRepo.saveResult(sessionId, { ...result, itemReview, perCorrect: program.robuxRules.examCorrect, perWrong: program.robuxRules.examWrong });
-  await queueExamProgressReport(state.enrollmentId, {
-    title: program.title,
-    correctCount: result.overall.correctCount,
-    wrongCount: result.overall.wrongCount,
-    scorePct: result.overall.total > 0 ? Math.round((result.overall.correctCount / result.overall.total) * 100) : undefined,
-    robuxNet: result.robux.net,
+  const detail = buildExamDetailReport({
+    sessionId,
+    examId: state.examId,
+    enrollmentId: state.enrollmentId,
+    studentId: enrollment.studentId,
+    programTitle: program.title,
+    completedAt: state.submittedAt,
+    itemIds: state.itemIds,
+    items,
+    responses: state.responses,
+    result,
+    correctQuestionReward: program.robuxRules.practiceCorrect,
+    examMaxReward: program.robuxRules.examCorrect,
+    wrongPenalty: program.robuxRules.examWrong,
+    examFloor: env.robux.examAwardFloor,
   });
+
+  await examSessionsRepo.saveResult(sessionId, {
+    ...result,
+    itemReview,
+    perCorrect: program.robuxRules.practiceCorrect,
+    perWrong: program.robuxRules.examWrong,
+    examMaxReward: program.robuxRules.examCorrect,
+    detail,
+  });
+  await queueExamProgressReport(state.enrollmentId, detail);
 
   // §8: enqueue async SCR/ECR scoring (one job per written item) and kick it off
   // in the background. Submission has already returned — this never blocks it.
@@ -501,10 +533,13 @@ export async function submitExam(actor: AuthContext, sessionId: string) {
   return getResult(actor, sessionId);
 }
 
-function assertSessionAccess(actor: AuthContext, doc: ExamSessionDoc): void {
-  if (actor.userId !== doc.studentId && !actor.roles.includes("admin") && !actor.roles.includes("super_admin")) {
-    throw new Error("Forbidden: not your session");
+async function assertSessionAccess(actor: AuthContext, doc: ExamSessionDoc): Promise<void> {
+  if (actor.userId === doc.studentId) return;
+  if (actor.roles.includes("admin") || actor.roles.includes("super_admin") || actor.roles.includes("parent")) {
+    await assertCanSeeStudent(actor, doc.studentId);
+    return;
   }
+  throw new Error("Forbidden: not your session");
 }
 
 export type ResultView = {
@@ -530,9 +565,42 @@ async function buildResultView(doc: ExamSessionDoc): Promise<ResultView> {
 export async function getResult(actor: AuthContext, sessionId: string): Promise<ResultView | { submitted: false }> {
   const doc = await examSessionsRepo.findById(sessionId);
   if (!doc) throw new Error("Session not found");
-  assertSessionAccess(actor, doc);
+  await assertSessionAccess(actor, doc);
   if (doc.status !== "submitted") return { submitted: false as const };
   return buildResultView(doc);
+}
+
+export async function getExamDetail(actor: AuthContext, sessionId: string): Promise<ExamDetailReport> {
+  const doc = await examSessionsRepo.findById(sessionId);
+  if (!doc) throw new Error("Session not found");
+  await assertSessionAccess(actor, doc);
+  if (doc.status !== "submitted" || !doc.result) throw new Error("Exam details are available after the exam is submitted.");
+  const result = doc.result as Partial<ExamResultPayload>;
+
+  const [exam, enrollment] = await Promise.all([
+    examsRepo.findById(doc.examId),
+    enrollmentsRepo.findById(doc.enrollmentId),
+  ]);
+  if (!exam || !enrollment) throw new Error("Exam not found");
+  const program = await programsRepo.findByKey(enrollment.programKey);
+  if (!program) throw new Error("Program not found");
+  const items = (await contentRepo.listItems({ programKey: program.key })).filter((item) => doc.itemIds.includes(item._id));
+  return buildExamDetailReport({
+    sessionId,
+    examId: doc.examId,
+    enrollmentId: doc.enrollmentId,
+    studentId: doc.studentId,
+    programTitle: program.title,
+    completedAt: doc.submittedAt,
+    itemIds: doc.itemIds,
+    items,
+    responses: doc.responses,
+    result: result as ExamResult,
+    correctQuestionReward: program.robuxRules.practiceCorrect,
+    examMaxReward: program.robuxRules.examCorrect,
+    wrongPenalty: program.robuxRules.examWrong,
+    examFloor: env.robux.examAwardFloor,
+  });
 }
 
 /**
@@ -547,7 +615,7 @@ export async function scoreWrittenForSession(
 ): Promise<ResultView | { submitted: false }> {
   const doc = await examSessionsRepo.findById(sessionId);
   if (!doc) throw new Error("Session not found");
-  assertSessionAccess(actor, doc);
+  await assertSessionAccess(actor, doc);
   if (doc.status !== "submitted") return { submitted: false as const };
   await processSessionJobs(sessionId);
   return buildResultView(doc);

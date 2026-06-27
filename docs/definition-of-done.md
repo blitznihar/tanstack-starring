@@ -35,9 +35,20 @@ For lesson/practice/dashboard changes:
 - Correct/wrong scoring is accurate.
 - Robux changes are idempotent.
 - Completed work remains visible.
-- History links open the selected completed lesson/practice.
+- History links open the selected completed lesson, practice, or submitted exam.
 - Practice review is read-only and shows prior selections/feedback.
+- Submitted exam details are read-only and show summary, final Robux, question answers, results, and explanations.
+- History, Exam Details, Dashboard, Wallet, and report/email views do not create Robux transactions.
 - Tomorrow or next work-day preview is separate from completed current work.
+
+For exam and Robux changes:
+
+- Exam item counts honor the duration/subject minimum policy.
+- Exam Robux uses `practiceCorrect` per correct question, `examCorrect` as the max reward cap, and `examWrong` as the wrong penalty.
+- Duplicate submit/finalize/result calls do not create duplicate exam ledger entries.
+- History row Robux, Exam Details final Robux, Wallet ledger totals, Dashboard balance, and email reports agree.
+- Student, linked parent, authorized admin, and super admin access paths are tested; unassociated users are denied.
+- The Exam Review All modal/grid remains scrollable for large exams on desktop and mobile.
 
 ## Scheduler Completion
 

@@ -53,7 +53,7 @@ export type ScoreExamInput = {
   items: Item[];
   responses: Record<string, unknown>;
   conversionTables: Record<string, ConversionTable | undefined>;
-  robuxRules: { examCorrect: number; examWrong: number };
+  robuxRules: { correctQuestionReward: number; examMaxReward: number; examWrong: number };
   examFloor?: number;
 };
 
@@ -112,7 +112,8 @@ export function scoreExamSession(input: ScoreExamInput): ExamResult {
   const robux = computeExamAward({
     correctCount,
     wrongCount,
-    perCorrect: input.robuxRules.examCorrect,
+    correctQuestionReward: input.robuxRules.correctQuestionReward,
+    examMaxReward: input.robuxRules.examMaxReward,
     perWrongPenalty: input.robuxRules.examWrong,
     floor: input.examFloor ?? 0,
   });

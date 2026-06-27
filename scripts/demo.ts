@@ -67,8 +67,8 @@ const wallet = computeWallet([
   { type: "penalty", amount: 30 }, { type: "redeem_fulfilled", amount: 300 },
 ]);
 line(`  wallet → ${JSON.stringify(wallet)}`);
-line(`  exam award 8 right / 2 wrong @ +20/-10 → ${JSON.stringify(computeExamAward({ correctCount: 8, wrongCount: 2, perCorrect: 20, perWrongPenalty: 10 }))}`);
-line(`  exam award 1 right / 10 wrong (floored at 0) → ${JSON.stringify(computeExamAward({ correctCount: 1, wrongCount: 10, perCorrect: 20, perWrongPenalty: 10 }))}`);
+line(`  exam award 8 right / 2 wrong @ +20/-10, max 400 → ${JSON.stringify(computeExamAward({ correctCount: 8, wrongCount: 2, correctQuestionReward: 20, examMaxReward: 400, perWrongPenalty: 10 }))}`);
+line(`  exam award 1 right / 10 wrong (floored at 0) → ${JSON.stringify(computeExamAward({ correctCount: 1, wrongCount: 10, correctQuestionReward: 20, examMaxReward: 400, perWrongPenalty: 10 }))}`);
 line(`  partial fulfill 400 of 1000 → ${JSON.stringify(resolveFulfillment({ amountRequested: 1000, alreadyFulfilled: 0, available: 1000, fulfillNow: 400 }))}`);
 
 // ── 4. Auth & RBAC ───────────────────────────────────────────────────────────

@@ -135,7 +135,19 @@ Optional desktop shell and app icon packaging.
 - Production DB: `comet`.
 - Vercel preview deploys validate changes before approval-gated production.
 - Docker can run local MongoDB and app services.
+- Local Docker can serve HTTP sessions with `SESSION_COOKIE_SECURE=false`; production HTTPS keeps secure cookies.
 - Electron can point to local or network app URLs.
+
+## Robux and Exam Detail Flow
+
+- `src/domain/ledger/ledger.ts` owns wallet math and the capped exam award formula.
+- `practiceCorrect` is the per-question correct reward.
+- `examCorrect` is the exam max reward cap for one completed exam attempt.
+- `examWrong` is the wrong-answer penalty used by practice and exam scoring.
+- Exam finalization writes at most one ledger entry per `examSessionId` with `source: "exam"`.
+- `src/server/exam/detail.ts` builds the submitted-exam detail DTO shared by History and progress-report email rendering.
+- History lists submitted exams with lightweight summaries from persisted result counts; it loads full question details only when an `examSessionId` is selected.
+- Dashboard and Wallet compute balances from `robuxLedger`, not from route-local display state.
 
 ## Server-Only Packages
 

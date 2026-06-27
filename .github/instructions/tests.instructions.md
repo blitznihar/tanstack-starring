@@ -35,6 +35,18 @@ Use these instructions when adding or changing tests.
   - idempotent answer submission
   - completion requires all visible questions
   - read-only review does not mutate state
+  - correct answers earn configured practice Robux once
+  - wrong answers deduct configured wrong-penalty Robux once
+- Exams:
+  - item-count minimums by duration and subject split
+  - correct-question reward uses `practiceCorrect`
+  - `examCorrect` is the exam max reward cap
+  - wrong-answer penalties and `EXAM_AWARD_FLOOR`
+  - duplicate submit/result/history/detail/dashboard reads do not create duplicate ledger entries
+  - History row Robux matches Exam Details Robux
+  - completed exam details are visible to the student, linked parent, and authorized admin
+  - unauthorized users cannot view another student's submitted exam details
+  - Review All remains scrollable for large exams on desktop and mobile
 - Scheduler:
   - lesson days
   - exam days

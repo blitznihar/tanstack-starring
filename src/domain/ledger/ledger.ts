@@ -46,29 +46,39 @@ export function computeWallet(entries: LedgerEntry[]): Wallet {
 export type ExamAwardInput = {
   correctCount: number;
   wrongCount: number;
-  perCorrect: number;
+  correctQuestionReward: number;
+  examMaxReward: number;
   perWrongPenalty: number;
   /** Net award is floored to this value (default 0). */
   floor?: number;
 };
 
 export type ExamAward = {
+  /** Correct-question reward before the exam max reward cap. */
   gross: number;
+  /** Correct-question reward after the exam max reward cap. */
+  cappedGross: number;
+  /** Negative or zero adjustment applied by the exam max reward cap. */
+  capAdjustment: number;
   penalty: number;
   /** Net award after penalty, floored. This is the amount actually credited. */
   net: number;
 };
 
 /**
- * Net exam award = (correct × perCorrect) − (wrong × perWrongPenalty), floored.
- * Returns the gross and penalty components for transparent ledger entries.
+ * Net exam award =
+ *   min(correct × correctQuestionReward, examMaxReward)
+ *   − (wrong × perWrongPenalty), floored.
+ * Returns every component for transparent reports and ledger repair.
  */
 export function computeExamAward(input: ExamAwardInput): ExamAward {
   const floor = input.floor ?? 0;
-  const gross = input.correctCount * input.perCorrect;
+  const gross = input.correctCount * input.correctQuestionReward;
+  const cappedGross = Math.min(gross, input.examMaxReward);
+  const capAdjustment = cappedGross - gross;
   const penalty = input.wrongCount * input.perWrongPenalty;
-  const net = Math.max(floor, gross - penalty);
-  return { gross, penalty, net };
+  const net = Math.max(floor, cappedGross - penalty);
+  return { gross, cappedGross, capAdjustment, penalty, net };
 }
 
 export type FulfillInput = {

@@ -47,7 +47,7 @@ describe("submit → score → mastery", () => {
       items,
       responses,
       conversionTables: {},
-      robuxRules: { examCorrect: 20, examWrong: 10 },
+      robuxRules: { correctQuestionReward: 20, examMaxReward: 400, examWrong: 10 },
     });
 
     const mastery = new Map<string, MasteryState>();

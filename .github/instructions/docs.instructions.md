@@ -27,11 +27,13 @@ Use these instructions when writing or updating project documentation.
 - DB: MongoDB through repositories.
 - Local/preview DB: `comet-dev`.
 - Production DB: `comet`.
+- `MONGODB_DATABASE` can override the derived database name for local Docker and controlled operations.
 - AI: OpenAI `gpt-5.4-mini`.
 - Auth: Auth0 for existing users, Google login only for backend-registered Gmail users.
 - Billing: Stripe Checkout for real cards, demo mode when not configured.
 - Observability: New Relic opt-in.
 - Deployment: Vercel with preview and production approval gate, Docker, optional Electron.
+- Robux: `practiceCorrect` is the per-question correct reward; `examCorrect` is the exam max reward cap; `examWrong` is the wrong-answer penalty.
 
 ## File References
 
@@ -53,6 +55,7 @@ Update docs when changing:
 - OpenAI model or scoring behavior
 - New Relic observability
 - commands in `package.json`
+- production data operations, backup/restore steps, or database sync runbooks
 
 ## Definition of Done for Docs
 

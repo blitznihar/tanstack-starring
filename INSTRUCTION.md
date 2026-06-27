@@ -1,6 +1,6 @@
 # INSTRUCTION.md — Multi-Program Practice Platform (codename "Comet")
 
-Coding-agent instructions for **Claude Code**. Read this entire file before generating code. Build in the milestone order in §19. Ask before introducing dependencies or patterns not listed here. A finished Claude Design prototype lives in `./Staar/` and is the **authoritative source of truth for all UI and interaction behavior** — the app must look and behave **exactly** like it. **Before any UI work, read §21.** The screens below map to that prototype.
+Coding-agent instructions for **Claude Code**. Read this entire file before generating code. Build in the milestone order in §19. Ask before introducing dependencies or patterns not listed here. A finished Claude Design prototype lives in `./reports/Staar/` and is the **authoritative source of truth for all UI and interaction behavior** — the app must look and behave **exactly** like it. **Before any UI work, read §21.** The screens below map to that prototype.
 
 > **Scope change from v1:** this is no longer a single-family Grade-3-only app. It is a **multi-program** platform that **starts with Grade 3 (Math + RLA)** but supports adding **any program** (Grade 4/5 STAAR, SAT, GRE, "XYZ"). A student can be enrolled in several programs at once, each with its **own schedule, content, exams, scoring, rewards, and streak**. A **billing/subscription** layer is added. Initial deployment is local (Docker Desktop + local MongoDB + optional Electron desktop shell); later migrate the database to MongoDB Atlas.
 
@@ -11,7 +11,7 @@ Coding-agent instructions for **Claude Code**. Read this entire file before gene
 A web/desktop app that teaches concepts and delivers exam-style practice across multiple programs. Pillars:
 
 1. **Content is pre-authored JSON loaded into the app** (no content generation at runtime). When item pools run low/empty, the app **generates a copy-paste authoring prompt**; a human runs it in any LLM offline and re-imports.
-2. **The only runtime model call is scoring written responses (SCR/ECR)**, via a **local** Docker Model Runner endpoint. Everything else is deterministic.
+2. **The only runtime model call is scoring written responses (SCR/ECR)**, via the configured OpenAI-compatible chat endpoint. Everything else is deterministic.
 3. **Everything student-facing is per-enrollment** (student × program): schedule, exams, mastery, rewards, streak, reporting.
 
 Non-goals: realtime/cloud content generation; storing raw card data; coupling any logic to a single grade.
@@ -24,7 +24,7 @@ Non-goals: realtime/cloud content generation; storing raw card data; coupling an
 - **DB:** MongoDB via the official `mongodb` driver behind a **repository layer** (one module per collection). Connection string is env-only so **local Docker → Atlas is a config change, not code**.
 - **Validation:** **Zod** at every boundary (content import, profile import, all server-function inputs).
 - **Auth:** session-based, HTTP-only secure cookie; **argon2id** password hashing.
-- **Local AI (scoring only):** Docker Model Runner, OpenAI-compatible, env-configured.
+- **AI scoring only:** OpenAI-compatible Chat Completions, env-configured, currently `gpt-5.4-mini`.
 - **Billing:** **Stripe** (Checkout/Payment Intents) for card payments and subscriptions; use **test mode** during development. The app never handles raw PAN data — Stripe-hosted/Elements only.
 - **Desktop shell (optional target):** **Electron** packaging the React UI as a macOS app; the UI talks to the Bun API over the home network via an env-configured API base URL. The API + MongoDB run in **Docker Desktop**.
 - **Tooling:** Bun scripts; Vitest (or `bun test`); ESLint + Prettier.
@@ -70,7 +70,7 @@ All docs carry `_id`, `createdAt`, `updatedAt`.
 - **exams** — assembled definitions `{ enrollmentId, kind: "progressive"|"out_of_cycle"|"mock", sections: [{subject, itemIds[], seconds}], breakSeconds, durationSeconds, splitPct }`
 - **examSessions / responses** — live attempts (§7)
 - **masteryStates** — `{ enrollmentId, standardCode, state, rollingAccuracy, stuckCount }`
-- **robuxLedger** — `{ enrollmentId, type: "earn"|"penalty"|"redeem_fulfilled", amount, source, refId, at }`
+- **robuxLedger** — `{ enrollmentId, type: "earn"|"penalty"|"redeem_fulfilled", amount, source, refId, reason?, createdBy?, metadata?, at }`; `(enrollmentId, source, refId)` is unique when `refId` exists.
 - **redemptions** — `{ enrollmentId, amountRequested, amountFulfilled, status, history[] }`
 - **rewardRules** — configurable incentives (§11): `{ programKey, studentId?, kind: "complete_in_days"|"streak"|"points", threshold, prize, status }`
 - **plans** — `{ name, priceCents, interval, features[], programKeys[] }`
@@ -108,7 +108,7 @@ type Item = {
 
 **Single upload (one button).** One import endpoint accepts a full bundle JSON, validates with Zod, **upserts by `(programKey, subject, version)`**, and toggles availability via `status`. No per-item upload controls anywhere. Adding Grade 4/5/SAT/etc. = import a new bundle; removing = set `status:"archived"` (never delete).
 
-**Content browser.** Admin/super_admin can open any bundle and **view every item** (e.g. all 48 Grade 3 Math items), filterable by subject / topic (TEKS) / type / difficulty, with rendered figures and answer keys, and a **usage count** per item.
+**Content browser.** Admin/super_admin can open any bundle and **view every item** (for seeded content, Grade 3 Math has 32 items and Grade 3 RLA has 75 items plus 3 passages), filterable by subject / topic (TEKS) / type / difficulty, with rendered figures and answer keys, and a **usage count** per item.
 
 **Item pools & no-repeat.** A "pool" = items for a given `(programKey, subject, standardCode/topic, type, difficulty)`. Track `itemUsage` per enrollment so **a problem is never shown to the same student more than once**. Per pool, compute unused-item count and a status: **ok / running low / exhausted** (thresholds configurable). Show these prominently in the content browser (the design's "Checks"/Content tab).
 
@@ -120,10 +120,10 @@ type Item = {
 
 ## 6. Practice mode
 
-- **≥ 30 problems per concept** available in the practice bank; the day's practice draws unused items (no repeats) and shows e.g. "Showing 31 questions today · 32 in the bank."
+- Practice draws a focused set from the available bank and displays the shown count plus total bank count. Current focused practice uses 20 focus questions; Math can add review questions from prior standards, while RLA requires 20 unique focus questions and does not add review.
 - After each answer, give **immediate feedback that explains *why* the right answer is right and *why* the chosen answer is wrong** (from the item's per-choice `explanation`), not just the correct letter.
 - **Super_admin/admin configure, per concept:** the **number of practice questions** and the **time** allotted. Store on the program/concept config; the practice generator reads it.
-- Practice earns Robux (e.g. "Earn up to 60 Robux"); practice does **not** apply negative Robux (penalties are exam-only — see §11).
+- Practice earns or loses Robux immediately per answered item: correct answers add `practiceCorrect`, wrong answers deduct `examWrong`, and repeat checks/reviews do not create additional ledger entries.
 
 ---
 
@@ -138,6 +138,10 @@ A **server-side session state machine** (never a browser timer).
   - **Duration presets:** 30, 40, 50, 60, 70, 80, 90, 105, 120, 150, 180 min (configurable set, up to 3 h).
   - **Subject split %:** e.g. 50/50, 70/30, and **pure Math (100/0)** or **pure RLA (0/100)**; generalizes to any program's subjects.
   - **Out-of-cycle exams:** schedule an extra exam outside the normal weekend cadence.
+- **Minimum item counts.** For exams at least 60 minutes long, enforce `src/domain/exam/itemCount.ts`:
+  - Math: 90 seconds per question, with at least 45 questions for a 60-minute pure Math exam.
+  - English/RLA: 216 seconds per question.
+  - Examples: 90-minute pure Math = 60 questions; 90-minute pure English/RLA = 25 questions; 180-minute pure Math = 120 questions; 180-minute pure English/RLA = 50 questions.
 - **STAAR-faithful player** (matches the design): top toolbar — **Mark** (highlighter), **Reader** (line reader), **Mask**, **Notes**, **Cross** (answer eliminator), **zoom**; **Flag**; **timer**; **Pause**. **No calculator for Grade 3 Math.** Include the Grade 3 **math reference sheet** on mocks. RLA items use a **two-pane** layout (numbered-paragraph passage | question). Render real figures (e.g. SVG number line) inline.
 
 ---
@@ -147,7 +151,7 @@ A **server-side session state machine** (never a browser timer).
 - **Deterministic** for all selected/structured types, **including partial credit** where `allowPartialCredit`.
 - **Raw → scale → performance level** via a **conversion table stored per program/subject/year**; levels **Did Not Meet / Approaches / Meets / Masters** (estimates — cut points change yearly; never hardcode a fixed %).
 - **Scores are reported both per-program (per enrollment) and as an overall cross-program rollup** for the parent dashboard. Persist per-enrollment results and aggregate for "overall."
-- **SCR/ECR (only runtime LLM call):** enqueue a `scoringJob`; score **asynchronously** (results render immediately for auto-scored items; written items show "scoring…"). Call DMR (OpenAI-compatible): `AI_BASE_URL` (`http://localhost:12434/engines/v1`, or `http://model-runner.docker.internal/engines/v1` in a container), `AI_MODEL` (the pulled tag, e.g. `ai/gemma3`), no API key (dummy string), `temperature: 0.2`, system prompt = the exact rubric, **reply STRICT JSON** `{score, justification, tips}`. Parse defensively. **Parent/admin one-click override** sets the final score. **Graceful fallback:** if DMR is unreachable or `AI_ENABLED=false`, route to a **manual scoring queue**. Never block submission on scoring. Call DMR **server-side only**.
+- **SCR/ECR (only runtime LLM call):** enqueue a `scoringJob`; score **asynchronously** (results render immediately for auto-scored items; written items show "scoring…"). Call the configured OpenAI-compatible endpoint with `AI_BASE_URL`, `OPENAI_API_KEY`, and `AI_MODEL` (default `gpt-5.4-mini`), `temperature: 0.2`, system prompt = the exact rubric, and **reply STRICT JSON** `{score, justification, tips}`. Parse defensively. **Parent/admin one-click override** sets the final score. **Graceful fallback:** if OpenAI is unreachable or `AI_ENABLED=false`, route to a **manual scoring queue**. Never block submission on scoring. Call AI **server-side only**.
 
 ---
 
@@ -171,7 +175,7 @@ A **server-side session state machine** (never a browser timer).
 
 Two mechanics:
 
-**A. Robux currency (spendable).** Config: `WEEKLY_ROBUX_BUDGET`, `EXAM_ROBUX_SHARE` (default 0.5). Each week: compute the plan, count planned activities, split the budget into an exam pool and a learning pool, divide across activities; award base on completion + a capped accuracy bonus. **Negative Robux on wrong exam answers:** in **exams** (not practice), each wrong answer deducts a configurable penalty; an exam's net award is floored (configurable, default ≥ 0). `availableBalance = lifetimeEarned − penalties − totalFulfilled` (preserve `lifetimeEarned` for reporting). **Redemption flow:** student **requests** → admin **approves** → admin **marks fulfilled** (books a negative entry = the "reset for fulfilled amount"); support **partial fulfillment**. Ledger is **per enrollment**, with an aggregate wallet view.
+**A. Robux currency (spendable).** Program `robuxRules` are the source of truth: `practiceCorrect` is the per-question correct reward, `examCorrect` is the **Exam max reward** cap for one completed exam attempt, `examWrong` is the wrong-answer penalty, and `lessonComplete` is the lesson-completion value. Practice answers write signed deltas immediately and idempotently. Exam finalization writes at most one ledger entry per submitted `examSessionId`. Exam award formula: `min(correctCount * practiceCorrect, examCorrect) - wrongCount * examWrong`, then apply `EXAM_AWARD_FLOOR` (default `0`). `availableBalance = lifetimeEarned − penalties − totalFulfilled` (preserve `lifetimeEarned` for reporting). **Redemption flow:** student **requests** → admin **approves** → admin **marks fulfilled** (books a negative entry = the "reset for fulfilled amount"); support **partial fulfillment**. Ledger is **per enrollment**, with an aggregate wallet view.
 
 **B. Reward rules (configurable milestone incentives).** Configurable by **admin and super_admin**, **per program and optionally per student**, e.g.: "Meta Quest if Grade 3 is finished in ≤45 days", "Laptop if GRE finished in ≤60 days", "Chicago trip at a 20- or 30-day streak". A rule has a `kind` (`complete_in_days` | `streak` | `points`), a `threshold`, and a `prize`. The system evaluates rules against enrollment progress/streak and, when met, surfaces the reward for **admin fulfillment**. Sick days excluded from streak counting (§10) apply here too.
 
@@ -200,7 +204,7 @@ src/
   domain/     scoring/ ledger/ conversion/ mastery/ scheduler/ promptgen/   # pure logic
   repositories/   # one per collection
   schemas/        # Zod: contentBundle, profileExport, server inputs
-  ai/             # DMR client (scoring only) + rubric prompts
+  ai/             # OpenAI-compatible scoring client + rubric prompts
   ui/             # shared components incl. exam tools (Mark/Reader/Mask/Notes/Cross/zoom)
 content/          # seeded bundles: grade3 math + rla
 electron/         # optional macOS shell
@@ -215,12 +219,15 @@ INSTRUCTION.md
 ## 15. Environment (.env.example — never hardcode any of these)
 
 ```
-MONGODB_URI=mongodb://localhost:27017/comet      # swap to Atlas SRV string later
+MONGODB_URI=mongodb://localhost:27017/comet-dev  # swap to Atlas SRV string later
+MONGODB_DATABASE=                                # optional DB override; default comet-dev except Vercel production uses comet
 SESSION_SECRET=change-me
+SESSION_COOKIE_SECURE=false                     # false for local HTTP Docker, true/auto for HTTPS production
 AI_ENABLED=true
-AI_BASE_URL=http://localhost:12434/engines/v1
-AI_MODEL=ai/gemma3
-AI_TIMEOUT_MS=60000
+OPENAI_API_KEY=
+AI_BASE_URL=https://api.openai.com/v1
+AI_MODEL=gpt-5.4-mini
+AI_TIMEOUT_MS=120000
 WEEKLY_ROBUX_BUDGET=1000
 EXAM_ROBUX_SHARE=0.5
 EXAM_WRONG_PENALTY=10
@@ -235,14 +242,14 @@ STRIPE_WEBHOOK_SECRET=whsec_...
 
 ## 16. Deployment
 
-- **Now:** MongoDB in a local Docker container; Bun API + React UI run in Docker Desktop. Provide a `docker-compose.yml` (mongo + api; UI served by the API or a static container). Optionally package the UI as an **Electron macOS app** pointing at `API_BASE_URL` on the home network.
+- **Now:** MongoDB can run in a local Docker container; Bun API + React UI can run in Docker Desktop with the API serving the UI. `docker-compose.yml` exposes the app on `3000` and `5174`, supports `MONGODB_DATABASE`, and uses `SESSION_COOKIE_SECURE=false` for local HTTP unless overridden. Optionally package the UI as an **Electron macOS app** pointing at `API_BASE_URL` on the home network.
 - **Later:** migrate the database to **MongoDB Atlas** by changing `MONGODB_URI` only (repository layer means no code changes). Keep all secrets in env / a secret store.
 
 ---
 
 ## 17. Coding standards & Definition of Done
 
-TS strict; Zod at boundaries; Mongo only via repositories; DMR only via `src/ai`; Stripe only via `src/server/billing`; server-side role checks; argon2id; HTTP-only cookies. Pure logic in `src/domain` is unit-tested. **Required tests:** scoring incl. partial credit; raw→scale→level; ledger math incl. **negative-Robux penalty + floor** and partial fulfillment; **no-repeat** item selection + pool depletion status; **refill-prompt generator** output; scheduler **off/sick re-fit (≤25% then extend)** and **streak excluding sick days**; **work-ahead** advancement; exam-session state machine incl. **section break**; profile-import LWW; one integration test submit → score → mastery update. Surgical changes only.
+TS strict; Zod at boundaries; Mongo only via repositories; AI scoring only via `src/ai`; Stripe only via `src/server/billing`; server-side role checks; argon2id; HTTP-only cookies. Pure logic in `src/domain` is unit-tested. **Required tests:** scoring incl. partial credit; raw→scale→level; ledger math incl. practice penalties, exam max cap, floor, and partial fulfillment; **no-repeat** item selection + pool depletion status; **refill-prompt generator** output; scheduler **off/sick re-fit (≤25% then extend)** and **streak excluding sick days**; **work-ahead** advancement; exam-session state machine incl. **section break**; exam item-count minimums; History/Exam Details/email consistency; role permissions for completed exam details; profile-import LWW; one integration test submit → score → mastery update. Surgical changes only.
 
 ---
 
@@ -259,13 +266,13 @@ TS strict; Zod at boundaries; Mongo only via repositories; DMR only via `src/ai`
 
 ## 19. Milestones (build in this order)
 
-- **M1 — Foundation & programs:** Zod schemas; Mongo repositories; auth/RBAC + user creation/password gen; **Program/Enrollment** model; **single content import**. Seed Grade 3 **Math** bundle (≥30-item pools).
-- **M2 — Content ops:** content **browser** (view all items, e.g. 48 Grade 3 Math), **item pools** (no-repeat usage + ok/low/exhausted), **refill-prompt generator** + **new-program prompt generator**.
-- **M3 — Practice:** practice mode with **≥30/concept**, **why-right/why-wrong** feedback, per-concept count & time config.
-- **M4 — Exam delivery:** session state machine (presets, pause/resume, autosave, **section break**), STAAR-faithful tools, **progressive** assembly, configurable split + pure + out-of-cycle, deterministic scoring incl. partial credit + **negative Robux**.
+- **M1 — Foundation & programs:** Zod schemas; Mongo repositories; auth/RBAC + user creation/password gen; **Program/Enrollment** model; **single content import**. Seed Grade 3 **Math** and **RLA** bundles.
+- **M2 — Content ops:** content **browser** (view every item in a bundle with computed counts), **item pools** (no-repeat usage + ok/low/exhausted), **refill-prompt generator** + **new-program prompt generator**.
+- **M3 — Practice:** practice mode with focused/review draws, **why-right/why-wrong** feedback, per-concept count & time config, and signed idempotent Robux.
+- **M4 — Exam delivery:** session state machine (presets, pause/resume, autosave, **section break**), STAAR-faithful tools, **progressive** assembly, configurable split + pure + out-of-cycle, deterministic scoring incl. partial credit + **capped/signed Robux**.
 - **M5 — Results, mastery, scheduler:** conversion tables + per-program & overall performance reporting; mastery/remediation + circuit-breaker; per-enrollment scheduler with **off/sick re-fit**, **streak (sick excluded)**, **work-ahead**.
 - **M6 — Gamification & dashboards:** Robux ledger + redemption flow; **configurable reward rules** (complete-in-days / streak / points, per program/student); admin/parent/student dashboards (day/week/month, topics done/remaining).
-- **M7 — RLA & AI scoring & portability:** Grade 3 **RLA** (passages, SCR/ECR) + DMR scorer (async, override, fallback); **Math+RLA 50/50 exam with 5-min break**; profile export/import (LWW).
+- **M7 — RLA & AI scoring & portability:** Grade 3 **RLA** (passages, SCR/ECR) + OpenAI-compatible scorer (async, override, fallback); **Math+RLA 50/50 exam with 5-min break**; profile export/import (LWW).
 - **M8 — Billing & packaging:** Stripe plans/subscriptions + demo config + parent card payments; `docker-compose`; optional **Electron** macOS shell; Atlas-ready connection string.
 
 Each milestone ends with run instructions, passing tests, and a short change note.
@@ -305,7 +312,7 @@ These reflect the latest "Comet" standalone prototype and consolidated feedback.
 - **Every bundle gets a "View N items"** browser entry (Math, RLA, Spanish Math beta, SAT, …) — not just Grade 3 Math. The count is computed from the bundle.
 
 ### 20.2 RLA at parity with Math
-- Grade 3 RLA must have its **own ≥30-item practice bank**, its **own exam minutes/config**, and appear in pickers and the daily plan exactly like Math.
+- Grade 3 RLA has its **own item bank and passages**, its **own exam minutes/config**, and appears in pickers and the daily plan exactly like Math.
 - **Use the full RLA item-type range**, not just single-answer multiple choice:
   - Multiple choice (Select only ONE) → `multiple_choice`
   - **Select TWO (or more)** → `multiselect`
@@ -317,41 +324,41 @@ These reflect the latest "Comet" standalone prototype and consolidated feedback.
 - Seed enough RLA examples (passages + these item types) to "get the feel."
 
 ### 20.3 Daily plan must cover every active subject
-- The student's day must include, per program, at least **one lesson + practice for EACH active subject** — for Grade 3 that means **Math lesson+practice AND English (RLA) lesson+practice** (fixes the "only 3 Math tasks" issue). Generalize: iterate the program's `subjects[]`. (Extends §10.)
+- The student's day must include, per program, at least **one lesson + practice for EACH active subject** — for Grade 3 that means **Math lesson+practice AND English (RLA) lesson+practice**. Generalize: iterate the program's `subjects[]`. (Extends §10.)
 
 ### 20.4 STAAR Math visuals & digital tools
-- **Figure renderers must support** (extends §5 `Figure`): bar graph, **pictograph**, **dot plot**, **number line**, geometric shapes / **grids for perimeter & area**, **base-10 blocks**, **fraction strips/bars**, plus arrays/area models.
-  - The current prototype has bar graph / pictograph / number line; **dot plot, base-10 blocks, and fraction strips are not yet in it — add them.**
-- **Exam digital tools (Math), extends §7 toolbar:** add a **digital ruler**, a **graph-paper overlay**, and a **scratchpad** (freehand) alongside Mark / Reader / Mask / Notes / Cross / zoom. **No calculator for Grade 3 Math.**
-  - These three are **not yet in the prototype — add them.**
+- **Figure data must support** (extends §5 `Figure`): inline `svg`/`png`, bar graph, **pictograph**, **dot plot**, **number line**, geometric shapes / **grids for perimeter & area**, **base-10 blocks**, **fraction strips/bars**, arrays, and area models. The app should render authored figures inline when the item provides SVG/figure data.
+- **Exam digital tools (Math), extends §7 toolbar:** include Mark / Reader / Mask / Notes / Cross / zoom. **No calculator for Grade 3 Math.**
 - **Hot spot** is a distinct item type (click a point/region on a figure, e.g. a number line); author and score it as `hot_spot` even where the prototype currently approximates it with a number-line tap.
 
 ### 20.5 Robux earning rules — Super-Admin configurable, SEPARATE from reward rules
 Two distinct, configurable mechanics (extends §11):
 - **Robux earning rules** — the per-event point values that drive ALL earning across the app, configurable by super_admin/admin via steppers and treated as the single source of truth:
   - per **correct practice answer** (e.g. 10)
-  - per **correct exam answer**
-  - **wrong-answer penalty** (exam only; negative)
+  - **exam max reward** (maximum positive correct-question reward for one completed exam attempt)
+  - **wrong-answer penalty** (practice and exam)
   - per **lesson** completed
 - **Reward rules** — milestone prizes (Meta Quest / laptop / vacation, by complete-in-days or streak), per program and optionally per student (as in §11.B).
 These are two separate config surfaces; do not conflate them.
 
 ### 20.6 Robux UX details (extends §6, §11)
 - **Practice awards Robux on each correct answer, instantly**, with a "+N Robux" badge; **idempotent** — re-checking the same item must not re-award.
-- **Exam pickers show "Earn up to N Robux"** per test, computed as (scorable items × per-correct-exam value).
+- **Practice deducts Robux on each wrong answer, instantly**, using the configured wrong-answer penalty; **idempotent** — re-checking the same item must not re-deduct.
+- **Exam pickers show "Earn up to N Robux"** per test, computed as `min(scorable items × practiceCorrect, examCorrect)`.
+- **Exam results and reports show** raw correct reward, capped correct reward, wrong penalties, cap adjustment, and final Robux.
 - **Redemption catalog includes a standard "Roblox: 1,000 Robux" option at 1,000 Robux**, alongside the configurable prizes. Redemption still follows request → approve → fulfill → settle (§11.A).
 - **The student wallet shows reward rules** — a "Big goals & rewards" panel listing each promised prize with its goal and a **progress bar**, per enrollment.
 
-### 20.7 Crash-safety for written / array answers
-- Any answer-formatting helper (word counters, label/value extractors, etc.) must **coerce non-string answers safely**: a `multiselect` answer is an array and a `multipart` answer is an object — never call string methods like `.trim()` on them unguarded. (This was a real crash in the prototype.)
+### 20.7 Answer-format safety
+- Any answer-formatting helper (word counters, label/value extractors, etc.) must **coerce non-string answers safely**: a `multiselect` answer is an array and a `multipart` answer is an object — never call string methods like `.trim()` on them unguarded.
 
 ---
 
 ## 21. UI/UX source of truth — replicate the Claude Design prototype exactly (AUTHORITATIVE)
 
-**Read this before any UI work.** The finished design lives in `./Staar/`. The real app must **look and behave exactly like it** — same screens, layout, component hierarchy, copy/labels, colors, typography, spacing, icons, and interactions. Do **not** redesign, re-theme, swap in a different component library, simplify, or drop screens/labels.
+**Read this before any UI work.** The finished design lives in `./reports/Staar/`. The real app must **look and behave exactly like it** — same screens, layout, component hierarchy, copy/labels, colors, typography, spacing, icons, and interactions. Do **not** redesign, re-theme, swap in a different component library, simplify, or drop screens/labels.
 
-### 21.1 Authoritative files (in `./Staar/`)
+### 21.1 Authoritative files (in `./reports/Staar/`)
 - **`STAAR Practice Platform.standalone-src.html`** — readable source of the prototype and the **primary reference implementation to port**. Extract the exact DOM structure, styles, and component logic from here.
 - **`STAAR Practice Platform (standalone).html`** — runnable single-file build (open in a browser to see/click the real thing).
 - **`support.js`** — supporting JS (state, handlers, scoring/award logic, data shapes). Port its **behavior** faithfully.
@@ -362,15 +369,15 @@ These are two separate config surfaces; do not conflate them.
 ### 21.2 How to port (keep the UI, swap the data)
 1. **Extract the design system** from the source HTML: CSS variables / utility classes / tokens (colors, font sizes, radii, spacing, shadows), the two "worlds" (kid-friendly Student vs. data-dense Admin/Parent), and shared components (exam toolbar, cards, modals, steppers, progress bars). Reproduce these as the app's global styles/components so every screen inherits the exact look.
 2. **Recreate each screen** as a TanStack React component that matches its screenshot 1:1 (structure, copy, spacing, states).
-3. **Replace dummy data with real data only at the data layer.** The prototype holds state in memory; in the app the same components instead read/write via TanStack Query → Bun server functions → MongoDB (and the DMR scorer / Stripe). **The visual and interaction layer must not change — only where the data comes from.**
-4. **Preserve every micro-interaction:** exam timer + **Pause**, **break** between sections, **Flag** + **Review** grid, **Cross**/eliminator, **Mark**/highlighter, **Reader**, **Mask**, zoom; practice **"+N Robux"** instant feedback; redemption modal incl. **"Roblox: 1,000 Robux"**; **work-ahead**; scheduler **Off/Sick** re-fit; **refill-prompt** modal; **demo/plan** toggles; **robux-rules** steppers.
+3. **Replace dummy data with real data only at the data layer.** The prototype holds state in memory; in the app the same components instead read/write via TanStack Query → Bun server functions → MongoDB (and the OpenAI-compatible scorer / Stripe). **The visual and interaction layer must not change — only where the data comes from.**
+4. **Preserve every micro-interaction:** exam timer + **Pause**, **break** between sections, **Flag** + **Review** grid, **Cross**/eliminator, **Mark**/highlighter, **Reader**, **Mask**, zoom; practice signed Robux instant feedback; redemption modal incl. **"Roblox: 1,000 Robux"**; **work-ahead**; scheduler **Off/Sick** re-fit; **refill-prompt** modal; **demo/plan** toggles; **robux-rules** steppers.
 
 ### 21.3 Screen ↔ screenshot map (build all)
 The `01–04` prefixes are states/scroll positions of the same screen — build the full screen.
 - **programs** → Student / Super-Admin **Study plan** (program tabs, progressive exams, Off/Sick chips, work-ahead).
 - **exam** / **sat-exam** → **Exam Player** (STAAR toolbar, timer, Pause, number-line figure, nav/Review).
 - **break** → the **5-minute break** screen between Math and RLA.
-- **practice-feedback** → **Practice** (why-right / why-wrong, "+N Robux").
+- **practice-feedback** → **Practice** (why-right / why-wrong, signed Robux feedback).
 - **bank** → **Wallet** (available + lifetime Robux, earn history, **"Big goals & rewards"** panel).
 - **pay** → **Subscriptions / payments** (plans + **Demo/trial** length & per-program toggles).
 - **checks** → **Content** browser (per-program bundles, **"View N items,"** pool **ok / low / exhausted**).
@@ -382,8 +389,8 @@ The `01–04` prefixes are states/scroll positions of the same screen — build 
 - **standalone-check** → reference render of the standalone build.
 
 ### 21.4 Precedence
-- For **look and interaction behavior**, the prototype in `./Staar/` **wins** over any prose elsewhere in this document.
+- For **look and interaction behavior**, the prototype in `./reports/Staar/` **wins** over any prose elsewhere in this document.
 - For **backend, data model, scoring math, no-repeat, security, and architecture**, §1–§20 still govern. Where a prototype shortcut conflicts with a backend rule (e.g. the prototype fakes scoring), keep the prototype's **UI/UX** but implement the **real backend rule** behind it.
 
 ### 21.5 UI Definition of Done
-A screen is done when: it matches its screenshot (layout, copy, colors, type, spacing); every interaction from the prototype works identically; it is wired to real data via the server layer (no remaining dummy state); and it renders correctly in the Electron macOS shell. Visually diff against `Staar/screenshots/` before marking it complete.
+A screen is done when: it matches its screenshot (layout, copy, colors, type, spacing); every interaction from the prototype works identically; it is wired to real data via the server layer (no remaining dummy state); and it renders correctly in the Electron macOS shell. Visually diff against `reports/Staar/screenshots/` before marking it complete.

@@ -43,8 +43,11 @@ These instructions apply to all automated agents and Copilot sessions working in
 - Local, Vercel preview, and non-production environments use the `comet-dev` database.
 - Vercel production uses the `comet` database.
 - The `MONGODB_URI` selects the MongoDB server or Atlas cluster; app code derives the database name by environment.
+- `MONGODB_DATABASE` is an explicit override for local Docker, operational scripts, and controlled debugging.
 - Do not hardcode collection names outside repositories.
 - Keep student state keyed by stable identifiers such as `studentId`, `enrollmentId`, `workDate`, `subject`, `standardCode`, and item type.
+- Do not add production data repair or restore scripts to production-bound code unless the user explicitly requests that operational surface.
+- Destructive restores and production mutations require explicit user confirmation in the current task.
 
 ## Student Learning Rules
 
@@ -53,11 +56,21 @@ These instructions apply to all automated agents and Copilot sessions working in
 - Completing a lesson should take the student to its matching practice when that practice is next.
 - Completing practice should persist completion and return the student to the dashboard.
 - Dashboard work is derived from ordered schedule tasks.
-- Completed lessons and practices must remain viewable from dashboard/history.
-- Practice review mode must be read-only and must not award or deduct Robux again.
+- Completed lessons, practices, and submitted exams must remain viewable from dashboard/history.
+- Practice review and completed-exam detail views must be read-only and must not award or deduct Robux.
 - Answer attempts and Robux ledger changes must be idempotent.
 - Single-choice scoring requires exact key equality.
 - Multi-select scoring requires exact set equality. Extra or missing choices are wrong.
+
+## Robux Rules
+
+- Practice correct answers earn `program.robuxRules.practiceCorrect`.
+- Practice wrong answers deduct `program.robuxRules.examWrong`.
+- Exam correct-question reward uses `program.robuxRules.practiceCorrect`.
+- `program.robuxRules.examCorrect` is the "Exam max reward" cap for one completed exam attempt.
+- Exam award formula is `min(correctCount * practiceCorrect, examCorrect) - wrongCount * examWrong`, then floored by `EXAM_AWARD_FLOOR`.
+- Exam ledger entries use `source: "exam"` and `refId: examSessionId` for idempotency.
+- View-only routes such as History, Exam Details, Dashboard, Wallet, and email/report generation must not create ledger entries.
 
 ## Scheduler Rules
 

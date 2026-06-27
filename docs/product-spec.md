@@ -16,7 +16,7 @@ Students can:
 - complete practice
 - take exams
 - earn or lose Robux based on configured rules
-- review completed lessons and past practice answers
+- review completed lessons, past practice answers, and submitted exam details
 - see history and progress
 - continue tomorrow's work after finishing today's work
 
@@ -82,13 +82,19 @@ Super admins can:
 
 - Correct practice answer:
   - show correct feedback
-  - add configured Robux once
+  - add configured `practiceCorrect` Robux once
   - mark answer correct
 - Wrong practice answer:
   - show wrong feedback
-  - deduct configured Robux once
+  - deduct configured `examWrong` Robux once
   - mark answer wrong
-- Repeated submit, browser refresh, route changes, and review mode must not duplicate Robux changes.
+- Exam Robux:
+  - raw correct reward = `correctCount * practiceCorrect`
+  - capped correct reward = `min(raw correct reward, examCorrect)`
+  - wrong penalties = `wrongCount * examWrong`
+  - final Robux = `capped correct reward - wrong penalties`, floored by `EXAM_AWARD_FLOOR`
+  - `examCorrect` is labeled "Exam max reward" in admin UI
+- Repeated submit, browser refresh, route changes, History, Dashboard, Wallet, email/report generation, and review mode must not duplicate Robux changes.
 - Single-choice answers require exact key equality.
 - Multi-select answers require exact set equality.
 
@@ -114,10 +120,14 @@ Dashboard display:
 ## History Rules
 
 - Students can access a History tab.
-- History groups completed lessons and practice by program day/date.
+- History groups completed lessons, practice, and submitted exams by program day/date.
 - Completed lessons are clickable.
 - Completed practices are clickable and open read-only review.
 - Past practice review shows what the student selected and the feedback/correct answer state.
+- Submitted exams are clickable and open read-only Exam Details.
+- Exam Details show solved count, right/wrong, score, raw correct reward, wrong penalties, cap adjustment, final Robux, question text, student answer, correct answer, result, Robux impact, and explanation when available.
+- Student, linked parent, authorized admin, and super admin can view permitted completed exam details. Unassociated users cannot.
+- Exam details are visible only after submission/finalization.
 
 ## Scheduler Rules
 
@@ -126,6 +136,7 @@ Dashboard display:
 - Unmarking sick/off should adjust dates back.
 - Acceleration compresses the calendar.
 - Exams are restricted to configured exam days and topic completion thresholds.
+- For one-hour-or-longer exams, item counts must respect the duration/subject minimums in `src/domain/exam/itemCount.ts`: Math uses 90 seconds per question with a 45-question 60-minute floor, and English/RLA uses 216 seconds per question.
 - Completed days stay visible in history and dashboard summaries.
 
 ## Reward Rules

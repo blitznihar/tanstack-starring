@@ -13,7 +13,7 @@ A web/desktop app that teaches concepts and delivers exam-style practice across
 multiple programs. It is built so
 **any program** ( SAT, GRE, "XYZ") can be added by importing
 content — no code changes. See [INSTRUCTION.md](INSTRUCTION.md) for the full spec
-and [`Staar/`](Staar/) for the authoritative UI/UX prototype.
+and [`reports/Staar/`](reports/Staar/) for the authoritative UI/UX prototype.
 
 > **Build status:** **All milestones M1–M8 are complete and verified** (Foundation,
 > Content ops, Practice, Exam delivery, Results/mastery/scheduler, Gamification &
@@ -59,11 +59,11 @@ cp .env.example .env        # adjust if needed
 
 **1. Run the unit tests** (no database needed):
 ```bash
-bun test
-# 162 passing: scoring (+ partial credit), raw→scale→level, ledger
-# (penalty/floor/partial fulfillment), RBAC, content import, exam assembly,
+bun run test
+# 205 passing: scoring, conversion, ledger, capped exam Robux, exam item counts,
+# RBAC, content import, exam assembly/session, history/report details,
 # mastery/scheduler, AI-score parsing, profile LWW, RLA item-type contracts,
-# billing pricing + demo/subscription access gating
+# billing pricing, and demo/subscription access gating
 ```
 
 **2. Run the engine demo** (no database needed) — prints scoring, conversion,
@@ -74,7 +74,7 @@ bun run demo
 
 **3. Run the full data-layer flow against a real MongoDB:**
 ```bash
-docker compose up -d mongo          # local MongoDB on :27017
+docker compose --profile local-mongo up -d mongo  # local MongoDB on :27017
 bun run seed                        # programs + demo users + Maya's enrollments + Grade 3 Math
 ```
 > Already have MongoDB on `:27017`? Skip the compose step — `bun run seed` connects
@@ -87,6 +87,7 @@ bun run seed                        # programs + demo users + Maya's enrollments
 - Maya enrolled in **grade3_staar (45 days)** and **sat (60 days)**, each its own enrollment
 - The **Grade 3 Math** bundle: **32 authored items across 8 TEKS pools**, each with
   per-choice rationale, explanation, and worked solution
+- The **Grade 3 RLA** bundle: **75 authored items and 3 passages** across the RLA item-type range
 
 **4. Run the actual app** (TanStack Start, needs the seeded DB from step 3):
 ```bash
@@ -99,23 +100,20 @@ session for the seeded demo account — no password needed).
   level (SAT), the **Grade 3 Math** bundle's **"View 32
   items"** with usage counts and answer keys, **pool health** pills
   (ok / running low / exhausted), and the **"Refill prompt"** generator.
-- **Student** (Maya) → the **Practice** screen: "Showing 31 questions today · 32
-  in the practice bank", pick an answer and **Check** for instant **why-right /
-  why-wrong** feedback and a **"+N Robux"** award (idempotent — re-checking never
-  re-awards; wrong answers cost nothing in practice). Answered items don't repeat.
+- **Student** (Maya) → the **Practice** screen: the app draws the configured
+  focus/review set from the bank, shows the bank count, and lets the student
+  **Check** answers for instant **why-right / why-wrong** feedback and a signed
+  Robux result (idempotent — re-checking never re-awards or re-deducts).
+  Answered items don't repeat.
 
 All served from MongoDB through TanStack Start server functions.
-
-> The student & parent experiences (daily plan, practice with "+N Robux", exams,
-> wallet, dashboards) land in milestones M3–M7, ported 1:1 from the `Staar/`
-> prototype per §21.
 
 ---
 
 ## Useful commands
 
 ```bash
-bun test                 # run the suite (162 tests)
+bun run test             # run the suite (205 tests)
 bun run test:coverage    # run Vitest with V8 coverage, writes coverage/lcov.info
 bun run demo             # no-DB engine demo
 bun run build-content    # regenerate content/grade3_{math,rla}.json from authored source
@@ -181,16 +179,17 @@ needs none of this. An **optional** Electron macOS shell lives in [`electron/`](
 
 ```
 src/
-  domain/        pure, unit-tested logic — scoring, conversion, ledger, pools
-                 (no-repeat + depletion), promptgen (+ mastery, scheduler to come)
+  domain/        pure, unit-tested logic — scoring, conversion, ledger, pools,
+                 exam count policy, promptgen, mastery, scheduler, rewards
   schemas/       Zod schemas: program, enrollment, user, item, contentBundle
   repositories/  one module per Mongo collection (db, users, programs, enrollments,
                  content, itemUsage, sessions)
-  server/        server-side services with RBAC — auth, content (import, browser,
-                 promptgen), pools, programs (+ more per milestone)
+  server/        server-side services with RBAC — auth, content, exam, practice,
+                 notifications, gamification, billing, profile I/O, reporting
   ai/            OpenAI scoring client (M7)
-  ui/  app/      React components + role-gated routes (M3+)
-content/         seeded bundles (grade3_math.json)
+  routes/        TanStack route components for student, history, practice, exam,
+                 admin, billing, scoring, wallet, auth, and health
+content/         seeded bundles (grade3_math.json, grade3_rla.json)
 scripts/         seed, build-content, demo, import-bundle, create-user
 tests/           Vitest suites
 electron/        optional macOS shell (M8)
@@ -211,6 +210,14 @@ electron/        optional macOS shell (M8)
   `requiresAsync` and route to the LLM/manual queue (M7) — never auto-scored.
 - **Cut points are configurable estimates** stored per program/subject/year,
   never hardcoded percentages.
+- **Robux math is ledger-backed.** Practice correct answers earn
+  `practiceCorrect`; practice wrong answers deduct `examWrong`; exams use
+  `min(correctCount * practiceCorrect, examCorrect) - wrongCount * examWrong`,
+  floored by `EXAM_AWARD_FLOOR`. The `examCorrect` field is the "Exam max
+  reward" cap, not a per-question exam value.
+- **History and reports use submitted exam detail data.** Completed exam rows,
+  Exam Details, progress-report emails, Dashboard, and Wallet must agree and
+  must not create new Robux transactions when viewed.
 
 ---
 
@@ -220,8 +227,8 @@ electron/        optional macOS shell (M8)
 |---|---|---|
 | **M1** | Foundation & programs — schemas, repos, auth/RBAC, Program/Enrollment, single import, seed Grade 3 Math | ✅ **Done** |
 | **M2** | Content ops — browser, item pools (no-repeat + ok/low/exhausted), refill & new-program prompt generators | ✅ **Done** |
-| **M3** | Practice — per-concept draw (no-repeat), why-right/why-wrong feedback, instant idempotent "+N Robux" | ✅ **Done** |
-| **M4** | Exam delivery — session state machine, STAAR tools, progressive assembly, scoring + negative Robux | ✅ **Done** |
+| **M3** | Practice — focused/review draw (no-repeat), why-right/why-wrong feedback, instant idempotent signed Robux | ✅ **Done** |
+| **M4** | Exam delivery — session state machine, STAAR tools, progressive assembly, scoring + capped/signed Robux | ✅ **Done** |
 | **M5** | Results, mastery, scheduler — conversion reporting, remediation, off/sick re-fit, streaks, work-ahead | ✅ **Done** |
 | **M6** | Gamification & dashboards — ledger, redemptions, reward rules, dashboards | ✅ **Done** |
 | **M7** | RLA & AI scoring & portability — RLA bank (passages + full item-type range), AI scorer (async/override/manual fallback), Math+RLA 50/50 exam + 5-min break, profile export/import (LWW) | ✅ **Done** |
@@ -231,9 +238,11 @@ electron/        optional macOS shell (M8)
 
 ## Deployment
 
-- **Docker/local:** `docker compose up` runs MongoDB locally; the Bun API/UI run
-  in Docker Desktop. Optionally package the UI as an Electron macOS app pointing
-  at `API_BASE_URL`.
+- **Docker/local:** `docker compose --profile local-mongo up -d mongo` runs
+  MongoDB locally. `docker compose up --build api` runs the Bun API/UI in Docker
+  Desktop and exposes it on `3000` and `5174`. Use
+  `SESSION_COOKIE_SECURE=false` for local HTTP Docker sessions. Optionally
+  package the UI as an Electron macOS app pointing at `API_BASE_URL`.
 - **Desktop without Docker:** `bun run desktop:prod` builds the app, starts the
   Bun server locally on `http://localhost:3000`, and opens the Electron shell.
   To use an already-running server from another desktop, run
@@ -324,6 +333,7 @@ Required/expected app environment variables:
 MONGODB_URI                  # Mongo server/cluster URI
 MONGODB_DATABASE             # optional DB override; defaults to comet-dev except Vercel production uses comet
 SESSION_SECRET
+SESSION_COOKIE_SECURE        # optional; false for local HTTP Docker, true/auto for HTTPS production
 AI_ENABLED
 OPENAI_API_KEY
 AI_BASE_URL

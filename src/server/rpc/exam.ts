@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { enrollmentsRepo } from "~/repositories/enrollments.js";
-import { buildExam, startSession, getSessionView, applyEvent, submitExam, getResult, scoreWrittenForSession } from "~/server/exam/exam.js";
+import { buildExam, startSession, getSessionView, applyEvent, submitExam, getResult, getExamDetail, scoreWrittenForSession } from "~/server/exam/exam.js";
 import { assertProgramUnlocked } from "~/server/billing/billing.js";
 import { requireAuth } from "./context.js";
 
@@ -73,6 +73,13 @@ export const examResult = createServerFn({ method: "GET" })
   .handler(async ({ data }) => {
     const auth = await requireAuth();
     return getResult(auth, data.sessionId);
+  });
+
+export const examDetail = createServerFn({ method: "GET" })
+  .validator((d: { sessionId: string }) => d)
+  .handler(async ({ data }) => {
+    const auth = await requireAuth();
+    return getExamDetail(auth, data.sessionId);
   });
 
 /** Advance async SCR/ECR scoring then return the merged result (polled by the results page). */

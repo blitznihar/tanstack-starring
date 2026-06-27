@@ -77,11 +77,15 @@ This file is the human-readable workflow guide for agents working in this reposi
 
 - A lesson unlocks its matching practice.
 - Practice completion requires all visible required questions to be answered.
-- Correct practice answer awards configured Robux once.
-- Wrong practice answer deducts configured Robux once.
-- Repeated submit, refresh, or review must not change Robux again.
+- Correct practice answers award the configured practice-correct Robux value once.
+- Wrong practice answers deduct the configured wrong-penalty Robux value once.
+- Exam Robux uses the capped exam formula: `min(correctCount * practiceCorrect, examCorrect) - wrongCount * examWrong`, then applies `EXAM_AWARD_FLOOR`.
+- The admin label for `examCorrect` is "Exam max reward"; it is a per-attempt positive cap, not a per-question value.
+- Repeated submit, refresh, review, History, Dashboard, Wallet, and email/report views must not change Robux again.
 - Completed lessons and practices remain visible in dashboard and history.
 - History practice opens in read-only review mode.
+- History includes completed exams. Opening a completed exam shows read-only question details after submission only.
+- Completed exam History rows and Exam Details must calculate Robux from the same formula.
 - Dashboard shows completed current work and next scheduled work separately.
 
 ## Development Commands
@@ -99,6 +103,8 @@ bun run build
 
 - Use `bun run dev -- --host 0.0.0.0 --port 5173 --strictPort` when the user wants manual browser testing on port `5173`.
 - Local database is `comet-dev`.
+- Docker exposes the app on `3000` and `5174`; set `SESSION_COOKIE_SECURE=false` for local HTTP Docker sessions.
+- `MONGODB_DATABASE` may override the derived DB name. Do not point local commands at production unless the user explicitly asks.
 - Do not modify production data unless the user explicitly requests it.
 
 ## Verification Standard
